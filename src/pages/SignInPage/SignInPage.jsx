@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { signUpPath } from '../pages-path';
+import PATH from '../../constants/path';
 
 const SignInPage = () => (
   <>
     <p>SignInPage</p>
-    <Link to={signUpPath}>SignUpPage</Link>
+    <Link to={PATH.SIGN_UP}>SignUPage</Link>
   </>
 );
 

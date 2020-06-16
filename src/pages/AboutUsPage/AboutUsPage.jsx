@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { signInPath } from '../pages-path';
+import PATH from '../../constants/path';
 
 const AboutUsPage = () => (
   <>
     <p>AboutUsPage</p>
-    <Link to={signInPath}>SignInPage</Link>
+    <Link to={PATH.SIGN_UP}>SignInPage</Link>
   </>
 );
 

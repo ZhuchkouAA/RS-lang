@@ -1,24 +1,10 @@
 import React from 'react';
 import { Route, HashRouter, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
+
 import store from '../../redux/redux-store';
 
-import {
-  signInPath,
-  signUpPath,
-  mainPath,
-  dictionaryPath,
-  speakItPath,
-  englishPuzzlePath,
-  savannaPath,
-  audioCallPath,
-  sprintPath,
-  onwGamePath,
-  statisticPath,
-  settingsPath,
-  promoPath,
-  aboutUsPath,
-} from '../../pages/pages-path';
+import PATH from '../../constants/path';
 
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -45,21 +31,21 @@ const App = () => (
     <Footer />
     <Provider store={store}>
       <HashRouter>
-        <Route exact path="/" component={() => <Redirect to={signInPath} />} />
-        <Route path={signInPath} component={() => <SignInPage />} />
-        <Route path={signUpPath} component={() => <SignUpPage />} />
-        <Route path={mainPath} component={() => <MainPage />} />
-        <Route path={dictionaryPath} component={() => <DictionaryPage />} />
-        <Route path={speakItPath} component={() => <SpeakItPage />} />
-        <Route path={englishPuzzlePath} component={() => <EnglishPuzzlePage />} />
-        <Route path={savannaPath} component={() => <SavannaPage />} />
-        <Route path={audioCallPath} component={() => <AudioCallPage />} />
-        <Route path={sprintPath} component={() => <SprintPage />} />
-        <Route path={onwGamePath} component={() => <OnwGamePage />} />
-        <Route path={statisticPath} component={() => <StatisticPage />} />
-        <Route path={settingsPath} component={() => <SettingsPage />} />
-        <Route path={promoPath} component={() => <PromoPage />} />
-        <Route path={aboutUsPath} component={() => <AboutUsPage />} />
+        <Route exact path="/" component={() => <Redirect to={PATH.SIGN_IN} />} />
+        <Route exact path={PATH.SIGN_IN} component={SignInPage} />
+        <Route exact path={PATH.SIGN_UP} component={SignUpPage} />
+        <Route exact path={PATH.MAIN} component={MainPage} />
+        <Route exact path={PATH.DICTIONARY} component={DictionaryPage} />
+        <Route exact path={PATH.SPEAK_IT} component={SpeakItPage} />
+        <Route exact path={PATH.ENGLISH_PUZZLE} component={EnglishPuzzlePage} />
+        <Route exact path={PATH.SAVANNA} component={SavannaPage} />
+        <Route exact path={PATH.AUDIO_CALL} component={AudioCallPage} />
+        <Route exact path={PATH.SPRINT} component={SprintPage} />
+        <Route exact path={PATH.OWN_GAME} component={OnwGamePage} />
+        <Route exact path={PATH.STATISTIC} component={StatisticPage} />
+        <Route exact path={PATH.SETTINGS} component={SettingsPage} />
+        <Route exact path={PATH.PROPMO} component={PromoPage} />
+        <Route exact path={PATH.ABOUT_US} component={AboutUsPage} />
       </HashRouter>
     </Provider>
   </>
