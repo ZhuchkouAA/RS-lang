@@ -1,0 +1,53 @@
+$white: #fff;
+
+.header {
+  background-color: $white;
+  box-shadow: 0 1px 6px rgba(13, 16, 61, 0.6);
+  height: 80px;
+  margin-bottom: 30px;
+  width: 100%;
+
+  .wrapper {
+    display: flex;
+  }
+}
+
+.navbartoggle {
+  left: 20px;
+  position: absolute;
+  top: 28px;
+
+  label {
+    display: block;
+  }
+
+  .menutoggle {
+    cursor: pointer;
+    height: 25px;
+    position: fixed;
+    width: 30px;
+    z-index: 3;
+  }
+
+  .menutoggle > span,
+  .menutoggle > span::before,
+  .menutoggle > span::after {
+    border: 1px solid #000;
+    display: block;
+    position: absolute;
+    transition-duration: 0.25s;
+    width: 100%;
+  }
+
+  .menutoggle > span::before {
+    content: '';
+    left: -1px;
+    top: 11px;
+  }
+
+  .menutoggle > span::after {
+    content: '';
+    left: -1px;
+    top: 22px;
+  }
+}

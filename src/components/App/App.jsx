@@ -6,6 +6,7 @@ import store from '../../redux/redux-store';
 
 import PATH from '../../constants/path';
 
+import './App.module.scss';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import NavBar from '../NavBar/NavBar';
