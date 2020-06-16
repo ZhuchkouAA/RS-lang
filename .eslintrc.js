@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb'],
+  extends: ['react-app', 'airbnb', 'prettier', 'prettier/react'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -15,6 +15,16 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react'],
-  rules: {},
-}
+  plugins: ['react', 'eslint-plugin-prettier'],
+  rules: {
+    semi: 0,
+    'prettier/prettier': [
+      'error',
+      {
+        semi: true,
+        singleQuote: true,
+        endOfLine: 'auto',
+      },
+    ],
+  },
+};
