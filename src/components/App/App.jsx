@@ -26,10 +26,9 @@ import AboutUsPage from '../../pages/AboutUsPage';
 
 const App = () => (
   <>
-    <Header />
-    <NavBar />
-    <Footer />
     <Provider store={store}>
+      <Header />
+      <NavBar />
       <HashRouter>
         <Route exact path="/" component={() => <Redirect to={PATH.SIGN_IN} />} />
         <Route exact path={PATH.SIGN_IN} component={SignInPage} />
@@ -47,6 +46,7 @@ const App = () => (
         <Route exact path={PATH.PROPMO} component={PromoPage} />
         <Route exact path={PATH.ABOUT_US} component={AboutUsPage} />
       </HashRouter>
+      <Footer />
     </Provider>
   </>
 );
