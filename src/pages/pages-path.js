@@ -1,0 +1,14 @@
+export const signInPath = '/signin';
+export const signUpPath = '/signup';
+export const mainPath = '/main';
+export const dictionaryPath = '/dictionary';
+export const speakItPath = '/speak-it';
+export const englishPuzzlePath = '/englishPuzzle';
+export const savannaPath = '/savanna';
+export const audioCallPath = '/audio-call';
+export const sprintPath = '/sprint';
+export const onwGamePath = '/own-game';
+export const statisticPath = '/statstic';
+export const settingsPath = '/settings';
+export const promoPath = '/promo';
+export const aboutUsPath = '/about-us';
