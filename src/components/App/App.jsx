@@ -1,13 +1,12 @@
 import React from 'react';
-import {
-  Route, BrowserRouter, Redirect, Switch,
-} from 'react-router-dom';
+import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import store from '../../redux/redux-store';
 
 import PATH from '../../constants/path';
 
+import './App.module.scss';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import NavBar from '../NavBar/NavBar';
