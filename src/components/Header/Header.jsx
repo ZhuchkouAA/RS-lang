@@ -9,7 +9,11 @@ const Header = () => (
           <span />
         </div>
       </div>
-      <div className="auth__container" />
+      <div className={style.authcontainer}>
+        <span className={style.authbtn}>Sing In</span>
+        <span>/</span>
+        <span className={style.authbtn}>Sing Up</span>
+      </div>
     </div>
   </header>
 );
