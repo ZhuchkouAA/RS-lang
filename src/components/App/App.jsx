@@ -10,7 +10,6 @@ import Header from '../Header';
 import Footer from '../Footer/Footer';
 import NavBar from '../NavBar/NavBar';
 import SignInPage from '../../pages/SignInPage';
-import SignUpPage from '../../pages/SignUpPage';
 import MainPage from '../../pages/MainPage';
 import WordPage from '../../pages/WordPage';
 import DictionaryPage from '../../pages/DictionaryPage';
@@ -35,7 +34,6 @@ const App = () => (
         <Switch>
           <Route exact path="/" component={() => <Redirect to={PATH.SIGN_IN} />} />
           <Route exact path={PATH.SIGN_IN} component={SignInPage} />
-          <Route exact path={PATH.SIGN_UP} component={SignUpPage} />
           <Route exact path={PATH.MAIN} component={MainPage} />
           <Route exact path={PATH.WORD_CARD} component={WordPage} />
           <Route exact path={PATH.DICTIONARY} component={DictionaryPage} />
