@@ -13,4 +13,5 @@ export default {
   SETTINGS: '/settings',
   PROPMO: '/promo',
   ABOUT_US: '/about-us',
+  WORD_CARD: '/wordcard',
 };
