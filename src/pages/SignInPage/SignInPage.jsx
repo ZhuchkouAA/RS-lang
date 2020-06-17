@@ -88,11 +88,11 @@ SignInPage.propTypes = {
   message: PropTypes.string,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ userData }) => {
   return {
-    token: state.userData.token,
-    isLogInRender: state.userData.isSignIn,
-    message: state.userData.message,
+    token: userData.token,
+    isLogInRender: userData.isSignIn,
+    message: userData.message,
   };
 };
 
