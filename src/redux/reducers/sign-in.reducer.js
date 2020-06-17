@@ -5,6 +5,7 @@ import {
   SET_ALERT_MESSAGE,
 } from '../actions/types/action-types';
 
+<<<<<<< HEAD
 function returnToken() {
   if (localStorage.getItem('tokenData')) {
     const tokenData = JSON.parse(localStorage.getItem('tokenData'));
@@ -19,10 +20,15 @@ function returnToken() {
 
 const initialState = {
   token: returnToken(),
+=======
+const initialState = {
+  token: localStorage.getItem('token'),
+>>>>>>> RSL-08: integration with server
   isSignIn: true,
   message: '',
 };
 
+<<<<<<< HEAD
 const userDataReducer = (state = initialState, { type, payload }) => {
 <<<<<<< HEAD
   const lifeTime = 14400000;
@@ -41,6 +47,18 @@ const userDataReducer = (state = initialState, { type, payload }) => {
       };
     case REMOVE_TOKEN:
       localStorage.removeItem('tokenData');
+=======
+const userDataReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SET_TOKEN:
+      localStorage.setItem('token', action.token);
+      return {
+        ...state,
+        token: action.token,
+      };
+    case REMOVE_TOKEN:
+      localStorage.removeItem('token');
+>>>>>>> RSL-08: integration with server
       return {
         ...state,
         token: null,
@@ -48,12 +66,20 @@ const userDataReducer = (state = initialState, { type, payload }) => {
     case SIGN_IN_RENDER:
       return {
         ...state,
+<<<<<<< HEAD
         isSignIn: payload.isSignIn,
+=======
+        isSignIn: action.isSignIn,
+>>>>>>> RSL-08: integration with server
       };
     case SET_ALERT_MESSAGE:
       return {
         ...state,
+<<<<<<< HEAD
         message: payload.message,
+=======
+        message: action.message,
+>>>>>>> RSL-08: integration with server
       };
     default:
       return state;
