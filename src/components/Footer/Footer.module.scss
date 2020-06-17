@@ -1,14 +1,18 @@
-.footerwrapper {
-  background-color: #75b984;
+.footer {
+  &-wrapper {
+    background-color: #75b984;
+  }
+
+  &-container {
+    display: flex;
+    padding: 30px 5px;
+  }
 }
 
-.footercontainer {
-  display: flex;
-  padding: 30px 5px;
-}
+ 
 
-.footerlinkaboutus,
-.footerlinkaboutprogram {
+.footer-link-about-us,
+.footer-link-about-program {
   align-items: center;
   display: flex;
   font-size: 18px;
@@ -27,27 +31,29 @@
   &:hover {
     opacity: 0.8;
   }
+
 }
 
-.footer {
-  &linkaboutus {
+.footer-link {
+  &-about-us {
     margin: 0 0 0 20px;
   }
 
-  &linkaboutprogram {
+  &-about-program {
     margin: 0 20px 0 auto;
   }
+
 }
 
-.footer {
-  &linkaboutus::before {
+.footer-link {
+  &-about-us::before {
     background: url('../../img/parentheses.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
   }
 
-  &linkaboutprogram::before {
+  &-about-program::before {
     background: url('../../img/cat.png');
     background-position: center;
     background-repeat: no-repeat;

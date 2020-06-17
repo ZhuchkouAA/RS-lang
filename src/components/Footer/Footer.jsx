@@ -5,12 +5,12 @@ import styles from './Footer.module.scss';
 const Footer = () => {
   return (
     <footer>
-      <div className={styles.footerwrapper}>
-        <div className={styles.footercontainer}>
-          <a href="https://www.google.com" className={styles.footerlinkaboutus}>
+      <div className={styles['footer-wrapper']}>
+        <div className={styles['footer-container']}>
+          <a href="https://www.google.com" className={styles['footer-link-about-us']}>
             About us
           </a>
-          <a href="https://www.google.com" className={styles.footerlinkaboutprogram}>
+          <a href="https://www.google.com" className={styles['footer-link-about-program']}>
             About the program
           </a>
         </div>
