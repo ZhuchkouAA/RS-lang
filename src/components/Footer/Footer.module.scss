@@ -1,0 +1,59 @@
+
+
+.footerwrapper {
+  background-color: #75b984;
+}
+
+.footercontainer {
+  display: flex;
+  padding: 30px 5px;
+}
+
+.footerlinkaboutus,
+.footerlinkaboutprogram {
+  align-items: center;
+  display: flex;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 0 20px;
+  text-decoration: none;
+
+  &::before {
+    content: '';
+    display: block;
+    height: 30px;
+    margin-right: 5px;
+    width: 30px;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.footer {
+  &linkaboutus {
+    margin: 0 0 0 20px;
+  }
+
+  &linkaboutprogram {
+    margin: 0 20px 0 auto;
+  }
+}
+
+.footer {
+  &linkaboutus::before {
+    background: url('../../img/parentheses.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &linkaboutprogram::before {
+    background: url('../../img/cat.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}
+
