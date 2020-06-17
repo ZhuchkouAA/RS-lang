@@ -12,6 +12,7 @@ import NavBar from '../NavBar/NavBar';
 import SignInPage from '../../pages/SignInPage';
 import SignUpPage from '../../pages/SignUpPage';
 import MainPage from '../../pages/MainPage';
+import WordPage from '../../pages/WordPage';
 import DictionaryPage from '../../pages/DictionaryPage';
 import SpeakItPage from '../../pages/SpeakItPage';
 import EnglishPuzzlePage from '../../pages/EnglishPuzzlePage';
@@ -36,6 +37,7 @@ const App = () => (
           <Route exact path={PATH.SIGN_IN} component={SignInPage} />
           <Route exact path={PATH.SIGN_UP} component={SignUpPage} />
           <Route exact path={PATH.MAIN} component={MainPage} />
+          <Route exact path={PATH.WORD_CARD} component={WordPage} />
           <Route exact path={PATH.DICTIONARY} component={DictionaryPage} />
           <Route exact path={PATH.SPEAK_IT} component={SpeakItPage} />
           <Route exact path={PATH.ENGLISH_PUZZLE} component={EnglishPuzzlePage} />
