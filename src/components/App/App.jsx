@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Route, BrowserRouter, Redirect, Switch,
-} from 'react-router-dom';
+import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import store from '../../redux/redux-store';
@@ -30,9 +28,9 @@ import ErrorPage from '../../pages/ErrorPage';
 const App = () => (
   <>
     <Provider store={store}>
-      <Header />
-      <NavBar />
       <BrowserRouter>
+        <Header />
+        <NavBar />
         <Switch>
           <Route exact path="/" component={() => <Redirect to={PATH.SIGN_IN} />} />
           <Route exact path={PATH.SIGN_IN} component={SignInPage} />
