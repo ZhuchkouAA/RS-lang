@@ -6,11 +6,11 @@ const Footer = () => {
   return (
     <footer>
       <div className={styles.footerwrapper}>
-        <div className={styles.footer__container}>
-          <a href="https://www.google.com" className={styles.footerlinkaboutUs}>
+        <div className={styles.footercontainer}>
+          <a href="https://www.google.com" className={styles.footerlinkaboutus}>
             About us
           </a>
-          <a href="https://www.google.com" className={styles.footerlinkAboutprogram}>
+          <a href="https://www.google.com" className={styles.footerlinkaboutprogram}>
             About the program
           </a>
         </div>
