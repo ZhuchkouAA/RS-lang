@@ -1,13 +1,19 @@
 import React from 'react';
 import style from './Header.module.scss';
-import AuthClaster from './AuthClaster/AuthClaster';
-import NavbarToggler from './NavbarToggler/NavbarToggler';
 
 const Header = () => (
   <header className={style.header}>
     <div className={style.wrapper}>
-      <NavbarToggler />
-      <AuthClaster />
+      <div className={style['navbar-toggle']}>
+        <div className={style['menu-toggle']}>
+          <span />
+        </div>
+      </div>
+      <div className={style['auth-container']}>
+        <span className={style['auth-btn']}>Sing In</span>
+        <span>/</span>
+        <span className={style['auth-btn']}>Sing Up</span>
+      </div>
     </div>
   </header>
 );
