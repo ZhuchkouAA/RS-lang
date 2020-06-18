@@ -1,16 +1,24 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  Grid,
+  Card,
+  Box,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+  IconButton,
+  Tooltip,
+  Fab,
+} from '@material-ui/core';
+
 import DeleteIcon from '@material-ui/icons/Delete';
-import Tooltip from '@material-ui/core/Tooltip';
+import AddIcon from '@material-ui/icons/Add';
+import CheckIcon from '@material-ui/icons/Check';
 
 import WordInput from '../WordInput';
+import SentenceWithWord from '../SentenceWithWord';
 
 import styles from './WordCard.module.scss';
 
@@ -19,8 +27,8 @@ const cardState = {
   image: true,
   wordTranslate: 'инструктирует',
   transcription: '[instrʌ́kt]',
-  textMeaning: 'To instruct is to teach.',
-  textExample: 'My teacher instructs us in several subjects.',
+  textMeaning: 'To <i>instruct</i> is to teach.',
+  textExample: 'My teacher <b>instructs</b> us in several subjects.',
   textExampleTranslate: 'Мой учитель учит нас нескольким предметам',
   textMeaningTranslate: 'Обучать - значит учить',
 };
@@ -41,46 +49,49 @@ const WordCard = () => {
 
   return (
     <Card className={styles.WordCard__wrapper}>
-      <div className={styles.WordCard__header}>
-        <CardMedia
-          className={styles.WordCard__image}
-          image={PICTURE_URL}
-          title="Contemplative Reptile"
-        />
-
-        <div>
-          <Typography className={styles.WordCard__word} gutterBottom variant="h6">
-            {wordTranslate}
-          </Typography>
-          <Typography className={styles.WordCard__word} gutterBottom variant="h6">
-            {transcription}
-          </Typography>
-        </div>
-      </div>
+      <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
+        <Grid item className={styles.WordCard__header}>
+          <CardMedia
+            className={styles.WordCard__image}
+            image={PICTURE_URL}
+            title="Изучаемое слово"
+          />
+        </Grid>
+        <Grid item>
+          <div>
+            <Typography className={styles.WordCard__word} gutterBottom variant="h6">
+              {wordTranslate}
+            </Typography>
+            <Typography className={styles.WordCard__word} gutterBottom variant="h6">
+              {transcription}
+            </Typography>
+          </div>
+        </Grid>
+      </Grid>
 
       <CardContent className={styles.WordCard__content}>
-        <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-          <Grid item>
-            <WordInput word={word} />
+        <Box mb={2}>
+          <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
+            <Grid item>
+              <Tooltip title="Добавить слово в 'Сложные'" aria-label="add">
+                <Fab color="primary" size="small">
+                  <AddIcon />
+                </Fab>
+              </Tooltip>
+            </Grid>
+            <Grid item>
+              <WordInput word={word} />
+            </Grid>
+            <Grid item>
+              <Tooltip title="Проверить слово" aria-label="add">
+                <Fab color="primary" size="small">
+                  <CheckIcon />
+                </Fab>
+              </Tooltip>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Tooltip title="Удалить слово из изучения">
-              <IconButton aria-label="delete">
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          </Grid>
-        </Grid>
-
-        <Typography
-          className={styles.WordCard__text}
-          variant="body1"
-          color="textPrimary"
-          component="p"
-          gutterBottom
-        >
-          {textExample}
-        </Typography>
+        </Box>
+        <SentenceWithWord word={word} sentence={textExample} />
         <Typography
           className={styles.WordCard__text}
           variant="body1"
@@ -90,15 +101,7 @@ const WordCard = () => {
         >
           {textExampleTranslate}
         </Typography>
-        <Typography
-          className={styles.WordCard__text}
-          variant="body1"
-          color="textPrimary"
-          component="p"
-          gutterBottom
-        >
-          {textMeaning}
-        </Typography>
+        <SentenceWithWord word={word} sentence={textMeaning} />
         <Typography
           className={styles.WordCard__text}
           variant="body1"
@@ -123,6 +126,13 @@ const WordCard = () => {
             </Button>
           </Grid>
         </Grid>
+        <Box position="absolute">
+          <Tooltip title="Удалить слово из изучения">
+            <IconButton aria-label="delete">
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </CardActions>
     </Card>
   );

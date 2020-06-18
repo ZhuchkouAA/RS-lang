@@ -1,39 +1,29 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 
-const getTextWidthInPx = (text) => {
-  const span = document.createElement('span');
-
-  span.style.fontSize = `${16}px`;
-  span.style.height = 'auto';
-  span.style.width = 'auto';
-  span.style.position = 'absolute';
-  span.style.whiteSpace = 'no-wrap';
-  span.style.top = '-200px';
-  span.innerHTML = text;
-
-  document.body.appendChild(span);
-
-  const res = Math.ceil(span.clientWidth) + 10;
-
-  span.remove();
-
-  return res;
-};
+import { getStyleWidthForText } from '../../helpers/text-utils';
 
 const WordInput = ({ word }) => {
-  const wordWidth = getTextWidthInPx(word);
-  const doublePadding = 28;
-  const inputWidth = { width: `${wordWidth + doublePadding}px` };
+  const styleWord = getStyleWidthForText(word);
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    setTimeout(() => {
+      inputRef.current.focus();
+    }, 0);
+  }, []);
 
   return (
     <TextField
+      autoFocus
+      inputRef={inputRef}
       id="outlined-basic"
       variant="outlined"
       size="small"
-      defaultValue={word}
-      style={inputWidth}
+      defaultValue=""
+      style={styleWord}
     />
   );
 };
