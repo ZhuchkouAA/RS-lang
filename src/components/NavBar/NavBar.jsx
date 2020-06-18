@@ -1,23 +1,21 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import Style from './NavBar.module.scss';
+import style from './NavBar.module.scss';
 import path from '../../constants/path';
 
 const linksKeys = Object.keys(path);
-const navBarLinks = linksKeys.map((key) =>
-  key !== 'SIGN_IN' && key !== 'SIGN_UP' ? (
-    <NavLink key={key} className={Style.el} to={path[key]}>
-      {key}
-    </NavLink>
-  ) : (
-    false
-  )
-);
+const necessaryKeys = linksKeys.filter((key) => key !== 'SIGN_IN' && key !== 'SIGN_UP');
 
 const NavBar = () => (
-  <nav className={Style['menu-box']}>
-    <div className={Style.items}>{navBarLinks}</div>
+  <nav className={style.NavBar}>
+    <div className={style.NavBar__LinkContainer}>
+      {necessaryKeys.map((key) => (
+        <NavLink className={style.NavBar__LinkContainer__Link} key={key} to={path[key]}>
+          {key}
+        </NavLink>
+      ))}
+    </div>
   </nav>
 );
 
