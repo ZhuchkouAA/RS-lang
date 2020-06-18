@@ -33,8 +33,8 @@ const SignInPage = ({ isSignIn, isSignInRender, token, removeToken, signIn, sign
   }
 
   return (
-    <form onSubmit={handlerSubmit} className={styles.form}>
-      <label className={styles.form__label} htmlFor={styles.form}>
+    <form onSubmit={handlerSubmit} className={styles.Form}>
+      <label className={styles.Form__label} htmlFor={styles.Form}>
         Login:
         <input
           onChange={handlerOnChangeSetLogin}
