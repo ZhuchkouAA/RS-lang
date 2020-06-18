@@ -11,13 +11,13 @@ const initialState = {
   message: '',
 };
 
-const userDataReducer = (state = initialState, action) => {
-  switch (action.type) {
+const userDataReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case SET_TOKEN:
-      localStorage.setItem('token', action.token);
+      localStorage.setItem('token', payload.token);
       return {
         ...state,
-        token: action.token,
+        token: payload.token,
       };
     case REMOVE_TOKEN:
       localStorage.removeItem('token');
@@ -28,12 +28,12 @@ const userDataReducer = (state = initialState, action) => {
     case SIGN_IN_RENDER:
       return {
         ...state,
-        isSignIn: action.isSignIn,
+        isSignIn: payload.isSignIn,
       };
     case SET_ALERT_MESSAGE:
       return {
         ...state,
-        message: action.message,
+        message: payload.message,
       };
     default:
       return state;

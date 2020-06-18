@@ -11,11 +11,9 @@ const mapStateToProps = ({ userData }) => {
   };
 };
 
-const SignInPageContainer = connect(mapStateToProps, {
+export default connect(mapStateToProps, {
   signIn,
   signUp,
   removeToken,
   isSignInRender,
 })(SignInPage);
-
-export default SignInPageContainer;
