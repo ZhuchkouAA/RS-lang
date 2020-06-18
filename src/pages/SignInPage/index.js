@@ -1,3 +1,21 @@
-import SignInPage from './SignInPage';
+import { connect } from 'react-redux';
 
-export default SignInPage;
+import SignInPage from './SignInPage';
+import signIn from '../../middlewares/users/sign-in';
+import signUp from '../../middlewares/users/sign-up';
+import { isSignInRender, removeToken } from '../../redux/actions/creators/sign-in-data';
+
+const mapStateToProps = ({ userData }) => {
+  return {
+    ...userData,
+  };
+};
+
+const SignInPageContainer = connect(mapStateToProps, {
+  signIn,
+  signUp,
+  removeToken,
+  isSignInRender,
+})(SignInPage);
+
+export default SignInPageContainer;
