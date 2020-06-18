@@ -33,8 +33,13 @@ const SignInPage = ({ isSignIn, isSignInRender, token, removeToken, signIn, sign
   }
 
   return (
+<<<<<<< HEAD
     <form onSubmit={handlerSubmit} className={styles.Form}>
       <label className={styles.Form__label} htmlFor={styles.Form}>
+=======
+    <form onSubmit={handlerSubmit} className={styles.form}>
+      <label className={styles.form__label} htmlFor={styles.form}>
+>>>>>>> RSL-08: refactor v0.4
         Login:
         <input
           onChange={handlerOnChangeSetLogin}
