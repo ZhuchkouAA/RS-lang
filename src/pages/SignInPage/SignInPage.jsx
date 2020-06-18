@@ -9,7 +9,7 @@ import signIn from '../../middlewares/users/sign-in';
 import signUp from '../../middlewares/users/sign-up';
 
 const SignInPage = ({
-  isLogInRender,
+  isSignIn,
   setIsSignIn,
   token,
   removeUserToken,
@@ -24,7 +24,7 @@ const SignInPage = ({
   }
 
   const submitHandler = () => {
-    if (isLogInRender) {
+    if (isSignIn) {
       signInRequest(login, password);
     } else {
       signUpRequest(login, password);
@@ -57,10 +57,10 @@ const SignInPage = ({
             required="required"
             value={password}
           />
-          <input type="submit" value={isLogInRender ? `log in` : `sign up`} />
+          <input type="submit" value={isSignIn ? `log in` : `sign up`} />
         </label>
-        <button type="button" onClick={() => setIsSignIn(!isLogInRender)}>
-          {isLogInRender ? `sign up` : `log in`}
+        <button type="button" onClick={() => setIsSignIn(!isSignIn)}>
+          {isSignIn ? `sign up` : `log in`}
         </button>
         <div>{message}</div>
       </form>
@@ -69,7 +69,7 @@ const SignInPage = ({
 };
 
 SignInPage.defaultProps = {
-  isLogInRender: PropTypes.bool,
+  isSignIn: PropTypes.bool,
   setIsSignIn: PropTypes.func,
   token: PropTypes.object,
   removeUserToken: PropTypes.func,
@@ -79,7 +79,7 @@ SignInPage.defaultProps = {
 };
 
 SignInPage.propTypes = {
-  isLogInRender: PropTypes.bool,
+  isSignIn: PropTypes.bool,
   setIsSignIn: PropTypes.func,
   token: PropTypes.string,
   removeUserToken: PropTypes.func,
@@ -90,9 +90,7 @@ SignInPage.propTypes = {
 
 const mapStateToProps = ({ userData }) => {
   return {
-    token: userData.token,
-    isLogInRender: userData.isSignIn,
-    message: userData.message,
+    ...userData,
   };
 };
 
