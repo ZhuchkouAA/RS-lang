@@ -17,32 +17,35 @@
 }
 
 
-.Header__authContainer {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-
-  span {
-    user-select: none;
+.Header__auth {
+  &-container {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
   }
 
-  &__button {
+  &-button {
     cursor: pointer;
     font-family: sans-serif;
     font-size: 18px;
     font-weight: 100;
     margin: 0 10px;
     transition: 0.3s;
+    user-select: none;
   }
 
-  &__button:hover {
+  &-button:hover {
     opacity: 0.3;
     transition: 0.3s;
   }
+
+  &-buttonSeparator {
+    user-select: none;
+  }
 }
 
-.Header__navbarContainer {
-  &__button {
+.Header__navBar {
+  &-button {
     cursor: pointer;
     height: 25px;
 
@@ -52,9 +55,9 @@
     z-index: 3;
   }
 
-  &__button_dash,
-  &__button_dash::before,
-  &__button_dash::after {
+  &-button-dash,
+  &-button-dash::before,
+  &-button-dash::after {
     border: 1px solid #000;
     display: block;
     position: absolute;
@@ -62,13 +65,13 @@
     width: 100%;
   }
 
-  &__button_dash::before {
+  &-button-dash::before {
     content: '';
     left: -1px;
     top: 11px;
   }
 
-  &__button_dash::after {
+  &-button-dash::after {
     content: '';
     left: -1px;
     top: 22px;
