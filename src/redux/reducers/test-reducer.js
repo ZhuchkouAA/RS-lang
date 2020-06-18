@@ -3,7 +3,7 @@ const initialState = {
   cardsPerDay: '10',
   newWordsPerDay: '10',
   answerBtn: true,
-  delFromLearnBtn: true,
+  delFromLearnBtn: false,
   feedBackButtons: true,
   image: true,
   audio: true,
