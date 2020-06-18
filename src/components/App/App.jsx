@@ -6,7 +6,7 @@ import store from '../../redux/redux-store';
 
 import PATH from '../../constants/path';
 
-import Header from '../Header/index';
+import Header from '../Header';
 import Footer from '../Footer/Footer';
 import NavBar from '../NavBar/NavBar';
 import SignInPage from '../../pages/SignInPage';
