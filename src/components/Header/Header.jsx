@@ -4,17 +4,17 @@ import style from './Header.module.scss';
 const Header = () => (
   <header className={style.Header}>
     <div className={style.Header__wrapper}>
-      <div className={style.Header__navbarContainer}>
-        <div className={style.Header__navbarContainer__button}>
-          <span className={style.Header__navbarContainer__button_dash} />
+      <div className={style.Header__navBar}>
+        <div className={style['Header__navBar-button']}>
+          <span className={style['Header__navBar-button-dash']} />
         </div>
       </div>
-      <div className={style.Header__authContainer}>
-        <button className={style.Header__authContainer__button} type="button">
+      <div className={style['Header__auth-container']}>
+        <button className={style['Header__auth-button']} type="button">
           Sing In
         </button>
-        <span className="">/</span>
-        <button className={style.Header__authContainer__button} type="button">
+        <span className={style['Header__auth-buttonSeparator']}>/</span>
+        <button className={style['Header__auth-button']} type="button">
           Sing Up
         </button>
       </div>
