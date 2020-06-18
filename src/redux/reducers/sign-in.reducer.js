@@ -24,11 +24,17 @@ const initialState = {
 };
 
 const userDataReducer = (state = initialState, { type, payload }) => {
+<<<<<<< HEAD
   const lifeTime = 14400000;
   const endedTokenDate = Date.now() + lifeTime;
   switch (type) {
     case SET_TOKEN:
       localStorage.setItem('tokenData', JSON.stringify({ token: payload.token, endedTokenDate }));
+=======
+  switch (type) {
+    case SET_TOKEN:
+      localStorage.setItem('token', payload.token);
+>>>>>>> RSL-08: refactor v0.4
       return {
         ...state,
         token: payload.token,

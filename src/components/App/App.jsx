@@ -30,7 +30,6 @@ const App = () => (
     <BrowserRouter>
       <Header />
       <NavBar />
-<<<<<<< HEAD
       <Switch>
         <Route exact path="/" component={() => <Redirect to={PATH.SIGN_IN} />} />
         <Route exact path={PATH.SIGN_IN} component={SignInPage} />
