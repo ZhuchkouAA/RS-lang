@@ -2,17 +2,17 @@ import React from 'react';
 import style from './Header.module.scss';
 
 const Header = () => (
-  <header className={style.header}>
-    <div className={style.header__wrapper}>
-      <div className={style.navbarToggle}>
-        <div className={style.menuToggle}>
+  <header className={style.Header}>
+    <div className={style.Header__Wrapper}>
+      <div className={style.NavbarContainer}>
+        <div className={style.NavbarContainer__Button}>
           <span />
         </div>
       </div>
-      <div className={style.authContainer}>
-        <span className={style.authBtn}>Sing In</span>
+      <div className={style.AuthContainer}>
+        <span className={style.AuthContainer__Button}>Sing In</span>
         <span>/</span>
-        <span className={style.authBtn}>Sing Up</span>
+        <span className={style.AuthContainer__Button}>Sing Up</span>
       </div>
     </div>
   </header>
