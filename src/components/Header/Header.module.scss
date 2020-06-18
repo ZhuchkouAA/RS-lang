@@ -1,4 +1,4 @@
-$white: #fff;
+@import '../../styles-global/index.module';
 
 .header {
   background-color: $white;
@@ -7,7 +7,7 @@ $white: #fff;
   margin-bottom: 30px;
   width: 100%;
 
-  .wrapper {
+  &__wrapper {
     align-items: center;
     display: flex;
     height: 100%;
@@ -17,7 +17,7 @@ $white: #fff;
 }
 
 
-.auth-container {
+.authContainer {
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -27,7 +27,7 @@ $white: #fff;
   }
 }
 
-.auth-btn {
+.authBtn {
   cursor: pointer;
   font-family: sans-serif;
   font-size: 18px;
@@ -42,8 +42,8 @@ $white: #fff;
 }
 
 
-.navbar-toggle {
-  .menu-toggle {
+.navbarToggle {
+  .menuToggle {
     cursor: pointer;
     height: 25px;
     position: fixed;
@@ -54,9 +54,9 @@ $white: #fff;
     z-index: 3;
   }
 
-  .menu-toggle > span,
-  .menu-toggle > span::before,
-  .menu-toggle > span::after {
+  .menuToggle > span,
+  .menuToggle > span::before,
+  .menuToggle > span::after {
     border: 1px solid #000;
     display: block;
     position: absolute;
@@ -64,13 +64,13 @@ $white: #fff;
     width: 100%;
   }
 
-  .menu-toggle > span::before {
+  .menuToggle > span::before {
     content: '';
     left: -1px;
     top: 11px;
   }
 
-  .menu-toggle > span::after {
+  .menuToggle > span::after {
     content: '';
     left: -1px;
     top: 22px;
