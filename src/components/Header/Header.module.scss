@@ -1,13 +1,13 @@
 @import '../../styles-global/index.module';
 
-.header {
+.Header {
   background-color: $white;
   box-shadow: 0 1px 6px rgba(13, 16, 61, 0.6);
   height: 80px;
   margin-bottom: 30px;
   width: 100%;
 
-  &__wrapper {
+  &__Wrapper {
     align-items: center;
     display: flex;
     height: 100%;
@@ -17,7 +17,7 @@
 }
 
 
-.authContainer {
+.AuthContainer {
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -25,28 +25,26 @@
   span {
     user-select: none;
   }
-}
 
-.authBtn {
-  cursor: pointer;
-  font-family: sans-serif;
-  font-size: 18px;
-  font-weight: 100;
-  margin: 0 10px;
-  transition: 0.3s;
+  &__Button {
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 18px;
+    font-weight: 100;
+    margin: 0 10px;
+    transition: 0.3s;
+  }
 
-  &:hover {
+  &__Button:hover {
     opacity: 0.3;
     transition: 0.3s;
   }
 }
 
-
-.navbarToggle {
-  .menuToggle {
+.NavbarContainer {
+  &__Button {
     cursor: pointer;
     height: 25px;
-    position: fixed;
 
     position: absolute;
     top: 30px;
@@ -54,9 +52,9 @@
     z-index: 3;
   }
 
-  .menuToggle > span,
-  .menuToggle > span::before,
-  .menuToggle > span::after {
+  &__Button > span,
+  &__Button > span::before,
+  &__Button > span::after {
     border: 1px solid #000;
     display: block;
     position: absolute;
@@ -64,13 +62,13 @@
     width: 100%;
   }
 
-  .menuToggle > span::before {
+  &__Button > span::before {
     content: '';
     left: -1px;
     top: 11px;
   }
 
-  .menuToggle > span::after {
+  &__Button > span::after {
     content: '';
     left: -1px;
     top: 22px;
