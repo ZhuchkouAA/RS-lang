@@ -1,19 +1,17 @@
-import { setToken } from '../../redux/actions/creators/sign-in-data';
+import { setAlertMessage, setToken } from '../../redux/actions/creators/sign-in-data';
+import postRequest from '../../helpers/fetch-utils/post-response';
+import URL from '../../constants/urls';
 
 export default function signIn(login, password) {
   return (dispatch) => {
-    fetch('https://afternoon-falls-25894.herokuapp.com/signin', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email: login, password }),
-    })
+    postRequest(URL.signin, JSON.stringify({ email: login, password }))
       .then((response) => response.json())
-      .then((content) => {
-        dispatch(setToken(content.token));
+      .then(({ token }) => {
+        dispatch(setToken(token));
       })
-      .catch((error) => console.log(error));
+      .catch(() => {
+        dispatch(setAlertMessage('invalid data entered'));
+        setTimeout(() => dispatch(setAlertMessage('')), 10000);
+      });
   };
 }

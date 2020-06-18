@@ -9,7 +9,7 @@ import PATH from '../../constants/path';
 import Header from '../Header';
 import Footer from '../Footer/Footer';
 import NavBar from '../NavBar/NavBar';
-import SignInPage from '../../pages/SignInPage/index';
+import SignInPage from '../../pages/SignInPage';
 import MainPage from '../../pages/MainPage';
 import DictionaryPage from '../../pages/DictionaryPage';
 import SpeakItPage from '../../pages/SpeakItPage';

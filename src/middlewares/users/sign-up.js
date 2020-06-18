@@ -1,28 +1,30 @@
 import { isSignInRender, setAlertMessage } from '../../redux/actions/creators/sign-in-data';
+import postRequest from '../../helpers/fetch-utils/post-response';
+import URL from '../../constants/urls';
 
 export default function signUp(login, password) {
   return (dispatch) => {
-    fetch('https://afternoon-falls-25894.herokuapp.com/users', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email: login, password }),
-    })
-      .then((response) => response.ok)
-      .then((isOk) => {
-        if (isOk) {
+    postRequest(URL.users, JSON.stringify({ email: login, password }))
+      .then((response) => {
+        if (!response.ok) {
+          dispatch(setAlertMessage(response.statusText));
+          return response.json();
+        }
+        return response.json();
+      })
+      .then((response) => {
+        if (!response.error) {
           dispatch(isSignInRender(true));
           dispatch(setAlertMessage('you have been successfully registered, you can log in'));
+          setTimeout(() => dispatch(setAlertMessage('')), 10000);
         } else {
-          dispatch(setAlertMessage('password example: "45Gfhjkm_123"'));
+          dispatch(setAlertMessage(response.error.errors[0].message));
+          setTimeout(() => dispatch(setAlertMessage('')), 10000);
         }
-        setTimeout(() => dispatch(setAlertMessage('')), 5000);
       })
       .catch(() => {
         dispatch(setAlertMessage('server error, maybe this login is already taken?'));
-        setTimeout(() => dispatch(setAlertMessage('')), 5000);
+        setTimeout(() => dispatch(setAlertMessage('')), 10000);
       });
   };
 }
