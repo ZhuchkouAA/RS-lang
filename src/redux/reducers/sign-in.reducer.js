@@ -5,24 +5,30 @@ import {
   SET_ALERT_MESSAGE,
 } from '../actions/types/action-types';
 
-const initialToken =
-  localStorage.getItem('tokenData') &&
-  Date.now() < JSON.parse(localStorage.getItem('tokenData')).deathTokenDate
-    ? JSON.parse(localStorage.getItem('tokenData')).token
-    : null;
+function returnToken() {
+  if (localStorage.getItem('tokenData')) {
+    const tokenData = JSON.parse(localStorage.getItem('tokenData'));
+    const { endedTokenDate } = tokenData;
+
+    if (Date.now() < endedTokenDate) {
+      return tokenData.token;
+    }
+  }
+  return null;
+}
 
 const initialState = {
-  token: initialToken,
+  token: returnToken(),
   isSignIn: true,
   message: '',
 };
 
 const userDataReducer = (state = initialState, { type, payload }) => {
   const lifeTime = 14400000;
-  const deathTokenDate = Date.now() + lifeTime;
+  const endedTokenDate = Date.now() + lifeTime;
   switch (type) {
     case SET_TOKEN:
-      localStorage.setItem('tokenData', JSON.stringify({ token: payload.token, deathTokenDate }));
+      localStorage.setItem('tokenData', JSON.stringify({ token: payload.token, endedTokenDate }));
       return {
         ...state,
         token: payload.token,
