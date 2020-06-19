@@ -4,7 +4,7 @@ import API_URLS from '../../constants/APIUrls';
 
 export default function signIn(login, password) {
   return (dispatch) => {
-    postRequest(API_URLS.signIn, JSON.stringify({ email: login, password }))
+    postRequest(API_URLS.SIGNIN, JSON.stringify({ email: login, password }))
       .then((response) => response.json())
       .then(({ token }) => {
         dispatch(setToken(token));
