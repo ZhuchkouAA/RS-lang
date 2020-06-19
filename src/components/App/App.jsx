@@ -9,6 +9,7 @@ import PATH from '../../constants/path';
 import Header from '../Header';
 import Footer from '../Footer/Footer';
 import NavBar from '../NavBar/NavBar';
+import ProgressBar from '../ProgressBar/ProgressBar';
 import SignInPage from '../../pages/SignInPage';
 import SignUpPage from '../../pages/SignUpPage';
 import MainPage from '../../pages/MainPage';
@@ -29,6 +30,7 @@ import ErrorPage from '../../pages/ErrorPage';
 const App = () => (
   <>
     <Provider store={store}>
+      <ProgressBar max={1000} now={100} />
       <Header />
       <NavBar />
       <BrowserRouter>
