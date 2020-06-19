@@ -5,15 +5,15 @@ import signIn from '../../middlewares/users/sign-in';
 import signUp from '../../middlewares/users/sign-up';
 import { isSignInRender, removeToken } from '../../redux/actions/creators/sign-in-data';
 
-const mapStateToProps = ({ userData }) => {
-  return {
-    ...userData,
-  };
-};
+const mapStateToProps = ({ userData }) => ({
+  ...userData,
+});
 
-export default connect(mapStateToProps, {
+const mapToDispatch = {
   signIn,
   signUp,
   removeToken,
   isSignInRender,
-})(SignInPage);
+};
+
+export default connect(mapStateToProps, mapToDispatch)(SignInPage);
