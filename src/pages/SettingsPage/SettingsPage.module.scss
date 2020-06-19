@@ -1,0 +1,19 @@
+.Settings {
+  display: flex;
+  flex-direction: column;
+  margin: 0 30px;
+  width: 100%;
+
+}
+
+.Settings__btn {
+  align-self: center;
+  width: 300px;
+}
+
+.settings__title {
+    width:100%;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}

@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
-const Checkbox = ({ label, checkValue, toggleCheckbox }) => (
-  <div className="checkbox">
-    <label htmlFor={label}>
-      {label}
-      <input type="checkbox" checked={checkValue} onChange={toggleCheckbox} id={label} />
-    </label>
-  </div>
+const Checkbox = ({ label, checkValue, toggle }) => (
+  <FormControlLabel
+    label={label}
+    control={<Switch checked={checkValue} onChange={toggle} id={label} />}
+  />
 );
 
 Checkbox.propTypes = {
   label: PropTypes.string.isRequired,
-  toggleCheckbox: PropTypes.func.isRequired,
+  toggle: PropTypes.func.isRequired,
   checkValue: PropTypes.bool.isRequired,
 };
 

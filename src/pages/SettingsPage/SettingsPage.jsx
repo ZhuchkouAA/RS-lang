@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 import Checkbox from '../../components/Checkbox';
 import Inputs from '../../components/Input';
@@ -16,81 +17,93 @@ const SettingsPage = (props) => {
 
   return (
     <form className={style.Settings}>
-      <div className={style.Settings__wrapper}>
-        <p className={style.settings__title}>Application settings</p>
+      <Grid
+        className={style.Settings__wrapper}
+        container
+        direction="column"
+        justify="flex-start"
+        alignItems="flex-start"
+      >
+        <p className={style.settings__title}>Настройки приложения</p>
 
         <Inputs
-          label="Cards per day"
+          label="Учить слова за один день"
           value={settings.cardsPerDay}
           onChange={(e) => setSettings({ ...settings, cardsPerDay: e.target.value })}
         />
         <Inputs
-          label="New words per day"
+          label="Новых слов в день"
           value={settings.newWordsPerDay}
           onChange={(e) => setSettings({ ...settings, newWordsPerDay: e.target.value })}
         />
         <Checkbox
-          label="'Show answer' button"
+          label="Кнопка 'Показать ответ'"
           checkValue={settings.answerBtn}
           toggle={() => setSettings({ ...settings, answerBtn: !settings.answerBtn })}
         />
         <Checkbox
-          label="'Delete from learning' button"
+          label="Кнопка 'Удалить из изучения'"
           checkValue={settings.delFromLearnBtn}
           toggle={() => setSettings({ ...settings, delFromLearnBtn: !settings.delFromLearnBtn })}
         />
         <Checkbox
-          label="'Feedback' buttons"
+          label="Кнопки 'Оценить сложность слова'"
           checkValue={settings.feedBackButtons}
           toggle={() => setSettings({ ...settings, feedBackButtons: !settings.feedBackButtons })}
         />
-      </div>
+      </Grid>
 
-      <div className={style.Settings__wrapper}>
-        <p className={style.settings__title}>Cards desing</p>
+      <Grid
+        className={style.Settings__wrapper}
+        container
+        direction="column"
+        justify="flex-start"
+        alignItems="flex-start"
+      >
+        <p className={style.settings__title}>Элементы карточки</p>
         <Checkbox
-          label="Picture"
+          label="Показывать картинку"
           checkValue={settings.image}
           toggle={() => setSettings({ ...settings, image: !settings.image })}
         />
         <Checkbox
-          label="Transcription"
+          label="Показывать транскрипцию"
           checkValue={settings.transcription}
           toggle={() => setSettings({ ...settings, transcription: !settings.transcription })}
         />
         <Checkbox
-          label="Translation of word"
+          label="Показывать перевод"
           checkValue={settings.wordTranslate}
           toggle={() => setSettings({ ...settings, wordTranslate: !settings.wordTranslate })}
         />
         <Checkbox
-          label="Translation of example"
+          label="Перевод предложения"
           checkValue={settings.textExampleTranslate}
           toggle={() =>
-            // eslint-disable-next-line prettier/prettier
-            setSettings({ ...settings, textExampleTranslate: !settings.textExampleTranslate })}
+            setSettings({ ...settings, textExampleTranslate: !settings.textExampleTranslate })
+          }
         />
         <Checkbox
-          label="Listen meaning"
+          label="Перевод значения"
           checkValue={settings.audioMeaning}
           toggle={() => setSettings({ ...settings, audioMeaning: !settings.audioMeaning })}
         />
         <Checkbox
-          label="Listen example"
+          label="Кнопка 'прослушать предложение'"
           checkValue={settings.audioExample}
           toggle={() => setSettings({ ...settings, audioExample: !settings.audioExample })}
         />
         <Checkbox
-          label="Show meaning"
+          label="Кнопка 'прослушать значение'"
           checkValue={settings.textMeaning}
           toggle={() => setSettings({ ...settings, textMeaning: !settings.textMeaning })}
         />
         <Checkbox
-          label="Show example"
+          label="Показвыть пример использования"
           checkValue={settings.textExample}
           toggle={() => setSettings({ ...settings, textExample: !settings.textExample })}
         />
-      </div>
+      </Grid>
       <div className={style.Settings__btn}>
         <Button
           className={style.Settings__btn}
