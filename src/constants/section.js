@@ -1,30 +1,37 @@
-export default {
-  wordCard: {
+export default [
+  {
+    section: 'WORD_CARD',
     name: 'Изучение слов',
     description: 'Изучаем новые слова и повторяем уже выученное',
   },
-  englishPuzzle: {
+  {
+    section: 'ENGLISH_PUZZLE',
     name: 'Пазл',
     description: 'Играем и учим слова в игре',
   },
-  sprint: {
+  {
+    section: 'SPRINT',
     name: 'Спринт',
     description: 'Играем и учим слова в игре',
   },
-  savanna: {
+  {
+    section: 'SAVANNA',
     name: 'Саванна',
     description: 'Играем и учим слова в игре',
   },
-  audioCall: {
+  {
+    section: 'AUDIO_CALL',
     name: 'Аудио Вызов',
     description: 'Играем и учим слова в игре',
   },
-  speakIt: {
+  {
+    section: 'SPEAK_IT',
     name: 'Скажи это!',
     description: 'Играем и учим слова в игре',
   },
-  specialGame: {
+  {
+    section: 'OWN_GAME',
     name: 'Своя игра',
     description: 'Играем и учим слова в игре',
   },
-};
+];

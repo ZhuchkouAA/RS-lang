@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Box, Typography, Grid } from '@material-ui/core';
+import { Box, Typography, Grid, Divider } from '@material-ui/core';
 
 import styles from './AppSectionCard.module.scss';
 
@@ -13,6 +13,7 @@ const AppSectionCard = ({ path, name, description }) => {
           <Typography align="center" gutterBottom variant="h6">
             {name}
           </Typography>
+          <Divider />
           <Typography
             className={styles.AppSectionCard__text}
             align="center"

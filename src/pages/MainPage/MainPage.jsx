@@ -1,21 +1,21 @@
 import React from 'react';
-import { Grid, Container, Box, Divider } from '@material-ui/core';
+import { Grid, Container, Box } from '@material-ui/core';
 
 import AppSectionCard from '../../components/AppSectionCard';
 import UserProgressCard from '../../components/UserProgressCard';
 import PATH from '../../constants/path';
-import section from '../../constants/section';
+import SECTION from '../../constants/section';
 import getGameInfo from '../../helpers/common-utils';
 
 const MainPage = () => {
-  const { wordCard } = section;
-  const gemaInfo = getGameInfo();
+  const { name: cardName, description: cardDescription } = SECTION[0];
+  const gameInfo = getGameInfo();
 
-  const gamesCards = gemaInfo.map((game) => {
+  const gameCards = gameInfo.map((game) => {
     const { path, name, description } = game;
 
     return (
-      <Box m={1} key={name}>
+      <Box m={1} key={`MainPage__${name}`}>
         <AppSectionCard path={path} name={name} description={description} />
       </Box>
     );
@@ -25,21 +25,15 @@ const MainPage = () => {
     <Container maxWidth="sm">
       <Grid container justify="space-around" mb={4} spacing={2}>
         <Box mb={2}>
-          <AppSectionCard
-            path={PATH.WORD_CARD}
-            name={wordCard.name}
-            description={wordCard.description}
-          />
+          <AppSectionCard path={PATH.WORD_CARD} name={cardName} description={cardDescription} />
         </Box>
         <Box mb={2}>
           <UserProgressCard />
         </Box>
       </Grid>
-
-      <Divider />
       <Box m={2}>
         <Grid container direction="row" justify="space-around" alignItems="center" spacing={2}>
-          {gamesCards}
+          {gameCards}
         </Grid>
       </Box>
     </Container>
