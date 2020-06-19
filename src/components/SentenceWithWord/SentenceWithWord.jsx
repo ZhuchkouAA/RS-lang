@@ -14,6 +14,7 @@ const SentenceWithWord = ({ sentence, word }) => {
   const { sentencePart, wordIndex } = splitSentenceByWord(sentence);
   const styleWord = getStyleWidthForText(sentencePart[wordIndex]);
   const template = getTemplateForWord(word);
+  const keyPre = 'sentenceWithWord';
 
   return (
     <Typography
@@ -31,7 +32,7 @@ const SentenceWithWord = ({ sentence, word }) => {
             </span>
           );
         }
-        return <span key={text}>{text}</span>;
+        return <span key={`${keyPre}_${text}`}>{text}</span>;
       })}
     </Typography>
   );
