@@ -1,0 +1,11 @@
+.Form {
+  margin: 0 auto;
+  width: 200px;
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+
