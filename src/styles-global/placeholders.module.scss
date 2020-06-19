@@ -1,0 +1,18 @@
+@import 'colors.module';
+
+%card-shadow {
+  box-shadow: 0 1px 6px rgba(13, 16, 61, 0.6);
+}
+
+%main-page-card {
+  @extend %card-shadow;
+  border-radius: 5px;
+  height: 150px;
+  padding: 6px;
+  transition: 0.3s;
+  user-select: none;
+
+  &:hover {
+    background-color: $color-card-hover;
+  }
+}
