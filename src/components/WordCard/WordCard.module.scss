@@ -1,0 +1,45 @@
+.WordCard {
+  background-color: #9eebce;
+
+  border: 1px solid #000;
+  margin: 0 auto;
+
+  &__wrapper {
+    margin: 0 auto;
+    max-width: 700px;
+  }
+
+  &__image {
+    border-radius: 5px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+    height: 200px;
+    width: 100%;
+  }
+
+  &__header {
+    flex-wrap: wrap;
+    padding-top: 20px;
+    width: 45%;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__word {
+    text-align: center;
+  }
+
+  &__text {
+    text-align: center;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    width: 48%;
+  }
+}
