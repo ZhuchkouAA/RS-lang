@@ -8,6 +8,7 @@ const ProgressBar = ({ max, now }) => {
 
   return (
     <div className={styles.Progress}>
+      <p className={styles.Progress__count}>{`${now} / ${max}`}</p>
       <div className={styles.Progress__bar} style={{ width: `${percent}%` }} />
     </div>
   );

@@ -1,5 +1,7 @@
 .Progress {
-  height: 10px;
+  align-items: center;
+  display: flex;
+  height: 15px;
   left: 0;
   position: fixed;
   top: 0;
@@ -8,5 +10,13 @@
   &__bar {
     background-color: rgb(151, 151, 255);
     height: 100%;
+  }
+
+  &__count {
+    font-size: 17px;
+    font-weight: 600;
+    margin-right: 20px;
+    position: absolute;
+    right: 0;
   }
 }
