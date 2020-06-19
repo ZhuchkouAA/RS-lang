@@ -1,0 +1,62 @@
+.CardStudent {
+  height: 300px;
+  margin-left: 40px;
+  width: min-content;
+}
+
+.ImgStudent {
+  height: 200px;
+  width: 200px;
+}
+
+.NameStudent {
+  margin: 50px 0;
+  text-align: center;
+}
+
+.LinkIconWrapper {
+  height: max-content;
+  width: max-content;
+}
+
+.ContainerStudent {
+  display: flex;
+}
+
+.StudentInformationContainer {
+  background-color: #f5f2f2;
+  border: 0;
+  border-radius: 20px;
+  margin: auto 0 auto 100px;
+  padding: 40px 30px;
+  width: 65%;
+}
+
+.StudentInformation {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 30px;
+
+  &__list {
+    font-weight: normal;
+    margin-left: 35px;
+  }
+  
+  &__listHeader:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
+
+.Strip {
+  background-color: #000;
+  border: 0;
+  border-radius: 10px;
+  height: 3px;
+  margin: 30px 50px 30px auto;
+  width: 1000px;
+}
+
+
+
+
