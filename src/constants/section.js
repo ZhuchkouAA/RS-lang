@@ -16,7 +16,7 @@ export default {
     description: 'Играем и учим слова в игре',
   },
   audioCall: {
-    name: 'Аудиовызов',
+    name: 'Аудио Вызов',
     description: 'Играем и учим слова в игре',
   },
   speakIt: {
