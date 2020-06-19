@@ -1,0 +1,12 @@
+.Progress {
+  height: 10px;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+
+  &__bar {
+    background-color: rgb(151, 151, 255);
+    height: 100%;
+  }
+}
