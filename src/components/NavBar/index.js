@@ -1,6 +1,14 @@
+import { connect } from 'react-redux';
+
 import NavBar from './NavBar';
-import store from '../../redux/redux-store';
+import { setNavBarState } from '../../redux/actions/creators/navBar-creator';
 
-store.subscribe(() => NavBar);
+const mapStateToProps = ({ userData }) => ({
+  ...userData,
+});
 
-export default NavBar;
+const mapToDispatch = {
+  setNavBarState,
+};
+
+export default connect(mapStateToProps, mapToDispatch)(NavBar);
