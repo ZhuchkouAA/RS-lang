@@ -1,23 +1,35 @@
-.CardStudent {
+.Wrapper {
   margin: 30px;
   width: min-content;
 }
 
-.ImgStudent {
-  height: 300px;
-  width: 300px;
+.CardStudent {
+  margin: 30px;
+  width: min-content;
+
+  &__imgStudent {
+    height: 300px;
+    width: 300px;
+  }
+
+  &__nameStudent {
+    margin: 50px 0;
+    text-align: center;
+  }
+
+  &__wrapperIconLink {
+    height: max-content;
+    margin: 0 auto;
+    width: max-content;
+  }
+
 }
 
-.NameStudent {
-  margin: 50px 0;
-  text-align: center;
-}
 
-.LinkIconWrapper {
-  height: max-content;
-  margin: 0 auto;
-  width: max-content;
-}
+
+
+
+
 
 
 
