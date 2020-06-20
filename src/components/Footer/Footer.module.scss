@@ -1,63 +1,23 @@
-.footer {
-  &-wrapper {
-    background-color: #75b984;
+@import '../../styles-global/index.module';
+
+.Footer {
+  &__container {
+    background-color: $white-color;
+    box-shadow: 0 -1px 6px rgba(13, 16, 61, 0.6);
+    height: 100px;
+    margin-bottom: 30px;
+    width: 100%;
   }
 
-  &-container {
+  &__linkRs {
+    align-items: center;
     display: flex;
-    padding: 30px 5px;
+    margin-left: 20px;
+    text-decoration: none;
+  }
+
+  &__headerRs {
+    color: $black-color;
+    margin-left: 10px;
   }
 }
-
- 
-
-.footer-link-about-us,
-.footer-link-about-program {
-  align-items: center;
-  display: flex;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0 0 0 20px;
-  text-decoration: none;
-
-  &::before {
-    content: '';
-    display: block;
-    height: 30px;
-    margin-right: 5px;
-    width: 30px;
-  }
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-}
-
-.footer-link {
-  &-about-us {
-    margin: 0 0 0 20px;
-  }
-
-  &-about-program {
-    margin: 0 20px 0 auto;
-  }
-
-}
-
-.footer-link {
-  &-about-us::before {
-    background: url('../../img/parentheses.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  &-about-program::before {
-    background: url('../../img/cat.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-}
-
