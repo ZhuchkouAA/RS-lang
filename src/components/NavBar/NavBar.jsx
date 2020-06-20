@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import store from '../../redux/redux-store';
 
-import path from '../../constants/path';
+import { ALL_SECTIONS } from '../../constants/section';
 import style from './NavBar.module.scss';
 
 const NavBar = () => {
@@ -11,22 +11,22 @@ const NavBar = () => {
     setCount(count + 1);
   });
 
-  const linksKeys = Object.keys(path);
-  const necessaryKeys = linksKeys.filter((key) => key !== 'SIGN_IN' && key !== 'SIGN_UP');
+  const links = ALL_SECTIONS.map((info) => {
+    const { path, name } = info;
+
+    return (
+      <NavLink className={style['NavBar__linkContainer-link']} key={name} to={path}>
+        {name}
+      </NavLink>
+    );
+  });
 
   const { navBar } = store.getState();
-
   const activeClass = `NavBar-${navBar.state}`;
 
   return (
     <nav className={`${style.NavBar} ${style[activeClass]}`}>
-      <div className={style.NavBar__linkContainer}>
-        {necessaryKeys.map((key) => (
-          <NavLink className={style['NavBar__linkContainer-link']} key={key} to={path[key]}>
-            {key}
-          </NavLink>
-        ))}
-      </div>
+      <div className={style.NavBar__linkContainer}>{links}</div>
     </nav>
   );
 };
