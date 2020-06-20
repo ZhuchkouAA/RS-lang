@@ -2,3 +2,7 @@ export const SET_USER_DATA = 'SIGN_IN/SET_USER_DATA';
 export const REMOVE_USER_DATA = 'SIGN_IN/REMOVE_TOKEN';
 export const SIGN_IN_RENDER = 'SIGN_IN/SIGN_IN_RENDER';
 export const SET_ALERT_MESSAGE = 'SIGN_IN/SET_ALERT_MESSAGE';
+
+// settings
+export const APPLY_SETTINGS = 'APPLY_SETTINGS';
+export const INIT_SETTINGS = 'INIT_SETTINGS';

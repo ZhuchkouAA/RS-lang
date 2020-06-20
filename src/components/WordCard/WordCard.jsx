@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import {
   Grid,
   Card,
@@ -25,46 +27,63 @@ import styles from './WordCard.module.scss';
 const cardState = {
   word: 'instruct',
   image: true,
-  wordTranslate: 'инструктирует',
-  transcription: '[instrʌ́kt]',
-  textMeaning: 'To <i>instruct</i> is to teach.',
-  textExample: 'My teacher <b>instructs</b> us in several subjects.',
-  textExampleTranslate: 'Мой учитель учит нас нескольким предметам',
-  textMeaningTranslate: 'Обучать - значит учить',
+  wordTranslateText: 'инструктирует',
+  transcriptionText: '[instrʌ́kt]',
+  textMeaningText: 'To <i>instruct</i> is to teach.',
+  textExampleText: 'My teacher <b>instructs</b> us in several subjects.',
+  textExampleTranslateText: 'Мой учитель учит нас нескольким предметам',
+  PICTURE_URL: 'https://raw.githubusercontent.com/not-SAINT/rslang-data/master/files/04_0070.jpg',
 };
 
-const PICTURE_URL =
-  'https://raw.githubusercontent.com/not-SAINT/rslang-data/master/files/04_0070.jpg';
-
-const WordCard = () => {
+const WordCard = ({ settings }) => {
+  const {
+    answerBtn,
+    delFromLearnBtn,
+    feedBackButtons,
+    image,
+    // audio,
+    // audioMeaning,
+    // audioExample,
+    textMeaning,
+    textExample,
+    transcription,
+    wordTranslate,
+    textExampleTranslate,
+  } = settings;
   const {
     word,
-    wordTranslate,
-    transcription,
-    textExample,
-    textExampleTranslate,
-    textMeaning,
-    textMeaningTranslate,
+    wordTranslateText,
+    transcriptionText,
+    textExampleText,
+    textExampleTranslateText,
+    textMeaningText,
+    PICTURE_URL,
   } = cardState;
 
   return (
     <Card className={styles.WordCard__wrapper}>
       <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
         <Grid item className={styles.WordCard__header}>
-          <CardMedia
-            className={styles.WordCard__image}
-            image={PICTURE_URL}
-            title="Изучаемое слово"
-          />
+          {image && (
+            <CardMedia
+              className={styles.WordCard__image}
+              image={PICTURE_URL}
+              title="Изучаемое слово"
+            />
+          )}
         </Grid>
         <Grid item>
           <div>
-            <Typography className={styles.WordCard__word} gutterBottom variant="h6">
-              {wordTranslate}
-            </Typography>
-            <Typography className={styles.WordCard__word} gutterBottom variant="h6">
-              {transcription}
-            </Typography>
+            {wordTranslate && (
+              <Typography className={styles.WordCard__word} gutterBottom variant="h6">
+                {wordTranslateText}
+              </Typography>
+            )}
+            {transcription && (
+              <Typography className={styles.WordCard__word} gutterBottom variant="h6">
+                {transcriptionText}
+              </Typography>
+            )}
           </div>
         </Grid>
       </Grid>
@@ -73,11 +92,13 @@ const WordCard = () => {
         <Box mb={2}>
           <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
             <Grid item>
-              <Tooltip title="Добавить слово в 'Сложные'" aria-label="add">
-                <Fab color="primary" size="small">
-                  <AddIcon />
-                </Fab>
-              </Tooltip>
+              {feedBackButtons && (
+                <Tooltip title="Добавить слово в 'Сложные'" aria-label="add">
+                  <Fab color="primary" size="small">
+                    <AddIcon />
+                  </Fab>
+                </Tooltip>
+              )}
             </Grid>
             <Grid item>
               <WordInput word={word} />
@@ -91,34 +112,29 @@ const WordCard = () => {
             </Grid>
           </Grid>
         </Box>
-        <SentenceWithWord word={word} sentence={textExample} />
-        <Typography
-          className={styles.WordCard__text}
-          variant="body1"
-          color="textSecondary"
-          component="p"
-          gutterBottom
-        >
-          {textExampleTranslate}
-        </Typography>
-        <SentenceWithWord word={word} sentence={textMeaning} />
-        <Typography
-          className={styles.WordCard__text}
-          variant="body1"
-          color="textSecondary"
-          component="p"
-          gutterBottom
-        >
-          {textMeaningTranslate}
-        </Typography>
+        {textExample && <SentenceWithWord word={word} sentence={textExampleText} />}
+        {textExampleTranslate && (
+          <Typography
+            className={styles.WordCard__text}
+            variant="body1"
+            color="textSecondary"
+            component="p"
+            gutterBottom
+          >
+            {textExampleTranslateText}
+          </Typography>
+        )}
+        {textMeaning && <SentenceWithWord word={word} sentence={textMeaningText} />}
       </CardContent>
 
       <CardActions>
         <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
           <Grid item>
-            <Button variant="contained" color="secondary">
-              Показать ответ
-            </Button>
+            {answerBtn && (
+              <Button variant="contained" color="secondary">
+                Показать ответ
+              </Button>
+            )}
           </Grid>
           <Grid item>
             <Button variant="contained" color="primary">
@@ -126,16 +142,21 @@ const WordCard = () => {
             </Button>
           </Grid>
         </Grid>
-        <Box position="absolute">
-          <Tooltip title="Удалить слово из изучения">
-            <IconButton aria-label="delete">
-              <DeleteIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        </Box>
+        {delFromLearnBtn && (
+          <Box position="absolute">
+            <Tooltip title="Удалить слово из изучения">
+              <IconButton aria-label="delete">
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        )}
       </CardActions>
     </Card>
   );
 };
 
+WordCard.propTypes = {
+  settings: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.bool, PropTypes.string])).isRequired,
+};
 export default WordCard;

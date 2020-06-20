@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -8,11 +9,12 @@ import Inputs from '../../components/Input';
 
 import style from './SettingsPage.module.scss';
 
-const SettingsPage = (props) => {
-  const [settings, setSettings] = useState(props);
+const SettingsPage = ({ settings: storeSettings, putSettings }) => {
+  const [settings, setSettings] = useState(storeSettings);
 
-  function handleSubmit(event) {
+  function onSaveButton(event) {
     event.preventDefault();
+    putSettings(settings);
   }
 
   return (
@@ -28,8 +30,8 @@ const SettingsPage = (props) => {
 
         <Inputs
           label="Учить слова за один день"
-          value={settings.cardsPerDay}
-          onChange={(e) => setSettings({ ...settings, cardsPerDay: e.target.value })}
+          value={settings.wordsPerDay}
+          onChange={(e) => setSettings({ ...settings, wordsPerDay: e.target.value })}
         />
         <Inputs
           label="Новых слов в день"
@@ -89,6 +91,11 @@ const SettingsPage = (props) => {
           toggle={() => setSettings({ ...settings, audioMeaning: !settings.audioMeaning })}
         />
         <Checkbox
+          label="Кнопка 'прослушать слово'"
+          checkValue={settings.audio}
+          toggle={() => setSettings({ ...settings, audio: !settings.audio })}
+        />
+        <Checkbox
           label="Кнопка 'прослушать предложение'"
           checkValue={settings.audioExample}
           toggle={() => setSettings({ ...settings, audioExample: !settings.audioExample })}
@@ -109,13 +116,18 @@ const SettingsPage = (props) => {
           className={style.Settings__btn}
           variant="outlined"
           color="secondary"
-          onClick={() => handleSubmit}
+          onClick={(event) => onSaveButton(event)}
         >
           Сохранить изменения
         </Button>
       </div>
     </form>
   );
+};
+
+SettingsPage.propTypes = {
+  settings: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.bool, PropTypes.string])).isRequired,
+  putSettings: PropTypes.func.isRequired,
 };
 
 export default SettingsPage;
