@@ -40,4 +40,9 @@
     opacity: 0.3;
     transition: 0.3s;
   }
+
+  &-link-active {
+    cursor: default;
+    opacity: 0.3;
+  }
 }

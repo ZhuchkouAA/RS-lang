@@ -13,14 +13,19 @@ const NavBar = ({ setNavBarState }) => {
   });
 
   const { navBar } = store.getState();
-  const activeClass = `NavBar-${navBar.state}`;
+  const NavBarActiveClass = `NavBar-${navBar.state}`;
+  const ListActiveClass = 'NavBar__linkContainer-link-active';
 
-  const handlerOnClick = () => {
-    store.dispatch(setNavBarState('disable'));
+  const handlerOnClick = (event) => {
+    const { target } = event;
+
+    if (!target.classList.contains(style[ListActiveClass])) {
+      store.dispatch(setNavBarState('disable'));
+    }
   };
 
   return (
-    <nav className={`${style.NavBar} ${style[activeClass]}`}>
+    <nav className={`${style.NavBar} ${style[NavBarActiveClass]}`}>
       <div className={style.NavBar__linkContainer}>
         {ALL_SECTIONS.map(({ path, name }) => (
           <NavLink
@@ -28,6 +33,7 @@ const NavBar = ({ setNavBarState }) => {
             className={style['NavBar__linkContainer-link']}
             key={name}
             to={path}
+            activeClassName={style[ListActiveClass]}
           >
             {name}
           </NavLink>
