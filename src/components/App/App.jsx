@@ -33,8 +33,8 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={() => <Redirect to={PATH.SIGN_IN} />} />
         <Route exact path={PATH.SIGN_IN} component={SignInPage} />
-        <Route exact path={PATH.SIGN_UP} component={SignUpPage} />
         <Route exact path={PATH.MAIN} component={MainPage} />
+        <Route exact path={PATH.WORD_CARD} component={WordPage} />
         <Route exact path={PATH.DICTIONARY} component={DictionaryPage} />
         <Route exact path={PATH.SPEAK_IT} component={SpeakItPage} />
         <Route exact path={PATH.ENGLISH_PUZZLE} component={EnglishPuzzlePage} />
