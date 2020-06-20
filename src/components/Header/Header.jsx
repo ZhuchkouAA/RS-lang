@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import style from './Header.module.scss';
 import Button from '../Button';
+import style from './Header.module.scss';
 
 const Header = ({ token, removeToken }) => {
   const AuthElement = token ? <Button text="logout" handlerClick={removeToken} /> : null;
+
   return (
     <header className={style.Header}>
       <div className={style.Header__wrapper}>
