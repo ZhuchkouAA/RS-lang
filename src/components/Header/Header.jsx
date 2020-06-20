@@ -6,7 +6,22 @@ import store from '../../redux/redux-store';
 import style from './Header.module.scss';
 
 const Header = ({ setNavBarState, token, removeToken }) => {
-  const AuthElement = token ? <Button text="logout" handlerClick={removeToken} /> : null;
+  const authButtons = (
+    <div className={style['Header__auth-containerLogin']}>
+      <button className={style['Header__auth-button']} type="button">
+        Sing In
+      </button>
+      <span className={style['Header__auth-buttonSeparator']}>/</span>
+      <button className={style['Header__auth-button']} type="button">
+        Sing Up
+      </button>
+    </div>
+  );
+  const logoutButton = (
+    <div className={style['Header__auth-containerLogout']}>
+      <Button text="logout" handlerClick={removeToken} />
+    </div>
+  );
 
   const handlerOnClickNavBar = () => {
     const { navBar } = store.getState();
@@ -15,28 +30,23 @@ const Header = ({ setNavBarState, token, removeToken }) => {
     store.dispatch(setNavBarState(state));
   };
 
+  const NavBarElement = (
+    <div className={style.Header__navBar}>
+      <button
+        onClick={handlerOnClickNavBar}
+        className={style['Header__navBar-button']}
+        type="button"
+      >
+        <span className={style['Header__navBar-button-dash']} />
+      </button>
+    </div>
+  );
+
   return (
     <header className={style.Header}>
       <div className={style.Header__wrapper}>
-        <div className={style.Header__navBar}>
-          <button
-            onClick={handlerOnClickNavBar}
-            className={style['Header__navBar-button']}
-            type="button"
-          >
-            <span className={style['Header__navBar-button-dash']} />
-          </button>
-        </div>
-        <div className={style['Header__auth-container']}>
-          <button className={style['Header__auth-button']} type="button">
-            Sing In
-          </button>
-          <span className={style['Header__auth-buttonSeparator']}>/</span>
-          <button className={style['Header__auth-button']} type="button">
-            Sing Up
-          </button>
-        </div>
-        <div className={style['Header__auth-container']}>{AuthElement}</div>
+        {token ? NavBarElement : null}
+        {token ? logoutButton : authButtons}
       </div>
     </header>
   );

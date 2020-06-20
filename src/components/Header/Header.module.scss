@@ -18,10 +18,14 @@
 
 
 .Header__auth {
-  &-container {
+  &-containerLogout {
     align-items: center;
     display: flex;
     justify-content: space-between;
+  }
+
+  &-containerLogin {
+    margin: auto;
   }
 
   &-button {
