@@ -1,3 +1,7 @@
+import { connect } from 'react-redux';
+
 import SettingsPage from './SettingsPage';
 
-export default SettingsPage;
+const mapStateToProps = ({ testData }) => ({ testData });
+
+export default connect(mapStateToProps)(SettingsPage);

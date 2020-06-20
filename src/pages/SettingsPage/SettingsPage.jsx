@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
@@ -24,7 +24,7 @@ const SettingsPage = (props) => {
         justify="flex-start"
         alignItems="flex-start"
       >
-        <p className={style.settings__title}>Настройки приложения</p>
+        <p className={style.Settings__title}>Настройки приложения</p>
 
         <Inputs
           label="Учить слова за один день"
@@ -60,7 +60,7 @@ const SettingsPage = (props) => {
         justify="flex-start"
         alignItems="flex-start"
       >
-        <p className={style.settings__title}>Элементы карточки</p>
+        <p className={style.Settings__title}>Элементы карточки</p>
         <Checkbox
           label="Показывать картинку"
           checkValue={settings.image}
@@ -118,4 +118,4 @@ const SettingsPage = (props) => {
   );
 };
 
-export default connect((state) => ({ ...state.testData }))(SettingsPage);
+export default SettingsPage;
