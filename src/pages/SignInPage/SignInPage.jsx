@@ -35,7 +35,7 @@ const SignInPage = ({ isSignIn, isSignInRender, token, removeToken, signIn, sign
   return (
     <form onSubmit={handlerSubmit} className={styles.Form}>
       <label className={styles.Form__label} htmlFor={styles.Form}>
-        Login:
+        Логин/Email:
         <input
           onChange={handlerOnChangeSetLogin}
           type="email"
@@ -43,7 +43,7 @@ const SignInPage = ({ isSignIn, isSignInRender, token, removeToken, signIn, sign
           required="required"
           value={login}
         />
-        Password:
+        Пароль:
         <input
           onChange={handlerOnChangeSetPassword}
           type="password"
@@ -51,10 +51,10 @@ const SignInPage = ({ isSignIn, isSignInRender, token, removeToken, signIn, sign
           required="required"
           value={password}
         />
-        <input type="submit" value={isSignIn ? `log in` : `sign up`} />
+        <input type="submit" value={isSignIn ? `Войти` : `Зарегистрироваться`} />
       </label>
       <button type="button" onClick={handlerOnClickIsSignIn}>
-        {isSignIn ? `sign up` : `log in`}
+        {isSignIn ? `Регистрация` : `Войти`}
       </button>
       <div>{message}</div>
     </form>
