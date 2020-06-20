@@ -1,6 +1,5 @@
 import React from 'react';
 
-<<<<<<< HEAD
 import {
   Grid,
   Card,
@@ -138,10 +137,6 @@ const WordCard = () => {
       </CardActions>
     </Card>
   );
-=======
-const WordCard = () => {
-  return <div>WordCard</div>;
->>>>>>> RSL-10: add wordpage in app structure
 };
 
 export default WordCard;
