@@ -1,23 +1,20 @@
 import React from 'react';
 
+import Grid from '@material-ui/core/Grid';
 import style from './AboutUsPage.module.scss';
 
 import Student from '../../components/Student/index';
 
-import studentsInformation from '../../constants/AboutUsInformation';
+import informationStudentArray from '../../constants/AboutUsInformation';
 
 const AboutUsPage = () => {
-  const studentsInformationZ = studentsInformation.map((game) => {
-    const { name, linkGit, imgSrc } = game;
-    return <Student name={name} linkGit={linkGit} imgSrc={imgSrc} key={334} />;
-  });
-
   return (
-    <div>
-      <p>AboutUsPage</p>
-      {studentsInformationZ}
-      <div className={style.DescriptionText}>
-        Description Description Description Description Description DescriptionDescription
+    <Grid container direction="column" justify="center" alignItems="center">
+      {informationStudentArray.map(({ name, linkGit, imgSrc }) => (
+        <Student name={name} linkGit={linkGit} imgSrc={imgSrc} key={334} />
+      ))}
+      <div className={style.Description}>
+        Description Description Description Description Description Description Description
         Description Description Description Description DescriptionDescription Description
         Description Description Description DescriptionDescription Description Description
         Description Description DescriptionDescription Description Description Description
@@ -26,7 +23,7 @@ const AboutUsPage = () => {
         DescriptionDescription Description Description Description Description
         DescriptionDescription Description Description Description Description Description
       </div>
-    </div>
+    </Grid>
   );
 };
 

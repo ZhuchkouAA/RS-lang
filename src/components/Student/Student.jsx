@@ -18,7 +18,7 @@ const Student = ({ name, linkGit, imgSrc }) => {
   return (
     <section>
       <Grid
-        className={style.CardStudent}
+        className={style.Wrapper}
         container
         direction="row"
         justify="center"
@@ -26,18 +26,28 @@ const Student = ({ name, linkGit, imgSrc }) => {
       >
         <Card className={style.CardStudent}>
           <CardActionArea>
-            <CardMedia className={style.ImgStudent} image={imgSrc} title="photo" />
-            <Typography className={style.NameStudent} gutterBottom variant="h5" component="h2">
+            <CardMedia className={style.CardStudent__imgStudent} image={imgSrc} title="photo" />
+            <Typography
+              className={style.CardStudent__nameStudent}
+              gutterBottom
+              variant="h5"
+              component="h2"
+            >
               {name}
             </Typography>
           </CardActionArea>
-          <Button className={style.LinkIconWrapper} size="small" color="primary">
-            <a href={linkGit}>
-              <img width="100" height="100" src={gitImg} alt="git" />
+          <Button className={style.CardStudent__wrapperIconLink} size="small" color="primary">
+            <a className={style.CardStudent__link} href={linkGit}>
+              <img
+                className={style.CardStudent__img}
+                width="100"
+                height="100"
+                src={gitImg}
+                alt="git"
+              />
             </a>
           </Button>
         </Card>
-        <div className={style.Strip} />
       </Grid>
     </section>
   );
