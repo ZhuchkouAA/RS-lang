@@ -8,7 +8,7 @@ import PATH from '../../constants/path';
 
 import Header from '../Header';
 import Footer from '../Footer/Footer';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../NavBar';
 import SignInPage from '../../pages/SignInPage';
 import MainPage from '../../pages/MainPage';
 import WordPage from '../../pages/WordPage';
@@ -28,9 +28,9 @@ import ErrorPage from '../../pages/ErrorPage';
 const App = () => (
   <>
     <Provider store={store}>
-      <Header />
-      <NavBar />
       <BrowserRouter>
+        <Header />
+        <NavBar />
         <Switch>
           <Route exact path="/" component={() => <Redirect to={PATH.SIGN_IN} />} />
           <Route exact path={PATH.SIGN_IN} component={SignInPage} />

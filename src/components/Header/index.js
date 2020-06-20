@@ -1,3 +1,14 @@
-import Header from './Header';
+import { connect } from 'react-redux';
 
-export default Header;
+import Header from './Header';
+import { setNavBarState } from '../../redux/actions/creators/navBar-creator';
+
+const mapStateToProps = ({ userData }) => ({
+  ...userData,
+});
+
+const mapToDispatch = {
+  setNavBarState,
+};
+
+export default connect(mapStateToProps, mapToDispatch)(Header);
