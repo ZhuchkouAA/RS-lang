@@ -11,7 +11,7 @@ export default {
   OWN_GAME: '/own-game',
   STATISTIC: '/statistic',
   SETTINGS: '/settings',
-  PROPMO: '/promo',
+  PROMO: '/promo',
   ABOUT_US: '/about-us',
   WORD_CARD: '/wordcard',
 };
