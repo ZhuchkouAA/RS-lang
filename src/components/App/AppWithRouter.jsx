@@ -1,7 +1,7 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 import React from 'react';
+
 import PATH from '../../constants/path';
-import SignInPage from '../../pages/SignInPage';
 import MainPage from '../../pages/MainPage';
 import WordPage from '../../pages/WordPage';
 import DictionaryPage from '../../pages/DictionaryPage';
@@ -15,12 +15,10 @@ import StatisticPage from '../../pages/StatisticPage';
 import SettingsPage from '../../pages/SettingsPage';
 import PromoPage from '../../pages/PromoPage';
 import AboutUsPage from '../../pages/AboutUsPage';
-import ErrorPage from '../../pages/ErrorPage';
 
 const AppWithRoutes = () => (
   <Switch>
     <Route exact path="/" component={() => <Redirect to={PATH.MAIN} />} />
-    <Route exact path={PATH.SIGN_IN} component={SignInPage} />
     <Route exact path={PATH.MAIN} component={MainPage} />
     <Route exact path={PATH.WORD_CARD} component={WordPage} />
     <Route exact path={PATH.DICTIONARY} component={DictionaryPage} />
@@ -34,7 +32,6 @@ const AppWithRoutes = () => (
     <Route exact path={PATH.SETTINGS} component={SettingsPage} />
     <Route exact path={PATH.PROMO} component={PromoPage} />
     <Route exact path={PATH.ABOUT_US} component={AboutUsPage} />
-    <Route component={ErrorPage} />
     <Redirect to={{ pathname: PATH.MAIN }} />
   </Switch>
 );
