@@ -1,11 +1,16 @@
+
 .Form {
   margin: 0 auto;
   width: 200px;
 
-  &__label {
-    display: flex;
-    flex-direction: column;
+  &__link {
+    cursor: pointer;
   }
+
+  &__button {
+    color: #000;
+  }
+
 }
 
 

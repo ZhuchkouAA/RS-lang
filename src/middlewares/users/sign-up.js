@@ -14,12 +14,14 @@ export default function signUp(login, password, form) {
         }
         return response.json();
       })
-      .then((response) => {
-        if (!response.error) {
+      .then(({ error }) => {
+        if (!error) {
           dispatch(isSignInRender(true));
           dispatch(setAlertMessage('you have been successfully registered, you can log in'));
         } else {
-          dispatch(setAlertMessage(response.error.errors[0].message));
+          const errorPath = error.errors[0].path[0];
+          const errorMessage = errorPath === 'password' ? '(password example: grlJHM56_2f)' : '';
+          dispatch(setAlertMessage(`${error.errors[0].message} ${errorMessage}`));
         }
         switchInputs(form, true);
       })
