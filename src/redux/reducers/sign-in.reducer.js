@@ -4,54 +4,46 @@ import {
   SIGN_IN_RENDER,
   SET_ALERT_MESSAGE,
 } from '../actions/types/action-types';
+import setCookie from '../../helpers/cookies-utils/setCookie';
+import { token, userId } from '../../constants/cookiesNames';
+import clearAllCookie from '../../helpers/cookies-utils/clearAllCookie';
+import getCookie from '../../helpers/cookies-utils/getCookie';
 
-function returnToken() {
-  if (localStorage.getItem('userData')) {
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    const { endedTokenDate } = userData;
+const checkUserData = () => {
+  const id = getCookie(userId);
+  const userToken = getCookie(token);
 
-    if (Date.now() < endedTokenDate) {
-      return userData.token;
-    }
+  if (!(id && userToken)) {
+    clearAllCookie();
+    return null;
   }
-  return null;
-}
 
-function returnUserId() {
-  if (localStorage.getItem('userData')) {
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    return userData.userId;
-  }
-  return null;
-}
+  return true;
+};
 
 const initialState = {
-  token: returnToken(),
-  userId: returnUserId(),
+  userData: checkUserData(),
   isSignIn: true,
   message: '',
+  getUserData: getCookie,
 };
 
 const userDataReducer = (state = initialState, { type, payload }) => {
-  const lifeTime = 14400000;
-  const endedTokenDate = Date.now() + lifeTime;
-
   switch (type) {
     case SET_USER_DATA:
-      localStorage.setItem(
-        'userData',
-        JSON.stringify({ userId: payload.userId, token: payload.token, endedTokenDate })
-      );
+      setCookie(token, payload.token);
+      setCookie(userId, payload.userId);
+
       return {
         ...state,
-        userId: payload.token,
-        token: payload.token,
+        userData: true,
       };
     case REMOVE_USER_DATA:
-      localStorage.removeItem('userData');
+      clearAllCookie();
+
       return {
         ...state,
-        token: null,
+        userData: null,
       };
     case SIGN_IN_RENDER:
       return {
