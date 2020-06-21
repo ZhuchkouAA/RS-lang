@@ -12,10 +12,10 @@ import style from './SettingsPage.module.scss';
 const SettingsPage = ({ settings: storeSettings, putSettings }) => {
   const [settings, setSettings] = useState(storeSettings);
 
-  function onSaveButton(event) {
+  const onSaveButton = (event) => {
     event.preventDefault();
     putSettings(settings);
-  }
+  };
 
   return (
     <form className={style.Settings}>
@@ -116,7 +116,7 @@ const SettingsPage = ({ settings: storeSettings, putSettings }) => {
           className={style.Settings__btn}
           variant="outlined"
           color="secondary"
-          onClick={(event) => onSaveButton(event)}
+          onClick={onSaveButton}
         >
           Сохранить изменения
         </Button>

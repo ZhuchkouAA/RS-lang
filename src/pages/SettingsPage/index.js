@@ -6,6 +6,6 @@ import SettingsPage from './SettingsPage';
 
 const mapStateToProps = ({ settings }) => ({ settings });
 
-export default connect(mapStateToProps, {
-  putSettings,
-})(SettingsPage);
+const mapDispatchToProps = { putSettings };
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

@@ -6,3 +6,7 @@ export const SET_ALERT_MESSAGE = 'SIGN_IN/SET_ALERT_MESSAGE';
 // settings
 export const APPLY_SETTINGS = 'APPLY_SETTINGS';
 export const INIT_SETTINGS = 'INIT_SETTINGS';
+
+// modalWindow
+export const SHOW_MESSAGE = 'SHOW_MESSAGE';
+export const HIDE_MESSAGE = 'HIDE_MESSAGE';

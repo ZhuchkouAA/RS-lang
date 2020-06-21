@@ -4,7 +4,7 @@ import API_URLS from '../../constants/APIUrls';
 
 export default function signUp(login, password) {
   return (dispatch) => {
-    postRequest(API_URLS.USERS.createUser, JSON.stringify({ email: login, password }))
+    postRequest(API_URLS.USERS_CREATE_USER, JSON.stringify({ email: login, password }))
       .then((response) => {
         if (!response.ok) {
           dispatch(setAlertMessage(response.statusText));
