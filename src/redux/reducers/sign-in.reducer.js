@@ -5,12 +5,12 @@ import {
   SET_ALERT_MESSAGE,
 } from '../actions/types/action-types';
 import setCookie from '../../helpers/cookies-utils/setCookie';
-import { TOKEN, USERID } from '../../constants/cookiesNames';
+import { TOKEN, USER_ID } from '../../constants/cookiesNames';
 import clearAllCookie from '../../helpers/cookies-utils/clearAllCookie';
 import getCookie from '../../helpers/cookies-utils/getCookie';
 
 const checkUserData = () => {
-  const id = getCookie(USERID);
+  const id = getCookie(USER_ID);
   const token = getCookie(TOKEN);
 
   if (!(id && token)) {
@@ -32,7 +32,7 @@ const userDataReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SET_USER_DATA:
       setCookie(TOKEN, payload.token);
-      setCookie(USERID, payload.userId);
+      setCookie(USER_ID, payload.userId);
 
       return {
         ...state,

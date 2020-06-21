@@ -1,9 +1,9 @@
 import deleteCookie from './deleteCookie';
-import { TOKEN, USERID } from '../../constants/cookiesNames';
+import { TOKEN, USER_ID } from '../../constants/cookiesNames';
 
 const clearAllCookie = () => {
   deleteCookie(TOKEN);
-  deleteCookie(USERID);
+  deleteCookie(USER_ID);
 };
 
 export default clearAllCookie;
