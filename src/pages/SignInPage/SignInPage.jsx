@@ -19,9 +19,9 @@ const SignInPage = ({
   const handlerSubmit = (e) => {
     e.preventDefault();
     if (isSignIn) {
-      return signIn(login, password);
+      return signIn(login, password, e.target);
     }
-    return signUp(login, password);
+    return signUp(login, password, e.target);
   };
 
   const handlerOnChangeSetLogin = ({ target: { value } }) => {
