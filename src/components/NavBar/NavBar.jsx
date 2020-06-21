@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import store from '../../redux/redux-store';
 
 import { ALL_SECTIONS } from '../../constants/section';
 import style from './NavBar.module.scss';
 
-const NavBar = ({ setNavBarState, navBarState }) => {
+const NavBar = ({ toggleNav, navBarState }) => {
   const NavBarActiveClass = `NavBar-${navBarState}`;
   const ListActiveClass = 'NavBar__linkContainer-link-active';
 
@@ -14,7 +13,7 @@ const NavBar = ({ setNavBarState, navBarState }) => {
     const { target } = event;
 
     if (!target.classList.contains(style[ListActiveClass])) {
-      store.dispatch(setNavBarState('disable'));
+      toggleNav('disable');
     }
   };
 
@@ -42,7 +41,7 @@ NavBar.defaultProps = {
 };
 
 NavBar.propTypes = {
-  setNavBarState: PropTypes.func.isRequired,
+  toggleNav: PropTypes.func.isRequired,
   navBarState: PropTypes.string,
 };
 

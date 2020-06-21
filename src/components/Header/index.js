@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import store from '../../redux/redux-store';
 
 import Header from './Header';
 import { removeUserData } from '../../redux/actions/creators/sign-in-data';
@@ -13,7 +14,7 @@ const mapStateToProps = ({ userData: { getUserData, userData }, navBar: { navBar
 
 const mapToDispatch = {
   removeUserData,
-  setNavBarState,
+  toggleNav: (state) => store.dispatch(setNavBarState(state)),
 };
 
 export default connect(mapStateToProps, mapToDispatch)(Header);

@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '../Button';
-import store from '../../redux/redux-store';
 import style from './Header.module.scss';
 
-const Header = ({ setNavBarState, token, navBarState, removeUserData }) => {
+const Header = ({ toggleNav, token, removeUserData, navBarState }) => {
   const authButtons = (
-    <div className={style['Header__auth-containerLogin']}>
+    <div className={style['Header__auth-container-login']}>
       <button className={style['Header__auth-button']} type="button">
         Sing In
       </button>
@@ -25,8 +24,7 @@ const Header = ({ setNavBarState, token, navBarState, removeUserData }) => {
 
   const handlerOnClickNavBar = () => {
     const state = navBarState === 'disable' ? 'active' : 'disable';
-
-    store.dispatch(setNavBarState(state));
+    toggleNav(state);
   };
 
   const NavBarElement = (
@@ -44,7 +42,7 @@ const Header = ({ setNavBarState, token, navBarState, removeUserData }) => {
   return (
     <header className={style.Header}>
       <div className={style.Header__wrapper}>
-        {token ? NavBarElement : null}
+        {token && NavBarElement ? NavBarElement : null}
         {token ? logoutButton : authButtons}
       </div>
     </header>
@@ -59,7 +57,7 @@ Header.defaultProps = {
 Header.propTypes = {
   token: PropTypes.string,
   removeUserData: PropTypes.func.isRequired,
-  setNavBarState: PropTypes.func.isRequired,
+  toggleNav: PropTypes.func.isRequired,
   navBarState: PropTypes.string,
 };
 
