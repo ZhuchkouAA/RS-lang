@@ -1,15 +1,9 @@
 import {
-<<<<<<< HEAD
   REMOVE_USER_DATA,
   SET_ALERT_MESSAGE,
   SET_USER_DATA,
-=======
-  BUTTON_ACTIVITY_SWITCH,
-  REMOVE_TOKEN,
-  SET_ALERT_MESSAGE,
-  SET_TOKEN,
->>>>>>> RSL-07: add buttonActivitySwitcher
   SIGN_IN_RENDER,
+  BUTTON_ACTIVITY_SWITCH,
 } from '../types/action-types';
 
 export const setUserData = ({ token, userId }) => ({

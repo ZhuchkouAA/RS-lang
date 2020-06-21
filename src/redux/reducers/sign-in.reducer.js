@@ -25,6 +25,7 @@ const initialState = {
   isSignIn: true,
   message: '',
   getUserData: getCookie,
+  isButtonDisabled: false,
 };
 
 const userDataReducer = (state = initialState, { type, payload }) => {
@@ -43,6 +44,7 @@ const userDataReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         userData: null,
+        message: '',
       };
     case SIGN_IN_RENDER:
       return {

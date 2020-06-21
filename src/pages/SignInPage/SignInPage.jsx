@@ -22,9 +22,9 @@ const SignInPage = ({
   const handlerSubmit = (e) => {
     e.preventDefault();
     if (isSignIn) {
-      return signIn(login, password, e.target);
+      return signIn(login, password);
     }
-    return signUp(login, password, e.target);
+    return signUp(login, password);
   };
 
   const handlerOnChangeSetLogin = ({ target: { value } }) => {
@@ -73,6 +73,7 @@ const SignInPage = ({
           type="submit"
           text={isSignIn ? `Войти` : `Зарегистрироваться`}
           isDisable={isButtonDisabled}
+          color="primary"
         />
         <button type="button" className={styles.Form__switcher} onClick={handlerOnClickIsSignIn}>
           {isSignIn ? `Регистрация` : `Войти`}
