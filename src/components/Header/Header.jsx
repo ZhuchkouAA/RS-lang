@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import Button from '../Button';
 import style from './Header.module.scss';
 
-const Header = ({ token, removeToken }) => {
-  const AuthElement = token ? <Button text="logout" handlerClick={removeToken} /> : null;
+const Header = ({ token, removeUserData }) => {
+  const AuthElement = token ? <Button text="logout" handlerClick={removeUserData} /> : null;
 
   return (
     <header className={style.Header}>
@@ -27,7 +27,7 @@ Header.defaultProps = {
 
 Header.propTypes = {
   token: PropTypes.string,
-  removeToken: PropTypes.func.isRequired,
+  removeUserData: PropTypes.func.isRequired,
 };
 
 export default Header;

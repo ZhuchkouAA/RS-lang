@@ -4,7 +4,15 @@ import PropTypes from 'prop-types';
 import styles from './SignInPage.module.scss';
 import Button from '../../components/Button';
 
-const SignInPage = ({ isSignIn, isSignInRender, token, removeToken, signIn, signUp, message }) => {
+const SignInPage = ({
+  isSignIn,
+  isSignInRender,
+  token,
+  removeUserData,
+  signIn,
+  signUp,
+  message,
+}) => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
 
@@ -29,7 +37,7 @@ const SignInPage = ({ isSignIn, isSignInRender, token, removeToken, signIn, sign
   };
 
   if (token) {
-    return <Button handlerClick={removeToken} text="logout" />;
+    return <Button handlerClick={removeUserData} text="logout" />;
   }
 
   return (
@@ -69,7 +77,7 @@ SignInPage.propTypes = {
   isSignIn: PropTypes.bool.isRequired,
   isSignInRender: PropTypes.func.isRequired,
   token: PropTypes.string,
-  removeToken: PropTypes.func.isRequired,
+  removeUserData: PropTypes.func.isRequired,
   signIn: PropTypes.func.isRequired,
   signUp: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired,
