@@ -12,7 +12,7 @@ const mapStateToProps = ({ userData: { getUserData, userData }, navBar: { navBar
 });
 
 const mapToDispatch = (dispatch) => ({
-  removeUserData,
+  removeUserData: () => dispatch(removeUserData()),
   toggleNav: (state) => dispatch(setNavBarState(state)),
 });
 

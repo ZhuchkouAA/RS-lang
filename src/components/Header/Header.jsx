@@ -17,8 +17,8 @@ const Header = ({ toggleNav, token, removeUserData, navBarState }) => {
     </div>
   );
   const logoutButton = (
-    <div className={style['Header__auth-containerLogout']}>
-      <Button color="primary" text="logout" handlerClick={removeUserData} />
+    <div className={style['Header__auth-container-logout']}>
+      <Button text="logout" handlerClick={removeUserData} />
     </div>
   );
 
@@ -56,9 +56,9 @@ Header.defaultProps = {
 
 Header.propTypes = {
   token: PropTypes.string,
+  navBarState: PropTypes.string,
   removeUserData: PropTypes.func.isRequired,
   toggleNav: PropTypes.func.isRequired,
-  navBarState: PropTypes.string,
 };
 
 export default Header;
