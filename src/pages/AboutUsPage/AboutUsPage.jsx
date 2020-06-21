@@ -10,8 +10,8 @@ import informationStudentArray from '../../constants/AboutUsInformation';
 const AboutUsPage = () => {
   return (
     <Grid container direction="column" justify="center" alignItems="center">
-      {informationStudentArray.map(({ name, linkGit, imgSrc }) => (
-        <Student name={name} linkGit={linkGit} imgSrc={imgSrc} key={334} />
+      {informationStudentArray.map(({ name, linkGit, imgSrc, id }) => (
+        <Student name={name} linkGit={linkGit} imgSrc={imgSrc} key={id} />
       ))}
       <div className={style.Description}>
         Description Description Description Description Description Description Description
