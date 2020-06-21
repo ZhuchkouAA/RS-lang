@@ -3,6 +3,7 @@ import {
   REMOVE_USER_DATA,
   SIGN_IN_RENDER,
   SET_ALERT_MESSAGE,
+  BUTTON_ACTIVITY_SWITCH,
 } from '../actions/types/action-types';
 import { setCookie, getCookie, clearAllCookie } from '../../helpers/cookies-utils';
 import { TOKEN, USER_ID } from '../../constants/cookiesNames';
@@ -23,7 +24,11 @@ const initialState = {
   userData: checkUserData(),
   isSignIn: true,
   message: '',
+<<<<<<< HEAD
   getUserData: getCookie,
+=======
+  isButtonDisabled: false,
+>>>>>>> RSL-07: add buttonActivitySwitcher
 };
 
 const userDataReducer = (state = initialState, { type, payload }) => {
@@ -52,6 +57,11 @@ const userDataReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         message: payload.message,
+      };
+    case BUTTON_ACTIVITY_SWITCH:
+      return {
+        ...state,
+        isButtonDisabled: !state.isButtonDisabled,
       };
     default:
       return state;

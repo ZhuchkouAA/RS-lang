@@ -1,14 +1,21 @@
 
 .Form {
+  height: 300px;
   margin: 0 auto;
-  width: 200px;
+  width: 250px;
 
-  &__link {
+  &__switcher {
+    align-self: flex-start;
+    color: #1976d2;
     cursor: pointer;
+    display: block;
+    margin-top: 15px;
+    text-decoration: underline;
   }
 
-  &__button {
-    color: #000;
+  &__alert,
+  &__switcher {
+    font-family: 'Roboto', sans-serif;
   }
 
 }
