@@ -1,6 +1,6 @@
 const initValueOptions = {
   path: '/',
-  'max-aga': 14400,
+  'max-age': 14400,
   samesite: 'lax',
 };
 
