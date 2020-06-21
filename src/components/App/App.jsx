@@ -7,10 +7,10 @@ import NavBar from '../NavBar/NavBar';
 import AppWithRoutes from './AppWithRouter';
 import Authorization from './Authorization';
 import Header from '../Header';
-import { TOKEN } from '../../constants/cookiesNames';
 
-const App = ({ getUserData }) => {
-  const PageRoutes = getUserData(TOKEN) ? <AppWithRoutes /> : <Authorization />;
+const App = ({ token }) => {
+  const PageRoutes = token ? <AppWithRoutes /> : <Authorization />;
+
   return (
     <>
       <Header />
@@ -22,11 +22,11 @@ const App = ({ getUserData }) => {
 };
 
 App.defaultProps = {
-  getUserData: () => null,
+  token: null,
 };
 
 App.propTypes = {
-  getUserData: PropTypes.func,
+  token: PropTypes.string,
 };
 
 export default App;

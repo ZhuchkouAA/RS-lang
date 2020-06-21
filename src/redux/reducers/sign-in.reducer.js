@@ -4,10 +4,8 @@ import {
   SIGN_IN_RENDER,
   SET_ALERT_MESSAGE,
 } from '../actions/types/action-types';
-import setCookie from '../../helpers/cookies-utils/setCookie';
+import { setCookie, getCookie, clearAllCookie } from '../../helpers/cookies-utils';
 import { TOKEN, USER_ID } from '../../constants/cookiesNames';
-import clearAllCookie from '../../helpers/cookies-utils/clearAllCookie';
-import getCookie from '../../helpers/cookies-utils/getCookie';
 
 const checkUserData = () => {
   const id = getCookie(USER_ID);

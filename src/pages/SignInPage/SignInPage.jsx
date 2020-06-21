@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import styles from './SignInPage.module.scss';
 import Button from '../../components/Button';
+import styles from './SignInPage.module.scss';
 
 const SignInPage = ({
   isSignIn,

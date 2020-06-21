@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import style from './Header.module.scss';
-import { TOKEN } from '../../constants/cookiesNames';
 
-const Header = ({ getUserData, removeUserData }) => {
-  const AuthElement = getUserData(TOKEN) ? (
-    <Button text="logout" handlerClick={removeUserData} />
-  ) : null;
+const Header = ({ token, removeUserData }) => {
+  const AuthElement = token && <Button text="logout" handlerClick={removeUserData} />;
 
   return (
     <header className={style.Header}>
@@ -25,11 +22,11 @@ const Header = ({ getUserData, removeUserData }) => {
 };
 
 Header.defaultProps = {
-  getUserData: () => null,
+  token: null,
 };
 
 Header.propTypes = {
-  getUserData: PropTypes.func,
+  token: PropTypes.string,
   removeUserData: PropTypes.func.isRequired,
 };
 

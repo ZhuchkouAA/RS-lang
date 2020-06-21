@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
+
 import Header from './Header';
 import { removeUserData } from '../../redux/actions/creators/sign-in-data';
+import { TOKEN } from '../../constants/cookiesNames';
 
 const mapStateToProps = ({ userData: { getUserData, userData } }) => ({
-  getUserData,
+  token: getUserData(TOKEN),
   userData,
 });
 

@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 
 import App from './App';
+import { TOKEN } from '../../constants/cookiesNames';
 
 const mapStateToProps = ({ userData: { getUserData, userData } }) => ({
-  getUserData,
+  token: getUserData(TOKEN),
   userData,
 });
 
