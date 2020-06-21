@@ -42,7 +42,7 @@ const Header = ({ toggleNav, token, removeUserData, navBarState }) => {
   return (
     <header className={style.Header}>
       <div className={style.Header__wrapper}>
-        {token && NavBarElement ? NavBarElement : null}
+        {token && NavBarElement}
         {token ? logoutButton : authButtons}
       </div>
     </header>
