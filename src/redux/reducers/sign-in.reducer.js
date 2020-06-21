@@ -24,11 +24,7 @@ const initialState = {
   userData: checkUserData(),
   isSignIn: true,
   message: '',
-<<<<<<< HEAD
   getUserData: getCookie,
-=======
-  isButtonDisabled: false,
->>>>>>> RSL-07: add buttonActivitySwitcher
 };
 
 const userDataReducer = (state = initialState, { type, payload }) => {

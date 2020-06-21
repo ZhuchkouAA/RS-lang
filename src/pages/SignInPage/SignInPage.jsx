@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
@@ -24,6 +25,12 @@ const SignInPage = ({
   message,
 }) => {
 =======
+=======
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+
+import Button from '../../components/Button';
+>>>>>>> RSL-07: fix tabs
 import styles from './SignInPage.module.scss';
 
 <<<<<<< HEAD
@@ -43,6 +50,7 @@ const SignInPage = ({
 >>>>>>> RSL-07: add buttonActivitySwitcher
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+
   const handlerSubmit = (e) => {
     e.preventDefault();
     if (isSignIn) {
