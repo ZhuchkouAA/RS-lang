@@ -1,53 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-=======
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-<<<<<<< HEAD
-// import Link from '@material-ui/core/Link';
->>>>>>> RSL-07-Styling-Aut-Card: styling card
-=======
->>>>>>> RSL-07: add buttonActivitySwitcher
+
 import Button from '../../components/Button';
 import styles from './SignInPage.module.scss';
 
-<<<<<<< HEAD
 const SignInPage = ({
   isSignIn,
   isSignInRender,
+  isButtonDisabled,
   token,
   removeUserData,
   signIn,
   signUp,
   message,
 }) => {
-=======
-=======
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-
-import Button from '../../components/Button';
->>>>>>> RSL-07: fix tabs
-import styles from './SignInPage.module.scss';
-
-<<<<<<< HEAD
-const SignInPage = ({ isSignIn, token, removeToken, signIn, signUp, message }) => {
->>>>>>> RSL-07-Styling-Aut-Card: styling card
-=======
-const SignInPage = ({
-  isSignIn,
-  token,
-  removeToken,
-  isSignInRender,
-  isButtonDisabled,
-  signIn,
-  signUp,
-  message,
-}) => {
->>>>>>> RSL-07: add buttonActivitySwitcher
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
 
