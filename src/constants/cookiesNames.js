@@ -1,2 +1,2 @@
-export const token = 'token';
-export const userId = 'userId';
+export const TOKEN = 'token';
+export const USERID = 'userId';

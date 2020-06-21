@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import style from './Header.module.scss';
-import { token } from '../../constants/cookiesNames';
+import { TOKEN } from '../../constants/cookiesNames';
 
 const Header = ({ getUserData, removeUserData }) => {
-  const AuthElement = getUserData(token) ? (
+  const AuthElement = getUserData(TOKEN) ? (
     <Button text="logout" handlerClick={removeUserData} />
   ) : null;
 

@@ -5,15 +5,15 @@ import {
   SET_ALERT_MESSAGE,
 } from '../actions/types/action-types';
 import setCookie from '../../helpers/cookies-utils/setCookie';
-import { token, userId } from '../../constants/cookiesNames';
+import { TOKEN, USERID } from '../../constants/cookiesNames';
 import clearAllCookie from '../../helpers/cookies-utils/clearAllCookie';
 import getCookie from '../../helpers/cookies-utils/getCookie';
 
 const checkUserData = () => {
-  const id = getCookie(userId);
-  const userToken = getCookie(token);
+  const id = getCookie(USERID);
+  const token = getCookie(TOKEN);
 
-  if (!(id && userToken)) {
+  if (!(id && token)) {
     clearAllCookie();
     return null;
   }
@@ -31,8 +31,8 @@ const initialState = {
 const userDataReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SET_USER_DATA:
-      setCookie(token, payload.token);
-      setCookie(userId, payload.userId);
+      setCookie(TOKEN, payload.token);
+      setCookie(USERID, payload.userId);
 
       return {
         ...state,

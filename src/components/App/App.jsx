@@ -7,10 +7,10 @@ import NavBar from '../NavBar/NavBar';
 import AppWithRoutes from './AppWithRouter';
 import Authorization from './Authorization';
 import Header from '../Header';
-import { token } from '../../constants/cookiesNames';
+import { TOKEN } from '../../constants/cookiesNames';
 
 const App = ({ getUserData }) => {
-  const PageRoutes = getUserData(token) ? <AppWithRoutes /> : <Authorization />;
+  const PageRoutes = getUserData(TOKEN) ? <AppWithRoutes /> : <Authorization />;
   return (
     <>
       <Header />
