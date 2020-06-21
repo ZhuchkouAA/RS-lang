@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import SignInPage from './SignInPage';
 import signIn from '../../middlewares/users/sign-in';
 import signUp from '../../middlewares/users/sign-up';
-import { isSignInRender, removeToken } from '../../redux/actions/creators/sign-in-data';
+import { isSignInRender, removeUserData } from '../../redux/actions/creators/sign-in-data';
 
 const mapStateToProps = ({ userData }) => ({
   ...userData,
@@ -12,7 +12,7 @@ const mapStateToProps = ({ userData }) => ({
 const mapToDispatch = {
   signIn,
   signUp,
-  removeToken,
+  removeUserData,
   isSignInRender,
 };
 

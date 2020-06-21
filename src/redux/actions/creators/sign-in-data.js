@@ -1,12 +1,17 @@
-import { REMOVE_TOKEN, SET_ALERT_MESSAGE, SET_TOKEN, SIGN_IN_RENDER } from '../types/action-types';
+import {
+  REMOVE_USER_DATA,
+  SET_ALERT_MESSAGE,
+  SET_USER_DATA,
+  SIGN_IN_RENDER,
+} from '../types/action-types';
 
-export const setToken = (token) => ({
-  type: SET_TOKEN,
-  payload: { token },
+export const setUserData = ({ token, userId }) => ({
+  type: SET_USER_DATA,
+  payload: { token, userId },
 });
 
-export const removeToken = () => ({
-  type: REMOVE_TOKEN,
+export const removeUserData = () => ({
+  type: REMOVE_USER_DATA,
 });
 
 export const isSignInRender = (isSignIn) => ({

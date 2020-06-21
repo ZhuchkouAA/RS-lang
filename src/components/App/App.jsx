@@ -10,6 +10,7 @@ import Header from '../Header';
 
 const App = ({ token }) => {
   const PageRoutes = token ? <AppWithRoutes /> : <Authorization />;
+
   return (
     <>
       <Header />

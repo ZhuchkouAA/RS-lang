@@ -1,13 +1,16 @@
 import { connect } from 'react-redux';
-import Header from './Header';
-import { removeToken } from '../../redux/actions/creators/sign-in-data';
 
-const mapStateToProps = ({ userData: { token } }) => ({
-  token,
+import Header from './Header';
+import { removeUserData } from '../../redux/actions/creators/sign-in-data';
+import { TOKEN } from '../../constants/cookiesNames';
+
+const mapStateToProps = ({ userData: { getUserData, userData } }) => ({
+  token: getUserData(TOKEN),
+  userData,
 });
 
 const mapToDispatch = {
-  removeToken,
+  removeUserData,
 };
 
 export default connect(mapStateToProps, mapToDispatch)(Header);
