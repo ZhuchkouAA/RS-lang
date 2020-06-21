@@ -5,7 +5,7 @@ import Button from '../Button';
 import store from '../../redux/redux-store';
 import style from './Header.module.scss';
 
-const Header = ({ setNavBarState, token, removeUserData }) => {
+const Header = ({ setNavBarState, token, navBarState, removeUserData }) => {
   const authButtons = (
     <div className={style['Header__auth-containerLogin']}>
       <button className={style['Header__auth-button']} type="button">
@@ -24,8 +24,7 @@ const Header = ({ setNavBarState, token, removeUserData }) => {
   );
 
   const handlerOnClickNavBar = () => {
-    const { navBar } = store.getState();
-    const state = navBar.state === 'disable' ? 'active' : 'disable';
+    const state = navBarState === 'disable' ? 'active' : 'disable';
 
     store.dispatch(setNavBarState(state));
   };
@@ -54,12 +53,14 @@ const Header = ({ setNavBarState, token, removeUserData }) => {
 
 Header.defaultProps = {
   token: null,
+  navBarState: 'disable',
 };
 
 Header.propTypes = {
   token: PropTypes.string,
   removeUserData: PropTypes.func.isRequired,
   setNavBarState: PropTypes.func.isRequired,
+  navBarState: PropTypes.string,
 };
 
 export default Header;

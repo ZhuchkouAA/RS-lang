@@ -1,7 +1,7 @@
 import { GET_NAVBAR_STATE, SET_NAVBAR_STATE } from '../actions/types/action-types';
 
 const initialState = {
-  state: 'disable',
+  navBarState: 'disable',
 };
 
 const navBarReducer = (state = initialState, { type, payload }) => {
@@ -9,7 +9,7 @@ const navBarReducer = (state = initialState, { type, payload }) => {
     case SET_NAVBAR_STATE:
       return {
         ...state,
-        state: payload,
+        navBarState: payload,
       };
     case GET_NAVBAR_STATE:
       return state;

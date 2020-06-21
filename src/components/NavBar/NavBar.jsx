@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import store from '../../redux/redux-store';
@@ -6,14 +6,8 @@ import store from '../../redux/redux-store';
 import { ALL_SECTIONS } from '../../constants/section';
 import style from './NavBar.module.scss';
 
-const NavBar = ({ setNavBarState }) => {
-  const [count, setCount] = useState(0);
-  store.subscribe(() => {
-    setCount(count + 1);
-  });
-
-  const { navBar } = store.getState();
-  const NavBarActiveClass = `NavBar-${navBar.state}`;
+const NavBar = ({ setNavBarState, navBarState }) => {
+  const NavBarActiveClass = `NavBar-${navBarState}`;
   const ListActiveClass = 'NavBar__linkContainer-link-active';
 
   const handlerOnClick = (event) => {
@@ -43,8 +37,13 @@ const NavBar = ({ setNavBarState }) => {
   );
 };
 
+NavBar.defaultProps = {
+  navBarState: 'disable',
+};
+
 NavBar.propTypes = {
   setNavBarState: PropTypes.func.isRequired,
+  navBarState: PropTypes.string,
 };
 
 export default NavBar;
