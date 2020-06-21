@@ -5,11 +5,16 @@ import AppSectionCard from '../../components/AppSectionCard';
 import UserProgressCard from '../../components/UserProgressCard';
 import PATH from '../../constants/path';
 import { GAMES } from '../../constants/section';
-import getGameInfo from '../../helpers/common-utils';
 
 const MainPage = () => {
   const { name: cardName, description: cardDescription } = GAMES[0];
-  const gameInfo = getGameInfo();
+  const gameInfo = () => {
+    const games = GAMES.slice(1);
+
+    return games.map(({ section, ...game }) => {
+      return { path: GAMES.path, ...game };
+    });
+  };
 
   const gameCards = gameInfo.map((game) => {
     const { path, name, description } = game;
