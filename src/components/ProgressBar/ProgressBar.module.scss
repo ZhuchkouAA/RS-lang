@@ -1,22 +1,26 @@
-.Progress {
-  align-items: center;
+.WordCount {
   display: flex;
-  height: 15px;
-  left: 0;
-  position: fixed;
-  top: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: absolute;
+  top: -30px;
+  transition: 0.5s;
   width: 100%;
 
-  &__bar {
-    background-color: rgb(151, 151, 255);
-    height: 100%;
+  &__count {
+    display: flex;
+    font-size: 25px;
+    justify-content: center;
+    width: 100%;
   }
 
-  &__count {
-    font-size: 17px;
-    font-weight: 600;
-    margin-right: 20px;
-    position: absolute;
-    right: 0;
+  &__icon {
+    transform: rotate(-90deg);
   }
+
+  &:hover {
+    transform: translateY(35px);
+  }
+
+ 
 }

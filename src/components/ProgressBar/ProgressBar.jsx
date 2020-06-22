@@ -1,22 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
+import { makeStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import styles from './ProgressBar.module.scss';
 
-const ProgressBar = ({ max, now }) => {
-  const percent = (now * 100) / max;
+const useStyles = makeStyles({
+  root: {
+    width: '100%',
+  },
+});
+
+export default function Progress() {
+  const classes = useStyles();
+  const nowValue = 100;
+  const maxValue = 500;
+  const getPercent = () => {
+    return (nowValue * 100) / maxValue;
+  };
 
   return (
-    <div className={styles.Progress}>
-      <p className={styles.Progress__count}>{`${now} / ${max}`}</p>
-      <div className={styles.Progress__bar} style={{ width: `${percent}%` }} />
+    <div className={classes.root}>
+      <LinearProgress variant="determinate" value={getPercent()} />
+      <div className={styles.WordCount}>
+        <p className={styles.WordCount__count}>{`${nowValue} / ${maxValue}`}</p>
+        <ArrowBackIosIcon className={styles.WordCount__icon} />
+      </div>
     </div>
   );
-};
-
-ProgressBar.propTypes = {
-  max: PropTypes.number.isRequired,
-  now: PropTypes.number.isRequired,
-};
-
-export default ProgressBar;
+}
