@@ -1,3 +1,7 @@
+import { connect } from 'react-redux';
+
 import WordCard from './WordCard';
 
-export default WordCard;
+const mapStateToProps = ({ settings }) => ({ settings });
+
+export default connect(mapStateToProps)(WordCard);
