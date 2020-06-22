@@ -20,11 +20,12 @@ import MusicIcon from '@material-ui/icons/MusicNote';
 import MusicOffIcon from '@material-ui/icons/MusicOff';
 import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
 
 import WordInput from '../WordInput';
 import SentenceWithWord from '../SentenceWithWord';
 import URLS from '../../constants/APIUrls';
+import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
 
 import styles from './WordCard.module.scss';
 
@@ -48,15 +49,13 @@ const WordCard = ({ settings }) => {
     isDelFromLearnBtnShow,
     isFeedBackButtonsShow,
     isImageShow,
-    // isAudioShow,
-    isAudioMeaningShow,
-    isAudioExampleShow,
     isTextMeaningShow,
     isTextExampleShow,
     isTranscriptionShow,
     isWordTranslateShow,
     isTextExampleTranslateShow,
   } = settings;
+
   const {
     word,
     wordTranslateText,
@@ -65,50 +64,28 @@ const WordCard = ({ settings }) => {
     textExampleTranslateText,
     textMeaningText,
     PICTURE_URL,
-    AUDIO,
-    AUDIO_MEANING,
-    AUDIO_EXAMPLE,
   } = cardState;
 
   const [isMute, setIsMute] = useState(false);
-  const sound = new Audio(AUDIO);
-  const soundMeaning = isAudioMeaningShow ? new Audio(AUDIO_MEANING) : null;
-  const soundExample = isAudioExampleShow ? new Audio(AUDIO_EXAMPLE) : null;
+  const [isPlaying, setPlaying] = useState(false);
+  const trackList = getTrackList(settings, cardState);
 
-  const playSoundMeaning = () => {
-    if (isAudioMeaningShow) {
-      soundMeaning.play();
-    }
-  };
-
-  const playSoundExample = () => {
-    if (isAudioExampleShow) {
-      soundExample.play();
-    }
-    sound.removeEventListener('ended', handlerSoundEnded);
-    if (isAudioMeaningShow) {
-      soundMeaning.removeEventListener('ended', playSoundExample);
-    }
-  };
-
-  const handlerSoundEnded = () => {
-    if (isAudioMeaningShow) {
-      soundMeaning.addEventListener('ended', playSoundExample);
-      playSoundMeaning();
-    } else {
-      playSoundExample();
-    }
+  const startPlaying = () => {
+    setPlaying(true);
+    playTrackList(trackList, () => setPlaying(false));
   };
 
   const handlerSubmit = (e) => {
     e.preventDefault();
-    if (isMute) return;
-    sound.addEventListener('ended', handlerSoundEnded);
-    sound.play();
+    if (isMute) {
+      return;
+    }
+
+    startPlaying();
   };
 
   const handlerClickSayWord = () => {
-    sound.play();
+    startPlaying();
   };
 
   const muteSwitchHandler = () => {
@@ -167,9 +144,11 @@ const WordCard = ({ settings }) => {
               </Grid>
               <Grid item>
                 <Tooltip onClick={handlerClickSayWord} title="Произнести слово" aria-label="add">
-                  <Fab type="button" color="primary" size="small">
-                    <VolumeUpIcon />
-                  </Fab>
+                  <span>
+                    <Fab type="button" color="primary" size="small" disabled={isPlaying}>
+                      <PlayCircleOutlineRoundedIcon />
+                    </Fab>
+                  </span>
                 </Tooltip>
               </Grid>
             </Grid>
@@ -221,7 +200,6 @@ const WordCard = ({ settings }) => {
           </Tooltip>
         </Box>
       </CardActions>
-      ;
     </Card>
   );
 };
