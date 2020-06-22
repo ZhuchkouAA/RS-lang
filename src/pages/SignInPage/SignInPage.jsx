@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 
 import Button from '../../components/Button';
 import styles from './SignInPage.module.scss';
@@ -7,6 +9,7 @@ import styles from './SignInPage.module.scss';
 const SignInPage = ({
   isSignIn,
   isSignInRender,
+  isButtonDisabled,
   token,
   removeUserData,
   signIn,
@@ -42,29 +45,41 @@ const SignInPage = ({
 
   return (
     <form onSubmit={handlerSubmit} className={styles.Form}>
-      <label className={styles.Form__label} htmlFor={styles.Form}>
-        Логин/Email:
-        <input
+      <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email / Логин"
+          name="email"
+          autoComplete="email"
+          autoFocus
           onChange={handlerOnChangeSetLogin}
-          type="email"
-          name="login"
-          required="required"
-          value={login}
         />
-        Пароль:
-        <input
-          onChange={handlerOnChangeSetPassword}
-          type="password"
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
           name="password"
-          required="required"
-          value={password}
+          label="Пароль"
+          type="password"
+          id="password"
+          onChange={handlerOnChangeSetPassword}
         />
-        <input type="submit" value={isSignIn ? `Войти` : `Зарегистрироваться`} />
-      </label>
-      <button type="button" onClick={handlerOnClickIsSignIn}>
-        {isSignIn ? `Регистрация` : `Войти`}
-      </button>
-      <div>{message}</div>
+        <Button
+          type="submit"
+          text={isSignIn ? `Войти` : `Зарегистрироваться`}
+          isDisable={isButtonDisabled}
+          color="primary"
+        />
+        <button type="button" className={styles.Form__switcher} onClick={handlerOnClickIsSignIn}>
+          {isSignIn ? `Регистрация` : `Войти`}
+        </button>
+        <div className={styles.Form__alert}>{message}</div>
+      </Grid>
     </form>
   );
 };
@@ -81,6 +96,7 @@ SignInPage.propTypes = {
   signIn: PropTypes.func.isRequired,
   signUp: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired,
+  isButtonDisabled: PropTypes.bool.isRequired,
 };
 
 export default SignInPage;

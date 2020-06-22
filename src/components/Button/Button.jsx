@@ -1,17 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ButtonMU from '@material-ui/core/Button';
 
-const Button = ({ handlerClick, text }) => {
+const Button = ({ handlerClick, text, type, isDisable, color }) => {
   return (
-    <button onClick={handlerClick} type="button">
+    <ButtonMU
+      onClick={handlerClick}
+      variant="contained"
+      type={type}
+      color={color}
+      disabled={isDisable}
+    >
       {text}
-    </button>
+    </ButtonMU>
   );
 };
 
+Button.defaultProps = {
+  handlerClick: () => {},
+  type: 'button',
+  isDisable: false,
+};
+
 Button.propTypes = {
-  handlerClick: PropTypes.func.isRequired,
+  handlerClick: PropTypes.func,
   text: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  isDisable: PropTypes.bool,
+  color: PropTypes.string.isRequired,
 };
 
 export default Button;
