@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -16,11 +16,15 @@ import {
 } from '@material-ui/core';
 
 import DeleteIcon from '@material-ui/icons/Delete';
+import MusicIcon from '@material-ui/icons/MusicNote';
+import MusicOffIcon from '@material-ui/icons/MusicOff';
 import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
 import WordInput from '../WordInput';
 import SentenceWithWord from '../SentenceWithWord';
+import URLS from '../../constants/APIUrls';
 
 import styles from './WordCard.module.scss';
 
@@ -32,7 +36,10 @@ const cardState = {
   textMeaningText: 'To <i>instruct</i> is to teach.',
   textExampleText: 'My teacher <b>instructs</b> us in several subjects.',
   textExampleTranslateText: 'Мой учитель учит нас нескольким предметам',
-  PICTURE_URL: 'https://raw.githubusercontent.com/not-SAINT/rslang-data/master/files/04_0070.jpg',
+  PICTURE_URL: `${URLS.ASSETS}files/04_0070.jpg`,
+  AUDIO: `${URLS.ASSETS}files/02_0621.mp3`,
+  AUDIO_MEANING: `${URLS.ASSETS}files/02_0621_meaning.mp3`,
+  AUDIO_EXAMPLE: `${URLS.ASSETS}files/02_0621_example.mp3`,
 };
 
 const WordCard = ({ settings }) => {
@@ -42,8 +49,8 @@ const WordCard = ({ settings }) => {
     isFeedBackButtonsShow,
     isImageShow,
     // isAudioShow,
-    // isAudioMeaningShow,
-    // isAudioExampleShow,
+    isAudioMeaningShow,
+    isAudioExampleShow,
     isTextMeaningShow,
     isTextExampleShow,
     isTranscriptionShow,
@@ -58,7 +65,55 @@ const WordCard = ({ settings }) => {
     textExampleTranslateText,
     textMeaningText,
     PICTURE_URL,
+    AUDIO,
+    AUDIO_MEANING,
+    AUDIO_EXAMPLE,
   } = cardState;
+
+  const [isMute, setIsMute] = useState(false);
+  const sound = new Audio(AUDIO);
+  const soundMeaning = isAudioMeaningShow ? new Audio(AUDIO_MEANING) : null;
+  const soundExample = isAudioExampleShow ? new Audio(AUDIO_EXAMPLE) : null;
+
+  const playSoundMeaning = () => {
+    if (isAudioMeaningShow) {
+      soundMeaning.play();
+    }
+  };
+
+  const playSoundExample = () => {
+    if (isAudioExampleShow) {
+      soundExample.play();
+    }
+    sound.removeEventListener('ended', handlerSoundEnded);
+    if (isAudioMeaningShow) {
+      soundMeaning.removeEventListener('ended', playSoundExample);
+    }
+  };
+
+  const handlerSoundEnded = () => {
+    if (isAudioMeaningShow) {
+      soundMeaning.addEventListener('ended', playSoundExample);
+      playSoundMeaning();
+    } else {
+      playSoundExample();
+    }
+  };
+
+  const handlerSubmit = (e) => {
+    e.preventDefault();
+    if (isMute) return;
+    sound.addEventListener('ended', handlerSoundEnded);
+    sound.play();
+  };
+
+  const handlerClickSayWord = () => {
+    sound.play();
+  };
+
+  const muteSwitchHandler = () => {
+    setIsMute(!isMute);
+  };
 
   return (
     <Card className={styles.WordCard__wrapper}>
@@ -87,30 +142,38 @@ const WordCard = ({ settings }) => {
           </div>
         </Grid>
       </Grid>
-
       <CardContent className={styles.WordCard__content}>
         <Box mb={2}>
-          <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-            <Grid item>
-              {isFeedBackButtonsShow && (
-                <Tooltip title="Добавить слово в 'Сложные'" aria-label="add">
-                  <Fab color="primary" size="small">
-                    <AddIcon />
+          <form onSubmit={handlerSubmit}>
+            <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
+              <Grid item>
+                {isFeedBackButtonsShow && (
+                  <Tooltip title="Добавить слово в 'Сложные'" aria-label="add">
+                    <Fab color="primary" size="small">
+                      <AddIcon />
+                    </Fab>
+                  </Tooltip>
+                )}
+              </Grid>
+              <Grid item>
+                <WordInput word={word} />
+              </Grid>
+              <Grid item>
+                <Tooltip title="Проверить слово" aria-label="add">
+                  <Fab type="submit" color="primary" size="small">
+                    <CheckIcon />
                   </Fab>
                 </Tooltip>
-              )}
+              </Grid>
+              <Grid item>
+                <Tooltip onClick={handlerClickSayWord} title="Произнести слово" aria-label="add">
+                  <Fab type="button" color="primary" size="small">
+                    <VolumeUpIcon />
+                  </Fab>
+                </Tooltip>
+              </Grid>
             </Grid>
-            <Grid item>
-              <WordInput word={word} />
-            </Grid>
-            <Grid item>
-              <Tooltip title="Проверить слово" aria-label="add">
-                <Fab color="primary" size="small">
-                  <CheckIcon />
-                </Fab>
-              </Tooltip>
-            </Grid>
-          </Grid>
+          </form>
         </Box>
         {isTextExampleShow && <SentenceWithWord word={word} sentence={textExampleText} />}
         {isTextExampleTranslateShow && (
@@ -126,7 +189,6 @@ const WordCard = ({ settings }) => {
         )}
         {isTextMeaningShow && <SentenceWithWord word={word} sentence={textMeaningText} />}
       </CardContent>
-
       <CardActions>
         <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
           <Grid item>
@@ -151,7 +213,15 @@ const WordCard = ({ settings }) => {
             </Tooltip>
           </Box>
         )}
+        <Box position="absolute" right="16px">
+          <Tooltip title="Выключить звук">
+            <IconButton onClick={muteSwitchHandler} aria-label="mute">
+              {isMute ? <MusicOffIcon fontSize="small" /> : <MusicIcon fontSize="small" />}
+            </IconButton>
+          </Tooltip>
+        </Box>
       </CardActions>
+      ;
     </Card>
   );
 };
