@@ -40,18 +40,22 @@ const SettingsPage = ({ settings: storeSettings, putSettings }) => {
         />
         <Checkbox
           label="Кнопка 'Показать ответ'"
-          checkValue={settings.answerBtn}
-          toggle={() => setSettings({ ...settings, answerBtn: !settings.answerBtn })}
+          checkValue={settings.isAnswerBtnShow}
+          toggle={() => setSettings({ ...settings, isAnswerBtnShow: !settings.isAnswerBtnShow })}
         />
         <Checkbox
           label="Кнопка 'Удалить из изучения'"
-          checkValue={settings.delFromLearnBtn}
-          toggle={() => setSettings({ ...settings, delFromLearnBtn: !settings.delFromLearnBtn })}
+          checkValue={settings.isDelFromLearnBtnShow}
+          toggle={() =>
+            setSettings({ ...settings, isDelFromLearnBtnShow: !settings.isDelFromLearnBtnShow })
+          }
         />
         <Checkbox
           label="Кнопки 'Оценить сложность слова'"
-          checkValue={settings.feedBackButtons}
-          toggle={() => setSettings({ ...settings, feedBackButtons: !settings.feedBackButtons })}
+          checkValue={settings.isFeedBackButtonsShow}
+          toggle={() =>
+            setSettings({ ...settings, isFeedBackButtonsShow: !settings.isFeedBackButtonsShow })
+          }
         />
       </Grid>
 
@@ -65,50 +69,65 @@ const SettingsPage = ({ settings: storeSettings, putSettings }) => {
         <p className={style.Settings__title}>Элементы карточки</p>
         <Checkbox
           label="Показывать картинку"
-          checkValue={settings.image}
-          toggle={() => setSettings({ ...settings, image: !settings.image })}
+          checkValue={settings.isImageShow}
+          toggle={() => setSettings({ ...settings, isImageShow: !settings.isImageShow })}
         />
         <Checkbox
           label="Показывать транскрипцию"
-          checkValue={settings.transcription}
-          toggle={() => setSettings({ ...settings, transcription: !settings.transcription })}
+          checkValue={settings.isTranscriptionShow}
+          toggle={() =>
+            setSettings({ ...settings, isTranscriptionShow: !settings.isTranscriptionShow })
+          }
         />
         <Checkbox
           label="Показывать перевод"
-          checkValue={settings.wordTranslate}
-          toggle={() => setSettings({ ...settings, wordTranslate: !settings.wordTranslate })}
+          checkValue={settings.isWordTranslateShow}
+          toggle={() =>
+            setSettings({ ...settings, isWordTranslateShow: !settings.isWordTranslateShow })
+          }
         />
         <Checkbox
           label="Перевод предложения"
-          checkValue={settings.textExampleTranslate}
+          checkValue={settings.isTextExampleTranslateShow}
           toggle={() =>
-            setSettings({ ...settings, textExampleTranslate: !settings.textExampleTranslate })
+            setSettings({
+              ...settings,
+              isTextExampleTranslateShow: !settings.isTextExampleTranslateShow,
+            })
           }
         />
         <Checkbox
           label="Перевод значения"
-          checkValue={settings.audioMeaning}
-          toggle={() => setSettings({ ...settings, audioMeaning: !settings.audioMeaning })}
+          checkValue={settings.isAudioMeaningShow}
+          toggle={() =>
+            setSettings({ ...settings, isAudioMeaningShow: !settings.isAudioMeaningShow })
+          }
         />
         <Checkbox
           label="Кнопка 'прослушать слово'"
-          checkValue={settings.audio}
-          toggle={() => setSettings({ ...settings, audio: !settings.audio })}
+          checkValue={settings.isAudioShow}
+          toggle={() => setSettings({ ...settings, isAudioShow: !settings.isAudioShow })}
         />
         <Checkbox
           label="Кнопка 'прослушать предложение'"
-          checkValue={settings.audioExample}
-          toggle={() => setSettings({ ...settings, audioExample: !settings.audioExample })}
+          checkValue={settings.isAudioExampleShow}
+          toggle={() =>
+            setSettings({ ...settings, isAudioExampleShow: !settings.isAudioExampleShow })
+          }
         />
         <Checkbox
           label="Кнопка 'прослушать значение'"
-          checkValue={settings.textMeaning}
-          toggle={() => setSettings({ ...settings, textMeaning: !settings.textMeaning })}
+          checkValue={settings.isTextMeaningShow}
+          toggle={() =>
+            setSettings({ ...settings, isTextMeaningShow: !settings.isTextMeaningShow })
+          }
         />
         <Checkbox
           label="Показвыть пример использования"
-          checkValue={settings.textExample}
-          toggle={() => setSettings({ ...settings, textExample: !settings.textExample })}
+          checkValue={settings.isTextExampleShow}
+          toggle={() =>
+            setSettings({ ...settings, isTextExampleShow: !settings.isTextExampleShow })
+          }
         />
       </Grid>
       <div className={style.Settings__btn}>

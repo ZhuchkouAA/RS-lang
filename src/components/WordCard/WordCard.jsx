@@ -37,18 +37,18 @@ const cardState = {
 
 const WordCard = ({ settings }) => {
   const {
-    answerBtn,
-    delFromLearnBtn,
-    feedBackButtons,
-    image,
-    // audio,
-    // audioMeaning,
-    // audioExample,
-    textMeaning,
-    textExample,
-    transcription,
-    wordTranslate,
-    textExampleTranslate,
+    isAnswerBtnShow,
+    isDelFromLearnBtnShow,
+    isFeedBackButtonsShow,
+    isImageShow,
+    // isAudioShow,
+    // isAudioMeaningShow,
+    // isAudioExampleShow,
+    isTextMeaningShow,
+    isTextExampleShow,
+    isTranscriptionShow,
+    isWordTranslateShow,
+    isTextExampleTranslateShow,
   } = settings;
   const {
     word,
@@ -64,7 +64,7 @@ const WordCard = ({ settings }) => {
     <Card className={styles.WordCard__wrapper}>
       <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
         <Grid item className={styles.WordCard__header}>
-          {image && (
+          {isImageShow && (
             <CardMedia
               className={styles.WordCard__image}
               image={PICTURE_URL}
@@ -74,12 +74,12 @@ const WordCard = ({ settings }) => {
         </Grid>
         <Grid item>
           <div>
-            {wordTranslate && (
+            {isWordTranslateShow && (
               <Typography className={styles.WordCard__word} gutterBottom variant="h6">
                 {wordTranslateText}
               </Typography>
             )}
-            {transcription && (
+            {isTranscriptionShow && (
               <Typography className={styles.WordCard__word} gutterBottom variant="h6">
                 {transcriptionText}
               </Typography>
@@ -92,7 +92,7 @@ const WordCard = ({ settings }) => {
         <Box mb={2}>
           <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
             <Grid item>
-              {feedBackButtons && (
+              {isFeedBackButtonsShow && (
                 <Tooltip title="Добавить слово в 'Сложные'" aria-label="add">
                   <Fab color="primary" size="small">
                     <AddIcon />
@@ -112,8 +112,8 @@ const WordCard = ({ settings }) => {
             </Grid>
           </Grid>
         </Box>
-        {textExample && <SentenceWithWord word={word} sentence={textExampleText} />}
-        {textExampleTranslate && (
+        {isTextExampleShow && <SentenceWithWord word={word} sentence={textExampleText} />}
+        {isTextExampleTranslateShow && (
           <Typography
             className={styles.WordCard__text}
             variant="body1"
@@ -124,13 +124,13 @@ const WordCard = ({ settings }) => {
             {textExampleTranslateText}
           </Typography>
         )}
-        {textMeaning && <SentenceWithWord word={word} sentence={textMeaningText} />}
+        {isTextMeaningShow && <SentenceWithWord word={word} sentence={textMeaningText} />}
       </CardContent>
 
       <CardActions>
         <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
           <Grid item>
-            {answerBtn && (
+            {isAnswerBtnShow && (
               <Button variant="contained" color="secondary">
                 Показать ответ
               </Button>
@@ -142,7 +142,7 @@ const WordCard = ({ settings }) => {
             </Button>
           </Grid>
         </Grid>
-        {delFromLearnBtn && (
+        {isDelFromLearnBtnShow && (
           <Box position="absolute">
             <Tooltip title="Удалить слово из изучения">
               <IconButton aria-label="delete">
