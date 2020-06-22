@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 
+import { putSettings } from '../../middlewares/usersSettings/settings';
+
 import SettingsPage from './SettingsPage';
 
-const mapStateToProps = ({ testData }) => ({ testData });
+const mapStateToProps = ({ settings }) => ({ settings });
 
-export default connect(mapStateToProps)(SettingsPage);
+const mapDispatchToProps = { putSettings };
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
