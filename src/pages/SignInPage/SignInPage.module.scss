@@ -1,11 +1,23 @@
-.Form {
-  margin: 0 auto;
-  width: 200px;
 
-  &__label {
-    display: flex;
-    flex-direction: column;
+.Form {
+  height: 300px;
+  margin: 0 auto;
+  width: 250px;
+
+  &__switcher {
+    align-self: flex-start;
+    color: #1976d2;
+    cursor: pointer;
+    display: block;
+    margin-top: 15px;
+    text-decoration: underline;
   }
+
+  &__alert,
+  &__switcher {
+    font-family: 'Roboto', sans-serif;
+  }
+
 }
 
 

@@ -3,6 +3,7 @@ import {
   SET_ALERT_MESSAGE,
   SET_USER_DATA,
   SIGN_IN_RENDER,
+  BUTTON_ACTIVITY_SWITCH,
 } from '../types/action-types';
 
 export const setUserData = ({ token, userId }) => ({
@@ -22,4 +23,8 @@ export const isSignInRender = (isSignIn) => ({
 export const setAlertMessage = (message) => ({
   type: SET_ALERT_MESSAGE,
   payload: { message },
+});
+
+export const buttonActivitySwitch = () => ({
+  type: BUTTON_ACTIVITY_SWITCH,
 });

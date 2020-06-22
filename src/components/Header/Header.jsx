@@ -5,7 +5,9 @@ import Button from '../Button';
 import style from './Header.module.scss';
 
 const Header = ({ token, removeUserData }) => {
-  const AuthElement = token && <Button text="logout" handlerClick={removeUserData} />;
+  const AuthElement = token && (
+    <Button color="primary" text="logout" handlerClick={removeUserData} />
+  );
 
   return (
     <header className={style.Header}>
