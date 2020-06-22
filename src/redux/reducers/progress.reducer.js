@@ -6,6 +6,7 @@ import {
   RESET_PROGRESS,
   QUEUE_NEW_WORDS,
   QUEUE_REPEAT_WORDS,
+  REWRITE_PROGRESS,
 } from '../actions/types/action-types';
 
 const initialProgressState = {
@@ -51,6 +52,8 @@ const progressReducer = (state = initialProgressState, { type, payload }) => {
         ...state,
         queueRepeatWords: payload,
       };
+    case REWRITE_PROGRESS:
+      return payload;
     case RESET_PROGRESS:
       return initialProgressState;
     default:

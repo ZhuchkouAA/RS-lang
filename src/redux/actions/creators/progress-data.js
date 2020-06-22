@@ -6,6 +6,7 @@ import {
   RESET_PROGRESS,
   QUEUE_NEW_WORDS,
   QUEUE_REPEAT_WORDS,
+  REWRITE_PROGRESS,
 } from '../types/action-types';
 
 export const differentCardPlusOne = () => ({
@@ -35,4 +36,9 @@ export const queueNewWords = (newWordsArray) => ({
 export const queueRepeatWords = (repeatWordsArray) => ({
   type: QUEUE_REPEAT_WORDS,
   payload: repeatWordsArray,
+});
+
+export const rewriteProgress = (newProgress) => ({
+  type: REWRITE_PROGRESS,
+  payload: newProgress,
 });
