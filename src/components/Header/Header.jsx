@@ -18,7 +18,7 @@ const Header = ({ toggleNav, token, removeUserData, navBarState }) => {
   );
   const logoutButton = (
     <div className={style['Header__auth-container-logout']}>
-      <Button text="logout" handlerClick={removeUserData} />
+      <Button color="primary" text="logout" handlerClick={removeUserData} />
     </div>
   );
 
