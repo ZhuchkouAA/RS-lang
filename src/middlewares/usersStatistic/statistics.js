@@ -3,12 +3,29 @@ import putWithTokenRequest from '../../helpers/fetch-utils/putWithToken-response
 import getWithTokenRequest from '../../helpers/fetch-utils/getWithToken-response';
 import { rewriteProgress } from '../../redux/actions/creators/progress-data';
 import { showMessage } from '../../redux/actions/creators/modalWindow-data';
+import store from '../../redux/redux-store';
 
 import API_URLS from '../../constants/APIUrls';
 import { USER_ID, TOKEN } from '../../constants/cookiesNames';
 
-export const putProgress = (progress) => {
-  const body = JSON.stringify(progress);
+export const putProgress = () => {
+  const {
+    progress: {
+      differentCardsShowedAllTime,
+      dateOfReceiptOfWords,
+      leftNewWordsToday,
+      leftRepeatWordsToday,
+    },
+  } = store.getState();
+  const body = JSON.stringify({
+    learnedWords: 0,
+    optional: {
+      differentCardsShowedAllTime,
+      dateOfReceiptOfWords,
+      leftNewWordsToday,
+      leftRepeatWordsToday,
+    },
+  });
   const url = API_URLS.USER_STATISTICS(getCookie(USER_ID));
 
   return async (dispatch) => {
