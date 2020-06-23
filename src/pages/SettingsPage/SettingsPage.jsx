@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
-import Checkbox from '../../components/Checkbox';
+import Toggle from '../../components/Toggle';
 import Inputs from '../../components/Input';
 
 import style from './SettingsPage.module.scss';
@@ -38,19 +38,19 @@ const SettingsPage = ({ settings: storeSettings, putSettings }) => {
           value={settings.newWordsPerDay}
           onChange={(e) => setSettings({ ...settings, newWordsPerDay: e.target.value })}
         />
-        <Checkbox
+        <Toggle
           label="Кнопка 'Показать ответ'"
           checkValue={settings.isAnswerBtnShow}
           toggle={() => setSettings({ ...settings, isAnswerBtnShow: !settings.isAnswerBtnShow })}
         />
-        <Checkbox
+        <Toggle
           label="Кнопка 'Удалить из изучения'"
           checkValue={settings.isDelFromLearnBtnShow}
           toggle={() =>
             setSettings({ ...settings, isDelFromLearnBtnShow: !settings.isDelFromLearnBtnShow })
           }
         />
-        <Checkbox
+        <Toggle
           label="Кнопки 'Оценить сложность слова'"
           checkValue={settings.isFeedBackButtonsShow}
           toggle={() =>
@@ -67,26 +67,26 @@ const SettingsPage = ({ settings: storeSettings, putSettings }) => {
         alignItems="flex-start"
       >
         <p className={style.Settings__title}>Элементы карточки</p>
-        <Checkbox
+        <Toggle
           label="Показывать картинку"
           checkValue={settings.isImageShow}
           toggle={() => setSettings({ ...settings, isImageShow: !settings.isImageShow })}
         />
-        <Checkbox
+        <Toggle
           label="Показывать транскрипцию"
           checkValue={settings.isTranscriptionShow}
           toggle={() =>
             setSettings({ ...settings, isTranscriptionShow: !settings.isTranscriptionShow })
           }
         />
-        <Checkbox
+        <Toggle
           label="Показывать перевод"
           checkValue={settings.isWordTranslateShow}
           toggle={() =>
             setSettings({ ...settings, isWordTranslateShow: !settings.isWordTranslateShow })
           }
         />
-        <Checkbox
+        <Toggle
           label="Перевод предложения"
           checkValue={settings.isTextExampleTranslateShow}
           toggle={() =>
@@ -96,33 +96,33 @@ const SettingsPage = ({ settings: storeSettings, putSettings }) => {
             })
           }
         />
-        <Checkbox
+        <Toggle
           label="Перевод значения"
           checkValue={settings.isAudioMeaningShow}
           toggle={() =>
             setSettings({ ...settings, isAudioMeaningShow: !settings.isAudioMeaningShow })
           }
         />
-        <Checkbox
+        <Toggle
           label="Кнопка 'прослушать слово'"
           checkValue={settings.isAudioShow}
           toggle={() => setSettings({ ...settings, isAudioShow: !settings.isAudioShow })}
         />
-        <Checkbox
+        <Toggle
           label="Кнопка 'прослушать предложение'"
           checkValue={settings.isAudioExampleShow}
           toggle={() =>
             setSettings({ ...settings, isAudioExampleShow: !settings.isAudioExampleShow })
           }
         />
-        <Checkbox
+        <Toggle
           label="Кнопка 'прослушать значение'"
           checkValue={settings.isTextMeaningShow}
           toggle={() =>
             setSettings({ ...settings, isTextMeaningShow: !settings.isTextMeaningShow })
           }
         />
-        <Checkbox
+        <Toggle
           label="Показвыть пример использования"
           checkValue={settings.isTextExampleShow}
           toggle={() =>
