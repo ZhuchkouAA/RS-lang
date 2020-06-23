@@ -1,0 +1,2 @@
+export const ACCURACY_ENTERED_WORD = 50;
+export const ACCURACY_ENTERED_WORD1 = 50;

@@ -3,3 +3,15 @@ $white-color: #fff;
 $hidden-word-bg: #7fbdf7;
 $color-card-hover: #adcbff70;
 $black-color: #000;
+
+$green-color: #3fd18f;
+$red-color: #cf2a01;
+$orange-color: #db7439;
+
+:export {
+  /* stylelint-disable property-no-unknown */
+  fewErrorsColor: $orange-color;
+  manyErrorsColor: $red-color;
+  noErrorsColor: $green-color;
+  /* stylelint-enable */
+}

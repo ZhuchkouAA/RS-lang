@@ -1,3 +1,6 @@
+import { ACCURACY_ENTERED_WORD } from '../constants/app-settings';
+import colors from '../styles-global/colors.module.scss';
+
 export const getTextWidthInPx = (text) => {
   const span = document.createElement('span');
 
@@ -47,5 +50,52 @@ export const getStyleWidthForText = (text) => {
 };
 
 export const getTemplateForWord = (word) => {
-  return '_'.repeat(word.length);
+  return '*'.repeat(word.length);
+};
+
+const getRightCharPositions = (word, enteredText) => {
+  const letters = word.split('');
+  const enteredTextLength = enteredText.length;
+
+  let cntErrors = 0;
+
+  const checkedChars = letters.reduce((accum, letter, index) => {
+    let isRightPosition = false;
+
+    if (index < enteredTextLength && letter === enteredText[index]) {
+      isRightPosition = true;
+    } else {
+      cntErrors += 1;
+    }
+
+    return [...accum, { value: letter, isRightPosition }];
+  }, []);
+
+  checkedChars.accuracy = Math.round((cntErrors / word.length) * 100);
+
+  return checkedChars;
+};
+
+export const getColoredEnteredChars = (word, enteredText) => {
+  const lettersWithPosition = getRightCharPositions(word, enteredText);
+  const errorColor =
+    lettersWithPosition.accuracy > ACCURACY_ENTERED_WORD
+      ? colors.manyErrorsColor
+      : colors.fewErrorsColor;
+
+  const rt = lettersWithPosition.map(({ isRightPosition, value }) => {
+    if (isRightPosition) {
+      return {
+        value,
+        color: colors.noErrorsColor,
+      };
+    }
+
+    return {
+      value,
+      color: errorColor,
+    };
+  });
+
+  return rt;
 };

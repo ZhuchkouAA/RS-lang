@@ -27,6 +27,7 @@ import IconMini from '../IconMini';
 import SentenceWithWord from '../SentenceWithWord';
 import URLS from '../../constants/APIUrls';
 import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
+import WordColoredChecker from '../WordColoredChecker';
 
 import styles from './WordCard.module.scss';
 

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 
 import { getStyleWidthForText } from '../../helpers/text-utils';
+import styles from './WordInput.module.scss';
 
 const WordInput = ({ word }) => {
   const styleWord = getStyleWidthForText(word);
-
   const inputRef = useRef();
 
   useEffect(() => {
@@ -17,6 +17,7 @@ const WordInput = ({ word }) => {
 
   return (
     <TextField
+      className={styles.WordInput}
       autoFocus
       inputRef={inputRef}
       id="outlined-basic"
@@ -24,6 +25,7 @@ const WordInput = ({ word }) => {
       size="small"
       defaultValue=""
       style={styleWord}
+      autoComplete="off"
     />
   );
 };
