@@ -8,7 +8,7 @@ const initiaSettingState = {
   isFeedBackButtonsShow: true,
   isImageShow: true,
   isAudioShow: true,
-  isAudioMeaningShow: false,
+  isAudioMeaningShow: true,
   isAudioExampleShow: true,
   isTextMeaningShow: true,
   isTextExampleShow: true,

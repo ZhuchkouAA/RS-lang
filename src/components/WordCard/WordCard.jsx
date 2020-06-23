@@ -23,6 +23,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
 
 import WordInput from '../WordInput';
+import IconMini from '../IconMini';
 import SentenceWithWord from '../SentenceWithWord';
 import URLS from '../../constants/APIUrls';
 import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
@@ -54,6 +55,9 @@ const WordCard = ({ settings }) => {
     isTranscriptionShow,
     isWordTranslateShow,
     isTextExampleTranslateShow,
+    isAudioShow,
+    isAudioMeaningShow,
+    isAudioExampleShow,
   } = settings;
 
   const {
@@ -64,15 +68,21 @@ const WordCard = ({ settings }) => {
     textExampleTranslateText,
     textMeaningText,
     PICTURE_URL,
+    AUDIO,
+    AUDIO_MEANING,
+    AUDIO_EXAMPLE,
   } = cardState;
 
   const [isMute, setIsMute] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
   const trackList = getTrackList(settings, cardState);
 
-  const startPlaying = () => {
+  const startPlaying = (tracks) => {
+    if (isPlaying || isMute) {
+      return;
+    }
     setPlaying(true);
-    playTrackList(trackList, () => setPlaying(false));
+    playTrackList(tracks, () => setPlaying(false));
   };
 
   const handlerSubmit = (e) => {
@@ -81,11 +91,19 @@ const WordCard = ({ settings }) => {
       return;
     }
 
-    startPlaying();
+    startPlaying(trackList);
   };
 
   const handlerClickSayWord = () => {
-    startPlaying();
+    startPlaying([AUDIO]);
+  };
+
+  const handlerClickSayMeaning = () => {
+    startPlaying([AUDIO_MEANING]);
+  };
+
+  const handlerClickSayExample = () => {
+    startPlaying([AUDIO_EXAMPLE]);
   };
 
   const muteSwitchHandler = () => {
@@ -142,19 +160,24 @@ const WordCard = ({ settings }) => {
                   </Fab>
                 </Tooltip>
               </Grid>
-              <Grid item>
-                <Tooltip onClick={handlerClickSayWord} title="Произнести слово" aria-label="add">
-                  <span>
-                    <Fab type="button" color="primary" size="small" disabled={isPlaying}>
-                      <PlayCircleOutlineRoundedIcon />
-                    </Fab>
-                  </span>
-                </Tooltip>
-              </Grid>
+              {isAudioShow ? (
+                <Grid item>
+                  <Tooltip title="Произнести слово" aria-label="add">
+                    <span>
+                      <Fab onClick={handlerClickSayWord} type="button" color="primary" size="small">
+                        <PlayCircleOutlineRoundedIcon />
+                      </Fab>
+                    </span>
+                  </Tooltip>
+                </Grid>
+              ) : null}
             </Grid>
           </form>
         </Box>
-        {isTextExampleShow && <SentenceWithWord word={word} sentence={textExampleText} />}
+        <Grid container direction="row" justify="center">
+          {isTextExampleShow && <SentenceWithWord word={word} sentence={textExampleText} />}
+          {isAudioExampleShow ? <IconMini handlerClick={handlerClickSayExample} /> : null}
+        </Grid>
         {isTextExampleTranslateShow && (
           <Typography
             className={styles.WordCard__text}
@@ -166,7 +189,10 @@ const WordCard = ({ settings }) => {
             {textExampleTranslateText}
           </Typography>
         )}
-        {isTextMeaningShow && <SentenceWithWord word={word} sentence={textMeaningText} />}
+        <Grid container direction="row" justify="center">
+          {isTextMeaningShow && <SentenceWithWord word={word} sentence={textMeaningText} />}
+          {isAudioMeaningShow ? <IconMini handlerClick={handlerClickSayMeaning} /> : null}
+        </Grid>
       </CardContent>
       <CardActions>
         <Grid container direction="row" justify="center" alignItems="center" spacing={2}>

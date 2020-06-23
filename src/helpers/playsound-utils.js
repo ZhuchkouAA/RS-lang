@@ -9,7 +9,6 @@ export const getTrackList = (
   if (isAudioExampleShow) {
     res.push(AUDIO_EXAMPLE);
   }
-
   return res;
 };
 
