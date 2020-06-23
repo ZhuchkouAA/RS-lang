@@ -1,3 +1,3 @@
-import ModalWindow from './ModalWindow';
+import CustomizedDialogs from './ModalWindow';
 
-export default ModalWindow;
+export default CustomizedDialogs;
