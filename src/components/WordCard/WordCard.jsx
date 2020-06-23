@@ -76,6 +76,7 @@ const WordCard = ({ settings }) => {
   const [isMute, setIsMute] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
   const trackList = getTrackList(settings, cardState);
+  const SoundIcon = isMute ? MusicOffIcon : MusicIcon;
 
   const startPlaying = (tracks) => {
     if (isPlaying || isMute) {
@@ -160,7 +161,7 @@ const WordCard = ({ settings }) => {
                   </Fab>
                 </Tooltip>
               </Grid>
-              {isAudioShow ? (
+              {isAudioShow && (
                 <Grid item>
                   <Tooltip title="Произнести слово" aria-label="add">
                     <span>
@@ -170,13 +171,13 @@ const WordCard = ({ settings }) => {
                     </span>
                   </Tooltip>
                 </Grid>
-              ) : null}
+              )}
             </Grid>
           </form>
         </Box>
         <Grid container direction="row" justify="center">
           {isTextExampleShow && <SentenceWithWord word={word} sentence={textExampleText} />}
-          {isAudioExampleShow ? <IconMini handlerClick={handlerClickSayExample} /> : null}
+          {isAudioExampleShow && <IconMini handlerClick={handlerClickSayExample} />}
         </Grid>
         {isTextExampleTranslateShow && (
           <Typography
@@ -191,7 +192,7 @@ const WordCard = ({ settings }) => {
         )}
         <Grid container direction="row" justify="center">
           {isTextMeaningShow && <SentenceWithWord word={word} sentence={textMeaningText} />}
-          {isAudioMeaningShow ? <IconMini handlerClick={handlerClickSayMeaning} /> : null}
+          {isAudioMeaningShow && <IconMini handlerClick={handlerClickSayMeaning} />}
         </Grid>
       </CardContent>
       <CardActions>
@@ -221,7 +222,7 @@ const WordCard = ({ settings }) => {
         <Box position="absolute" right="16px">
           <Tooltip title="Выключить звук">
             <IconButton onClick={muteSwitchHandler} aria-label="mute">
-              {isMute ? <MusicOffIcon fontSize="small" /> : <MusicIcon fontSize="small" />}
+              <SoundIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </Box>

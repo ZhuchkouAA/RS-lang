@@ -18,6 +18,5 @@ module.exports = {
   plugins: ['react', 'prettier'],
   rules: {
     'react/jsx-curly-newline': 'off',
-    'no-use-before-define': 'off',
   },
 };

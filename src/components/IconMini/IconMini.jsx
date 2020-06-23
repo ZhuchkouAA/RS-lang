@@ -6,18 +6,17 @@ import PropTypes from 'prop-types';
 
 const fabStyles = makeStyles({
   root: {
-    width: 20,
     height: 20,
     minHeight: 10,
     padding: 0,
-    sizeSmall: 20,
+    width: 20,
   },
 });
 
 const iconStyles = makeStyles({
   root: {
-    width: 15,
     height: 15,
+    width: 15,
   },
 });
 
