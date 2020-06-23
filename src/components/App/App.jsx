@@ -6,7 +6,6 @@ import Header from '../Header';
 import Footer from '../Footer/Footer';
 import AppWithRoutes from './AppWithRouter';
 import Authorization from './Authorization';
-import CustomizedDialogs from '../ModalWindow/index';
 
 const App = ({ token }) => {
   const PageRoutes = token ? <AppWithRoutes /> : <Authorization />;
@@ -17,7 +16,6 @@ const App = ({ token }) => {
         <Header />
         {PageRoutes}
       </BrowserRouter>
-      <CustomizedDialogs />
       <Footer />
     </>
   );
