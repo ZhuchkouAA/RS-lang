@@ -14,8 +14,8 @@ const App = ({ token }) => {
 
   return (
     <>
-      <ProgressBar />
       <Header />
+      <ProgressBar />
       <NavBar />
       <BrowserRouter>{PageRoutes}</BrowserRouter>
       <Footer />

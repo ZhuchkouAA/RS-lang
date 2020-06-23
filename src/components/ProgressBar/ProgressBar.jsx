@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import styles from './ProgressBar.module.scss';
 
 const useStyles = makeStyles({
@@ -21,10 +20,7 @@ export default function Progress() {
   return (
     <div className={classes.root}>
       <LinearProgress variant="determinate" value={getPercent()} />
-      <div className={styles.WordCount}>
-        <p className={styles.WordCount__count}>{`${nowValue} / ${maxValue}`}</p>
-        <ArrowBackIosIcon className={styles.WordCount__icon} />
-      </div>
+      <div className={styles.WordCount}>{`${nowValue} from ${maxValue}`}</div>
     </div>
   );
 }
