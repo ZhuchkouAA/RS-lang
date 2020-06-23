@@ -18,10 +18,14 @@
 
 
 .Header__auth {
-  &-container {
+  &-container-logout {
     align-items: center;
     display: flex;
     justify-content: space-between;
+  }
+
+  &-container-login {
+    margin: auto;
   }
 
   &-button {
@@ -74,6 +78,6 @@
   &-button-dash::after {
     content: '';
     left: -1px;
-    top: 22px;
+    top: -13px;
   }
 }

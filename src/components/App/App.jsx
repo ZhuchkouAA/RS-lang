@@ -2,22 +2,22 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import Header from '../Header';
 import Footer from '../Footer/Footer';
-import NavBar from '../NavBar/NavBar';
+import ProgressBar from '../ProgressBar';
 import AppWithRoutes from './AppWithRouter';
 import Authorization from './Authorization';
-import Header from '../Header';
-import ProgressBar from '../ProgressBar';
 
 const App = ({ token }) => {
   const PageRoutes = token ? <AppWithRoutes /> : <Authorization />;
 
   return (
     <>
-      <Header />
-      <ProgressBar />
-      <NavBar />
-      <BrowserRouter>{PageRoutes}</BrowserRouter>
+      <BrowserRouter>
+        <Header />
+        <ProgressBar />
+        {PageRoutes}
+      </BrowserRouter>
       <Footer />
     </>
   );
