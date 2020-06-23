@@ -7,7 +7,6 @@ import Footer from '../Footer/Footer';
 import ProgressBar from '../ProgressBar';
 import AppWithRoutes from './AppWithRouter';
 import Authorization from './Authorization';
-import CustomizedDialogs from '../ModalWindow/index';
 
 const App = ({ token }) => {
   const PageRoutes = token ? <AppWithRoutes /> : <Authorization />;
@@ -19,7 +18,6 @@ const App = ({ token }) => {
         <ProgressBar />
         {PageRoutes}
       </BrowserRouter>
-      <CustomizedDialogs />
       <Footer />
     </>
   );
