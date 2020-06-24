@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import Header from '../Header';
 import Footer from '../Footer/Footer';
 import ProgressBar from '../ProgressBar';
-import Loader from '../Loader';
 import AppWithRoutes from './AppWithRouter';
 import Authorization from './Authorization';
 
@@ -17,7 +16,6 @@ const App = ({ token }) => {
       <BrowserRouter>
         <Header />
         <ProgressBar />
-        <Loader />
         {PageRoutes}
       </BrowserRouter>
       <Footer />
