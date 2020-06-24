@@ -1,5 +1,6 @@
 const API_URLS = {
-  GET_WORDS: 'https://afternoon-falls-25894.herokuapp.com/words',
+  GET_WORDS: (group, page, wordsPerExampleSentenceLTE, wordsPerPage) =>
+    `https://afternoon-falls-25894.herokuapp.com/words?group=${group}&page=${page}&wordsPerExampleSentenceLTE=${wordsPerExampleSentenceLTE}&wordsPerPage=${wordsPerPage}`,
   GET_WORDS_COUNT: 'https://afternoon-falls-25894.herokuapp.com/words/count',
   GET_WORD_BY_ID: (id) => `https://afternoon-falls-25894.herokuapp.com/words/${id}`,
   USERS_CREATE_USER: 'https://afternoon-falls-25894.herokuapp.com/users',

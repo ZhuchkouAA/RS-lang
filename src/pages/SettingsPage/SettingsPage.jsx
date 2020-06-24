@@ -9,12 +9,12 @@ import Inputs from '../../components/Input';
 
 import style from './SettingsPage.module.scss';
 
-const SettingsPage = ({ settings: storeSettings, putSettings }) => {
+const SettingsPage = ({ settings: storeSettings, getProgress }) => {
   const [settings, setSettings] = useState(storeSettings);
 
   const onSaveButton = (event) => {
     event.preventDefault();
-    putSettings(settings);
+    getProgress(settings);
   };
 
   return (
@@ -146,7 +146,7 @@ const SettingsPage = ({ settings: storeSettings, putSettings }) => {
 
 SettingsPage.propTypes = {
   settings: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.bool, PropTypes.string])).isRequired,
-  putSettings: PropTypes.func.isRequired,
+  getProgress: PropTypes.func.isRequired,
 };
 
 export default SettingsPage;

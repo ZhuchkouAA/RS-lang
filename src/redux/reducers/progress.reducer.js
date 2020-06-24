@@ -15,7 +15,7 @@ const initialProgressState = {
   leftNewWordsToday: 10,
   queueNewWords: [],
   queueRepeatWords: [],
-  leftRepeatWordsToday: 0,
+  leftRepeatWordsToday: 20,
 };
 
 const progressReducer = (state = initialProgressState, { type, payload }) => {
