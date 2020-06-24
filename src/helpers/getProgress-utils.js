@@ -61,7 +61,22 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
     const newWords = await rawWords.json();
     wordsArray = wordsArray.concat(newWords);
   }
-  return wordsArray;
+  // преобразуем в стандартный вид serverWord
+  return wordsArray.map((el) => {
+    const { id, ...other } = el;
+    return {
+      difficulty: '100',
+      wordId: id,
+      optional: {
+        repeatDate: 'func=>date',
+        isStudying: true,
+        isHard: false,
+        isDeleted: false,
+        isMethodPost: true,
+        ...other,
+      },
+    };
+  });
 };
 
 export const getNewQueueRepeatWords = async () => {

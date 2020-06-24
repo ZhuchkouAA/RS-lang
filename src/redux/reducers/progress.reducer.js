@@ -11,10 +11,12 @@ import {
 
 const initialProgressState = {
   differentCardsShowedAllTime: 0,
+  cardsShowedAllTime: 0,
   dateOfReceiptOfWords: Date.now() + 86400000,
   leftNewWordsToday: 10,
   queueNewWords: [],
   queueRepeatWords: [],
+  queueRandom300: [],
   leftRepeatWordsToday: 20,
 };
 

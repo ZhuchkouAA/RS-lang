@@ -26,6 +26,7 @@ export const putSettings = (settings = store.getState().settings) => {
   const { wordsPerDay, ...optional } = settings;
   const body = JSON.stringify({ wordsPerDay, optional: { ...optional } });
   const url = API_URLS.USER_SETTINGS(getCookie(USER_ID));
+
   return async (dispatch) => {
     try {
       const rawResponse = await putWithTokenRequest(url, getCookie(TOKEN), body);
