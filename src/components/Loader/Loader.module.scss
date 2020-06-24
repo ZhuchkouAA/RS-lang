@@ -14,10 +14,8 @@
     height: 69px;
     width: 110px;
   }
-}
 
-.Load__bubblingG {
-  span {
+  &__items {
     animation: bubblingG 0.7s infinite alternate;
     background: rgb(0, 0, 0);
     border-radius: 69px;
@@ -28,15 +26,15 @@
   }
 
   &__first {
-    animation-delay: 0s !important;
+    animation-delay: 0s;
   }
 
   &__second {
-    animation-delay: 0.2s !important; 
+    animation-delay: 0.2s; 
   }
 
   &__third {
-    animation-delay: 0.4s !important; 
+    animation-delay: 0.4s; 
   }
 }
 
