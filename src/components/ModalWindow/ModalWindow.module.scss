@@ -1,20 +1,61 @@
-.background {
-  color: #090;
+.ModalWindow {
+  &__content {
+    min-height: 100px;
+    min-width: 500px;
+  }
+    
+  &__title {
+    align-items: center;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    text-align: center;
+  }
+
+  &__title::before {
+    background: url('../../img/info.png');
+    background-position: center;
+    background-size: cover;
+    content: '';
+    display: block;
+    height: 50px;
+    margin-right: 15px;
+    width: 50px;
+  }
+
+  &__titleError {
+    align-items: center;
+    color: #8b0000;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  &__titleError::before {
+    background: url('../../img/error.png');
+    background-position: center;
+    background-size: cover;
+    content: '';
+    display: block;
+    height: 50px;
+    margin-right: 15px;
+    width: 50px;
+  }
+
+  &__buttonOk {
+    padding: 20px 50px;
+  }
+
+
+  
 }
 
-.background2 {
-  color: #020;
-}
 
-.DialogWrapper {
-  min-height: 100px;
-  min-width: 500px;
-}
 
-.DialogTittle {
-  color: #100;
-  font-size: 100px;
-  margin: 100px;
-  padding: 0;
-  text-align: center;
-}
+
+
+
+
+
+
