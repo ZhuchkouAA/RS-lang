@@ -1,3 +1,5 @@
+@import '../../styles-global/index.module';
+
 .WordColoredChecker {
   left: 23px;
   opacity: 0;
@@ -5,4 +7,20 @@
   top: 16px;
   transition: all 1s ease-in-out;
   z-index: 1;
+
+  &__letter {
+    font-weight: 700;
+  }
+
+  &__few-errors {
+    color: $orange-color;
+  }
+
+  &__many-errors {
+    color: $red-color;
+  }
+
+  &__no-errors {
+    color: $green-color;
+  }
 }

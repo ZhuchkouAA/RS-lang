@@ -1,5 +1,9 @@
-import { ACCURACY_ENTERED_WORD } from '../constants/app-settings';
-import colors from '../styles-global/colors.module.scss';
+import {
+  ACCURACY_ENTERED_WORD,
+  MANY_ERRORS,
+  FEW_ERRORS,
+  NO_ERRORS,
+} from '../constants/app-settings';
 
 export const getTextWidthInPx = (text) => {
   const span = document.createElement('span');
@@ -78,22 +82,20 @@ const getRightCharPositions = (word, enteredText) => {
 
 export const getColoredEnteredChars = (word, enteredText) => {
   const lettersWithPosition = getRightCharPositions(word, enteredText);
-  const errorColor =
-    lettersWithPosition.accuracy > ACCURACY_ENTERED_WORD
-      ? colors.manyErrorsColor
-      : colors.fewErrorsColor;
+  const errorColorType =
+    lettersWithPosition.accuracy > ACCURACY_ENTERED_WORD ? MANY_ERRORS : FEW_ERRORS;
 
   return lettersWithPosition.map(({ isRightPosition, value }) => {
     if (isRightPosition) {
       return {
         value,
-        color: colors.noErrorsColor,
+        colorType: NO_ERRORS,
       };
     }
 
     return {
       value,
-      color: errorColor,
+      colorType: errorColorType,
     };
   });
 };

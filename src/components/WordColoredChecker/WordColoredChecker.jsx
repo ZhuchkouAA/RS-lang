@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
+import classNames from 'classnames';
 
+import { MANY_ERRORS, FEW_ERRORS } from '../../constants/app-settings';
 import { getColoredEnteredChars } from '../../helpers/text-utils';
 import styles from './WordColoredChecker.module.scss';
 
@@ -17,16 +19,24 @@ const WordColoredChecker = ({ opacity, word, wordToCheck }) => {
       component="span"
       gutterBottom
     >
-      {letters.map((letter, index) => {
-        const letterStyle = {
-          color: letter.color,
-          fontWeight: 700,
-        };
-        const key = `wordColoredChecker_${letter}__${index}`;
+      {letters.map(({ value, colorType }, index) => {
+        let letterColor = styles['WordColoredChecker__no-errors'];
+        switch (colorType) {
+          case MANY_ERRORS:
+            letterColor = styles['WordColoredChecker__many-errors'];
+            break;
+          case FEW_ERRORS:
+            letterColor = styles['WordColoredChecker__few-errors'];
+            break;
+          default:
+            break;
+        }
+        const letterClasses = classNames(styles.WordColoredChecker__letter, letterColor);
+        const key = `wordColoredChecker_${value}__${index}`;
 
         return (
-          <span style={letterStyle} key={key}>
-            {letter.value}
+          <span className={letterClasses} key={key}>
+            {value}
           </span>
         );
       })}

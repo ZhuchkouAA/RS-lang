@@ -12,7 +12,7 @@ import styles from './SentenceWithWord.module.scss';
 
 const SentenceWithWord = ({ sentence, word, isWordVisible }) => {
   const { sentencePart, wordIndex } = splitSentenceByWord(sentence);
-  const styleWord = getStyleWidthForText(sentencePart[wordIndex]);
+  const wordWidth = getStyleWidthForText(sentencePart[wordIndex]);
   const template = isWordVisible ? word : getTemplateForWord(word);
   const keyPre = 'sentenceWithWord';
 
@@ -27,7 +27,7 @@ const SentenceWithWord = ({ sentence, word, isWordVisible }) => {
       {sentencePart.map((text, index) => {
         if (index === wordIndex) {
           return (
-            <span className={styles.SentenceWithWord__selected} key={word} style={styleWord}>
+            <span className={styles.SentenceWithWord__selected} key={word} style={wordWidth}>
               {template}
             </span>
           );

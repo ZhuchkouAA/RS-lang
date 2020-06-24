@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 
 import { getStyleWidthForText } from '../../helpers/text-utils';
 import styles from './WordInput.module.scss';
-import colors from '../../styles-global/colors.module.scss';
 
 const WordInput = ({ word, handleInputChange, enteredWord }) => {
   const styleWord = getStyleWidthForText(word);
@@ -19,6 +18,7 @@ const WordInput = ({ word, handleInputChange, enteredWord }) => {
   return (
     <TextField
       className={styles.WordInput}
+      classes={{ root: styles.WordInput__text }}
       autoFocus
       inputRef={inputRef}
       id="outlined-basic"
@@ -27,12 +27,6 @@ const WordInput = ({ word, handleInputChange, enteredWord }) => {
       value={enteredWord}
       style={styleWord}
       autoComplete="off"
-      inputProps={{
-        style: {
-          color: colors.inputTextColor,
-          fontWeight: 700,
-        },
-      }}
       onChange={handleInputChange}
     />
   );

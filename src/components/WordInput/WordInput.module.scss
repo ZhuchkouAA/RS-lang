@@ -1,4 +1,11 @@
+@import '../../styles-global/index.module';
+
 .WordInput {
   background-color: transparent;
   z-index: 2;
+
+  &__text {
+    color: $input-text-color;
+    font-weight: 700;
+  }
 }
