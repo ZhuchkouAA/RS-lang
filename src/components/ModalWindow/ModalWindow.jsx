@@ -11,6 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
 import PropTypes from 'prop-types';
+
 import style from './ModalWindow.module.scss';
 
 const styles = (theme) => ({
@@ -58,24 +59,29 @@ const DialogActions = withStyles((theme) => ({
 
 const CustomizedDialogs = ({ isOpen, type, message }) => {
   const [open, setOpen] = React.useState(isOpen);
+  let modalTiattle;
 
   const handleClose = () => {
     setOpen(false);
   };
   let x;
-  if (type === 'info') {
-    x = style.background;
-  } else {
-    x = style.background2;
+  if (type.toLowerCase() === 'info') {
+    modalTiattle = 'Informations';
+  } else if (type.toLowerCase() === 'error') {
+    modalTiattle = 'Error';
   }
 
   return (
     <div>
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          {type}
+        <DialogTitle
+          className={style.DialogTitle}
+          id="customized-dialog-title"
+          onClose={handleClose}
+        >
+          {modalTiattle}
         </DialogTitle>
-        <DialogContent dividers>
+        <DialogContent className={style.DialogWrapper} dividers>
           <Typography className={x} gutterBottom>
             {message}
           </Typography>
