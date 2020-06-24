@@ -83,7 +83,7 @@ export const getColoredEnteredChars = (word, enteredText) => {
       ? colors.manyErrorsColor
       : colors.fewErrorsColor;
 
-  const rt = lettersWithPosition.map(({ isRightPosition, value }) => {
+  return lettersWithPosition.map(({ isRightPosition, value }) => {
     if (isRightPosition) {
       return {
         value,
@@ -96,6 +96,4 @@ export const getColoredEnteredChars = (word, enteredText) => {
       color: errorColor,
     };
   });
-
-  return rt;
 };

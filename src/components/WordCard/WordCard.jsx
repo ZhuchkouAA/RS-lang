@@ -152,8 +152,9 @@ const WordCard = ({ settings }) => {
                   </Tooltip>
                 )}
               </Grid>
-              <Grid item>
+              <Grid item style={{ position: 'relative' }}>
                 <WordInput word={word} />
+                <WordColoredChecker isVisible={false} word={word} enteredText="instrtct" />
               </Grid>
               <Grid item>
                 <Tooltip title="Проверить слово" aria-label="add">

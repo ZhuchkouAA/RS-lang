@@ -7,10 +7,12 @@ $black-color: #000;
 $green-color: #3fd18f;
 $red-color: #cf2a01;
 $orange-color: #db7439;
+$input-text-color: #456d52;
 
 :export {
   /* stylelint-disable property-no-unknown */
   fewErrorsColor: $orange-color;
+  inputTextColor: $input-text-color;
   manyErrorsColor: $red-color;
   noErrorsColor: $green-color;
   /* stylelint-enable */
