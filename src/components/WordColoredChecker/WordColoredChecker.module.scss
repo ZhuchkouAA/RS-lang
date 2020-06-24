@@ -1,11 +1,8 @@
-@import '../../styles-global/index.module';
-
 .WordColoredChecker {
-  @extend %transition-all;
-
   left: 23px;
-  opacity: 1;
+  opacity: 0;
   position: absolute;
   top: 16px;
+  transition: all 1s ease-in-out;
   z-index: 1;
 }

@@ -6,7 +6,7 @@ import { getStyleWidthForText } from '../../helpers/text-utils';
 import styles from './WordInput.module.scss';
 import colors from '../../styles-global/colors.module.scss';
 
-const WordInput = ({ word }) => {
+const WordInput = ({ word, handleInputChange, enteredWord }) => {
   const styleWord = getStyleWidthForText(word);
   const inputRef = useRef();
 
@@ -24,7 +24,7 @@ const WordInput = ({ word }) => {
       id="outlined-basic"
       variant="outlined"
       size="small"
-      defaultValue=""
+      value={enteredWord}
       style={styleWord}
       autoComplete="off"
       inputProps={{
@@ -33,12 +33,15 @@ const WordInput = ({ word }) => {
           fontWeight: 700,
         },
       }}
+      onChange={handleInputChange}
     />
   );
 };
 
 WordInput.propTypes = {
   word: PropTypes.string.isRequired,
+  enteredWord: PropTypes.string.isRequired,
+  handleInputChange: PropTypes.func.isRequired,
 };
 
 export default WordInput;

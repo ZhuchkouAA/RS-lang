@@ -5,9 +5,9 @@ import { Typography } from '@material-ui/core';
 import { getColoredEnteredChars } from '../../helpers/text-utils';
 import styles from './WordColoredChecker.module.scss';
 
-const WordColoredChecker = ({ isVisible, word, enteredText }) => {
-  const letters = getColoredEnteredChars(word, enteredText);
-  const style = isVisible ? {} : { opacity: 1 };
+const WordColoredChecker = ({ opacity, word, wordToCheck }) => {
+  const letters = getColoredEnteredChars(word, wordToCheck);
+  const style = { opacity };
 
   return (
     <Typography
@@ -36,8 +36,8 @@ const WordColoredChecker = ({ isVisible, word, enteredText }) => {
 
 WordColoredChecker.propTypes = {
   word: PropTypes.string.isRequired,
-  enteredText: PropTypes.string.isRequired,
-  isVisible: PropTypes.bool.isRequired,
+  wordToCheck: PropTypes.string.isRequired,
+  opacity: PropTypes.number.isRequired,
 };
 
 export default WordColoredChecker;

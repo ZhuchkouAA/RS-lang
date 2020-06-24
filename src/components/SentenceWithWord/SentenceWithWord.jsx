@@ -10,10 +10,10 @@ import {
 
 import styles from './SentenceWithWord.module.scss';
 
-const SentenceWithWord = ({ sentence, word }) => {
+const SentenceWithWord = ({ sentence, word, isWordVisible }) => {
   const { sentencePart, wordIndex } = splitSentenceByWord(sentence);
   const styleWord = getStyleWidthForText(sentencePart[wordIndex]);
-  const template = getTemplateForWord(word);
+  const template = isWordVisible ? word : getTemplateForWord(word);
   const keyPre = 'sentenceWithWord';
 
   return (
@@ -41,6 +41,7 @@ const SentenceWithWord = ({ sentence, word }) => {
 SentenceWithWord.propTypes = {
   sentence: PropTypes.string.isRequired,
   word: PropTypes.string.isRequired,
+  isWordVisible: PropTypes.bool.isRequired,
 };
 
 export default SentenceWithWord;
