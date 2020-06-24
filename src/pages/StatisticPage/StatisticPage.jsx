@@ -7,7 +7,7 @@ import CustomizedDialogs from '../../components/ModalWindow/index';
 
 const StatisticPage = () => (
   <>
-    <CustomizedDialogs isOpen message="Araik!" type="error" />
+    <CustomizedDialogs isOpen message="Araik" type="error" />
     <NavLink to={PATH.SIGN_IN}>SignInPage</NavLink>
   </>
 );
