@@ -172,7 +172,7 @@ const WordCard = ({ settings }) => {
                   </Tooltip>
                 )}
               </Grid>
-              <Grid item style={{ position: 'relative' }}>
+              <Grid item className={styles.WordCard__input}>
                 <WordInput
                   word={word}
                   handleInputChange={handleInputChange}
