@@ -1,0 +1,33 @@
+@import '../../styles-global/index.module';
+
+.WordColoredChecker {
+  left: 23px;
+  opacity: 0;
+  position: absolute;
+  top: 16px;
+  transition: all 1s ease-in-out;
+  z-index: 1;
+
+  &__show {
+    animation: promt 3s;
+    opacity: 0.5;
+  }
+
+  &__fix {
+    opacity: 1;
+  }
+}
+
+@keyframes promt {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}

@@ -28,6 +28,7 @@ import IconMini from '../IconMini';
 import SentenceWithWord from '../SentenceWithWord';
 import URLS from '../../constants/APIUrls';
 import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
+import WordColoredChecker from '../WordColoredChecker';
 
 import styles from './WordCard.module.scss';
 
@@ -77,6 +78,12 @@ const WordCard = ({ settings }) => {
   const [isVotePanelShow] = useState(true);
   const [isMute, setIsMute] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
+  const [isWordGuessed, setWordGuessed] = useState(false);
+  const [isCheckerVisible, setCheckerVisible] = useState(false);
+  const [enteredWord, setEnteredWord] = useState('');
+  const [wordToCheck, setWordToCheck] = useState('');
+  const [cntLearnErrors, setLearnErrors] = useState(0);
+
   const trackList = getTrackList(settings, cardState);
   const SoundIcon = isMute ? MusicOffIcon : MusicIcon;
 
@@ -88,13 +95,27 @@ const WordCard = ({ settings }) => {
     playTrackList(tracks, () => setPlaying(false));
   };
 
+  const handleInputChange = ({ target: { value } }) => {
+    setEnteredWord(value);
+
+    if (cntLearnErrors > 0 && value.length > 0) {
+      setCheckerVisible(false);
+    }
+  };
+
   const handlerSubmit = (e) => {
     e.preventDefault();
-    if (isMute) {
-      return;
-    }
 
-    startPlaying(trackList);
+    setWordToCheck(enteredWord);
+    setCheckerVisible(true);
+    setEnteredWord('');
+
+    if (enteredWord === word) {
+      setWordGuessed(true);
+      startPlaying(trackList);
+    } else {
+      setLearnErrors(cntLearnErrors + 1);
+    }
   };
 
   const handlerClickSayWord = () => {
@@ -157,8 +178,17 @@ const WordCard = ({ settings }) => {
                   </Tooltip>
                 )}
               </Grid>
-              <Grid item>
-                <WordInput word={word} />
+              <Grid item className={styles.WordCard__input}>
+                <WordInput
+                  word={word}
+                  handleInputChange={handleInputChange}
+                  enteredWord={enteredWord}
+                />
+                <WordColoredChecker
+                  isVisible={isCheckerVisible}
+                  word={word}
+                  wordToCheck={wordToCheck}
+                />
                 <VoteButtonsPanel handlerClick={handlerClickVoteButton} isShow={isVotePanelShow} />
               </Grid>
               <Grid item>
@@ -183,7 +213,13 @@ const WordCard = ({ settings }) => {
           </form>
         </Box>
         <Grid container direction="row" justify="center">
-          {isTextExampleShow && <SentenceWithWord word={word} sentence={textExampleText} />}
+          {isTextExampleShow && (
+            <SentenceWithWord
+              word={word}
+              sentence={textExampleText}
+              isWordVisible={isWordGuessed}
+            />
+          )}
           {isAudioExampleShow && <IconMini handlerClick={handlerClickSayExample} />}
         </Grid>
         {isTextExampleTranslateShow && (
@@ -198,7 +234,13 @@ const WordCard = ({ settings }) => {
           </Typography>
         )}
         <Grid container direction="row" justify="center">
-          {isTextMeaningShow && <SentenceWithWord word={word} sentence={textMeaningText} />}
+          {isTextMeaningShow && (
+            <SentenceWithWord
+              word={word}
+              sentence={textMeaningText}
+              isWordVisible={isWordGuessed}
+            />
+          )}
           {isAudioMeaningShow && <IconMini handlerClick={handlerClickSayMeaning} />}
         </Grid>
       </CardContent>
