@@ -1,0 +1,17 @@
+@import '../../styles-global/index.module';
+
+.ColoredChar {
+  font-weight: 700;
+
+  &__few-errors {
+    color: $orange-color;
+  }
+
+  &__many-errors {
+    color: $red-color;
+  }
+
+  &__no-errors {
+    color: $green-color;
+  }
+}
