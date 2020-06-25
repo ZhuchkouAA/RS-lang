@@ -1,0 +1,44 @@
+.Card {
+  height: 380px;
+  margin-bottom: 50px;
+  min-width: 300px;
+  padding: 0 20px;
+  width: 40%;
+
+  &__header,
+  &__main {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__header {
+    background: url('./../../img/wood.png') 50% 25% no-repeat;
+    height: 175px;
+  }
+
+  &__main {
+    margin: 10px 0 20px;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 0;
+  }
+
+  &__button {
+    margin-right: 20px;
+  }
+
+  &__icons {
+    margin-top: 25px;
+  }
+
+  &__points {
+    background-color: rgba(0, 150, 0, 0.2);
+    border-radius: 20px;
+    padding: 0 10px;
+  }
+}
+
