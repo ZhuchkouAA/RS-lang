@@ -3,6 +3,8 @@ import { routerReducer } from 'react-router-redux';
 
 import userDataReducer from './sign-in.reducer';
 import settingsReducer from './settings.reducer';
+import modalWindowReducer from './modalWindow.reducer';
+import progressReducer from './progress.reducer';
 import navBarReducer from './navBar.reducer';
 
 const reducers = combineReducers({
@@ -10,6 +12,8 @@ const reducers = combineReducers({
   navBar: navBarReducer,
   userData: userDataReducer,
   settings: settingsReducer,
+  modelWindow: modalWindowReducer,
+  progress: progressReducer,
 });
 
 export default reducers;

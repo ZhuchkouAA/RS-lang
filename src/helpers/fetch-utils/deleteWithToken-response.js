@@ -1,13 +1,12 @@
-const postWithTokenRequest = (url, token, body) => {
+const deleteWithTokenRequest = (url, token) => {
   return fetch(url, {
-    method: 'POST',
+    method: 'DELETE',
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body,
   });
 };
 
-export default postWithTokenRequest;
+export default deleteWithTokenRequest;

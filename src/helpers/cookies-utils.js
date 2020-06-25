@@ -11,7 +11,7 @@ export const setCookie = (name, value, options = initValueOptions) => {
 
   const keys = Object.keys(options);
   keys.forEach((key) => {
-    updatedCookie += `; + ${key}`;
+    updatedCookie += `; ${key}`;
     updatedCookie += options[key] ? `=${options[key]}` : '';
   });
 

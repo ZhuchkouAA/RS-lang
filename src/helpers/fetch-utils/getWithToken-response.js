@@ -1,6 +1,6 @@
 const getRequest = (url, token) => {
   return fetch(url, {
-    method: 'POST',
+    method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: 'application/json',

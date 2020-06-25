@@ -1,6 +1,6 @@
-const postWithTokenRequest = (url, token, body) => {
+const putWithTokenRequest = (url, token, body) => {
   return fetch(url, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: 'application/json',
@@ -10,4 +10,4 @@ const postWithTokenRequest = (url, token, body) => {
   });
 };
 
-export default postWithTokenRequest;
+export default putWithTokenRequest;
