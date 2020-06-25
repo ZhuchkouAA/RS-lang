@@ -22,6 +22,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
 
+import VoteButtonsPanel from '../VoteButtonsPanel';
 import WordInput from '../WordInput';
 import IconMini from '../IconMini';
 import SentenceWithWord from '../SentenceWithWord';
@@ -73,6 +74,7 @@ const WordCard = ({ settings }) => {
     AUDIO_EXAMPLE,
   } = cardState;
 
+  const [isVotePanelShow] = useState(true);
   const [isMute, setIsMute] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
   const trackList = getTrackList(settings, cardState);
@@ -109,6 +111,10 @@ const WordCard = ({ settings }) => {
 
   const muteSwitchHandler = () => {
     setIsMute(!isMute);
+  };
+
+  const handlerClickVoteButton = () => {
+    // console.log(`handlerClickVoteButton = ${target.innerText}`);
   };
 
   return (
@@ -153,6 +159,7 @@ const WordCard = ({ settings }) => {
               </Grid>
               <Grid item>
                 <WordInput word={word} />
+                <VoteButtonsPanel handlerClick={handlerClickVoteButton} isShow={isVotePanelShow} />
               </Grid>
               <Grid item>
                 <Tooltip title="Проверить слово" aria-label="add">
