@@ -26,6 +26,7 @@
     margin: 10px 0 20px;
   }
 
+<<<<<<< HEAD
   &__icons {
     margin-top: 45px;
   }
@@ -44,11 +45,18 @@
 
   &__buttons {
     display: flex;
+=======
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 0;
+>>>>>>> RSL-30: layout sprint game
   }
 
   &__button {
     margin-right: 20px;
   }
+<<<<<<< HEAD
 }
 
 .Points {
@@ -105,6 +113,17 @@
 
   100% {
     outline-color: rgba(255, 51, 0, 0);
+=======
+
+  &__icons {
+    margin-top: 25px;
+  }
+
+  &__points {
+    background-color: rgba(0, 150, 0, 0.2);
+    border-radius: 20px;
+    padding: 0 10px;
+>>>>>>> RSL-30: layout sprint game
   }
 }
 
