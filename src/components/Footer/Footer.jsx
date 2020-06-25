@@ -15,7 +15,7 @@ const Footer = () => {
             height="40"
             alt="RS"
           />
-          <p className={style.Footer__headerRs}>Rolling Scopes School</p>
+          <p className={style['Footer__header-rs']}>Rolling Scopes School</p>
         </a>
       </Grid>
     </footer>
