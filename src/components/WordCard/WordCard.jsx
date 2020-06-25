@@ -77,7 +77,7 @@ const WordCard = ({ settings }) => {
   const [isMute, setIsMute] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
   const [isWordGuessed, setWordGuessed] = useState(false);
-  const [checkerOpacity, setCheckerOpacity] = useState(0);
+  const [isCheckerVisible, setCheckerVisible] = useState(false);
   const [enteredWord, setEnteredWord] = useState('');
   const [wordToCheck, setWordToCheck] = useState('');
   const [cntLearnErrors, setLearnErrors] = useState(0);
@@ -97,7 +97,7 @@ const WordCard = ({ settings }) => {
     setEnteredWord(value);
 
     if (cntLearnErrors > 0 && value.length > 0) {
-      setCheckerOpacity(0);
+      setCheckerVisible(false);
     }
   };
 
@@ -105,7 +105,7 @@ const WordCard = ({ settings }) => {
     e.preventDefault();
 
     setWordToCheck(enteredWord);
-    setCheckerOpacity(0.5);
+    setCheckerVisible(true);
     setEnteredWord('');
 
     if (enteredWord === word) {
@@ -179,7 +179,7 @@ const WordCard = ({ settings }) => {
                   enteredWord={enteredWord}
                 />
                 <WordColoredChecker
-                  opacity={checkerOpacity}
+                  isVisible={isCheckerVisible}
                   word={word}
                   wordToCheck={wordToCheck}
                 />

@@ -23,4 +23,27 @@
   &__no-errors {
     color: $green-color;
   }
+
+  &__show {
+    animation: promt 5s;
+    opacity: 0.5;
+  }
+
+  &__fix {
+    opacity: 1;
+  }
+}
+
+@keyframes promt {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
 }
