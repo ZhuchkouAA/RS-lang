@@ -9,7 +9,7 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 
 import PropTypes from 'prop-types';
 
-import style from './ModalWindow.module.scss';
+import style from './Dialog.module.scss';
 
 const styles = (theme) => ({
   root: {
@@ -38,27 +38,24 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const CustomizedDialogs = ({ isOpen, type, message }) => {
+const CustomizedDialogs = ({ isOpen, type, tittle, message }) => {
   const [open, setOpen] = React.useState(isOpen);
-  let modalTittle;
 
   const handleClose = () => {
     setOpen(false);
   };
-  const stylesMyDialog = {};
+  const stylesDialog = {};
   if (type.toLowerCase() === 'info') {
-    modalTittle = 'Informations';
-    stylesMyDialog.ModalWindow__title = style.ModalWindow__title;
+    stylesDialog.ModalWindow__title = style.ModalWindow__title;
   } else if (type.toLowerCase() === 'error') {
-    modalTittle = 'Error';
-    stylesMyDialog.ModalWindow__title = style.ModalWindow__titleError;
+    stylesDialog.ModalWindow__title = style['ModalWindow__title-error'];
   }
 
   const DialogTitle = withStyles(styles)((props) => {
     return (
-      <MuiDialogTitle disableTypography className={stylesMyDialog.ModalWindow__title}>
+      <MuiDialogTitle disableTypography className={stylesDialog.ModalWindow__title}>
         <Typography variant="h6">{props.children}</Typography>
-        {props.onClose ? (
+        {(props.onClose && (
           <IconButton
             aria-label="close"
             className={props.classes.closeButton}
@@ -66,38 +63,38 @@ const CustomizedDialogs = ({ isOpen, type, message }) => {
           >
             <CloseIcon />
           </IconButton>
-        ) : null}
+        )) ||
+          null}
       </MuiDialogTitle>
     );
   });
 
   return (
-    <div>
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          {modalTittle}
-        </DialogTitle>
-        <DialogContent className={style.ModalWindow__content} dividers>
-          <Typography gutterBottom>{message}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            className={style.ModalWindow__buttonOk}
-            autoFocus
-            onClick={handleClose}
-            color="primary"
-          >
-            ok
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+      <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        {tittle}
+      </DialogTitle>
+      <DialogContent className={style.ModalWindow__content} dividers>
+        <Typography gutterBottom>{message}</Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          className={style['ModalWindow__button-ok']}
+          autoFocus
+          onClick={handleClose}
+          color="primary"
+        >
+          Закрыть
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
 CustomizedDialogs.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
+  tittle: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
   onClose: PropTypes.string.isRequired,

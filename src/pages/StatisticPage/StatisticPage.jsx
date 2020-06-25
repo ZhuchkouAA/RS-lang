@@ -3,11 +3,8 @@ import { NavLink } from 'react-router-dom';
 
 import PATH from '../../constants/path';
 
-import CustomizedDialogs from '../../components/ModalWindow/index';
-
 const StatisticPage = () => (
   <>
-    <CustomizedDialogs isOpen message="Araik" type="error" />
     <NavLink to={PATH.SIGN_IN}>SignInPage</NavLink>
   </>
 );
