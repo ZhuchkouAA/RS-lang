@@ -73,13 +73,14 @@ export const ALL_SECTIONS = [
   },
 ];
 
+export const WORD_CARD = {
+  section: 'WORD_CARD',
+  name: 'Изучение слов',
+  description: 'Изучаем новые слова и повторяем уже выученное',
+  path: '/wordcard',
+};
+
 export const GAMES = [
-  {
-    section: 'WORD_CARD',
-    name: 'Изучение слов',
-    description: 'Изучаем новые слова и повторяем уже выученное',
-    path: '/wordcard',
-  },
   {
     section: 'ENGLISH_PUZZLE',
     name: 'Пазл',
