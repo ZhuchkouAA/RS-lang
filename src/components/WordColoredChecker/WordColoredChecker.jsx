@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
-import { MANY_ERRORS, FEW_ERRORS } from '../../constants/app-settings';
+import ColoredChar from '../ColoredChar';
 import { getColoredEnteredChars } from '../../helpers/text-utils';
 import styles from './WordColoredChecker.module.scss';
 
@@ -18,25 +18,9 @@ const WordColoredChecker = ({ isVisible, word, wordToCheck }) => {
   return (
     <Typography className={checkerClasses} variant="body1" component="span" gutterBottom>
       {letters.map(({ value, colorType }, index) => {
-        let letterColor = styles['WordColoredChecker__no-errors'];
-        switch (colorType) {
-          case MANY_ERRORS:
-            letterColor = styles['WordColoredChecker__many-errors'];
-            break;
-          case FEW_ERRORS:
-            letterColor = styles['WordColoredChecker__few-errors'];
-            break;
-          default:
-            break;
-        }
-        const letterClasses = classNames(styles.WordColoredChecker__letter, letterColor);
         const key = `wordColoredChecker_${value}__${index}`;
 
-        return (
-          <span className={letterClasses} key={key}>
-            {value}
-          </span>
-        );
+        return <ColoredChar colorType={colorType} value={value} key={key} />;
       })}
     </Typography>
   );

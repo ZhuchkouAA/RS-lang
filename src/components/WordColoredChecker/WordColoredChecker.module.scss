@@ -8,24 +8,8 @@
   transition: all 1s ease-in-out;
   z-index: 1;
 
-  &__letter {
-    font-weight: 700;
-  }
-
-  &__few-errors {
-    color: $orange-color;
-  }
-
-  &__many-errors {
-    color: $red-color;
-  }
-
-  &__no-errors {
-    color: $green-color;
-  }
-
   &__show {
-    animation: promt 5s;
+    animation: promt 3s;
     opacity: 0.5;
   }
 
