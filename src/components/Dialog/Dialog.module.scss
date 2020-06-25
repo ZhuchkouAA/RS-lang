@@ -3,7 +3,7 @@
     min-height: 100px;
     min-width: 500px;
   }
-    
+
   &__title {
     align-items: center;
     color: #000;
@@ -24,7 +24,7 @@
     width: 50px;
   }
 
-  &__titleError {
+  &__title-error {
     align-items: center;
     color: #8b0000;
     display: flex;
@@ -32,7 +32,7 @@
     text-align: center;
   }
 
-  &__titleError::before {
+  &__title-error::before {
     background: url('../../img/error.png');
     background-position: center;
     background-size: cover;
@@ -43,19 +43,7 @@
     width: 50px;
   }
 
-  &__buttonOk {
+  &__button-ok {
     padding: 20px 50px;
   }
-
-
-  
 }
-
-
-
-
-
-
-
-
-
