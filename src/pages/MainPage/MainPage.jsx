@@ -4,10 +4,10 @@ import { Grid, Container, Box } from '@material-ui/core';
 import AppSectionCard from '../../components/AppSectionCard';
 import UserProgressCard from '../../components/UserProgressCard';
 import PATH from '../../constants/path';
-import { GAMES } from '../../constants/section';
+import { GAMES, WORD_CARD } from '../../constants/section';
 
 const MainPage = () => {
-  const { name: cardName, description: cardDescription } = GAMES[0];
+  const { name: cardName, description: cardDescription } = WORD_CARD;
 
   const gameCards = GAMES.map((game) => {
     const { path, name, description } = game;
