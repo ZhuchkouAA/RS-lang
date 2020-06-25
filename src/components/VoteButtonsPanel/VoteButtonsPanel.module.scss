@@ -1,0 +1,16 @@
+@import '../../styles-global/index.module';
+
+.VoteButtonsPanel {
+  @extend %card-shadow;
+
+  background-color: $white-color-transparent;
+  border-radius: 5px;
+  max-width: 0;
+  position: absolute;
+  transition: all 1s;
+  z-index: 5;
+
+  &__show {
+    max-width: 300px;
+  }
+}
