@@ -73,6 +73,7 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
         isHard: false,
         isDeleted: false,
         isMethodPost: true,
+        isHighPriority: false,
         ...other,
       },
     };
