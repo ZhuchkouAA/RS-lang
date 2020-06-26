@@ -1,8 +1,7 @@
 @import '../../styles-global/index.module';
 
 .Footer {
-  bottom: 0;
-  position: absolute;
+  align-self: flex-end;
   width: 100%;
 
   &__container {
