@@ -4,6 +4,7 @@
   &__wrapper {
     margin: 0 auto 10px;
     max-width: 700px;
+    min-height: 450px;
     position: relative;
   }
 
@@ -33,6 +34,7 @@
 
   &__text {
     text-align: center;
+    transition: all 1s;
   }
 
   &__container {
@@ -43,5 +45,11 @@
 
   &__input {
     position: relative;
+  }
+
+  &--hide {
+    opacity: 0;
+    transition: opacity 1s;
+    z-index: -5;
   }
 }

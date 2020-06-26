@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {
   Grid,
@@ -21,6 +22,7 @@ import MusicOffIcon from '@material-ui/icons/MusicOff';
 import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
+import TranslateIcon from '@material-ui/icons/Translate';
 
 import VoteButtonsPanel from '../VoteButtonsPanel';
 import WordInput from '../WordInput';
@@ -28,6 +30,7 @@ import IconMini from '../IconMini';
 import SentenceWithWord from '../SentenceWithWord';
 import URLS from '../../constants/APIUrls';
 import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
+// import { getUserRate } from '../../helpers/text-utils';
 import WordColoredChecker from '../WordColoredChecker';
 
 import styles from './WordCard.module.scss';
@@ -38,6 +41,7 @@ const cardState = {
   wordTranslateText: 'инструктирует',
   transcriptionText: '[instrʌ́kt]',
   textMeaningText: 'To <i>instruct</i> is to teach.',
+  textMeaningTranslate: 'Обучать - значит учить',
   textExampleText: 'My teacher <b>instructs</b> us in several subjects.',
   textExampleTranslateText: 'Мой учитель учит нас нескольким предметам',
   PICTURE_URL: `${URLS.ASSETS}files/04_0070.jpg`,
@@ -56,9 +60,9 @@ const WordCard = ({ settings }) => {
     isTextExampleShow,
     isTranscriptionShow,
     isWordTranslateShow,
-    isTextExampleTranslateShow,
+    // isTextExampleTranslateShow,
     isAudioShow,
-    isAudioMeaningShow,
+    // isAudioMeaningShow,
     isAudioExampleShow,
   } = settings;
 
@@ -69,13 +73,21 @@ const WordCard = ({ settings }) => {
     textExampleText,
     textExampleTranslateText,
     textMeaningText,
+    textMeaningTranslate,
     PICTURE_URL,
     AUDIO,
     AUDIO_MEANING,
     AUDIO_EXAMPLE,
   } = cardState;
 
-  const [isVotePanelShow] = useState(true);
+  const [controlsState, setControlsState] = useState({
+    isVotePanelShow: false,
+    isAnswerBtnShow,
+    isNextBtnShow: false,
+    isInputDisable: false,
+    isTranslateShow: false,
+  });
+  const [isTranslateShow, setTranslateShow] = useState(isWordTranslateShow);
   const [isMute, setIsMute] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
   const [isWordGuessed, setWordGuessed] = useState(false);
@@ -103,8 +115,28 @@ const WordCard = ({ settings }) => {
     }
   };
 
-  const handlerSubmit = (e) => {
-    e.preventDefault();
+  // const resetStateForNewWord = () => {
+  //   setControlsState({
+  //     isVotePanelShow: false,
+  //     isAnswerBtnShow,
+  //     isNextBtnShow: false,
+  //     isInputDisable: false,
+  //     isTranslateShow: false,
+  //   });
+  //   setPlaying(false);
+  //   setWordGuessed(false);
+  //   setCheckerVisible(false);
+  //   setCheckerVisible(false);
+  //   setCheckerVisible(false);
+  //   setEnteredWord('');
+  //   setWordToCheck('');
+  //   setLearnErrors(0);
+  // };
+
+  const CheckEnteredWord = () => {
+    if (enteredWord.length === 0) {
+      return;
+    }
 
     setWordToCheck(enteredWord);
     setCheckerVisible(true);
@@ -113,9 +145,24 @@ const WordCard = ({ settings }) => {
     if (enteredWord === word) {
       setWordGuessed(true);
       startPlaying(trackList);
+      // setVotePanelShow(true);
+      setControlsState({
+        ...controlsState,
+        isVotePanelShow: true,
+        isAnswerBtnShow: false,
+        isNextBtnShow: true,
+        isInputDisable: true,
+        isTranslateShow: true,
+      });
     } else {
       setLearnErrors(cntLearnErrors + 1);
     }
+  };
+
+  const handlerSubmit = (e) => {
+    e.preventDefault();
+
+    CheckEnteredWord();
   };
 
   const handlerClickSayWord = () => {
@@ -130,30 +177,65 @@ const WordCard = ({ settings }) => {
     startPlaying([AUDIO_EXAMPLE]);
   };
 
+  const handlerClickCheckWord = () => {
+    CheckEnteredWord();
+  };
+
   const muteSwitchHandler = () => {
     setIsMute(!isMute);
   };
 
-  const handlerClickVoteButton = () => {
-    // console.log(`handlerClickVoteButton = ${target.innerText}`);
+  const translateSwitchHandler = () => {
+    setTranslateShow(!isTranslateShow);
   };
+
+  const handlerClickVoteButton = () => {
+    // setVotePanelShow(false);
+    setControlsState({ ...controlsState, isVotePanelShow: false });
+    // const userRate = getUserRate(target);
+    // console.log(`handlerClickVoteButton = ${target.innerText} userRate = ${userRate}`);
+  };
+
+  // console.log(`controlsState.isVotePanelShow = ${controlsState.isVotePanelShow}`);
+
+  const isTranslateNeed = controlsState.isTranslateShow && isTranslateShow;
+  const translateIcoColor = isTranslateShow ? 'secondary' : 'default';
+
+  const translateWordClasses = classNames(styles.WordCard__word, {
+    [styles['WordCard--hide']]: !(isTranslateNeed || isWordTranslateShow),
+  });
+  const translateTextMeaningClasses = classNames(styles.WordCard__text, {
+    [styles['WordCard--hide']]: !(isTranslateNeed && isTextMeaningShow),
+  });
+  const translateTextExampleClasses = classNames(styles.WordCard__text, {
+    [styles['WordCard--hide']]: !(isTranslateNeed && isTextExampleShow),
+  });
+
+  const imageClasses = classNames(styles.WordCard__image, {
+    [styles['WordCard--hide']]: !isImageShow,
+  });
+
+  // const imageClasses = classNames(styles.WordCard__image, {
+  //   [styles['WordCard--hide']]: !isImageShow,
+  // });
+
+  // const textExampleClasses = classNames(styles.WordCard__image, {
+  //   [styles['WordCard--hide']]: !isImageShow,
+  // });
+  // const textMeaningClasses = classNames(styles.WordCard__image, {
+  //   [styles['WordCard--hide']]: !isImageShow,
+  // });
 
   return (
     <Card className={styles.WordCard__wrapper}>
       <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
         <Grid item className={styles.WordCard__header}>
-          {isImageShow && (
-            <CardMedia
-              className={styles.WordCard__image}
-              image={PICTURE_URL}
-              title="Изучаемое слово"
-            />
-          )}
+          <CardMedia className={imageClasses} image={PICTURE_URL} title="Изучаемое слово" />
         </Grid>
         <Grid item>
           <div>
             {isWordTranslateShow && (
-              <Typography className={styles.WordCard__word} gutterBottom variant="h6">
+              <Typography className={translateWordClasses} gutterBottom variant="h6">
                 {wordTranslateText}
               </Typography>
             )}
@@ -183,17 +265,20 @@ const WordCard = ({ settings }) => {
                   word={word}
                   handleInputChange={handleInputChange}
                   enteredWord={enteredWord}
+                  isInputDisable={controlsState.isInputDisable}
                 />
                 <WordColoredChecker
                   isVisible={isCheckerVisible}
                   word={word}
                   wordToCheck={wordToCheck}
                 />
-                <VoteButtonsPanel handlerClick={handlerClickVoteButton} isShow={isVotePanelShow} />
+                {controlsState.isVotePanelShow && (
+                  <VoteButtonsPanel handlerClick={handlerClickVoteButton} />
+                )}
               </Grid>
               <Grid item>
                 <Tooltip title="Проверить слово" aria-label="add">
-                  <Fab type="submit" color="primary" size="small">
+                  <Fab onClick={handlerClickCheckWord} type="submit" color="primary" size="small">
                     <CheckIcon />
                   </Fab>
                 </Tooltip>
@@ -213,51 +298,60 @@ const WordCard = ({ settings }) => {
           </form>
         </Box>
         <Grid container direction="row" justify="center">
-          {isTextExampleShow && (
-            <SentenceWithWord
-              word={word}
-              sentence={textExampleText}
-              isWordVisible={isWordGuessed}
-            />
-          )}
+          <SentenceWithWord
+            word={word}
+            sentence={textExampleText}
+            isWordVisible={isWordGuessed}
+            isHide={isTextExampleShow}
+          />
           {isAudioExampleShow && <IconMini handlerClick={handlerClickSayExample} />}
         </Grid>
-        {isTextExampleTranslateShow && (
-          <Typography
-            className={styles.WordCard__text}
-            variant="body1"
-            color="textSecondary"
-            component="p"
-            gutterBottom
-          >
-            {textExampleTranslateText}
-          </Typography>
-        )}
+        <Typography
+          className={translateTextExampleClasses}
+          variant="body1"
+          color="textSecondary"
+          component="p"
+          gutterBottom
+        >
+          {textExampleTranslateText}
+        </Typography>
+
         <Grid container direction="row" justify="center">
-          {isTextMeaningShow && (
-            <SentenceWithWord
-              word={word}
-              sentence={textMeaningText}
-              isWordVisible={isWordGuessed}
-            />
-          )}
-          {isAudioMeaningShow && <IconMini handlerClick={handlerClickSayMeaning} />}
+          <SentenceWithWord
+            word={word}
+            sentence={textMeaningText}
+            isWordVisible={isWordGuessed}
+            isHide={isTextMeaningShow}
+          />
+          <IconMini handlerClick={handlerClickSayMeaning} />
         </Grid>
+
+        <Typography
+          className={translateTextMeaningClasses}
+          variant="body1"
+          color="textSecondary"
+          component="p"
+          gutterBottom
+        >
+          {textMeaningTranslate}
+        </Typography>
       </CardContent>
       <CardActions>
         <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-          <Grid item>
-            {isAnswerBtnShow && (
+          {controlsState.isAnswerBtnShow && (
+            <Grid item>
               <Button variant="contained" color="secondary">
                 Показать ответ
               </Button>
-            )}
-          </Grid>
-          <Grid item>
-            <Button variant="contained" color="primary">
-              Следующее слово
-            </Button>
-          </Grid>
+            </Grid>
+          )}
+          {controlsState.isNextBtnShow && (
+            <Grid item>
+              <Button variant="contained" color="primary">
+                Следующее слово
+              </Button>
+            </Grid>
+          )}
         </Grid>
         {isDelFromLearnBtnShow && (
           <Box position="absolute">
@@ -272,6 +366,17 @@ const WordCard = ({ settings }) => {
           <Tooltip title="Выключить звук">
             <IconButton onClick={muteSwitchHandler} aria-label="mute">
               <SoundIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Box position="absolute" right="52px">
+          <Tooltip title="Не показывать перевод">
+            <IconButton
+              onClick={translateSwitchHandler}
+              color={translateIcoColor}
+              aria-label="translate"
+            >
+              <TranslateIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </Box>

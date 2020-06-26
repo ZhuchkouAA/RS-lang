@@ -1,19 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
-import { VOTE_BUTTON_TITLES } from '../../constants/common';
+import { VOTE_BUTTON } from '../../constants/common';
 import styles from './VoteButtonsPanel.module.scss';
 
-const VoteButtonsPanel = ({ handlerClick, isShow }) => {
-  const panelClasses = classNames(styles.VoteButtonsPanel, {
-    [styles.VoteButtonsPanel__show]: isShow,
-  });
+const useStyles = makeStyles({
+  root: {
+    width: '300px',
+  },
+});
+
+const VoteButtonsPanel = ({ handlerClick }) => {
+  const classes = useStyles();
+  const panelClasses = classNames(styles.VoteButtonsPanel, classes.root);
 
   return (
     <Grid container className={panelClasses}>
-      {VOTE_BUTTON_TITLES.map((title, index) => {
+      {VOTE_BUTTON.map(({ title }, index) => {
         const key = `VoteButtonsPanel__${title}_${index}`;
 
         return (
@@ -30,7 +36,6 @@ const VoteButtonsPanel = ({ handlerClick, isShow }) => {
 
 VoteButtonsPanel.propTypes = {
   handlerClick: PropTypes.func.isRequired,
-  isShow: PropTypes.bool.isRequired,
 };
 
 export default VoteButtonsPanel;

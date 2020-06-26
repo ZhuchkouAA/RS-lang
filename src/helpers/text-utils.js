@@ -4,6 +4,7 @@ import {
   FEW_ERRORS,
   NO_ERRORS,
 } from '../constants/app-settings';
+import { VOTE_BUTTON } from '../constants/common';
 
 export const getTextWidthInPx = (text) => {
   const span = document.createElement('span');
@@ -98,4 +99,12 @@ export const getColoredEnteredChars = (word, enteredText) => {
       colorType: errorColorType,
     };
   });
+};
+
+export const getUserRate = ({ innerText }) => {
+  const index = VOTE_BUTTON.findIndex(({ title }) => {
+    return title.toUpperCase() === innerText;
+  });
+
+  return VOTE_BUTTON[index].rate;
 };

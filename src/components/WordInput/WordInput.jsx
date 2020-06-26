@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import { getStyleWidthForText } from '../../helpers/text-utils';
 import styles from './WordInput.module.scss';
 
-const WordInput = ({ word, handleInputChange, enteredWord }) => {
+const WordInput = ({ word, handleInputChange, enteredWord, isInputDisable }) => {
   const styleWord = getStyleWidthForText(word);
   const inputRef = useRef();
 
@@ -28,6 +28,7 @@ const WordInput = ({ word, handleInputChange, enteredWord }) => {
       style={styleWord}
       autoComplete="off"
       onChange={handleInputChange}
+      disabled={isInputDisable}
     />
   );
 };
@@ -36,6 +37,7 @@ WordInput.propTypes = {
   word: PropTypes.string.isRequired,
   enteredWord: PropTypes.string.isRequired,
   handleInputChange: PropTypes.func.isRequired,
+  isInputDisable: PropTypes.bool.isRequired,
 };
 
 export default WordInput;
