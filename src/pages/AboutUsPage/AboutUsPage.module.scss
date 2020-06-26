@@ -1,0 +1,11 @@
+.Description {
+  margin: 40px auto;
+  max-width: 1300px;
+  text-align: justify;
+}
+
+@media (max-width: 500px) {
+  .Description {
+    max-width: 300px;
+  }
+}
