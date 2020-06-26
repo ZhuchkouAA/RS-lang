@@ -17,15 +17,13 @@ const GameStartScreen = ({
   gameName = 'Суперигра',
   gameDescription = 'Суперописание правил или что-то еще',
 }) => {
-  const [value, setValue] = React.useState('0');
+  const [level, setLevel] = React.useState('0');
 
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  const handleChange = ({ target: { value } }) => setLevel(value);
 
   const levels = [
     { value: '0', label: 'Изученные слова' },
@@ -43,15 +41,15 @@ const GameStartScreen = ({
         <form onSubmit={handleSubmit}>
           <FormControl component="fieldset">
             <FormLabel component="legend">Выберите набор слов:</FormLabel>
-            <RadioGroup aria-label="levels" value={value} name="levels" onChange={handleChange}>
-              {levels.map((e) => {
+            <RadioGroup aria-label="levels" value={level} name="levels" onChange={handleChange}>
+              {levels.map(({ label, value }) => {
                 return (
                   <FormControlLabel
-                    value={e.value}
+                    value={value}
                     control={<Radio color="primary" />}
-                    label={e.label}
+                    label={label}
                     labelPlacement="start"
-                    key={e.label}
+                    key={label}
                   />
                 );
               })}
