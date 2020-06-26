@@ -28,7 +28,7 @@ export const getTextWidthInPx = (text) => {
 
 export const splitSentenceByWord = (sentence) => {
   const text = sentence.replace(/<.?[i,b]>/g, '~');
-  const sentencePart = ` ${text} `.split('~').filter((part) => part);
+  const sentencePart = text.split('~').filter((part) => part);
   const startWordIndex = text.indexOf('~');
   const endWordIndex = text.lastIndexOf('~');
 
