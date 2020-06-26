@@ -26,7 +26,7 @@ import TranslateIcon from '@material-ui/icons/Translate';
 
 import VoteButtonsPanel from '../VoteButtonsPanel';
 import WordInput from '../WordInput';
-import IconMini from '../IconMini';
+// import IconMini from '../IconMini';
 import SentenceWithWord from '../SentenceWithWord';
 import URLS from '../../constants/APIUrls';
 import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
@@ -62,7 +62,7 @@ const WordCard = ({ settings }) => {
     isWordTranslateShow,
     // isTextExampleTranslateShow,
     isAudioShow,
-    // isAudioMeaningShow,
+    isAudioMeaningShow,
     isAudioExampleShow,
   } = settings;
 
@@ -202,29 +202,15 @@ const WordCard = ({ settings }) => {
   const translateIcoColor = isTranslateShow ? 'secondary' : 'default';
 
   const translateWordClasses = classNames(styles.WordCard__word, {
-    [styles['WordCard--hide']]: !(isTranslateNeed || isWordTranslateShow),
+    [styles['Block--hide']]: !(isTranslateNeed || isWordTranslateShow),
   });
-  const translateTextMeaningClasses = classNames(styles.WordCard__text, {
-    [styles['WordCard--hide']]: !(isTranslateNeed && isTextMeaningShow),
-  });
-  const translateTextExampleClasses = classNames(styles.WordCard__text, {
-    [styles['WordCard--hide']]: !(isTranslateNeed && isTextExampleShow),
-  });
+
+  const isTranslateExampleShow = isTranslateNeed && isTextExampleShow;
+  const isTranslateMeaningShow = isTranslateNeed && isTextMeaningShow;
 
   const imageClasses = classNames(styles.WordCard__image, {
-    [styles['WordCard--hide']]: !isImageShow,
+    [styles['Block--hide']]: !isImageShow,
   });
-
-  // const imageClasses = classNames(styles.WordCard__image, {
-  //   [styles['WordCard--hide']]: !isImageShow,
-  // });
-
-  // const textExampleClasses = classNames(styles.WordCard__image, {
-  //   [styles['WordCard--hide']]: !isImageShow,
-  // });
-  // const textMeaningClasses = classNames(styles.WordCard__image, {
-  //   [styles['WordCard--hide']]: !isImageShow,
-  // });
 
   return (
     <Card className={styles.WordCard__wrapper}>
@@ -233,18 +219,16 @@ const WordCard = ({ settings }) => {
           <CardMedia className={imageClasses} image={PICTURE_URL} title="Изучаемое слово" />
         </Grid>
         <Grid item>
-          <div>
-            {isWordTranslateShow && (
-              <Typography className={translateWordClasses} gutterBottom variant="h6">
-                {wordTranslateText}
-              </Typography>
-            )}
-            {isTranscriptionShow && (
-              <Typography className={styles.WordCard__word} gutterBottom variant="h6">
-                {transcriptionText}
-              </Typography>
-            )}
-          </div>
+          {isWordTranslateShow && (
+            <Typography className={translateWordClasses} gutterBottom variant="h6">
+              {wordTranslateText}
+            </Typography>
+          )}
+          {isTranscriptionShow && (
+            <Typography className={styles.WordCard__word} gutterBottom variant="h6">
+              {transcriptionText}
+            </Typography>
+          )}
         </Grid>
       </Grid>
       <CardContent className={styles.WordCard__content}>
@@ -297,44 +281,26 @@ const WordCard = ({ settings }) => {
             </Grid>
           </form>
         </Box>
-        <Grid container direction="row" justify="center">
-          <SentenceWithWord
-            word={word}
-            sentence={textExampleText}
-            isWordVisible={isWordGuessed}
-            isHide={isTextExampleShow}
-          />
-          {isAudioExampleShow && <IconMini handlerClick={handlerClickSayExample} />}
-        </Grid>
-        <Typography
-          className={translateTextExampleClasses}
-          variant="body1"
-          color="textSecondary"
-          component="p"
-          gutterBottom
-        >
-          {textExampleTranslateText}
-        </Typography>
-
-        <Grid container direction="row" justify="center">
-          <SentenceWithWord
-            word={word}
-            sentence={textMeaningText}
-            isWordVisible={isWordGuessed}
-            isHide={isTextMeaningShow}
-          />
-          <IconMini handlerClick={handlerClickSayMeaning} />
-        </Grid>
-
-        <Typography
-          className={translateTextMeaningClasses}
-          variant="body1"
-          color="textSecondary"
-          component="p"
-          gutterBottom
-        >
-          {textMeaningTranslate}
-        </Typography>
+        <SentenceWithWord
+          word={word}
+          sentence={textExampleText}
+          translateText={textExampleTranslateText}
+          playText={handlerClickSayExample}
+          isWordVisible={isWordGuessed}
+          isSentenceShow={isTextExampleShow}
+          isTranslateShow={isTranslateExampleShow}
+          isAudioBtnShow={isAudioExampleShow}
+        />
+        <SentenceWithWord
+          word={word}
+          sentence={textMeaningText}
+          translateText={textMeaningTranslate}
+          playText={handlerClickSayMeaning}
+          isWordVisible={isWordGuessed}
+          isSentenceShow={isTextMeaningShow}
+          isTranslateShow={isTranslateMeaningShow}
+          isAudioBtnShow={isAudioMeaningShow}
+        />
       </CardContent>
       <CardActions>
         <Grid container direction="row" justify="center" alignItems="center" spacing={2}>

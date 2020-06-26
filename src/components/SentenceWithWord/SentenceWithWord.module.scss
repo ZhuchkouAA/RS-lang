@@ -14,9 +14,9 @@
     font-weight: 700;
   }
 
-  &--hide {
-    opacity: 0;
-    transition: opacity 1s;
-    z-index: -5;
+  &__text {
+    @extend %transition-all;
+
+    text-align: center;
   }
 }
