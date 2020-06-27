@@ -9,13 +9,7 @@ import style from './Student.module.scss';
 
 const Student = ({ name, linkGit, imgSrc }) => {
   return (
-    <Grid
-      className={style.CardStudent__wrapper}
-      container
-      direction="row"
-      justify="center"
-      alignItems="center"
-    >
+    <Grid className={style.CardStudent__wrapper} alignItems="center">
       <Card className={style.CardStudent}>
         <CardActionArea>
           <CardMedia className={style['CardStudent__img-student']} image={imgSrc} title="photo" />

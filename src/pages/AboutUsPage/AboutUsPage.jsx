@@ -9,7 +9,7 @@ import informationStudentArray from '../../constants/About-us-information.json';
 
 const AboutUsPage = () => {
   return (
-    <Grid container direction="column" justify="center" alignItems="center">
+    <Grid className={style.Students__container}>
       {informationStudentArray.map(({ name, linkGit, imgSrc }) => (
         <Student
           name={name}
