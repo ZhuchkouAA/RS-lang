@@ -100,3 +100,13 @@ export const getQueueRandom300 = async () => {
   const words = await rawWords.json();
   return shuffle(words);
 };
+
+export const array15FromString = (string) => {
+  const arrayStr = [...string.split('-').slice(0, 15)];
+  return arrayStr.map((el) => Number(el));
+};
+
+export const newArray15FromString = (string) => {
+  const arrayStr = [0, ...string.split('-').slice(0, 14)];
+  return arrayStr.map((el) => Number(el));
+};

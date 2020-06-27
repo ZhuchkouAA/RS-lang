@@ -1,8 +1,8 @@
 import { APPLY_SETTINGS, INIT_SETTINGS } from '../actions/types/action-types';
 
 const initiaSettingState = {
-  wordsPerDay: '20',
-  newWordsPerDay: '10',
+  wordsPerDay: 20,
+  newWordsPerDay: 10,
   isAnswerBtnShow: true,
   isDelFromLearnBtnShow: true,
   isFeedBackButtonsShow: true,
