@@ -281,6 +281,6 @@ const WordCard = ({ settings }) => {
 };
 
 WordCard.propTypes = {
-  settings: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.bool, PropTypes.string])).isRequired,
+  settings: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 export default WordCard;

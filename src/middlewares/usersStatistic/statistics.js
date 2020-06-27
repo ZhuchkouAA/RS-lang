@@ -11,6 +11,8 @@ import {
   getNewQueueNewWords,
   getNewQueueRepeatWords,
   getQueueRandom300,
+  array15FromString,
+  newArray15FromString,
 } from '../../helpers/getProgress-utils';
 import store from '../../redux/redux-store';
 
@@ -21,18 +23,37 @@ export const putProgress = () => async (dispatch) => {
   const {
     progress: {
       differentCardsShowedAllTime,
+      cardsShowedAllTime,
+      rightAnswersAllTime,
       dateOfReceiptOfWords,
       leftNewWordsToday,
       leftRepeatWordsToday,
+      cardsShowedToday,
+      rightTodayAnswers,
+      longestTodaySeries,
+      learnedWords15Days,
+      cardsShowed15Days,
+      newCardsShowed15Days,
+      rightAnswers15Days,
     },
   } = store.getState();
+
   const body = JSON.stringify({
     learnedWords: 0,
     optional: {
       differentCardsShowedAllTime,
+      cardsShowedAllTime,
+      rightAnswersAllTime,
       dateOfReceiptOfWords,
       leftNewWordsToday,
       leftRepeatWordsToday,
+      cardsShowedToday,
+      rightTodayAnswers,
+      longestTodaySeries,
+      learnedWords15Days: learnedWords15Days.join('-'),
+      cardsShowed15Days: cardsShowed15Days.join('-'),
+      newCardsShowed15Days: newCardsShowed15Days.join('-'),
+      rightAnswers15Days: rightAnswers15Days.join('-'),
     },
   });
   const url = API_URLS.USER_STATISTICS(getCookie(USER_ID));
@@ -58,9 +79,18 @@ export const getProgress = () => async (dispatch) => {
     const { optional: progress } = responseProgress;
     const {
       differentCardsShowedAllTime,
+      cardsShowedAllTime,
+      rightAnswersAllTime,
       dateOfReceiptOfWords,
       leftNewWordsToday,
       leftRepeatWordsToday,
+      cardsShowedToday,
+      rightTodayAnswers,
+      longestTodaySeries,
+      learnedWords15Days,
+      cardsShowed15Days,
+      newCardsShowed15Days,
+      rightAnswers15Days,
     } = progress;
     if (isDateOfReceiptOfWordsCome(dateOfReceiptOfWords)) {
       const newDateOfReceiptOfWords = getNewDateOfReceiptOfWords();
@@ -75,12 +105,21 @@ export const getProgress = () => async (dispatch) => {
       dispatch(
         rewriteProgress({
           differentCardsShowedAllTime,
+          cardsShowedAllTime,
+          rightAnswersAllTime,
           dateOfReceiptOfWords: newDateOfReceiptOfWords,
           leftNewWordsToday: newLeftNewWordsToday,
           queueNewWords: newQueueNewWords,
           queueRepeatWords: newQueueRepeatWords,
           queueRandom300,
           leftRepeatWordsToday: newLeftRepeatWordsToday,
+          cardsShowedToday: 0,
+          rightTodayAnswers: 0,
+          longestTodaySeries: 0,
+          learnedWords15Days: newArray15FromString(learnedWords15Days),
+          cardsShowed15Days: newArray15FromString(cardsShowed15Days),
+          newCardsShowed15Days: newArray15FromString(newCardsShowed15Days),
+          rightAnswers15Days: newArray15FromString(rightAnswers15Days),
         })
       );
     } else {
@@ -93,12 +132,21 @@ export const getProgress = () => async (dispatch) => {
       dispatch(
         rewriteProgress({
           differentCardsShowedAllTime,
+          cardsShowedAllTime,
+          rightAnswersAllTime,
           dateOfReceiptOfWords,
           leftNewWordsToday,
           queueNewWords: newQueueNewWords,
           queueRepeatWords: newQueueRepeatWords,
           queueRandom300,
           leftRepeatWordsToday,
+          cardsShowedToday,
+          rightTodayAnswers,
+          longestTodaySeries,
+          learnedWords15Days: array15FromString(learnedWords15Days),
+          cardsShowed15Days: array15FromString(cardsShowed15Days),
+          newCardsShowed15Days: array15FromString(newCardsShowed15Days),
+          rightAnswers15Days: array15FromString(rightAnswers15Days),
         })
       );
     }

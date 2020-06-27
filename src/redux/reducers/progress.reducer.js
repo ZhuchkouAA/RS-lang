@@ -9,15 +9,25 @@ import {
   REWRITE_PROGRESS,
 } from '../actions/types/action-types';
 
+import { MSEC_PER_DAY } from '../../constants/wordConfig';
+
 const initialProgressState = {
   differentCardsShowedAllTime: 0,
   cardsShowedAllTime: 0,
-  dateOfReceiptOfWords: Date.now() + 86400000,
+  rightAnswersAllTime: 0,
+  dateOfReceiptOfWords: Date.now() + MSEC_PER_DAY,
   leftNewWordsToday: 10,
   queueNewWords: [],
   queueRepeatWords: [],
   queueRandom300: [],
-  leftRepeatWordsToday: 20,
+  leftRepeatWordsToday: 10,
+  cardsShowedToday: 0,
+  rightTodayAnswers: 0,
+  longestTodaySeries: 0,
+  learnedWords15Days: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  cardsShowed15Days: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  newCardsShowed15Days: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  rightAnswers15Days: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 };
 
 const progressReducer = (state = initialProgressState, { type, payload }) => {

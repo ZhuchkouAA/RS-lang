@@ -2,7 +2,7 @@ import { SHOW_MESSAGE, HIDE_MESSAGE } from '../actions/types/action-types';
 
 const initiaModalWindowState = {
   isMessageeVisible: false,
-  messgae: '',
+  message: '',
 };
 
 const modalWindowReducer = (state = initiaModalWindowState, { type, payload }) => {

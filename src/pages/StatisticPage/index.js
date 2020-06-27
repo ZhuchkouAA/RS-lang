@@ -1,3 +1,10 @@
-import StatisticPage from './StatisticPage';
+import { connect } from 'react-redux';
 
-export default StatisticPage;
+import StatisticPage from './StatisticPage';
+import serverSynchronization from '../../middlewares/serverSynchronization';
+
+const mapStateToProps = ({ settings, progress }) => ({ settings, progress });
+
+const mapDispatchToPeops = { serverSynchronization };
+
+export default connect(mapStateToProps, mapDispatchToPeops)(StatisticPage);
