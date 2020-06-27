@@ -5,6 +5,10 @@
   margin: 30px;
   width: min-content;
 
+  &__wrapper {
+    width: min-content;
+  }
+
   &__img-git {
     background-size: cover;
   }
