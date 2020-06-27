@@ -3,16 +3,27 @@
 .Header {
   background-color: $white-color;
   box-shadow: 0 1px 6px rgba(13, 16, 61, 0.6);
+  flex: 0 0 auto;
   height: 80px;
-  //margin-bottom: 30px;
   width: 100%;
+
+
+  &-stiky {
+    box-shadow: 0 1px 6px rgba(13, 16, 61, 0.6);
+    height: 80px;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+  }
 
   &__wrapper {
     align-items: center;
+
+    background-color: $white-color;
     display: flex;
-    height: 100%;
+    height: inherit;
     justify-content: space-between;
-    margin: 0 30px;
+    padding: 0 30px;
   }
 }
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import style from './Header.module.scss';
+import ProgressBar from '../ProgressBar';
 
 const Header = ({ toggleNav, token, removeUserData, navBarState }) => {
   const authButtons = (
@@ -40,12 +41,17 @@ const Header = ({ toggleNav, token, removeUserData, navBarState }) => {
   );
 
   return (
-    <header className={style.Header}>
-      <div className={style.Header__wrapper}>
-        {token && NavBarElement}
-        {token ? logoutButton : authButtons}
-      </div>
-    </header>
+    <>
+      <header className={style.Header}>
+        <div className={style['Header-stiky']}>
+          <div className={style.Header__wrapper}>
+            {token && NavBarElement}
+            {token ? logoutButton : authButtons}
+          </div>
+        </div>
+      </header>
+      <ProgressBar />
+    </>
   );
 };
 

@@ -4,22 +4,22 @@ import PropTypes from 'prop-types';
 
 import Header from '../Header';
 import Footer from '../Footer/Footer';
-import ProgressBar from '../ProgressBar';
 import AppWithRoutes from './AppWithRouter';
 import Authorization from './Authorization';
+
+import style from './App.module.scss';
 
 const App = ({ token }) => {
   const PageRoutes = token ? <AppWithRoutes /> : <Authorization />;
 
   return (
-    <>
+    <div className={style.App__wrapper}>
       <BrowserRouter>
         <Header />
-        <ProgressBar />
-        {PageRoutes}
+        <div className={style['App__wrapper-component']}>{PageRoutes}</div>
       </BrowserRouter>
       <Footer />
-    </>
+    </div>
   );
 };
 

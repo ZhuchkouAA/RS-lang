@@ -7,7 +7,12 @@ const Footer = () => {
   return (
     <footer className={style.Footer}>
       <Grid className={style.Footer__container} container direction="row" justify="flex-start">
-        <a className={style['Footer__link-rs']} href="https://github.com/rolling-scopes-school">
+        <a
+          className={style['Footer__link-rs']}
+          href="https://github.com/rolling-scopes-school"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img
             className={style['Footer__img-rs']}
             src="https://avatars3.githubusercontent.com/u/11501370?s=200&v=4"
