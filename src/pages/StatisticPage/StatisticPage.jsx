@@ -5,7 +5,6 @@ import PATH from '../../constants/path';
 
 const StatisticPage = () => (
   <>
-    <p>StatisticPage</p>
     <NavLink to={PATH.SIGN_IN}>SignInPage</NavLink>
   </>
 );
