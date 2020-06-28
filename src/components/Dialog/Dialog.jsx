@@ -8,7 +8,7 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 
 import PropTypes from 'prop-types';
-
+import classNames from 'classnames';
 import style from './Dialog.module.scss';
 
 const styles = (theme) => ({
@@ -44,18 +44,16 @@ const CustomizedDialogs = ({ isOpen, type, tittle, message }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const stylesDialog = {};
-  if (type.toLowerCase() === 'info') {
-    stylesDialog.ModalWindow__title = style.ModalWindow__title;
-  } else if (type.toLowerCase() === 'error') {
-    stylesDialog.ModalWindow__title = style['ModalWindow__title-error'];
-  }
 
   const DialogTitle = withStyles(styles)((props) => {
+    const ModalWindowTitle = classNames({
+      [style.ModalWindow__title]: type.toLowerCase() === 'info',
+      [style['ModalWindow__title-error']]: type.toLowerCase() === 'error',
+    });
     return (
-      <MuiDialogTitle disableTypography className={stylesDialog.ModalWindow__title}>
+      <MuiDialogTitle disableTypography className={ModalWindowTitle}>
         <Typography variant="h6">{props.children}</Typography>
-        {(props.onClose && (
+        {props.onClose && (
           <IconButton
             aria-label="close"
             className={props.classes.closeButton}
@@ -63,8 +61,7 @@ const CustomizedDialogs = ({ isOpen, type, tittle, message }) => {
           >
             <CloseIcon />
           </IconButton>
-        )) ||
-          null}
+        )}
       </MuiDialogTitle>
     );
   });
