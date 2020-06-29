@@ -62,7 +62,7 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
   return wordsArray.map((el) => {
     const { id, ...other } = el;
     return {
-      difficulty: MAX_DIFFICULTY,
+      difficulty: String(MAX_DIFFICULTY),
       wordId: id,
       optional: {
         repeatDate: 0,

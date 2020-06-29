@@ -66,7 +66,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
     })
     .reverse();
 
-  const learnedWordsAllTime = onlyStudying(queueRepeatWords).length + 1;
+  const learnedWordsAllTime = onlyStudying(queueRepeatWords).length;
   const rightAnswersPercentAllTime = Math.round(rightAnswersAllTime / (cardsShowedAllTime + DELTA));
   const now = new Date(Date.now());
   const receiptDate = new Date(dateOfReceiptOfWords);
@@ -80,7 +80,9 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
             {`Всего  показано новых слов -- ${differentCardsShowedAllTime}!`}
           </Typography>
           <Typography gutterBottom align="center" variant="h6">
-            {`Выучено ${learnedWordsAllTime} слов из 3600, правильных ответов -- ${rightAnswersPercentAllTime}%!`}
+            {`Выучено ${
+              differentCardsShowedAllTime - learnedWordsAllTime
+            } слов из 3600, правильных ответов -- ${rightAnswersPercentAllTime}%!`}
           </Typography>
           <Typography gutterBottom align="center" variant="h6">
             Сегодняшний прогресс:

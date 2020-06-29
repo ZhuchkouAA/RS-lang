@@ -7,7 +7,12 @@ import {
   QUEUE_NEW_WORDS,
   QUEUE_REPEAT_WORDS,
   REWRITE_PROGRESS,
+  ON_DELETE_BUTTON,
 } from '../types/action-types';
+
+export const onDeleteButton = () => ({
+  type: ON_DELETE_BUTTON,
+});
 
 export const differentCardPlusOne = () => ({
   type: DIFFERENT_CARDS_COUNTER_PLUS_ONE,
