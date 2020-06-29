@@ -3,11 +3,11 @@ import { putProgress } from './usersStatistic/statistics';
 
 const finallySendWordAndProgress = (wordObj) => async (dispatch) => {
   if (wordObj.optional.isMethodPost) {
-    dispatch((disp) => disp(postWord(wordObj)));
+    await dispatch(postWord(wordObj));
   } else {
-    dispatch((disp) => disp(putWord(wordObj)));
+    await dispatch(putWord(wordObj));
   }
-  dispatch(putProgress);
+  await dispatch(putProgress());
 };
 
 export default finallySendWordAndProgress;

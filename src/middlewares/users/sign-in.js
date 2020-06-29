@@ -31,10 +31,10 @@ export default (login, password) => {
 
       dispatch(setUserData({ token, userId }));
       if (await isFirsInit()) {
-        dispatch((disp) => disp(putSettings()));
-        dispatch(putProgress);
+        dispatch(putSettings());
+        dispatch(putProgress());
       }
-      dispatch(serverSynchronization);
+      dispatch(serverSynchronization());
       dispatch(buttonActivitySwitch());
     } catch (error) {
       dispatch(setAlertMessage('invalid data entered'));

@@ -1,4 +1,5 @@
 import store from '../../redux/redux-store';
+import getNewLeftRepeatWordsToday from '../getProgress-utils';
 
 import {
   highPriorityFirstSorter,
@@ -11,18 +12,25 @@ import {
 
 export const createQueueOrdinary = () => {
   const { queueNewWords, queueRepeatWords } = store.getState().progress;
-  const { wordsPerDay, newWordsPerDay } = store.getState().settings;
-  const amountRepeatWords = wordsPerDay - newWordsPerDay;
+  const amountRepeatWords = getNewLeftRepeatWordsToday();
+
   const shortenedQueueRepeatWords = highPriorityFirstSorter(queueRepeatWords).slice(
     0,
     amountRepeatWords
   );
-  const workingQueue = queueNewWords.concat(shortenedQueueRepeatWords);
+  const workingQueue = [...queueNewWords, ...shortenedQueueRepeatWords];
+  const filteredWithOnlyStudying = onlyStudying(workingQueue);
+  const filteredWithDateFilter = dateFilter(filteredWithOnlyStudying);
+  const filteredWithOnlyNotDeleted = onlyNotDeleted(filteredWithDateFilter);
+  const shuffledWorkingQueue = shuffle(filteredWithOnlyNotDeleted);
 
-  return shuffle(onlyNotDeleted(dateFilter(onlyStudying(workingQueue))));
+  return shuffledWorkingQueue;
 };
 
 export const createQueueOnlyHard = () => {
   const { queueRepeatWords } = store.getState().progress;
-  return shuffle(onlyHard(queueRepeatWords));
+  const filteredWithOnlyHard = onlyHard(queueRepeatWords);
+  const shuffledWorkingQueue = shuffle(filteredWithOnlyHard);
+
+  return shuffledWorkingQueue;
 };

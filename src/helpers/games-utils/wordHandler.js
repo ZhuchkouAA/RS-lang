@@ -1,5 +1,5 @@
-import WORD_REPEAT_INTERVAL from '../../constants/timing';
 import WORD_HANDLER_KEYS from '../../constants/keys';
+import { MIN_DIFFICULTY, MAX_DIFFICULTY, WORD_REPEAT_INTERVAL } from '../../constants/wordConfig';
 
 export const wordHandler = (word, option) => {
   const { difficulty, wordId, optional } = word;
@@ -22,15 +22,16 @@ export const wordHandler = (word, option) => {
 
   if (key === WORD_HANDLER_KEYS.difficulty) {
     let newDifficulty = difficulty + value;
-    if (newDifficulty <= 0) {
-      newDifficulty = 0;
+    if (newDifficulty <= MIN_DIFFICULTY) {
+      newDifficulty = MIN_DIFFICULTY;
       newWord.isStudying = false;
     }
-    newDifficulty = newDifficulty > 100 ? 100 : newDifficulty;
+    newDifficulty = newDifficulty > MAX_DIFFICULTY ? MAX_DIFFICULTY : newDifficulty;
     newWord.difficulty = newDifficulty;
   }
 
-  newWord.optional.repeatDate = Date.now() + WORD_REPEAT_INTERVAL * (101 - newWord.difficulty);
+  newWord.optional.repeatDate =
+    Date.now() + WORD_REPEAT_INTERVAL * (MAX_DIFFICULTY + 1 - newWord.difficulty);
 
   return newWord;
 };
