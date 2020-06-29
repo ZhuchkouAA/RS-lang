@@ -1,7 +1,9 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
 import {
   Chart,
   ArgumentAxis,
@@ -10,7 +12,6 @@ import {
   Title,
   Legend,
 } from '@devexpress/dx-react-chart-material-ui';
-import { withStyles } from '@material-ui/core/styles';
 import { ArgumentScale, Animation } from '@devexpress/dx-react-chart';
 import { curveCatmullRom, area } from 'd3-shape';
 import { scalePoint } from 'd3-scale';
@@ -22,6 +23,7 @@ const legendStyles = () => ({
     flexDirection: 'row',
   },
 });
+
 const legendRootBase = () => <Legend.Root />;
 const Root = withStyles(legendStyles, { name: 'LegendRoot' })(legendRootBase);
 const legendLabelStyles = () => ({
@@ -29,6 +31,7 @@ const legendLabelStyles = () => ({
     whiteSpace: 'nowrap',
   },
 });
+
 const legendLabelBase = () => <Legend.Label />;
 const Label = withStyles(legendLabelStyles, { name: 'LegendLabel' })(legendLabelBase);
 const chartStyles = () => ({

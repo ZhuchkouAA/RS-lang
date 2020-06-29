@@ -15,14 +15,13 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
     leftNewWordsToday,
     queueRepeatWords,
     leftRepeatWordsToday,
-    cardsShowedToday,
-    rightTodayAnswers,
     longestTodaySeries,
-    learnedWords15Days,
-    cardsShowed15Days,
-    newCardsShowed15Days,
-    rightAnswers15Days,
+    learnedWordsStatistic,
+    cardsShowedStatistic,
+    newCardsShowedStatistic,
+    rightAnswersStatistic,
   } = progress;
+
   useEffect(() => {
     serverSynchronization();
   }, []);
@@ -33,38 +32,30 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
     return day;
   };
 
-  const dataChartRightAnswersPercent15Days = rightAnswers15Days
+  const dataChartRightAnswersPercentStatistic = rightAnswersStatistic
     .map((el, ind) => {
       return {
         day: chartDayDateByInd(ind),
-        cards: Math.round(el / (cardsShowed15Days[ind] + DELTA)),
+        cards: Math.round(el / (cardsShowedStatistic[ind] + DELTA)),
       };
     })
     .reverse();
 
-  const dataChartlearnedWords15Days = learnedWords15Days
-    .map((el, ind) => {
-      return { day: chartDayDateByInd(ind), cards: el };
-    })
-    .reverse();
+  const chartDateByProgressArray = (progressArray) => {
+    return progressArray
+      .map((el, ind) => {
+        return { day: chartDayDateByInd(ind), cards: el };
+      })
+      .reverse();
+  };
 
-  const dataChartCardsShowed15Days = cardsShowed15Days
-    .map((el, ind) => {
-      return { day: chartDayDateByInd(ind), cards: el };
-    })
-    .reverse();
+  const dataChartlearnedWordsStatistic = chartDateByProgressArray(learnedWordsStatistic);
 
-  const dataChartrightAnswers15Days = rightAnswers15Days
-    .map((el, ind) => {
-      return { day: chartDayDateByInd(ind), cards: el };
-    })
-    .reverse();
+  const dataChartCardsShowedStatistic = chartDateByProgressArray(cardsShowedStatistic);
 
-  const dataChartNewCardsShowed15Days = newCardsShowed15Days
-    .map((el, ind) => {
-      return { day: chartDayDateByInd(ind), cards: el };
-    })
-    .reverse();
+  const dataChartrightAnswersStatistic = chartDateByProgressArray(rightAnswersStatistic);
+
+  const dataChartNewCardsShowedStatistic = chartDateByProgressArray(newCardsShowedStatistic);
 
   const learnedWordsAllTime = onlyStudying(queueRepeatWords).length + 1;
   const rightAnswersPercentAllTime = Math.round(rightAnswersAllTime / (cardsShowedAllTime + DELTA));
@@ -90,9 +81,9 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
             Осталось слов на повторение сегодня -- ${leftRepeatWordsToday}!`}
           </Typography>
           <Typography gutterBottom align="center" variant="h6">
-            {`Всего сегодня было показано ${cardsShowedToday} карточек!
-            Правильных ответов сегодня -- ${rightTodayAnswers} или ${
-              rightTodayAnswers / (cardsShowedToday + DELTA)
+            {`Всего сегодня было показано ${cardsShowedStatistic[0]} карточек!
+            Правильных ответов сегодня -- ${rightAnswersStatistic[0]} или ${
+              rightAnswersStatistic[0] / (cardsShowedStatistic[0] + DELTA)
             }%`}
           </Typography>
           <Typography gutterBottom align="center" variant="h6">
@@ -104,7 +95,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
         </Container>
         <ChartSplineArea
           title="Процент отгаданных карточек за каждый из 15 последних дней"
-          data={dataChartRightAnswersPercent15Days}
+          data={dataChartRightAnswersPercentStatistic}
           valueField="cards"
           argumentField="day"
           name="name4"
@@ -114,7 +105,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
         <Container maxWidth="sm">
           <ChartSplineArea
             title="Выучено слов за каждый из 15 последних дней"
-            data={dataChartlearnedWords15Days}
+            data={dataChartlearnedWordsStatistic}
             valueField="cards"
             argumentField="day"
             name="name1"
@@ -123,7 +114,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
         <Container maxWidth="sm">
           <ChartSplineArea
             title="Показано карточек всего за каждый из 15 последних дней"
-            data={dataChartCardsShowed15Days}
+            data={dataChartCardsShowedStatistic}
             valueField="cards"
             argumentField="day"
             name="name2"
@@ -135,7 +126,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
         <Container maxWidth="sm">
           <ChartSplineArea
             title="Отгадано карточек всего за каждый из 15 последних дней"
-            data={dataChartrightAnswers15Days}
+            data={dataChartrightAnswersStatistic}
             valueField="cards"
             argumentField="day"
             name="name2"
@@ -144,7 +135,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
         <Container maxWidth="sm">
           <ChartSplineArea
             title="Показано новых карточек за каждый из 15 последних дней"
-            data={dataChartNewCardsShowed15Days}
+            data={dataChartNewCardsShowedStatistic}
             valueField="cards"
             argumentField="day"
             name="name3"
