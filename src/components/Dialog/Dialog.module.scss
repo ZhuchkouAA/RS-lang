@@ -4,7 +4,11 @@
     min-width: 500px;
   }
 
-  &__button-ok {
+  &__container-close {
+    margin: 0 auto;
+  }
+
+  &__close {
     padding: 20px 50px;
   }
 }
