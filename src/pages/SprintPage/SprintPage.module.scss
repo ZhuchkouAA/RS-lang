@@ -27,6 +27,9 @@
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> RSL-30: add sprint game functional
   &__icons {
     margin-top: 45px;
   }
@@ -43,6 +46,7 @@
   justify-content: center;
   margin: 20px 0 0;
 
+<<<<<<< HEAD
   &__buttons {
     display: flex;
 =======
@@ -51,11 +55,16 @@
     justify-content: center;
     margin: 20px 0 0;
 >>>>>>> RSL-30: layout sprint game
+=======
+  &__buttons {
+    display: flex;
+>>>>>>> RSL-30: add sprint game functional
   }
 
   &__button {
     margin-right: 20px;
   }
+<<<<<<< HEAD
 <<<<<<< HEAD
 }
 
@@ -114,16 +123,69 @@
   100% {
     outline-color: rgba(255, 51, 0, 0);
 =======
+=======
+}
+>>>>>>> RSL-30: add sprint game functional
 
-  &__icons {
-    margin-top: 25px;
-  }
+.Points {
+  margin: 0 auto 10px;
+  max-width: 40%;
+  min-width: 250px;
+  padding-top: 10px;
 
-  &__points {
-    background-color: rgba(0, 150, 0, 0.2);
+  &__point-counter {
+    border: 1px solid;
     border-radius: 20px;
+<<<<<<< HEAD
     padding: 0 10px;
 >>>>>>> RSL-30: layout sprint game
+=======
+    margin-right: 20px;
+    text-align: center;
+    width: 70px;
+  }
+
+  &__counters {
+    display: flex;
+  }
+}
+
+.false-color {
+  animation: false 0.5s ease-in-out;
+  outline: 5px solid rgba(255, 51, 0, 100);
+}
+
+.true-color {
+  animation: true 0.5s ease-in-out;
+  outline: 5px solid rgba(76, 175, 80, 100);
+}
+
+@keyframes true {
+  0% {
+    outline-color: rgba(76, 175, 80, 0);
+  }
+
+  50% {
+    outline-color: rgba(76, 175, 80, 100);
+  }
+
+  100% {
+    outline-color: rgba(76, 175, 80, 0);
+  }
+}
+
+@keyframes false {
+  0% {
+    outline-color: rgba(255, 51, 0, 0);
+  }
+
+  50% {
+    outline-color: rgba(255, 51, 0, 100);
+  }
+
+  100% {
+    outline-color: rgba(255, 51, 0, 0);
+>>>>>>> RSL-30: add sprint game functional
   }
 }
 
