@@ -17,7 +17,7 @@ import store from '../../redux/redux-store';
 import API_URLS from '../../constants/APIUrls';
 import { USER_ID, TOKEN } from '../../constants/cookiesNames';
 
-export const putProgress = async (dispatch) => {
+export const putProgress = () => async (dispatch) => {
   const {
     progress: {
       differentCardsShowedAllTime,
@@ -49,7 +49,7 @@ export const putProgress = async (dispatch) => {
   }
 };
 
-export const getProgress = async (dispatch) => {
+export const getProgress = () => async (dispatch) => {
   const url = API_URLS.USER_STATISTICS(getCookie(USER_ID));
 
   try {

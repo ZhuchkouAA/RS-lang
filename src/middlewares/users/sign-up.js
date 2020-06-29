@@ -22,7 +22,7 @@ export const signUp = (login, password) => {
       if (!error) {
         dispatch(isSignInRender(true));
         dispatch(setAlertMessage('you have been successfully registered, you can log in'));
-        dispatch((disp) => disp(signIn(login, password)));
+        dispatch(signIn(login, password));
       } else {
         const errorPath = error.errors[0].path[0];
         const errorMessage = errorPath === 'password' ? '(password example: grlJHM56_2f)' : '';

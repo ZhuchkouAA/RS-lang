@@ -19,15 +19,18 @@ export const createQueueOrdinary = () => {
     amountRepeatWords
   );
   const workingQueue = [...queueNewWords, ...shortenedQueueRepeatWords];
-  const filtered1WorkingQueue = onlyStudying(workingQueue);
-  const filtered2WorkingQueue = dateFilter(filtered1WorkingQueue);
-  const filtered3WorkingQueue = onlyNotDeleted(filtered2WorkingQueue);
-  const shuffledWorkingQueue = shuffle(filtered3WorkingQueue);
+  const filteredWithOnlyStudying = onlyStudying(workingQueue);
+  const filteredWithDateFilter = dateFilter(filteredWithOnlyStudying);
+  const filteredWithOnlyNotDeleted = onlyNotDeleted(filteredWithDateFilter);
+  const shuffledWorkingQueue = shuffle(filteredWithOnlyNotDeleted);
 
   return shuffledWorkingQueue;
 };
 
 export const createQueueOnlyHard = () => {
   const { queueRepeatWords } = store.getState().progress;
-  return shuffle(onlyHard(queueRepeatWords));
+  const filteredWithOnlyHard = onlyHard(queueRepeatWords);
+  const shuffledWorkingQueue = shuffle(filteredWithOnlyHard);
+
+  return shuffledWorkingQueue;
 };
