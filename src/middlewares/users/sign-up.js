@@ -5,7 +5,7 @@ import signIn from './sign-in';
 import postRequest from '../../helpers/fetch-utils/post-response';
 import API_URLS from '../../constants/APIUrls';
 
-export const signUp = (login, password) => {
+const signUp = (login, password) => {
   return async (dispatch) => {
     try {
       dispatch(runLoader());
