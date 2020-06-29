@@ -1,24 +1,24 @@
-import React from 'react';
-// import React, { useEffect, useState } from 'react';
+// import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import WordCard from '../../components/WordCard';
 // import { createQueueOrdinary } from '../../helpers/games-utils/card-utils';
 import WORD_HANDLER_KEYS from '../../constants/keys';
 
-// import wordHandler from '../../helpers/games-utils/wordHandler';
+import wordHandler from '../../helpers/games-utils/wordHandler';
 
 const WordPage = ({
   settings,
   /* progress , */
-  // serverSynchronization,
-  // finallySendWordAndProgress,
+  serverSynchronization,
+  finallySendWordAndProgress,
   onDeleteButton: onDeleteButtonAction,
 }) => {
-  // useEffect(() => {
-  //   serverSynchronization();
-  //   console.log(`WordPage useEffect`);
-  // }, []);
+  useEffect(() => {
+    serverSynchronization();
+    console.log(`WordPage useEffect`);
+  }, []);
 
   // const [workingQueue, setWorkingQueue] = useState(createQueueOrdinary());
 
@@ -39,10 +39,9 @@ const WordPage = ({
   // };
 
   const updateWordServerState = (word, option) => {
-    // const updatedWord = wordHandler(word, option);
+    const updatedWord = wordHandler(word, option);
 
     // закоментил, т.к. сплошные ошибки шли.
-    // finallySendWordAndProgress(updatedWord);
 
     if (option[0] === WORD_HANDLER_KEYS.isDeleted) {
       onDeleteButtonAction();
@@ -55,6 +54,8 @@ const WordPage = ({
     if (option[0] === WORD_HANDLER_KEYS.difficulty) {
       // onNextWordAction();
     }
+
+    finallySendWordAndProgress(updatedWord);
   };
 
   // return <WordCard  onDeleteButton={onDeleteButton} queue={workingQueue} />;
@@ -64,8 +65,8 @@ const WordPage = ({
 WordPage.propTypes = {
   settings: PropTypes.objectOf(PropTypes.any).isRequired,
   // progress: PropTypes.objectOf(PropTypes.any).isRequired,
-  // serverSynchronization: PropTypes.func.isRequired,
-  // finallySendWordAndProgress: PropTypes.func.isRequired,
+  serverSynchronization: PropTypes.func.isRequired,
+  finallySendWordAndProgress: PropTypes.func.isRequired,
   onDeleteButton: PropTypes.func.isRequired,
 };
 

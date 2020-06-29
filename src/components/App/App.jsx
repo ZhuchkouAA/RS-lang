@@ -6,16 +6,18 @@ import Header from '../Header';
 import Footer from '../Footer/Footer';
 import AppWithRoutes from './AppWithRouter';
 import Authorization from './Authorization';
+import Loader from '../Loader';
 
 import style from './App.module.scss';
 
-const App = ({ token }) => {
+const App = ({ token, isLoading }) => {
   const PageRoutes = token ? <AppWithRoutes /> : <Authorization />;
 
   return (
     <div className={style.App__wrapper}>
       <BrowserRouter>
         <Header />
+        {isLoading && <Loader />}
         <div className={style['App__wrapper-component']}>{PageRoutes}</div>
       </BrowserRouter>
       <Footer />
@@ -29,6 +31,7 @@ App.defaultProps = {
 
 App.propTypes = {
   token: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default App;

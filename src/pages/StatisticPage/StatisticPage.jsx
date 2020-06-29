@@ -23,6 +23,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
     newCardsShowed15Days,
     rightAnswers15Days,
   } = progress;
+
   useEffect(() => {
     serverSynchronization();
   }, []);

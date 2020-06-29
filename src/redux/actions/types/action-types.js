@@ -26,3 +26,7 @@ export const BUTTON_ACTIVITY_SWITCH = 'SIGN_IN/BUTTON_ACTIVITY_SWITCH';
 // navBar
 export const GET_NAVBAR_STATE = 'NAVBAR/GET_STATE';
 export const SET_NAVBAR_STATE = 'NAVBAR/SET_STATE';
+
+// loader
+export const RUN_LOADER = 'RUN_LOADER';
+export const STOP_LOADER = 'STOP_LOADER';

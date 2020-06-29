@@ -6,6 +6,7 @@ import settingsReducer from './settings.reducer';
 import modalWindowReducer from './modalWindow.reducer';
 import progressReducer from './progress.reducer';
 import navBarReducer from './navBar.reducer';
+import loaderReducer from './loader.reducer';
 
 const reducers = combineReducers({
   routing: routerReducer,
@@ -14,6 +15,7 @@ const reducers = combineReducers({
   settings: settingsReducer,
   modelWindow: modalWindowReducer,
   progress: progressReducer,
+  loader: loaderReducer,
 });
 
 export default reducers;

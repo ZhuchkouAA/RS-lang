@@ -289,6 +289,8 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
   const isVoteButtonsPanelShow =
     controlsState.isVotePanelShow && !isAnswerShowed && isFeedBackButtonsShow;
 
+  if (!queueOrdinary[0]) return null;
+
   return (
     <Card className={styles.WordCard__wrapper}>
       <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
