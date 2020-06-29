@@ -1,3 +1,10 @@
-import SprintPage from './SprintPage';
+import { connect } from 'react-redux';
 
-export default SprintPage;
+import SprintPage from './SprintPage';
+import sprintWordsQueue from './sprint-selectors';
+
+const mapStateToProps = (state) => ({
+  words: sprintWordsQueue(state),
+});
+
+export default connect(mapStateToProps)(SprintPage);
