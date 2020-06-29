@@ -24,17 +24,21 @@ import CheckIcon from '@material-ui/icons/Check';
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
 import TranslateIcon from '@material-ui/icons/Translate';
 
+import WordColoredChecker from '../WordColoredChecker';
 import VoteButtonsPanel from '../VoteButtonsPanel';
 import WordInput from '../WordInput';
 import SentenceWithWord from '../SentenceWithWord';
+
 import URLS from '../../constants/APIUrls';
+import WORD_HANDLER_KEYS from '../../constants/keys';
+import { DIFFICULTY_REPEAT_VALUE } from '../../constants/common';
 import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
-// import { getUserRate } from '../../helpers/text-utils';
-import WordColoredChecker from '../WordColoredChecker';
+import { getUserRate } from '../../helpers/text-utils';
+import { getNewWordDifficulty } from '../../helpers/repeat-logic-utils';
 
 import styles from './WordCard.module.scss';
 
-const WordCard = ({ settings, queueOrdinary }) => {
+const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
   const {
     isAnswerBtnShow,
     isDelFromLearnBtnShow,
@@ -60,16 +64,17 @@ const WordCard = ({ settings, queueOrdinary }) => {
   const [isTranslateShow, setTranslateShow] = useState(isWordTranslateShow);
   const [isMute, setIsMute] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
+  const [player, setPlayer] = useState(undefined);
   const [isWordGuessed, setWordGuessed] = useState(false);
-  const [isCheckerVisible, setCheckerVisible] = useState(false);
+  const [checkerState, setCheckerState] = useState({ isShow: false, isWorking: false });
   const [enteredWord, setEnteredWord] = useState('');
   const [wordToCheck, setWordToCheck] = useState('');
   const [cntLearnErrors, setLearnErrors] = useState(0);
   const [isAnswerShowed, setAnswerShowed] = useState(false);
 
-  const trackList = getTrackList(settings, wordsQueue[0]);
   const SoundIcon = isMute ? MusicOffIcon : MusicIcon;
 
+  const { difficulty } = wordsQueue[0];
   const {
     word,
     wordTranslate,
@@ -89,17 +94,27 @@ const WordCard = ({ settings, queueOrdinary }) => {
   const audioMeaningUrl = `${URLS.ASSETS}${audioMeaning}`;
   const audioExampleUrl = `${URLS.ASSETS}${audioExample}`;
 
-  const getNextWord = () => {
+  let userVoteDifficulty;
+
+  const pickNextWordFromQueue = () => {
     const newWordsQueue = wordsQueue.slice(1);
 
     if (newWordsQueue.length > 0) {
       setWordsQueue(newWordsQueue);
     } else {
       // todo вызывать сообщение о завершении слов
+      // временно, убираю кнопки, чтобы ничего не ломалось в карточке.
+      setControlsState({
+        ...controlsState,
+        isVotePanelShow: false,
+        isAnswerBtnShow: false,
+        isNextBtnShow: false,
+      });
     }
   };
 
   const resetStateForNewWord = () => {
+    setCheckerState({ isShow: false, isWorking: false });
     setControlsState({
       isVotePanelShow: false,
       isAnswerBtnShow,
@@ -109,7 +124,6 @@ const WordCard = ({ settings, queueOrdinary }) => {
     });
     setPlaying(false);
     setWordGuessed(false);
-    setCheckerVisible(false);
     setEnteredWord('');
     setWordToCheck('');
     setLearnErrors(0);
@@ -117,20 +131,29 @@ const WordCard = ({ settings, queueOrdinary }) => {
   };
 
   const goToNextWord = () => {
+    const newWordDifficulty = getNewWordDifficulty(difficulty, userVoteDifficulty, cntLearnErrors);
+    const wordOption = [WORD_HANDLER_KEYS.difficulty, newWordDifficulty];
+
+    updateWordServerState(wordsQueue[0], wordOption);
     resetStateForNewWord();
-    getNextWord();
+    pickNextWordFromQueue();
   };
 
   const startPlaying = (tracks) => {
-    if (isPlaying || isMute) {
+    if (isPlaying) {
       return;
     }
 
     setPlaying(true);
-    playTrackList(tracks, () => {
+    const newPlayer = playTrackList(tracks, () => {
       setPlaying(false);
-      goToNextWord();
+
+      if (isWordGuessed) {
+        goToNextWord();
+      }
     });
+
+    setPlayer(newPlayer);
   };
 
   const CheckEnteredWord = () => {
@@ -139,12 +162,16 @@ const WordCard = ({ settings, queueOrdinary }) => {
     }
 
     setWordToCheck(enteredWord);
-    setCheckerVisible(true);
+    setCheckerState({ isShow: true, isWorking: true });
     setEnteredWord('');
 
-    if (enteredWord === word) {
+    if (enteredWord.toLowerCase() === word.toLowerCase()) {
+      if (!isMute) {
+        const trackList = getTrackList(settings, wordsQueue[0].optional);
+        startPlaying(trackList);
+      }
+
       setWordGuessed(true);
-      startPlaying(trackList);
       setControlsState({
         ...controlsState,
         isVotePanelShow: true,
@@ -162,7 +189,7 @@ const WordCard = ({ settings, queueOrdinary }) => {
     setEnteredWord(value);
 
     if (cntLearnErrors > 0 && value.length > 0) {
-      setCheckerVisible(false);
+      setCheckerState({ ...checkerState, isWorking: false });
     }
   };
 
@@ -192,7 +219,6 @@ const WordCard = ({ settings, queueOrdinary }) => {
     setAnswerShowed(true);
     setEnteredWord(word);
     // todo давать мксимальный штраф за показать ответ
-    // goToNextWord();
     setControlsState({
       ...controlsState,
       isAnswerBtnShow: false,
@@ -202,6 +228,10 @@ const WordCard = ({ settings, queueOrdinary }) => {
 
   const handlerClickNextWord = () => {
     goToNextWord();
+
+    if (player) {
+      player.stop();
+    }
   };
 
   const handlerClickMuteSwitch = () => {
@@ -212,13 +242,27 @@ const WordCard = ({ settings, queueOrdinary }) => {
     setTranslateShow(!isTranslateShow);
   };
 
-  const handlerClickVoteButton = () => {
+  const handlerClickVoteButton = ({ target }) => {
     setControlsState({ ...controlsState, isVotePanelShow: false });
 
-    // const userRate = getUserRate(target);
+    userVoteDifficulty = getUserRate(target);
+
+    if (userVoteDifficulty === DIFFICULTY_REPEAT_VALUE) {
+      wordsQueue.push(wordsQueue[0]);
+    }
   };
 
   const handlerClickDeleteWord = () => {
+    const wordOption = [WORD_HANDLER_KEYS.isDeleted, true];
+
+    updateWordServerState(wordsQueue[0], wordOption);
+    goToNextWord();
+  };
+
+  const handlerClickHardWord = () => {
+    const wordOption = [WORD_HANDLER_KEYS.isHard, true];
+
+    updateWordServerState(wordsQueue[0], wordOption);
     goToNextWord();
   };
 
@@ -270,8 +314,8 @@ const WordCard = ({ settings, queueOrdinary }) => {
             <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
               <Grid item>
                 {isFeedBackButtonsShow && (
-                  <Tooltip title="Добавить слово в 'Сложные'" aria-label="add">
-                    <Fab color="primary" size="small">
+                  <Tooltip title="Добавить слово в 'Сложные'" aria-label="add" enterDelay={1000}>
+                    <Fab onClick={handlerClickHardWord} color="primary" size="small">
                       <AddIcon />
                     </Fab>
                   </Tooltip>
@@ -284,17 +328,19 @@ const WordCard = ({ settings, queueOrdinary }) => {
                   enteredWord={enteredWord}
                   isInputDisable={controlsState.isInputDisable}
                 />
-                <WordColoredChecker
-                  isVisible={isCheckerVisible}
-                  word={word}
-                  wordToCheck={wordToCheck}
-                />
+                {checkerState.isShow && (
+                  <WordColoredChecker
+                    isVisible={checkerState.isWorking}
+                    word={word}
+                    wordToCheck={wordToCheck}
+                  />
+                )}
                 {isVoteButtonsPanelShow && (
                   <VoteButtonsPanel handlerClick={handlerClickVoteButton} />
                 )}
               </Grid>
               <Grid item>
-                <Tooltip title="Проверить слово" aria-label="add">
+                <Tooltip title="Проверить слово" aria-label="add" enterDelay={1000}>
                   <Fab onClick={handlerClickCheckWord} type="submit" color="primary" size="small">
                     <CheckIcon />
                   </Fab>
@@ -302,7 +348,7 @@ const WordCard = ({ settings, queueOrdinary }) => {
               </Grid>
               {isAudioShow && (
                 <Grid item>
-                  <Tooltip title="Произнести слово" aria-label="add">
+                  <Tooltip title="Произнести слово" aria-label="add" enterDelay={1000}>
                     <span>
                       <Fab onClick={handlerClickSayWord} type="button" color="primary" size="small">
                         <PlayCircleOutlineRoundedIcon />
@@ -354,7 +400,7 @@ const WordCard = ({ settings, queueOrdinary }) => {
         </Grid>
         {isDelFromLearnBtnShow && (
           <Box position="absolute">
-            <Tooltip title="Удалить слово из изучения">
+            <Tooltip title="Удалить слово из изучения" enterDelay={1000}>
               <IconButton aria-label="delete" onClick={handlerClickDeleteWord}>
                 <DeleteIcon fontSize="small" />
               </IconButton>
@@ -362,14 +408,14 @@ const WordCard = ({ settings, queueOrdinary }) => {
           </Box>
         )}
         <Box position="absolute" right="16px">
-          <Tooltip title="Выключить звук">
+          <Tooltip title="Отключить автовоспроизведение" enterDelay={1000}>
             <IconButton onClick={handlerClickMuteSwitch} aria-label="mute">
               <SoundIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </Box>
         <Box position="absolute" right="52px">
-          <Tooltip title="Не показывать перевод">
+          <Tooltip title="Не показывать перевод" enterDelay={1000}>
             <IconButton
               onClick={handlerClickTranslateSwitch}
               color={translateIcoColor}
@@ -385,11 +431,8 @@ const WordCard = ({ settings, queueOrdinary }) => {
 };
 
 WordCard.propTypes = {
-<<<<<<< HEAD
   settings: PropTypes.objectOf(PropTypes.any).isRequired,
-=======
-  settings: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.bool, PropTypes.string])).isRequired,
   queueOrdinary: PropTypes.arrayOf(PropTypes.object).isRequired,
->>>>>>> RSL-13: add words from queue
+  updateWordServerState: PropTypes.func.isRequired,
 };
 export default WordCard;

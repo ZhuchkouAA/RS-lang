@@ -1,21 +1,25 @@
+export const DIFFICULTY_REPEAT_VALUE = 100;
+export const DIFFICULTY_HARD_VALUE = 25;
+export const DIFFICULTY_NORMAL_VALUE = -25;
+export const DIFFICULTY_EASY_VALUE = -50;
+
 export const VOTE_BUTTON = [
   {
     title: 'Еще раз',
-    rate: 100,
+    rate: DIFFICULTY_REPEAT_VALUE,
   },
   {
     title: 'Сложно',
-    rate: 20,
+    rate: DIFFICULTY_HARD_VALUE,
   },
   {
     title: 'Нормально',
-    rate: 0,
+    rate: DIFFICULTY_NORMAL_VALUE,
   },
   {
     title: 'Легко',
-    rate: -20,
+    rate: DIFFICULTY_EASY_VALUE,
   },
 ];
-export const VOTE_BUTTON_TITLES1 = [];
 
 export const DELTA = 0.00000001;

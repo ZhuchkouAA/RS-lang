@@ -58,9 +58,10 @@ export const getTemplateForWord = (word) => {
   return '*'.repeat(word.length);
 };
 
-const getRightCharPositions = (word, enteredText) => {
-  const letters = word.split('');
-  const enteredTextLength = enteredText.length;
+const getRightCharPositions = (word, enteredWord) => {
+  const letters = word.toLowerCase().split('');
+  const enteredTextLength = enteredWord.length;
+  const enteredText = enteredWord.toLowerCase();
 
   let cntErrors = 0;
 

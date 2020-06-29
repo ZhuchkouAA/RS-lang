@@ -1,33 +1,31 @@
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
-// import { createQueueOrdinary } from '../../helpers/games-utils/card-utils';
+import { createQueueOrdinary } from '../../helpers/games-utils/card-utils';
 
-import WordCard2 from './WordCard2';
+import WordCard from './WordCard';
 
-// const cardState = {
-//   optional: {
-//     word: 'instruct',
-//     wordTranslate: 'инструктирует',
-//     transcription: '[instrʌ́kt]',
-//     textMeaning: 'To <i>instruct</i> is to teach.',
-//     textMeaningTranslate: 'Обучать - значит учить',
-//     textExample: 'My teacher <b>instructs</b> us in several subjects.',
-//     textExampleTranslate: 'Мой учитель учит нас нескольким предметам',
-//     image: 'files/04_0070.jpg',
-//     audio: 'files/02_0621.mp3',
-//     audioMeaning: 'files/02_0621_meaning.mp3',
-//     audioExample: 'files/02_0621_example.mp3',
-//   },
-// };
-//
-// const mapStateToProps = ({ settings }) => {
-//   let queueOrdinary = createQueueOrdinary();
-//
-//   queueOrdinary = queueOrdinary.length > 0 ? queueOrdinary.slice(1) : [cardState];
-//
-//   return { settings, queueOrdinary };
-// };
+const cardState = {
+  optional: {
+    word: 'acre',
+    wordTranslate: 'акр',
+    transcription: '[éikər]',
+    textMeaning: 'An <i>acre</i> is a unit for measuring area.',
+    textMeaningTranslate: 'Акр - это единица измерения площади',
+    textExample: 'They lived on a 150-<b>acre</b> farm.',
+    textExampleTranslate: 'Они жили на 150-акровой ферме',
+    image: 'files/01_1201.jpg',
+    audio: 'files/01_1201.mp3',
+    audioMeaning: 'files/01_1201_meaning.mp3',
+    audioExample: 'files/01_1201_example.mp3',
+  },
+};
 
-// export default connect(mapStateToProps)(WordCard);
+const mapStateToProps = () => {
+  let queueOrdinary = createQueueOrdinary();
 
-export default WordCard2;
+  queueOrdinary = queueOrdinary.length > 0 ? queueOrdinary : [cardState];
+
+  return { queueOrdinary };
+};
+
+export default connect(mapStateToProps)(WordCard);

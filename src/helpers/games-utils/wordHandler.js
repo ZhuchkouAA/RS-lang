@@ -32,7 +32,7 @@ const wordHandler = (word, option) => {
 
   newWord.optional.repeatDate =
     Date.now() + WORD_REPEAT_INTERVAL * (MAX_DIFFICULTY + 1 - newWord.difficulty);
-  console.log(newWord.difficulty);
+
   return newWord;
 };
 

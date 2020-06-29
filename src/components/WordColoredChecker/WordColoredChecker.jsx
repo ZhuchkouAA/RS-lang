@@ -12,7 +12,7 @@ const WordColoredChecker = ({ isVisible, word, wordToCheck }) => {
 
   const checkerClasses = classNames(styles.WordColoredChecker, {
     [styles.WordColoredChecker__show]: isVisible && word !== wordToCheck,
-    [styles.WordColoredChecker__fix]: word === wordToCheck,
+    [styles.WordColoredChecker__fix]: word.toLowerCase() === wordToCheck.toLowerCase(),
   });
 
   return (
