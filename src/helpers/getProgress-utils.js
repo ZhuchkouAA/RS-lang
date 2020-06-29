@@ -38,9 +38,9 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
 
   // забираем слова из первой группы
   if (firstWordNumber < leftNewWordsToday) {
-    const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 1, 100, firstWordNumber));
+    const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 0, 100, WORDS_IN_GROUP));
     const words = await rawWords.json();
-    const newWords = words.slice(0, leftNewWordsToday);
+    const newWords = words.slice(firstWordNumber, firstWordNumber + leftNewWordsToday);
     wordsArray = [...wordsArray, ...newWords];
   } else {
     const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 0, 100, leftNewWordsToday));
