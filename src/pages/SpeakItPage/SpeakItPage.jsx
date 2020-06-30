@@ -1,13 +1,6 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import SpeakIt from '../../components/SpeakIt';
 
-import PATH from '../../constants/path';
-
-const SpeakItPage = () => (
-  <>
-    <p>SpeakItPage</p>
-    <NavLink to={PATH.SIGN_IN}>SignInPage</NavLink>
-  </>
-);
+const SpeakItPage = () => <SpeakIt />;
 
 export default SpeakItPage;
