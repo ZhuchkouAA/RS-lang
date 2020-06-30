@@ -1,0 +1,27 @@
+.question {
+  font-size: 24px;
+  height: 200px;
+  position: relative;
+}
+  
+.question__wrapper {
+  animation: moveBot 5s linear infinite;
+  position: relative;
+}
+  
+@keyframes moveBot {
+  0% {
+    opacity: 1;
+    top: 0;
+  }
+
+  50% {
+    opacity: 0.5;
+    top: 50%;
+  }
+
+  100% {
+    opacity: 0;
+    top: 100%;
+  }
+}
