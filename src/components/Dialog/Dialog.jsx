@@ -14,11 +14,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import style from './Dialog.module.scss';
 
-const CustomizedDialogs = ({ isOpen, type, tittle, message }) => {
+const CustomizedDialogs = ({ isOpen, type, tittle, message, callBack }) => {
   const [open, setOpen] = React.useState(isOpen);
 
   const handleClose = () => {
     setOpen(false);
+    callBack();
   };
 
   const ModalWindowTitle = classNames({
@@ -50,11 +51,16 @@ const CustomizedDialogs = ({ isOpen, type, tittle, message }) => {
   );
 };
 
+CustomizedDialogs.defaultProps = {
+  callBack: () => {},
+};
+
 CustomizedDialogs.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
   tittle: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
+  callBack: PropTypes.func,
 };
 
 export default CustomizedDialogs;

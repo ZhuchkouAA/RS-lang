@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -28,13 +29,16 @@ import WordColoredChecker from '../WordColoredChecker';
 import VoteButtonsPanel from '../VoteButtonsPanel';
 import WordInput from '../WordInput';
 import SentenceWithWord from '../SentenceWithWord';
+import Dialog from '../Dialog';
 
+import PATH from '../../constants/path';
 import URLS from '../../constants/APIUrls';
 import WORD_HANDLER_KEYS from '../../constants/keys';
 import { DIFFICULTY_REPEAT_VALUE } from '../../constants/common';
 import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
 import { getUserRate } from '../../helpers/text-utils';
 import { getNewWordDifficulty } from '../../helpers/repeat-logic-utils';
+import { WORDS_END } from '../../constants/modal-messages';
 
 import styles from './WordCard.module.scss';
 
@@ -52,6 +56,8 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
     isAudioMeaningShow,
     isAudioExampleShow,
   } = settings;
+
+  const history = useHistory();
 
   const [controlsState, setControlsState] = useState({
     isVotePanelShow: false,
@@ -71,6 +77,7 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
   const [wordToCheck, setWordToCheck] = useState('');
   const [cntLearnErrors, setLearnErrors] = useState(0);
   const [isAnswerShowed, setAnswerShowed] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const SoundIcon = isMute ? MusicOffIcon : MusicIcon;
 
@@ -104,8 +111,7 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
     if (newWordsQueue.length > 0) {
       setWordsQueue(newWordsQueue);
     } else {
-      // todo вызывать сообщение о завершении слов
-      // временно, убираю кнопки, чтобы ничего не ломалось в карточке.
+      setModalOpen(true);
       setControlsState({
         ...controlsState,
         isVotePanelShow: false,
@@ -136,6 +142,10 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
     const newWordDifficulty = getNewWordDifficulty(difficulty, userVoteDifficulty, cntLearnErrors);
     const wordOption = [WORD_HANDLER_KEYS.difficulty, newWordDifficulty];
 
+    if (cntLearnErrors > 0) {
+      setWordsQueue([...wordsQueue, wordsQueue[0]]);
+    }
+
     updateWordServerState(wordsQueue[0], wordOption);
     resetStateForNewWord();
     pickNextWordFromQueue();
@@ -156,6 +166,10 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
     });
 
     setPlayer(newPlayer);
+  };
+
+  const redirectToMainPage = () => {
+    history.push(PATH.MAIN);
   };
 
   const CheckEnteredWord = () => {
@@ -250,7 +264,7 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
     userVoteDifficulty = getUserRate(target);
 
     if (userVoteDifficulty === DIFFICULTY_REPEAT_VALUE) {
-      wordsQueue.push(wordsQueue[0]);
+      setWordsQueue([...wordsQueue, wordsQueue[0]]);
     }
 
     nextBtn.current.focus();
@@ -299,7 +313,7 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
 
   if (!queueOrdinary[0]) return null;
 
-  const WordInputF = forwardRef((props, ref) => {
+  const FocusedWordInput = forwardRef((props, ref) => {
     return (
       <WordInput
         word={word}
@@ -345,16 +359,7 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
                 )}
               </Grid>
               <Grid item className={styles.WordCard__input}>
-                {/* <WordInput
-                  word={word}
-                  handleInputChange={handleInputChange}
-                  enteredWord={enteredWord}
-                  isInputDisable={controlsState.isInputDisable}
-                  isFocusNeed={isAnswerBtnShow}
-                  ref={wordInput2}
-                /> */}
-                {/* {wordInput} */}
-                <WordInputF />
+                <FocusedWordInput />
                 {checkerState.isShow && (
                   <WordColoredChecker
                     isVisible={checkerState.isWorking}
@@ -458,6 +463,15 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
           </Tooltip>
         </Box>
       </CardActions>
+      {isModalOpen && (
+        <Dialog
+          isOpen={isModalOpen}
+          type="info"
+          tittle={WORDS_END.tittle}
+          message={WORDS_END.message}
+          callBack={redirectToMainPage}
+        />
+      )}
     </Card>
   );
 };

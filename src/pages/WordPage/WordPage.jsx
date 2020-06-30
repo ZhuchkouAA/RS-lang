@@ -17,7 +17,6 @@ const WordPage = ({
 }) => {
   useEffect(() => {
     serverSynchronization();
-    console.log(`WordPage useEffect`);
   }, []);
 
   // const [workingQueue, setWorkingQueue] = useState(createQueueOrdinary());
