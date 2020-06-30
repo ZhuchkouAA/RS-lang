@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 
@@ -7,20 +7,12 @@ import styles from './WordInput.module.scss';
 
 const WordInput = ({ word, handleInputChange, enteredWord, isInputDisable }) => {
   const styleWord = getStyleWidthForText(word);
-  const inputRef = useRef();
-
-  useEffect(() => {
-    setTimeout(() => {
-      inputRef.current.focus();
-    }, 0);
-  }, []);
 
   return (
     <TextField
       className={styles.WordInput}
       classes={{ root: styles.WordInput__text }}
       autoFocus
-      inputRef={inputRef}
       id="outlined-basic"
       variant="outlined"
       size="small"
@@ -29,6 +21,12 @@ const WordInput = ({ word, handleInputChange, enteredWord, isInputDisable }) => 
       autoComplete="off"
       onChange={handleInputChange}
       disabled={isInputDisable}
+      inputProps={{
+        style: {
+          color: '#456d52',
+          fontWeight: 700,
+        },
+      }}
     />
   );
 };

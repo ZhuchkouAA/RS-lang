@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -73,6 +73,8 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
   const [isAnswerShowed, setAnswerShowed] = useState(false);
 
   const SoundIcon = isMute ? MusicOffIcon : MusicIcon;
+
+  const nextBtn = useRef(null);
 
   const { difficulty } = wordsQueue[0];
   const {
@@ -250,6 +252,8 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
     if (userVoteDifficulty === DIFFICULTY_REPEAT_VALUE) {
       wordsQueue.push(wordsQueue[0]);
     }
+
+    nextBtn.current.focus();
   };
 
   const handlerClickDeleteWord = () => {
@@ -270,7 +274,11 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
     if (isAnswerShowed) {
       CheckEnteredWord();
     }
-  });
+
+    if (controlsState.isNextBtnShow) {
+      nextBtn.current.focus();
+    }
+  }, [controlsState.isNextBtnShow, isAnswerShowed, CheckEnteredWord]);
 
   const isTranslateNeed = controlsState.isTranslateShow && isTranslateShow;
   const translateIcoColor = isTranslateShow ? 'secondary' : 'default';
@@ -290,6 +298,19 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
     controlsState.isVotePanelShow && !isAnswerShowed && isFeedBackButtonsShow;
 
   if (!queueOrdinary[0]) return null;
+
+  const WordInputF = forwardRef((props, ref) => {
+    return (
+      <WordInput
+        word={word}
+        handleInputChange={handleInputChange}
+        enteredWord={enteredWord}
+        isInputDisable={controlsState.isInputDisable}
+        isFocusNeed={isAnswerBtnShow}
+        ref={ref}
+      />
+    );
+  });
 
   return (
     <Card className={styles.WordCard__wrapper}>
@@ -324,12 +345,16 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
                 )}
               </Grid>
               <Grid item className={styles.WordCard__input}>
-                <WordInput
+                {/* <WordInput
                   word={word}
                   handleInputChange={handleInputChange}
                   enteredWord={enteredWord}
                   isInputDisable={controlsState.isInputDisable}
-                />
+                  isFocusNeed={isAnswerBtnShow}
+                  ref={wordInput2}
+                /> */}
+                {/* {wordInput} */}
+                <WordInputF />
                 {checkerState.isShow && (
                   <WordColoredChecker
                     isVisible={checkerState.isWorking}
@@ -394,7 +419,12 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
           )}
           {controlsState.isNextBtnShow && (
             <Grid item>
-              <Button variant="contained" color="primary" onClick={handlerClickNextWord}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handlerClickNextWord}
+                ref={nextBtn}
+              >
                 Следующее слово
               </Button>
             </Grid>
