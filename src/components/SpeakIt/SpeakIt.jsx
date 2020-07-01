@@ -36,16 +36,34 @@ const SpeakIt = () => {
     cardExample,
   ];
 
+  const [value, setValue] = React.useState(0);
+  // const [audioExample, setAudioExample] = React.useState('');
+  //
+  // const playAudio = () => {
+  //   const audio = new Audio();
+  //   audio.src = audioExample;
+  //   audio.play();
+  // };
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  // const handleAudioExample = (url) => {
+  //   setAudioExample(url);
+  //   playAudio();
+  // };
+
   return (
     <Card className={styles.SpeakIt}>
       <Grid item className={styles.SpeakIt__wrapper}>
-        <Tabs variant="scrollable">
-          <Tab icon={<LooksOne />} />
-          <Tab icon={<LooksTwo />} />
-          <Tab icon={<Looks3 />} />
-          <Tab icon={<Looks4 />} />
-          <Tab icon={<Looks5 />} />
-          <Tab icon={<Looks6 />} />
+        <Tabs variant="scrollable" value={value} onChange={handleChange} aria-label="levels">
+          <Tab icon={<LooksOne />} aria-label="one" />
+          <Tab icon={<LooksTwo />} aria-label="two" />
+          <Tab icon={<Looks3 />} aria-label="three" />
+          <Tab icon={<Looks4 />} aria-label="four" />
+          <Tab icon={<Looks5 />} aria-label="five" />
+          <Tab icon={<Looks6 />} aria-label="six" />
         </Tabs>
         <CardMedia image={cardExample.PICTURE_URL} className={styles.SpeakIt__image} />
         <Card className={styles.SpeakIt__word}>
