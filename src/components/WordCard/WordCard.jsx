@@ -34,7 +34,7 @@ import Dialog from '../Dialog';
 import PATH from '../../constants/path';
 import URLS from '../../constants/APIUrls';
 import WORD_HANDLER_KEYS from '../../constants/keys';
-import { DIFFICULTY_REPEAT_VALUE } from '../../constants/common';
+import { DIFFICULTY_REPEAT_VALUE } from '../../constants/variables-learning';
 import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
 import { getUserRate } from '../../helpers/text-utils';
 import { getNewWordDifficulty } from '../../helpers/repeat-logic-utils';
@@ -83,7 +83,6 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
 
   const nextBtn = useRef(null);
 
-  const { difficulty } = wordsQueue[0];
   const {
     word,
     wordTranslate,
@@ -102,8 +101,6 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
   const audioUrl = `${URLS.ASSETS}${audio}`;
   const audioMeaningUrl = `${URLS.ASSETS}${audioMeaning}`;
   const audioExampleUrl = `${URLS.ASSETS}${audioExample}`;
-
-  let userVoteDifficulty;
 
   const pickNextWordFromQueue = () => {
     const newWordsQueue = wordsQueue.slice(1);
@@ -139,14 +136,6 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
   };
 
   const goToNextWord = () => {
-    const newWordDifficulty = getNewWordDifficulty(difficulty, userVoteDifficulty, cntLearnErrors);
-    const wordOption = [WORD_HANDLER_KEYS.difficulty, newWordDifficulty];
-
-    if (cntLearnErrors > 0) {
-      setWordsQueue([...wordsQueue, wordsQueue[0]]);
-    }
-
-    updateWordServerState(wordsQueue[0], wordOption);
     resetStateForNewWord();
     pickNextWordFromQueue();
   };
@@ -196,6 +185,21 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
         isInputDisable: true,
         isTranslateShow: true,
       });
+
+      const { difficulty } = wordsQueue[0];
+      const penaltyForShowingAnswer = isAnswerShowed ? DIFFICULTY_REPEAT_VALUE : 0;
+      const newWordDifficulty = getNewWordDifficulty(
+        difficulty,
+        penaltyForShowingAnswer,
+        cntLearnErrors
+      );
+      const wordOption = [WORD_HANDLER_KEYS.difficulty, newWordDifficulty];
+
+      if (cntLearnErrors > 0) {
+        setWordsQueue([...wordsQueue, wordsQueue[0]]);
+      }
+
+      updateWordServerState(wordsQueue[0], wordOption);
     } else {
       setLearnErrors(cntLearnErrors + 1);
     }
@@ -234,7 +238,6 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
   const handlerClickShowAnswer = () => {
     setAnswerShowed(true);
     setEnteredWord(word);
-    // todo давать мксимальный штраф за показать ответ
     setControlsState({
       ...controlsState,
       isAnswerBtnShow: false,
@@ -261,11 +264,17 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
   const handlerClickVoteButton = ({ target }) => {
     setControlsState({ ...controlsState, isVotePanelShow: false });
 
-    userVoteDifficulty = getUserRate(target);
+    const voteResult = getUserRate(target);
 
-    if (userVoteDifficulty === DIFFICULTY_REPEAT_VALUE) {
+    if (voteResult === DIFFICULTY_REPEAT_VALUE && cntLearnErrors === 0) {
       setWordsQueue([...wordsQueue, wordsQueue[0]]);
     }
+
+    const { difficulty } = wordsQueue[0];
+    const newWordDifficulty = getNewWordDifficulty(difficulty, voteResult, cntLearnErrors);
+    const wordOption = [WORD_HANDLER_KEYS.difficulty, newWordDifficulty];
+
+    updateWordServerState(wordsQueue[0], wordOption);
 
     nextBtn.current.focus();
   };
@@ -281,7 +290,6 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
     const wordOption = [WORD_HANDLER_KEYS.isHard, true];
 
     updateWordServerState(wordsQueue[0], wordOption);
-    goToNextWord();
   };
 
   useEffect(() => {

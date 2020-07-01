@@ -7,7 +7,7 @@ import {
   QUEUE_NEW_WORDS,
   QUEUE_REPEAT_WORDS,
   REWRITE_PROGRESS,
-  ON_DELETE_BUTTON,
+  UPDATE_PROGRESS_AFTER_WORD_PROCESSED,
 } from '../actions/types/action-types';
 
 import { MSEC_PER_DAY } from '../../constants/wordConfig';
@@ -34,7 +34,7 @@ const initialProgressState = {
 const progressReducer = (state = initialProgressState, { type, payload }) => {
   const [firstCardShowed15Days, ...otherCardsShowed15Days] = state.cardsShowed15Days;
   switch (type) {
-    case ON_DELETE_BUTTON:
+    case UPDATE_PROGRESS_AFTER_WORD_PROCESSED:
       return {
         ...state,
         differentCardsShowedAllTime: state.differentCardsShowedAllTime + 1,

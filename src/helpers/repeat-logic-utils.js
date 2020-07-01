@@ -1,15 +1,15 @@
-import { DIFFICULTY_NORMAL_VALUE } from '../constants/common';
+import { DIFFICULTY_NORMAL_VALUE } from '../constants/variables-learning';
 
 export const getNewWordDifficulty = (startDifficulty, userChoice, cntErrors) => {
-  if (userChoice !== undefined) {
-    return startDifficulty + userChoice;
+  if (userChoice !== 0) {
+    return +startDifficulty + userChoice;
   }
 
   if (cntErrors === 0) {
-    return startDifficulty + DIFFICULTY_NORMAL_VALUE;
+    return +startDifficulty + DIFFICULTY_NORMAL_VALUE;
   }
 
-  return startDifficulty;
+  return +startDifficulty;
 };
 
 export const newFunc = () => {};
