@@ -8,8 +8,8 @@ const API_URLS = {
   USER_WORDS_BY_USER_ID: (id) => `https://afternoon-falls-25894.herokuapp.com/users/${id}/words`,
   USER_WORDS_BY_USER_ID_WORD_ID: (id, wordId) =>
     `https://afternoon-falls-25894.herokuapp.com/users/${id}/words/${wordId}`,
-  USER_AGGREGATED_WORDS_BY_USER_ID: (id) =>
-    `https://afternoon-falls-25894.herokuapp.com/users/${id}/aggregatedWords`,
+  USER_AGGREGATED_WORDS_BY_USER_ID: (id, group) =>
+    `https://afternoon-falls-25894.herokuapp.com/users/${id}/aggregatedWords?group=${group}&wordsPerPage=600`,
   USER_AGGREGATED_WORDS_BY_USER_ID_WORD_ID: (id, wordId) =>
     `https://afternoon-falls-25894.herokuapp.com/users/${id}/aggregatedWords${wordId}`,
   USER_STATISTICS: (id) => `https://afternoon-falls-25894.herokuapp.com/users/${id}/statistics`,
