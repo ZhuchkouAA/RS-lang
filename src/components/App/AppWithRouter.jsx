@@ -16,6 +16,7 @@ import SettingsPage from '../../pages/SettingsPage';
 import PromoPage from '../../pages/PromoPage';
 import AboutUsPage from '../../pages/AboutUsPage';
 import NavBar from '../NavBar';
+import GameStartScreen from '../GameStartScreen';
 
 const AppWithRoutes = () => (
   <>
@@ -35,6 +36,7 @@ const AppWithRoutes = () => (
       <Route exact path={PATH.SETTINGS} component={SettingsPage} />
       <Route exact path={PATH.PROMO} component={PromoPage} />
       <Route exact path={PATH.ABOUT_US} component={AboutUsPage} />
+      <Route exact path={PATH.GAME_START_SCREEN} component={GameStartScreen} />
       <Redirect to={{ pathname: PATH.MAIN }} />
     </Switch>
   </>

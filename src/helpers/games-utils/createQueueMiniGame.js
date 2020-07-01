@@ -12,7 +12,6 @@ const getQueue600ByGroup = async (group) => {
   const objectWithQueue600 = await rawQueueMiniGames.json();
 
   const wordsArray = objectWithQueue600[0].paginatedResults;
-
   const queue600WithCanonicalWords = wordsArray.map((el) => {
     if (el.userWord !== undefined) {
       const { _id } = el;
