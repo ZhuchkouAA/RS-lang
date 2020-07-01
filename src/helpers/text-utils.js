@@ -4,7 +4,7 @@ import {
   FEW_ERRORS,
   NO_ERRORS,
 } from '../constants/app-settings';
-import { VOTE_BUTTON } from '../constants/common';
+import { VOTE_BUTTON } from '../constants/variables-learning';
 
 export const getTextWidthInPx = (text) => {
   const span = document.createElement('span');
