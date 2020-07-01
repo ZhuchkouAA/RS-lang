@@ -35,7 +35,10 @@ export const ALL_SECTIONS = [
     section: 'SPRINT',
     name: 'Спринт',
     description: 'Играем и учим слова в игре',
+<<<<<<< HEAD
     category: 'game',
+=======
+>>>>>>> RSL-30: add game mode reducer, refactor routes, connection sprint game to start game page
     path: '/game-start-screen',
   },
   {
