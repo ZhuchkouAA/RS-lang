@@ -3,13 +3,24 @@ import PropTypes from 'prop-types';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import Drawer from '@material-ui/core/Drawer';
+import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import { ALL_SECTIONS } from '../../constants/section';
+import { ALL_SECTIONS, GAMES, MAIN, OTHER } from '../../constants/section';
 import style from './NavBar.module.scss';
+
+const useStyles = makeStyles({
+  listItem: {
+    fontWeight: 100,
+    fontSize: '18px',
+  },
+  divider: {
+    margin: '0 15px',
+  },
+});
 
 const useLocationToFindIndex = () => {
   const location = useLocation();
@@ -17,6 +28,7 @@ const useLocationToFindIndex = () => {
 };
 
 const NavBar = ({ toggleNav, navBarState }) => {
+  const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = React.useState(useLocationToFindIndex());
 
   const handleListItemClick = (index) => {
@@ -27,33 +39,47 @@ const NavBar = ({ toggleNav, navBarState }) => {
     toggleNav(state);
   };
 
-  const list = () => (
-    <div
-      className={style['NavBar__link-container']}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-    >
-      <List>
-        {ALL_SECTIONS.map(({ path, name }, index) => (
+  const createList = (() => {
+    let index = 0;
+
+    return (list) =>
+      list.map(({ path, name }) => {
+        const indexCurrent = index;
+        index += 1;
+
+        return (
           <NavLink className={style.NavBar__link} key={name} to={path}>
             <ListItem
               button
-              key={name}
-              selected={selectedIndex === index}
-              onClick={() => handleListItemClick(index)}
+              className={style.NavBar__link}
+              key={indexCurrent}
+              selected={selectedIndex === indexCurrent}
+              onClick={() => handleListItemClick(indexCurrent)}
             >
-              <ListItemText primary={name} />
+              <ListItemText primary={name} classes={{ primary: classes.listItem }} />
             </ListItem>
           </NavLink>
-        ))}
-      </List>
-      <Divider />
-    </div>
-  );
+        );
+      });
+  })();
 
   return (
     <Drawer anchor="left" open={navBarState} onClose={toggleDrawer(false)}>
-      {list()}
+      <div
+        className={style['NavBar__link-container']}
+        role="presentation"
+        onClick={toggleDrawer(false)}
+      >
+        <List>
+          {createList(MAIN)}
+          <div className={style.title}>Игры</div>
+          <Divider classes={{ root: classes.divider }} />
+          {createList(GAMES)}
+          <div className={style.title}>Разное</div>
+          <Divider classes={{ root: classes.divider }} />
+          {createList(OTHER)}
+        </List>
+      </div>
     </Drawer>
   );
 };
