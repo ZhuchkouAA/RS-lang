@@ -33,18 +33,13 @@
   }
 
   &--active {
-    cursor: default;
-    opacity: 0.3;
+    //background-color: #fff;
+    //opacity: 0.3;
   }
 }
 
-.NavBar__link-сontainer {
-  display: flex;
-  flex-direction: column;
+.NavBar__link-container {
   font-size: 22px;
-  margin-left: 30px;
-  margin-top: 100px;
   user-select: none;
-
-
+  width: 300px;
 }

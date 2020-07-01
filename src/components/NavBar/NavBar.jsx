@@ -1,44 +1,70 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import { ALL_SECTIONS } from '../../constants/section';
 import style from './NavBar.module.scss';
 
-const NavBar = ({ toggleNav, navBarState }) => {
-  const NavBarActiveClass = `NavBar--${navBarState}`;
-  const ListActiveClass = 'NavBar__link--active';
+const useLocationToFindIndex = () => {
+  const location = useLocation();
+  return ALL_SECTIONS.findIndex(({ path }) => location.pathname === path);
+};
 
-  const handlerOnClick = () => {
-    toggleNav('disable');
+const NavBar = ({ toggleNav, navBarState }) => {
+  const [selectedIndex, setSelectedIndex] = React.useState(useLocationToFindIndex());
+
+  const handleListItemClick = (index) => {
+    setSelectedIndex(index);
   };
 
-  return (
-    <nav className={`${style.NavBar} ${style[NavBarActiveClass]}`}>
-      <div className={style['NavBar__link-сontainer']}>
-        {ALL_SECTIONS.map(({ path, name }) => (
-          <NavLink
-            onClick={handlerOnClick}
-            className={style.NavBar__link}
-            key={name}
-            to={path}
-            activeClassName={style[ListActiveClass]}
-          >
-            {name}
+  const toggleDrawer = (state) => () => {
+    toggleNav(state);
+  };
+
+  const list = () => (
+    <div
+      className={style['NavBar__link-container']}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+    >
+      <List>
+        {ALL_SECTIONS.map(({ path, name }, index) => (
+          <NavLink className={style.NavBar__link} key={name} to={path}>
+            <ListItem
+              button
+              key={name}
+              selected={selectedIndex === index}
+              onClick={() => handleListItemClick(index)}
+            >
+              <ListItemText primary={name} />
+            </ListItem>
           </NavLink>
         ))}
-      </div>
-    </nav>
+      </List>
+      <Divider />
+    </div>
+  );
+
+  return (
+    <Drawer anchor="left" open={navBarState} onClose={toggleDrawer(false)}>
+      {list()}
+    </Drawer>
   );
 };
 
 NavBar.defaultProps = {
-  navBarState: 'disable',
+  navBarState: false,
 };
 
 NavBar.propTypes = {
   toggleNav: PropTypes.func.isRequired,
-  navBarState: PropTypes.string,
+  navBarState: PropTypes.bool,
 };
 
 export default NavBar;
