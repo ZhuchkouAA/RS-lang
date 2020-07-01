@@ -13,13 +13,8 @@ import SoundDisableIcon from '../../components/SoundsDisableIcon';
 import sprintMusic from '../../sounds/sprint-music.mp3';
 import correctSound from '../../sounds/correct-answer.mp3';
 import incorrectSound from '../../sounds/incorrect-sound.mp3';
-<<<<<<< HEAD
 import SprintResultPage from './SprintResultPage';
 import styles from './SprintPage.module.scss';
-=======
-import styles from './SprintPage.module.scss';
-import SprintResultPage from './SprintResultPage';
->>>>>>> RSL-30: add sprint game functional
 
 const maxPointPerWord = 80;
 const getNewPointsData = ({ pointPerWin, winStreak, points }) => {
