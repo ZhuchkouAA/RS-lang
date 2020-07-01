@@ -14,4 +14,5 @@ export default {
   PROMO: '/promo',
   ABOUT_US: '/about-us',
   WORD_CARD: '/wordcard',
+  GAME_START_SCREEN: '/game-start-screen',
 };
