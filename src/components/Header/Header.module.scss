@@ -60,12 +60,25 @@
 }
 
 .Header__navBar {
+  border-radius: 10px;
+  height: 38px;
+  position: relative;
+  transition: 0.3s;
+  width: 38px;
+
+  &:hover {
+    opacity: 0.3;
+  }
+
   &-button {
     cursor: pointer;
     height: 25px;
+    left: 3px;
 
     position: absolute;
-    top: 30px;
+
+    top: 6px;
+    transition: 0.3s;
     width: 30px;
     z-index: 3;
   }
