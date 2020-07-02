@@ -16,10 +16,10 @@ const WordPage = ({
     serverSynchronization();
   }, []);
 
-  const updateWordServerState = (word, option) => {
+  const updateWordServerState = async (word, option) => {
     const updatedWord = wordHandler(word, option);
 
-    updateProgressAfterWordProcessed();
+    await updateProgressAfterWordProcessed();
 
     finallySendWordAndProgress(updatedWord);
   };
