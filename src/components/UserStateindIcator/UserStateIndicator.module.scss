@@ -21,15 +21,26 @@
 }
 
 .nowValue {
+  line-height: 2;
   padding-right: 10px;
   text-align: left;
 }
 
 .separatorValue {
+  line-height: 0;
   text-align: center;
 }
 
 .maxValue {
+  line-height: 2;
   padding-left: 10px;
   text-align: right;
+}
+
+
+.BeforeText {
+  align-items: center;
+  display: flex;
+  margin-right: 20px;
+  
 }

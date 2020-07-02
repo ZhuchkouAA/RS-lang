@@ -8,7 +8,12 @@ import UserStateIndicator from '../UserStateindIcator';
 const UserProgressCard = () => {
   return (
     <Grid item className={styles.UserProgressCard}>
-      <UserStateIndicator nowValue={6} maxValue={7} hint="Количество изученных слов на сегодня" />
+      <UserStateIndicator
+        nowValue={7}
+        maxValue={10}
+        tittle="Количество изученных слов на сегодня"
+        hint="Ховер эфект Ховер эфект Ховер эфект Ховер эфект "
+      />
     </Grid>
   );
 };

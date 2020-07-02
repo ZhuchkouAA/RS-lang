@@ -9,6 +9,7 @@
 //   CircularProgress,
 //   makeStyles,
 //   withStyles,
+//   Grid,
 // } from '@material-ui/core';
 
 // import style from './UserStateIndicator.module.scss';
@@ -23,24 +24,35 @@
 //   noMaxWidth: {
 //     maxWidth: 'none',
 //   },
-//   abc: {
-//     width: '100px',
-//     height: '100px',
-//     backgroundColor: 'red',
-//     padding: '100px',
+//   tooltipText: {
+//     textAlign: 'justify',
+//     padding: '10px',
+//     opacity: 1,
+//     fontSize: '15px',
+//     color: 'white',
 //   },
+//   beforeText: {
+//     margin: '10px',
+//   },
+//   circular: {
+//     background: 'red',
+//     color: 'red',
+//     margin: '1000px',
+//   }
 // }));
 
 // const CircularProgressWithLabel = (props) => {
-//   const { nowValue, maxValue, hint } = props;
+//   const { nowValue, maxValue, tittle, hint } = props;
 //   const value = (nowValue * 100) / maxValue;
-//   const valueText = `${nowValue} / ${maxValue}`;
+
 //   const classes = useStyles();
 
 //   const Circular = () => {
 //     return (
+//       <Grid container direction='row'>
+//         <div className={style.BeforeText}>{tittle}</div>
 //       <Box position="relative" display="inline-flex">
-//         <CircularProgress size="90px" variant="static" value={value} />
+//         <CircularProgress classes={{ tool: classes.circular }} size="70px" variant="static" value={value} />
 //         <Box
 //           top={0}
 //           left={0}
@@ -58,11 +70,12 @@
 //           </Typography>
 //         </Box>
 //       </Box>
+//       </Grid>
 //     );
 //   };
 
 //   return (
-//     <Tooltip title={hint} classes={{ tooltip: classes.abc }}>
+//     <Tooltip title={hint} classes={{ tooltip: classes.tooltipText }}>
 //       <Button className={classes.button}>{Circular()}</Button>
 //     </Tooltip>
 //   );
@@ -72,6 +85,7 @@
 
 // CircularProgressWithLabel.propTypes = {
 //   hint: PropTypes.string.isRequired,
+//   tittle: PropTypes.string.isRequired,
 //   nowValue: PropTypes.number.isRequired,
 //   maxValue: PropTypes.number.isRequired,
 // };
