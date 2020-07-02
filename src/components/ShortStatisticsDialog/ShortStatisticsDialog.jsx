@@ -17,7 +17,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import PATH from '../../constants/path';
-import { LEARN_RATINGS } from '../../constants/variables-learning';
+import { getRatingColorStyleName } from '../../helpers/repeat-logic-utils';
 
 import styles from './ShortStatisticsDialog.module.scss';
 
@@ -41,27 +41,25 @@ const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) =>
   };
 
   const handleClickContinue = () => {
-    // setOpen(false);
     history.push(PATH.MAIN);
   };
 
   const handleClickSettings = () => {
-    // setOpen(false);
     history.push(PATH.SETTINGS);
   };
 
-  const ratingColor = classNames({
-    [styles['ShortStatisticsDialog--fail']]: rightAnswersToday < LEARN_RATINGS.bad,
-    [styles['ShortStatisticsDialog--bad']]:
-      rightAnswersToday >= LEARN_RATINGS.bad && rightAnswersToday < LEARN_RATINGS.normal,
-    [styles['ShortStatisticsDialog--normal']]:
-      rightAnswersToday >= LEARN_RATINGS.normal && rightAnswersToday < LEARN_RATINGS.good,
-    [styles['ShortStatisticsDialog--good']]:
-      rightAnswersToday >= LEARN_RATINGS.good && rightAnswersToday < LEARN_RATINGS.excellent,
-    [styles['ShortStatisticsDialog--excellent']]: rightAnswersToday > LEARN_RATINGS.excellent,
-  });
+  const answerRatingColor = getRatingColorStyleName(rightAnswersToday);
+  const seriesRatingColor = getRatingColorStyleName(longestTodaySeries / wordsPerDay);
 
-  const longestSeriesClasses = classNames(styles['ShortStatisticsDialog--results'], ratingColor);
+  const answerClasses = classNames(
+    styles['ShortStatisticsDialog--results'],
+    styles[answerRatingColor]
+  );
+
+  const longestSeriesClasses = classNames(
+    styles['ShortStatisticsDialog--results'],
+    styles[seriesRatingColor]
+  );
 
   const classes = useStyles();
 
@@ -78,7 +76,7 @@ const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) =>
         </Typography>
         <Typography align="center" gutterBottom>
           {`Правильные ответы: `}
-          <span className={longestSeriesClasses}>{`${rightAnswersStatistic[0]}%`}</span>
+          <span className={answerClasses}>{`${rightAnswersToday}%`}</span>
           {`. `}
         </Typography>
         <Typography align="center" gutterBottom>
@@ -88,7 +86,7 @@ const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) =>
         </Typography>
         <Typography align="center" paragraph>
           {`Серия правильных ответов подряд: `}
-          <span className={styles['ShortStatisticsDialog--results']}>{longestTodaySeries}</span>
+          <span className={longestSeriesClasses}>{longestTodaySeries}</span>
           {`. `}
         </Typography>
 

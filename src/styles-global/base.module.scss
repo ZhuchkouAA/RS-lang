@@ -3,3 +3,25 @@
   transition: opacity 1s;
   z-index: -5;
 }
+
+.rating-color {
+  &--fail {
+    color: $learning-fail-color;
+  }
+
+  &--bad {
+    color: $learning-bad-color;
+  }
+
+  &--normal {
+    color: $learning-normal-color;
+  }
+
+  &--good {
+    color: $learning-good-color;
+  }
+
+  &--excellent {
+    color: $learning-excellent-color;
+  }
+}
