@@ -17,7 +17,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import PATH from '../../constants/path';
-import { RIGHT_ANSWER_SERIES } from '../../constants/variables-learning';
+import { LEARN_RATINGS } from '../../constants/variables-learning';
 
 import styles from './ShortStatisticsDialog.module.scss';
 
@@ -51,17 +51,14 @@ const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) =>
   };
 
   const ratingColor = classNames({
-    [styles['ShortStatisticsDialog--fail']]: rightAnswersToday < RIGHT_ANSWER_SERIES.bad,
+    [styles['ShortStatisticsDialog--fail']]: rightAnswersToday < LEARN_RATINGS.bad,
     [styles['ShortStatisticsDialog--bad']]:
-      rightAnswersToday >= RIGHT_ANSWER_SERIES.bad &&
-      rightAnswersToday < RIGHT_ANSWER_SERIES.normal,
+      rightAnswersToday >= LEARN_RATINGS.bad && rightAnswersToday < LEARN_RATINGS.normal,
     [styles['ShortStatisticsDialog--normal']]:
-      rightAnswersToday >= RIGHT_ANSWER_SERIES.normal &&
-      rightAnswersToday < RIGHT_ANSWER_SERIES.good,
+      rightAnswersToday >= LEARN_RATINGS.normal && rightAnswersToday < LEARN_RATINGS.good,
     [styles['ShortStatisticsDialog--good']]:
-      rightAnswersToday >= RIGHT_ANSWER_SERIES.good &&
-      rightAnswersToday < RIGHT_ANSWER_SERIES.excellent,
-    [styles['ShortStatisticsDialog--excellent']]: rightAnswersToday > RIGHT_ANSWER_SERIES.excellent,
+      rightAnswersToday >= LEARN_RATINGS.good && rightAnswersToday < LEARN_RATINGS.excellent,
+    [styles['ShortStatisticsDialog--excellent']]: rightAnswersToday > LEARN_RATINGS.excellent,
   });
 
   const longestSeriesClasses = classNames(styles['ShortStatisticsDialog--results'], ratingColor);
@@ -99,7 +96,8 @@ const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) =>
         {isWordsRemain && (
           <DialogContentText classes={classes}>
             Запланированные на сегодня слова закончились, но еще остались слова срочного повторения.
-            Если слов оказалось мало, всегда можно увеличить лимит в настройках.
+            Если слов оказалось мало, всегда можно увеличить лимит в настройках. Или продолжить
+            изучение в играх.
           </DialogContentText>
         )}
       </DialogContent>
