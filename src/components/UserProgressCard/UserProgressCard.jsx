@@ -8,11 +8,7 @@ import UserStateIndicator from '../UserStateindIcator';
 const UserProgressCard = () => {
   return (
     <Grid item className={styles.UserProgressCard}>
-      Процент правильных ответов сегодня:
-      <UserStateIndicator
-        value={7}
-        hint="Подсказка работает Подсказка работает Подсказка работает "
-      />
+      <UserStateIndicator nowValue={6} maxValue={7} hint="Количество изученных слов на сегодня" />
     </Grid>
   );
 };

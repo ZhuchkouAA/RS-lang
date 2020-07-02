@@ -11,6 +11,25 @@
 
 .abc {
   font-size: 40px;
-  color: red;
-  background-color: red;
+  // color: red;
+  // background-color: red;
+}
+
+.CircularProgress {
+  height: 70px;
+  width: 70px;
+}
+
+.nowValue {
+  padding-right: 10px;
+  text-align: left;
+}
+
+.separatorValue {
+  text-align: center;
+}
+
+.maxValue {
+  padding-left: 10px;
+  text-align: right;
 }
