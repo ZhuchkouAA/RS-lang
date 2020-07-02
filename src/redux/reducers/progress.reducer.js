@@ -9,15 +9,23 @@ import {
   REWRITE_PROGRESS,
 } from '../actions/types/action-types';
 
+import { BASE_EMPTY_ARRAY_15 } from '../../constants/app-settings';
+import { MSEC_PER_DAY } from '../../constants/wordConfig';
+
 const initialProgressState = {
   differentCardsShowedAllTime: 0,
   cardsShowedAllTime: 0,
-  dateOfReceiptOfWords: Date.now() + 86400000,
+  rightAnswersAllTime: 0,
+  dateOfReceiptOfWords: Date.now() + MSEC_PER_DAY,
   leftNewWordsToday: 10,
   queueNewWords: [],
   queueRepeatWords: [],
-  queueRandom300: [],
-  leftRepeatWordsToday: 20,
+  leftRepeatWordsToday: 10,
+  longestTodaySeries: 0,
+  learnedWordsStatistic: BASE_EMPTY_ARRAY_15,
+  cardsShowedStatistic: BASE_EMPTY_ARRAY_15,
+  newCardsShowedStatistic: BASE_EMPTY_ARRAY_15,
+  rightAnswersStatistic: BASE_EMPTY_ARRAY_15,
 };
 
 const progressReducer = (state = initialProgressState, { type, payload }) => {
