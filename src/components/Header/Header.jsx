@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import style from './Header.module.scss';
-import ProgressBar from '../ProgressBar';
 
 const Header = ({ toggleNav, token, removeUserData }) => {
   const authButtons = (
@@ -49,7 +48,6 @@ const Header = ({ toggleNav, token, removeUserData }) => {
           </div>
         </div>
       </header>
-      <ProgressBar />
     </>
   );
 };

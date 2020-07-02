@@ -1,8 +1,14 @@
-.WordCount {
-  color: rgb(0, 35, 133);
-  display: flex;
-  font-weight: 600;
-  justify-content: flex-end;
-  margin-right: 5px;
-  margin-top: 5px;
+@import '../../styles-global/index.module';
+
+.ProgressBar {
+  position: absolute;
+  top: 5px;
+
+  &__values {
+    color: $black-color;
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    justify-content: center;
+  }
 }
