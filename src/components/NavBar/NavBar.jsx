@@ -2,12 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import Drawer from '@material-ui/core/Drawer';
+import { ListItem, ListItemText, Divider, List, Drawer } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 
 import { ALL_SECTIONS, GAMES, MAIN, OTHER } from '../../constants/section';
 import style from './NavBar.module.scss';
@@ -19,6 +15,12 @@ const useStyles = makeStyles({
   },
   divider: {
     margin: '0 15px',
+  },
+  root: {
+    flex: '0 1 auto',
+  },
+  root2: {
+    justifyContent: 'center',
   },
 });
 
@@ -50,13 +52,18 @@ const NavBar = ({ toggleNav, navBarState }) => {
         return (
           <NavLink className={style.NavBar__link} key={name} to={path}>
             <ListItem
+              alignItems="center"
+              classes={{ root: classes.root2 }}
               button
               className={style.NavBar__link}
               key={indexCurrent}
               selected={selectedIndex === indexCurrent}
               onClick={() => handleListItemClick(indexCurrent)}
             >
-              <ListItemText primary={name} classes={{ primary: classes.listItem }} />
+              <ListItemText
+                primary={name}
+                classes={{ primary: classes.listItem, root: classes.root }}
+              />
             </ListItem>
           </NavLink>
         );
