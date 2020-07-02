@@ -4,7 +4,8 @@ import getRequest from './fetch-utils/getWithToken-response';
 import { shuffle } from './games-utils/filtersAndSorters';
 import API_URLS from '../constants/APIUrls';
 import { USER_ID, TOKEN } from '../constants/cookiesNames';
-import { MAX_DIFFICULTY, MSEC_PER_DAY } from '../constants/wordConfig';
+import { MAX_DIFFICULTY } from '../constants/wordConfig';
+import { MSEC_PER_DAY } from '../constants/common';
 
 export const isDateOfReceiptOfWordsCome = (serverDate) => {
   return serverDate < Date.now();

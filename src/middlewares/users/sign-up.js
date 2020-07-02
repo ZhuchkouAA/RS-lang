@@ -5,7 +5,7 @@ import signIn from './sign-in';
 import postRequest from '../../helpers/fetch-utils/post-response';
 import API_URLS from '../../constants/APIUrls';
 
-export const signUp = (login, password) => {
+const signUp = (login, password) => {
   return async (dispatch) => {
     try {
       dispatch(runLoader());
@@ -20,7 +20,7 @@ export const signUp = (login, password) => {
       if (!error) {
         dispatch(isSignInRender(true));
         dispatch(setAlertMessage('you have been successfully registered, you can log in'));
-        dispatch(signIn(login, password));
+        await dispatch(signIn(login, password));
       } else {
         const errorPath = error.errors[0].path[0];
         const errorMessage = errorPath === 'password' ? '(password example: grlJHM56_2f)' : '';

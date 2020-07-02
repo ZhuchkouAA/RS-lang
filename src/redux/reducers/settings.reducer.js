@@ -1,4 +1,4 @@
-import { APPLY_SETTINGS, INIT_SETTINGS } from '../actions/types/action-types';
+import { APPLY_SETTINGS, RESET_SETTINGS } from '../actions/types/action-types';
 
 const initiaSettingState = {
   wordsPerDay: 20,
@@ -24,7 +24,10 @@ const settingReducer = (state = initiaSettingState, { type, payload }) => {
         ...state,
         ...payload,
       };
-    case INIT_SETTINGS:
+    case RESET_SETTINGS:
+      return {
+        ...initiaSettingState,
+      };
     default:
       return state;
   }

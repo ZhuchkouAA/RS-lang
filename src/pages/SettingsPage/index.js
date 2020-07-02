@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
 
 import { putSettings } from '../../middlewares/usersSettings/settings';
+import hardReset from '../../middlewares/hardReset';
+import serverSynchronization from '../../middlewares/serverSynchronization';
 
 import SettingsPage from './SettingsPage';
 
 const mapStateToProps = ({ settings }) => ({ settings });
 
-const mapDispatchToProps = { putSettings };
+const actionCreators = { putSettings, hardReset, serverSynchronization };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
+export default connect(mapStateToProps, actionCreators)(SettingsPage);
