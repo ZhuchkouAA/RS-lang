@@ -29,7 +29,9 @@ const useLocationToFindIndex = () => {
 
 const NavBar = ({ toggleNav, navBarState }) => {
   const classes = useStyles();
-  const [selectedIndex, setSelectedIndex] = React.useState(useLocationToFindIndex());
+
+  const locationIndex = useLocationToFindIndex();
+  const [selectedIndex, setSelectedIndex] = React.useState(locationIndex);
 
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
