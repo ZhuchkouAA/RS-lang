@@ -1,12 +1,10 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
-import PATH from '../../constants/path';
+import ShortStatisticsDialog from '../../components/ShortStatisticsDialog';
 
 const PromoPage = () => (
   <>
-    <p>PromoPage</p>
-    <NavLink to={PATH.SIGN_IN}>SignInPage</NavLink>
+    <ShortStatisticsDialog isOpen isWordsRemain />
   </>
 );
 

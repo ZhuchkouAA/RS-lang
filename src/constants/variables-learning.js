@@ -23,3 +23,8 @@ export const VOTE_BUTTON = [
     rate: DIFFICULTY_EASY_VALUE,
   },
 ];
+<<<<<<< HEAD
+=======
+
+export const RIGHT_ANSWER_SERIES = { bad: 20, normal: 50, good: 70, excellent: 90 };
+>>>>>>> RSL-44: add short statistics dialog

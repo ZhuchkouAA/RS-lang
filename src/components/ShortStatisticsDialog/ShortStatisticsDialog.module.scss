@@ -1,0 +1,31 @@
+@import '../../styles-global/index.module';
+
+.ShortStatisticsDialog {
+  &__hint {
+    margin-top: 20px;
+  }
+
+  &--results {
+    font-weight: 700;
+  }
+
+  &--fail {
+    color: $learning-fail-color;
+  }
+
+  &--bad {
+    color: $learning-bad-color;
+  }
+
+  &--normal {
+    color: $learning-normal-color;
+  }
+
+  &--good {
+    color: $learning-good-color;
+  }
+
+  &--excellent {
+    color: $learning-excellent-color;
+  }
+}
