@@ -30,7 +30,7 @@ const initialProgressState = {
 };
 
 const progressReducer = (state = initialProgressState, { type, payload }) => {
-  const [firstCardShowed15Days, ...otherCardsShowed15Days] = state.cardsShowed15Days;
+  const [firstCardShowedStatistic, ...otherCardsShowedStatistic] = state.cardsShowedStatistic;
   switch (type) {
     case UPDATE_PROGRESS_AFTER_WORD_PROCESSED:
       return {
@@ -38,7 +38,7 @@ const progressReducer = (state = initialProgressState, { type, payload }) => {
         differentCardsShowedAllTime: state.differentCardsShowedAllTime + 1,
         cardsShowedAllTime: state.cardsShowedAllTime + 1,
         cardsShowedToday: state.cardsShowedToday + 1,
-        cardsShowed15Days: [firstCardShowed15Days + 1, ...otherCardsShowed15Days],
+        cardsShowed15Days: [firstCardShowedStatistic + 1, ...otherCardsShowedStatistic],
       };
     case DIFFERENT_CARDS_COUNTER_PLUS_ONE:
       return {
