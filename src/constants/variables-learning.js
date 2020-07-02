@@ -23,3 +23,5 @@ export const VOTE_BUTTON = [
     rate: DIFFICULTY_EASY_VALUE,
   },
 ];
+
+export const LEARN_RATINGS = { bad: 20, normal: 50, good: 70, excellent: 90 };
