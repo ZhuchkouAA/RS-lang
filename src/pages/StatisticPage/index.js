@@ -5,6 +5,6 @@ import serverSynchronization from '../../middlewares/serverSynchronization';
 
 const mapStateToProps = ({ settings, progress }) => ({ settings, progress });
 
-const mapDispatchToPeops = { serverSynchronization };
+const actionCreators = { serverSynchronization };
 
-export default connect(mapStateToProps, mapDispatchToPeops)(StatisticPage);
+export default connect(mapStateToProps, actionCreators)(StatisticPage);

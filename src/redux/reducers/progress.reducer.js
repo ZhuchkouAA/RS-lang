@@ -10,6 +10,7 @@ import {
   UPDATE_PROGRESS_AFTER_WORD_PROCESSED,
 } from '../actions/types/action-types';
 
+import { BASE_EMPTY_ARRAY_15 } from '../../constants/app-settings';
 import { MSEC_PER_DAY } from '../../constants/wordConfig';
 
 const initialProgressState = {
@@ -20,15 +21,12 @@ const initialProgressState = {
   leftNewWordsToday: 10,
   queueNewWords: [],
   queueRepeatWords: [],
-  queueRandom300: [],
   leftRepeatWordsToday: 10,
-  cardsShowedToday: 0,
-  rightTodayAnswers: 0,
   longestTodaySeries: 0,
-  learnedWords15Days: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  cardsShowed15Days: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  newCardsShowed15Days: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  rightAnswers15Days: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  learnedWordsStatistic: BASE_EMPTY_ARRAY_15,
+  cardsShowedStatistic: BASE_EMPTY_ARRAY_15,
+  newCardsShowedStatistic: BASE_EMPTY_ARRAY_15,
+  rightAnswersStatistic: BASE_EMPTY_ARRAY_15,
 };
 
 const progressReducer = (state = initialProgressState, { type, payload }) => {

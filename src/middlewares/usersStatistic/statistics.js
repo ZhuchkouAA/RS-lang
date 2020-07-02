@@ -10,7 +10,7 @@ import {
   getNewLeftRepeatWordsToday,
   getNewQueueNewWords,
   getNewQueueRepeatWords,
-  getQueueRandom300,
+  // getQueueRandom300,
   array15FromString,
   newArray15FromString,
 } from '../../helpers/getProgress-utils';
@@ -31,10 +31,10 @@ export const putProgress = () => async (dispatch) => {
       cardsShowedToday,
       rightTodayAnswers,
       longestTodaySeries,
-      learnedWords15Days,
-      cardsShowed15Days,
-      newCardsShowed15Days,
-      rightAnswers15Days,
+      learnedWordsStatistic,
+      cardsShowedStatistic,
+      newCardsShowedStatistic,
+      rightAnswersStatistic,
     },
   } = store.getState();
 
@@ -50,10 +50,10 @@ export const putProgress = () => async (dispatch) => {
       cardsShowedToday,
       rightTodayAnswers,
       longestTodaySeries,
-      learnedWords15Days: learnedWords15Days.join('-'),
-      cardsShowed15Days: cardsShowed15Days.join('-'),
-      newCardsShowed15Days: newCardsShowed15Days.join('-'),
-      rightAnswers15Days: rightAnswers15Days.join('-'),
+      learnedWordsStatistic: learnedWordsStatistic.join('-'),
+      cardsShowedStatistic: cardsShowedStatistic.join('-'),
+      newCardsShowedStatistic: newCardsShowedStatistic.join('-'),
+      rightAnswersStatistic: rightAnswersStatistic.join('-'),
     },
   });
   const url = API_URLS.USER_STATISTICS(getCookie(USER_ID));
@@ -87,10 +87,10 @@ export const getProgress = () => async (dispatch) => {
       cardsShowedToday,
       rightTodayAnswers,
       longestTodaySeries,
-      learnedWords15Days,
-      cardsShowed15Days,
-      newCardsShowed15Days,
-      rightAnswers15Days,
+      learnedWordsStatistic,
+      cardsShowedStatistic,
+      newCardsShowedStatistic,
+      rightAnswersStatistic,
     } = progress;
     if (isDateOfReceiptOfWordsCome(dateOfReceiptOfWords)) {
       const newDateOfReceiptOfWords = getNewDateOfReceiptOfWords();
@@ -101,7 +101,7 @@ export const getProgress = () => async (dispatch) => {
       );
       const newQueueRepeatWords = await getNewQueueRepeatWords();
       const newLeftRepeatWordsToday = getNewLeftRepeatWordsToday();
-      const queueRandom300 = await getQueueRandom300();
+      // const queueRandom300 = await getQueueRandom300();
       dispatch(
         rewriteProgress({
           differentCardsShowedAllTime,
@@ -111,15 +111,15 @@ export const getProgress = () => async (dispatch) => {
           leftNewWordsToday: newLeftNewWordsToday,
           queueNewWords: newQueueNewWords,
           queueRepeatWords: newQueueRepeatWords,
-          queueRandom300,
+          // queueRandom300,
           leftRepeatWordsToday: newLeftRepeatWordsToday,
           cardsShowedToday: 0,
           rightTodayAnswers: 0,
           longestTodaySeries: 0,
-          learnedWords15Days: newArray15FromString(learnedWords15Days),
-          cardsShowed15Days: newArray15FromString(cardsShowed15Days),
-          newCardsShowed15Days: newArray15FromString(newCardsShowed15Days),
-          rightAnswers15Days: newArray15FromString(rightAnswers15Days),
+          learnedWordsStatistic: newArray15FromString(learnedWordsStatistic),
+          cardsShowedStatistic: newArray15FromString(cardsShowedStatistic),
+          newCardsShowedStatistic: newArray15FromString(newCardsShowedStatistic),
+          rightAnswersStatistic: newArray15FromString(rightAnswersStatistic),
         })
       );
     } else {
@@ -128,7 +128,7 @@ export const getProgress = () => async (dispatch) => {
         leftNewWordsToday
       );
       const newQueueRepeatWords = await getNewQueueRepeatWords();
-      const queueRandom300 = await getQueueRandom300();
+      // const queueRandom300 = await getQueueRandom300();
       dispatch(
         rewriteProgress({
           differentCardsShowedAllTime,
@@ -138,15 +138,15 @@ export const getProgress = () => async (dispatch) => {
           leftNewWordsToday,
           queueNewWords: newQueueNewWords,
           queueRepeatWords: newQueueRepeatWords,
-          queueRandom300,
+          // queueRandom300,
           leftRepeatWordsToday,
           cardsShowedToday,
           rightTodayAnswers,
           longestTodaySeries,
-          learnedWords15Days: array15FromString(learnedWords15Days),
-          cardsShowed15Days: array15FromString(cardsShowed15Days),
-          newCardsShowed15Days: array15FromString(newCardsShowed15Days),
-          rightAnswers15Days: array15FromString(rightAnswers15Days),
+          learnedWordsStatistic: array15FromString(learnedWordsStatistic),
+          cardsShowedStatistic: array15FromString(cardsShowedStatistic),
+          newCardsShowedStatistic: array15FromString(newCardsShowedStatistic),
+          rightAnswersStatistic: array15FromString(rightAnswersStatistic),
         })
       );
     }
