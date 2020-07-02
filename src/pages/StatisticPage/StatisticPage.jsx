@@ -4,7 +4,7 @@ import { Grid, Container, Typography } from '@material-ui/core';
 
 import ChartSplineArea from '../../components/ChartSplineArea';
 import { onlyStudying } from '../../helpers/games-utils/filtersAndSorters';
-import { DELTA } from '../../constants/common';
+import DELTA from '../../constants/common';
 
 const StatisticPage = ({ progress, serverSynchronization }) => {
   const {
@@ -40,6 +40,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
       };
     })
     .reverse();
+
 
   const chartDateByProgressArray = (progressArray) => {
     return progressArray

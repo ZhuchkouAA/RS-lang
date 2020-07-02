@@ -7,7 +7,27 @@ import {
   QUEUE_NEW_WORDS,
   QUEUE_REPEAT_WORDS,
   REWRITE_PROGRESS,
+  DELETE_WORD_FROM_LEARNING,
+  MARK_WORD_AS_HARD,
+  SET_NEW_WORD_DIFFICULTY,
+  UPDATE_PROGRESS_AFTER_WORD_PROCESSED,
 } from '../types/action-types';
+
+export const updateProgressAfterWordProcessed = () => ({
+  type: UPDATE_PROGRESS_AFTER_WORD_PROCESSED,
+});
+
+export const deleteWordFromLearning = () => ({
+  type: DELETE_WORD_FROM_LEARNING,
+});
+
+export const markWordAsHard = () => ({
+  type: MARK_WORD_AS_HARD,
+});
+
+export const setNewWordDifficulty = () => ({
+  type: SET_NEW_WORD_DIFFICULTY,
+});
 
 export const differentCardPlusOne = () => ({
   type: DIFFERENT_CARDS_COUNTER_PLUS_ONE,

@@ -4,6 +4,7 @@ import {
   FEW_ERRORS,
   NO_ERRORS,
 } from '../constants/app-settings';
+import { VOTE_BUTTON } from '../constants/variables-learning';
 
 export const getTextWidthInPx = (text) => {
   const span = document.createElement('span');
@@ -27,7 +28,7 @@ export const getTextWidthInPx = (text) => {
 
 export const splitSentenceByWord = (sentence) => {
   const text = sentence.replace(/<.?[i,b]>/g, '~');
-  const sentencePart = ` ${text} `.split('~').filter((part) => part);
+  const sentencePart = text.split('~').filter((part) => part);
   const startWordIndex = text.indexOf('~');
   const endWordIndex = text.lastIndexOf('~');
 
@@ -57,9 +58,10 @@ export const getTemplateForWord = (word) => {
   return '*'.repeat(word.length);
 };
 
-const getRightCharPositions = (word, enteredText) => {
-  const letters = word.split('');
-  const enteredTextLength = enteredText.length;
+const getRightCharPositions = (word, enteredWord) => {
+  const letters = word.toLowerCase().split('');
+  const enteredTextLength = enteredWord.length;
+  const enteredText = enteredWord.toLowerCase();
 
   let cntErrors = 0;
 
@@ -98,4 +100,12 @@ export const getColoredEnteredChars = (word, enteredText) => {
       colorType: errorColorType,
     };
   });
+};
+
+export const getUserRate = ({ innerText }) => {
+  const index = VOTE_BUTTON.findIndex(({ title }) => {
+    return title.toUpperCase() === innerText;
+  });
+
+  return VOTE_BUTTON[index].rate;
 };

@@ -1,5 +1,5 @@
 import store from '../../redux/redux-store';
-import getNewLeftRepeatWordsToday from '../getProgress-utils';
+import { getNewLeftRepeatWordsToday } from '../getProgress-utils';
 
 import {
   highPriorityFirstSorter,

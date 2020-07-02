@@ -13,4 +13,10 @@
     display: inline-block;
     font-weight: 700;
   }
+
+  &__text {
+    @extend %transition-all;
+
+    text-align: center;
+  }
 }

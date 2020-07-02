@@ -7,6 +7,7 @@ import {
   QUEUE_NEW_WORDS,
   QUEUE_REPEAT_WORDS,
   REWRITE_PROGRESS,
+  UPDATE_PROGRESS_AFTER_WORD_PROCESSED,
 } from '../actions/types/action-types';
 
 import { BASE_EMPTY_ARRAY_15 } from '../../constants/app-settings';
@@ -29,7 +30,16 @@ const initialProgressState = {
 };
 
 const progressReducer = (state = initialProgressState, { type, payload }) => {
+  const [firstCardShowed15Days, ...otherCardsShowed15Days] = state.cardsShowed15Days;
   switch (type) {
+    case UPDATE_PROGRESS_AFTER_WORD_PROCESSED:
+      return {
+        ...state,
+        differentCardsShowedAllTime: state.differentCardsShowedAllTime + 1,
+        cardsShowedAllTime: state.cardsShowedAllTime + 1,
+        cardsShowedToday: state.cardsShowedToday + 1,
+        cardsShowed15Days: [firstCardShowed15Days + 1, ...otherCardsShowed15Days],
+      };
     case DIFFERENT_CARDS_COUNTER_PLUS_ONE:
       return {
         ...state,

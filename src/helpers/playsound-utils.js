@@ -1,14 +1,19 @@
+import URLS from '../constants/APIUrls';
+
 export const getTrackList = (
   { isAudioMeaningShow, isAudioExampleShow },
-  { AUDIO, AUDIO_MEANING, AUDIO_EXAMPLE }
+  { audio, audioMeaning, audioExample }
 ) => {
-  const res = [AUDIO];
-  if (isAudioMeaningShow) {
-    res.push(AUDIO_MEANING);
-  }
+  const res = [`${URLS.ASSETS}${audio}`];
+
   if (isAudioExampleShow) {
-    res.push(AUDIO_EXAMPLE);
+    res.push(`${URLS.ASSETS}${audioExample}`);
   }
+
+  if (isAudioMeaningShow) {
+    res.push(`${URLS.ASSETS}${audioMeaning}`);
+  }
+
   return res;
 };
 
@@ -21,6 +26,11 @@ export const playTrackList = (trackList, setPlayingStatusEnd) => {
   player.src = trackList[currTrackId];
   player.autoplay = true;
 
+  player.stop = () => {
+    player.pause();
+    player.currentTime = 0;
+  };
+
   player.onended = () => {
     currTrackId += 1;
     if (currTrackId === cntTracks) {
@@ -32,4 +42,6 @@ export const playTrackList = (trackList, setPlayingStatusEnd) => {
     player.src = trackList[currTrackId];
     player.play();
   };
+
+  return player;
 };
