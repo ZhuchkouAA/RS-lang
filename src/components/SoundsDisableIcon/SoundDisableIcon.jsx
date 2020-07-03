@@ -5,7 +5,7 @@ import MusicOffIcon from '@material-ui/icons/MusicOff';
 import MusicIcon from '@material-ui/icons/MusicNote';
 import { VolumeOff, VolumeUp } from '@material-ui/icons';
 
-const SoundDisableIcon = ({ handlerClick, isMute, type }) => {
+const SoundDisableIcon = ({ handlerClick, isMute, type, title }) => {
   let SoundIcon;
 
   if (type === 'soundDisable') {
@@ -18,7 +18,7 @@ const SoundDisableIcon = ({ handlerClick, isMute, type }) => {
 
   return (
     <Box right="16px">
-      <Tooltip title="Выключить звук">
+      <Tooltip title={title}>
         <IconButton onClick={handlerClick} aria-label="mute">
           <SoundIcon fontSize="small" />
         </IconButton>
@@ -31,6 +31,7 @@ SoundDisableIcon.propTypes = {
   handlerClick: PropTypes.func.isRequired,
   isMute: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default SoundDisableIcon;

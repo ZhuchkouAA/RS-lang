@@ -141,6 +141,7 @@ const SprintPage = ({ words }) => {
           isMute={isMusicMute}
           handlerClick={handlerMusicMute}
           type="musicDisable"
+          title="выключить музыку"
         />
         <Box className={styles.Points__counters}>
           <Typography variant="h4">
@@ -155,6 +156,7 @@ const SprintPage = ({ words }) => {
           isMute={isSoundsMute}
           handlerClick={handlerSoundMute}
           type="soundDisable"
+          title="выключить звук"
         />
       </Grid>
 

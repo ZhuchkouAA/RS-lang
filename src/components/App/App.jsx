@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Header from '../Header';
 import Footer from '../Footer/Footer';
-import AppWithRoutes from './AppWithRouter';
+import AppWithRoutes from './indexAppWithRouter';
 import Authorization from './Authorization';
 import Loader from '../Loader';
 
