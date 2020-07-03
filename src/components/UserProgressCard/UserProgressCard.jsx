@@ -11,7 +11,7 @@ const UserProgressCard = () => {
       <UserStateIndicator
         nowValue={7}
         maxValue={10}
-        tittle="Количество изученных слов на сегодня"
+        tittle="Количество слов"
         hint="Ховер эфект Ховер эфект Ховер эфект Ховер эфект "
       />
     </Grid>
