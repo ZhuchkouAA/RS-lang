@@ -1,0 +1,23 @@
+.StatisticsCard {
+  box-sizing: border-box;
+  height: 65vh;
+  margin-bottom: 50px;
+  min-width: 250px;
+  padding: 20px;
+  text-align: center;
+  width: 40%;
+}
+
+.ButtonsGroup {
+  display: flex;
+  justify-content: center;
+
+  &__link {
+    margin: 10px;
+    text-decoration: none;
+  }
+}
+
+.wrapper {
+  padding-top: 30px;
+}

@@ -9,6 +9,7 @@ import Timer from '../../components/Timer';
 import StatusIcon from '../../components/StatusIcon';
 import Button from '../../components/Button';
 import SoundDisableIcon from '../../components/SoundsDisableIcon';
+import MiniGamesStatistics from '../../components/MiniGamesStatistics';
 
 import sprintMusic from '../../sounds/sprint-music.mp3';
 import correctSound from '../../sounds/correct-answer.mp3';
@@ -30,6 +31,7 @@ const numberOfCorrectAnswersForCombos = 4;
 const firstComboLevel = numberOfCorrectAnswersForCombos;
 const secondComboLevel = numberOfCorrectAnswersForCombos * 2 - 1;
 const thirdComboLevel = numberOfCorrectAnswersForCombos * 3 - 2;
+
 const getNewPointsData = ({ pointPerWin, winStreak, points }) => {
   if (
     winStreak !== 0 &&
@@ -69,6 +71,10 @@ const SprintPage = ({ words, finallySendWordAndProgress }) => {
   };
 
   const handlerUserAnswer = (isTrueButton) => {
+    if (counter <= 0) {
+      return null;
+    }
+
     if (isTrueButton === words[actualWord].isCorrectTranslation) {
       playSound(correctAnswerSound);
       setIsTrueAnswer(true);
@@ -91,16 +97,19 @@ const SprintPage = ({ words, finallySendWordAndProgress }) => {
       ]);
       finallySendWordAndProgress(preparedWord);
     }
-    setActualWord(actualWord + 1);
+
+    return setActualWord(actualWord + 1);
   };
 
   const handlerKeyPress = (e) => {
     if (e.key === 'ArrowRight') {
       return handlerUserAnswer(true);
     }
+
     if (e.key === 'ArrowLeft') {
       return handlerUserAnswer(false);
     }
+
     return undefined;
   };
 
@@ -114,6 +123,7 @@ const SprintPage = ({ words, finallySendWordAndProgress }) => {
     } else {
       music.pause();
     }
+
     setIsMusicMute(!isMusicMute);
   };
 
@@ -123,29 +133,31 @@ const SprintPage = ({ words, finallySendWordAndProgress }) => {
   }, []);
 
   useEffect(() => {
+    window.addEventListener('keyup', handlerKeyPress);
+
+    return () => {
+      window.removeEventListener('keyup', handlerKeyPress);
+    };
+  }, [isTrueAnswer, isFalseAnswer]);
+
+  useEffect(() => {
     if (counter > 0) {
       const id = setTimeout(() => {
         setCounter(counter - 1);
       }, 1000);
+
       return () => {
         clearInterval(id);
       };
     }
     music.pause();
     music.currentTime = 0;
+    window.removeEventListener('keyup', handlerKeyPress);
     return undefined;
   }, [counter]);
 
-  useEffect(() => {
-    window.addEventListener('keyup', handlerKeyPress);
-    return () => {
-      window.removeEventListener('keyup', handlerKeyPress);
-    };
-  }, [isTrueAnswer, isFalseAnswer]);
-
-  return (
-    <div className={styles.wrapper}>
-      {counter <= 0 && <SprintResultPage />}
+  const sprintCard = () => (
+    <>
       <Grid
         className={styles.Points}
         container
@@ -220,6 +232,18 @@ const SprintPage = ({ words, finallySendWordAndProgress }) => {
           </Grid>
         </Card>
       </Grid>
+    </>
+  );
+
+  return (
+    <div className={styles.wrapper}>
+      {(counter <= 0 && (
+        <MiniGamesStatistics
+          title={`Твой результат: ${pointsData.points} очков`}
+          description="Твой средний результат 9999 очков, твой рекорд 9999 очков"
+        />
+      )) ||
+        sprintCard()}
     </div>
   );
 };
