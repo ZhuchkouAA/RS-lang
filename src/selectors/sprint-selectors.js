@@ -1,12 +1,7 @@
 import { createSelector } from 'reselect';
-import random300Mock from '../mock';
 
-// const getRandomWords = ({ progress }) => {
-//   return progress.queueRandom300;
-// };
-
-const getRandomWords = () => {
-  return random300Mock;
+const getRandomWords = ({ gameModeData }) => {
+  return gameModeData.randomWords;
 };
 
 const getWords = ({ gameModeData }) => {

@@ -22,3 +22,5 @@ export const shuffle = (array) => {
   }
   return newArray;
 };
+
+export const onlyLearnedWords = (words) => words.filter((word) => Number(word.difficulty) === 0);
