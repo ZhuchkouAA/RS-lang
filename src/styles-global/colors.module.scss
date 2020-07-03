@@ -24,12 +24,12 @@ $learning-good-bg-color: #00ff2234;
 $learning-excellent-bg-color: #8c00ff3b;
 
 :export {
+  /* stylelint-disable property-no-unknown */
   learningBadBGColor: $learning-bad-bg-color;
   learningBadColor: $learning-bad-color;
   learningExcellentBGColor: $learning-excellent-bg-color;
   learningExcellentColor: $learning-excellent-color;
   learningFailBGColor: $learning-fail-bg-color;
-  /* stylelint-disable property-no-unknown */
   learningFailColor: $learning-fail-color;
   learningGoodBGColor: $learning-good-bg-color;
   learningGoodColor: $learning-good-color;
@@ -37,3 +37,5 @@ $learning-excellent-bg-color: #8c00ff3b;
   learningNormalColor: $learning-normal-color;
   /* stylelint-enable */
 }
+
+
