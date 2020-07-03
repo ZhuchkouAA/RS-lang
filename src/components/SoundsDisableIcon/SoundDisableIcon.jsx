@@ -7,11 +7,15 @@ import { VolumeOff, VolumeUp } from '@material-ui/icons';
 
 const SoundDisableIcon = ({ handlerClick, isMute, type }) => {
   let SoundIcon;
+
   if (type === 'soundDisable') {
     SoundIcon = isMute ? VolumeOff : VolumeUp;
-  } else if (type === 'musicDisable') {
+  }
+
+  if (type === 'musicDisable') {
     SoundIcon = isMute ? MusicOffIcon : MusicIcon;
   }
+
   return (
     <Box right="16px">
       <Tooltip title="Выключить звук">

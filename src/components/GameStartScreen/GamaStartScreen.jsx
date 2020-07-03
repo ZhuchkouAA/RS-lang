@@ -30,19 +30,22 @@ const GameStartScreen = ({ gameModeData, repeatWords, setGameMode, setGameWords 
     { value: '5', label: 'Уровень 6' },
   ];
 
-  if (repeatWords.length > 100) {
+  const wordsLearnedMinimumLength = 100;
+
+  if (repeatWords.length > wordsLearnedMinimumLength) {
     levels.unshift({ value: 'learned words', label: 'Изученные слова' });
   }
 
   const addWordsGameMode = (gameMode) => {
     if (gameMode === 'learned words') {
-      setGameWords(repeatWords);
-    } else {
-      const words = getQueueMiniGame600ByGroup(+gameMode);
-      words.then((response) => {
-        setGameWords(response);
-      });
+      return setGameWords(repeatWords);
     }
+
+    const words = getQueueMiniGame600ByGroup(+gameMode);
+
+    return words.then((response) => {
+      setGameWords(response);
+    });
   };
 
   useEffect(() => {
@@ -50,9 +53,9 @@ const GameStartScreen = ({ gameModeData, repeatWords, setGameMode, setGameWords 
     return undefined;
   }, []);
 
-  const handlerChoiseMode = (e) => {
-    setGameMode(e.target.value);
-    addWordsGameMode(e.target.value);
+  const handlerChoiseMode = ({ target: { value } }) => {
+    setGameMode(value);
+    addWordsGameMode(value);
   };
 
   return (

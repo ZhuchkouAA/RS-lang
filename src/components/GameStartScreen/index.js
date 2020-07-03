@@ -8,9 +8,9 @@ const mapStateToProps = ({ gameModeData, progress }) => ({
   repeatWords: progress.queueRepeatWords,
 });
 
-const mapToDispatch = {
+const actionCreators = {
   setGameMode,
   setGameWords,
 };
 
-export default connect(mapStateToProps, mapToDispatch)(GameStartScreen);
+export default connect(mapStateToProps, actionCreators)(GameStartScreen);

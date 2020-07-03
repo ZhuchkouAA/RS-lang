@@ -7,8 +7,8 @@ const mapStateToProps = ({ gameModeData }) => ({
   gameModeData,
 });
 
-const mapToDispatch = {
+const actionCreators = {
   setGameName,
 };
 
-export default connect(mapStateToProps, mapToDispatch)(MainPage);
+export default connect(mapStateToProps, actionCreators)(MainPage);
