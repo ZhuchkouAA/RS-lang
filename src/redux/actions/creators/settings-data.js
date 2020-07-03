@@ -1,10 +1,10 @@
-import { APPLY_SETTINGS, INIT_SETTINGS } from '../types/action-types';
+import { APPLY_SETTINGS, RESET_SETTINGS } from '../types/action-types';
 
 export const applySettings = (settings) => ({
   type: APPLY_SETTINGS,
   payload: { ...settings },
 });
 
-export const initSettings = () => ({
-  type: INIT_SETTINGS,
+export const resetSettings = () => ({
+  type: RESET_SETTINGS,
 });
