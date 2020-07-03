@@ -4,7 +4,13 @@ export const onlyLearned = (words) => words.filter((word) => !word.optional.isSt
 
 export const onlyHard = (words) => words.filter((word) => word.optional.isHard);
 
+export const onlyNotHard = (words) => words.filter((word) => !word.optional.isHard);
+
+export const onlyDeleted = (words) => words.filter((word) => word.optional.isDeleted);
+
 export const onlyNotDeleted = (words) => words.filter((word) => !word.optional.isDeleted);
+
+export const withoutDeletedAndHard = (words) => onlyNotHard(onlyNotDeleted(words));
 
 export const dateFilter = (words) => words.filter((word) => Date.now() > word.optional.repeatDate);
 

@@ -19,7 +19,7 @@ import {
 
 const mapStateToProps = ({ settings, loader: { isLoading } }) => ({ settings, isLoading });
 
-const mapDispatchToPeops = {
+const actionCreators = {
   serverSynchronization,
   finallySendWordAndProgress,
   differentCardPlusOne,
@@ -35,4 +35,4 @@ const mapDispatchToPeops = {
   reduceLeftRepeatWordsToday,
 };
 
-export default connect(mapStateToProps, mapDispatchToPeops)(WordPage);
+export default connect(mapStateToProps, actionCreators)(WordPage);
