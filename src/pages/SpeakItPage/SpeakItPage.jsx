@@ -1,5 +1,5 @@
 import React from 'react';
-import SpeakIt from '../../components/SpeakIt';
+import SpeakIt from '../../components/SpeechRecognition';
 
 const SpeakItPage = () => <SpeakIt />;
 
