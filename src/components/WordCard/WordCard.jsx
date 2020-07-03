@@ -335,152 +335,159 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
   });
 
   return (
-    <Card className={styles.WordCard__wrapper}>
-      <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-        <Grid item className={styles.WordCard__header}>
-          <CardMedia className={imageClasses} image={imageUrl} title="Изучаемое слово" />
+    <div className={styles.WordCard}>
+      <Card className={styles.WordCard__wrapper}>
+        <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
+          <Grid item className={styles.WordCard__header}>
+            <CardMedia className={imageClasses} image={imageUrl} title="Изучаемое слово" />
+          </Grid>
+          <Grid item>
+            {isWordTranslateShow && (
+              <Typography className={translateWordClasses} gutterBottom variant="h6">
+                {wordTranslate}
+              </Typography>
+            )}
+            {isTranscriptionShow && (
+              <Typography className={styles.WordCard__word} gutterBottom variant="h6">
+                {transcription}
+              </Typography>
+            )}
+          </Grid>
         </Grid>
-        <Grid item>
-          {isWordTranslateShow && (
-            <Typography className={translateWordClasses} gutterBottom variant="h6">
-              {wordTranslate}
-            </Typography>
-          )}
-          {isTranscriptionShow && (
-            <Typography className={styles.WordCard__word} gutterBottom variant="h6">
-              {transcription}
-            </Typography>
-          )}
-        </Grid>
-      </Grid>
-      <CardContent className={styles.WordCard__content}>
-        <Box mb={2}>
-          <form onSubmit={handlerSubmit}>
-            <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-              <Grid item>
-                {isFeedBackButtonsShow && (
-                  <Tooltip title="Добавить слово в 'Сложные'" aria-label="add" enterDelay={1000}>
-                    <Fab onClick={handlerClickHardWord} color="primary" size="small">
-                      <AddIcon />
+        <CardContent className={styles.WordCard__content}>
+          <Box mb={2}>
+            <form onSubmit={handlerSubmit}>
+              <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
+                <Grid item>
+                  {isFeedBackButtonsShow && (
+                    <Tooltip title="Добавить слово в 'Сложные'" aria-label="add" enterDelay={1000}>
+                      <Fab onClick={handlerClickHardWord} color="primary" size="small">
+                        <AddIcon />
+                      </Fab>
+                    </Tooltip>
+                  )}
+                </Grid>
+                <Grid item className={styles.WordCard__input}>
+                  <FocusedWordInput />
+                  {checkerState.isShow && (
+                    <WordColoredChecker
+                      isVisible={checkerState.isWorking}
+                      word={word}
+                      wordToCheck={wordToCheck}
+                    />
+                  )}
+                  {isVoteButtonsPanelShow && (
+                    <VoteButtonsPanel handlerClick={handlerClickVoteButton} />
+                  )}
+                </Grid>
+                <Grid item>
+                  <Tooltip title="Проверить слово" aria-label="add" enterDelay={1000}>
+                    <Fab onClick={handlerClickCheckWord} type="submit" color="primary" size="small">
+                      <CheckIcon />
                     </Fab>
                   </Tooltip>
-                )}
-              </Grid>
-              <Grid item className={styles.WordCard__input}>
-                <FocusedWordInput />
-                {checkerState.isShow && (
-                  <WordColoredChecker
-                    isVisible={checkerState.isWorking}
-                    word={word}
-                    wordToCheck={wordToCheck}
-                  />
-                )}
-                {isVoteButtonsPanelShow && (
-                  <VoteButtonsPanel handlerClick={handlerClickVoteButton} />
-                )}
-              </Grid>
-              <Grid item>
-                <Tooltip title="Проверить слово" aria-label="add" enterDelay={1000}>
-                  <Fab onClick={handlerClickCheckWord} type="submit" color="primary" size="small">
-                    <CheckIcon />
-                  </Fab>
-                </Tooltip>
-              </Grid>
-              {isAudioShow && (
-                <Grid item>
-                  <Tooltip title="Произнести слово" aria-label="add" enterDelay={1000}>
-                    <span>
-                      <Fab onClick={handlerClickSayWord} type="button" color="primary" size="small">
-                        <PlayCircleOutlineRoundedIcon />
-                      </Fab>
-                    </span>
-                  </Tooltip>
                 </Grid>
-              )}
-            </Grid>
-          </form>
-        </Box>
-        <SentenceWithWord
-          word={word}
-          sentence={textExample}
-          translateText={textExampleTranslate}
-          playText={handlerClickSayExample}
-          isWordVisible={isWordGuessed}
-          isSentenceShow={isTextExampleShow}
-          isTranslateShow={isTranslateExampleShow}
-          isAudioBtnShow={isAudioExampleShow}
-        />
-        <SentenceWithWord
-          word={word}
-          sentence={textMeaning}
-          translateText={textMeaningTranslate}
-          playText={handlerClickSayMeaning}
-          isWordVisible={isWordGuessed}
-          isSentenceShow={isTextMeaningShow}
-          isTranslateShow={isTranslateMeaningShow}
-          isAudioBtnShow={isAudioMeaningShow}
-        />
-      </CardContent>
-      <CardActions>
-        <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-          {controlsState.isAnswerBtnShow && (
-            <Grid item>
-              <Button variant="contained" color="secondary" onClick={handlerClickShowAnswer}>
-                Показать ответ
-              </Button>
-            </Grid>
+                {isAudioShow && (
+                  <Grid item>
+                    <Tooltip title="Произнести слово" aria-label="add" enterDelay={1000}>
+                      <span>
+                        <Fab
+                          onClick={handlerClickSayWord}
+                          type="button"
+                          color="primary"
+                          size="small"
+                        >
+                          <PlayCircleOutlineRoundedIcon />
+                        </Fab>
+                      </span>
+                    </Tooltip>
+                  </Grid>
+                )}
+              </Grid>
+            </form>
+          </Box>
+          <SentenceWithWord
+            word={word}
+            sentence={textExample}
+            translateText={textExampleTranslate}
+            playText={handlerClickSayExample}
+            isWordVisible={isWordGuessed}
+            isSentenceShow={isTextExampleShow}
+            isTranslateShow={isTranslateExampleShow}
+            isAudioBtnShow={isAudioExampleShow}
+          />
+          <SentenceWithWord
+            word={word}
+            sentence={textMeaning}
+            translateText={textMeaningTranslate}
+            playText={handlerClickSayMeaning}
+            isWordVisible={isWordGuessed}
+            isSentenceShow={isTextMeaningShow}
+            isTranslateShow={isTranslateMeaningShow}
+            isAudioBtnShow={isAudioMeaningShow}
+          />
+        </CardContent>
+        <CardActions>
+          <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
+            {controlsState.isAnswerBtnShow && (
+              <Grid item>
+                <Button variant="contained" color="secondary" onClick={handlerClickShowAnswer}>
+                  Показать ответ
+                </Button>
+              </Grid>
+            )}
+            {controlsState.isNextBtnShow && (
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handlerClickNextWord}
+                  ref={nextBtn}
+                >
+                  Следующее слово
+                </Button>
+              </Grid>
+            )}
+          </Grid>
+          {isDelFromLearnBtnShow && (
+            <Box position="absolute">
+              <Tooltip title="Удалить слово из изучения" enterDelay={1000}>
+                <IconButton aria-label="delete" onClick={handlerClickDeleteWord}>
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </Box>
           )}
-          {controlsState.isNextBtnShow && (
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handlerClickNextWord}
-                ref={nextBtn}
-              >
-                Следующее слово
-              </Button>
-            </Grid>
-          )}
-        </Grid>
-        {isDelFromLearnBtnShow && (
-          <Box position="absolute">
-            <Tooltip title="Удалить слово из изучения" enterDelay={1000}>
-              <IconButton aria-label="delete" onClick={handlerClickDeleteWord}>
-                <DeleteIcon fontSize="small" />
+          <Box position="absolute" right="16px">
+            <Tooltip title="Отключить автовоспроизведение" enterDelay={1000}>
+              <IconButton onClick={handlerClickMuteSwitch} aria-label="mute">
+                <SoundIcon fontSize="small" />
               </IconButton>
             </Tooltip>
           </Box>
+          <Box position="absolute" right="52px">
+            <Tooltip title="Не показывать перевод" enterDelay={1000}>
+              <IconButton
+                onClick={handlerClickTranslateSwitch}
+                color={translateIcoColor}
+                aria-label="translate"
+              >
+                <TranslateIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </CardActions>
+        {isModalOpen && (
+          <Dialog
+            isOpen={isModalOpen}
+            type="info"
+            tittle={WORDS_END.tittle}
+            message={WORDS_END.message}
+            callBack={redirectToMainPage}
+          />
         )}
-        <Box position="absolute" right="16px">
-          <Tooltip title="Отключить автовоспроизведение" enterDelay={1000}>
-            <IconButton onClick={handlerClickMuteSwitch} aria-label="mute">
-              <SoundIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        </Box>
-        <Box position="absolute" right="52px">
-          <Tooltip title="Не показывать перевод" enterDelay={1000}>
-            <IconButton
-              onClick={handlerClickTranslateSwitch}
-              color={translateIcoColor}
-              aria-label="translate"
-            >
-              <TranslateIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        </Box>
-      </CardActions>
-      {isModalOpen && (
-        <Dialog
-          isOpen={isModalOpen}
-          type="info"
-          tittle={WORDS_END.tittle}
-          message={WORDS_END.message}
-          callBack={redirectToMainPage}
-        />
-      )}
-    </Card>
+      </Card>
+    </div>
   );
 };
 
