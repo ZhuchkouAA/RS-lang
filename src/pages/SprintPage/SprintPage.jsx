@@ -17,9 +17,22 @@ import SprintResultPage from './SprintResultPage';
 import styles from './SprintPage.module.scss';
 
 const maxPointPerWord = 80;
+const multiplyingFactor = 2;
+const numberOfCorrectAnswersForCombos = 4;
+const firstComboLevel = numberOfCorrectAnswersForCombos;
+const secondComboLevel = numberOfCorrectAnswersForCombos * 2 - 1;
+const thirdComboLevel = numberOfCorrectAnswersForCombos * 3 - 2;
 const getNewPointsData = ({ pointPerWin, winStreak, points }) => {
-  if (winStreak !== 0 && winStreak % 3 === 0 && pointPerWin < maxPointPerWord) {
-    return { pointPerWin: pointPerWin * 2, winStreak: winStreak + 1, points: points + pointPerWin };
+  if (
+    winStreak !== 0 &&
+    (winStreak % numberOfCorrectAnswersForCombos) - 1 === 0 &&
+    pointPerWin < maxPointPerWord
+  ) {
+    return {
+      pointPerWin: pointPerWin * multiplyingFactor,
+      winStreak: winStreak + 1,
+      points: points + pointPerWin,
+    };
   }
   return { pointPerWin, winStreak: winStreak + 1, points: points + pointPerWin };
 };
@@ -155,9 +168,9 @@ const SprintPage = ({ words }) => {
         >
           <Grid item className={styles.Card__header}>
             <Box className={styles.Card__icons} color="success.main">
-              <StatusIcon isActive={pointsData.winStreak > 3} />
-              <StatusIcon isActive={pointsData.winStreak > 6} />
-              <StatusIcon isActive={pointsData.winStreak > 9} />
+              <StatusIcon isActive={pointsData.winStreak >= firstComboLevel} />
+              <StatusIcon isActive={pointsData.winStreak >= secondComboLevel} />
+              <StatusIcon isActive={pointsData.winStreak >= thirdComboLevel} />
             </Box>
             <Typography className={styles.Card__points} gutterBottom variant="h6">
               <Box>{`+${pointsData.pointPerWin} очков`}</Box>

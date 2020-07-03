@@ -30,7 +30,7 @@ const CustomizedDialogs = ({ isOpen, type, tittle, message, callBack }) => {
   return (
     <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
       <DialogTitle className={ModalWindowTitle} id="customized-dialog-title" onClose={handleClose}>
-        {tittle}
+        {title}
       </DialogTitle>
       <DialogContent className={style.ModalWindow__content} dividers>
         <Typography gutterBottom>{message}</Typography>
@@ -58,7 +58,7 @@ CustomizedDialogs.defaultProps = {
 CustomizedDialogs.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
-  tittle: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
   callBack: PropTypes.func,
 };
