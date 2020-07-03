@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import style from './Dialog.module.scss';
 
-const CustomizedDialogs = ({ isOpen, type, tittle, message, callBack }) => {
+const CustomizedDialogs = ({ isOpen, type, title, message, callBack }) => {
   const [open, setOpen] = React.useState(isOpen);
 
   const handleClose = () => {
