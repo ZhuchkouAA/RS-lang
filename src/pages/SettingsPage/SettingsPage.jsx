@@ -123,7 +123,7 @@ const SettingsPage = ({ settings: storeSettings, putSettings }) => {
           }
         />
         <Toggle
-          label="Показвыть пример использования"
+          label="Показывать пример использования"
           checkValue={settings.isTextExampleShow}
           toggle={() =>
             setSettings({ ...settings, isTextExampleShow: !settings.isTextExampleShow })
