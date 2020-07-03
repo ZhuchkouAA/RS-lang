@@ -29,7 +29,7 @@ const useLocationToFindIndex = () => {
   return ALL_SECTIONS.findIndex(({ path }) => location.pathname === path);
 };
 
-const NavBar = ({ toggleNav, navBarState }) => {
+const NavBar = ({ toggleNav, navBarState, setGameName }) => {
   const classes = useStyles();
 
   const locationIndex = useLocationToFindIndex();
@@ -52,7 +52,12 @@ const NavBar = ({ toggleNav, navBarState }) => {
         index += 1;
 
         return (
-          <NavLink className={style.NavBar__link} key={name} to={path}>
+          <NavLink
+            onClick={() => setGameName(name)}
+            className={style.NavBar__link}
+            key={name}
+            to={path}
+          >
             <ListItem
               alignItems="center"
               classes={{ root: classes.root2 }}
@@ -100,6 +105,7 @@ NavBar.defaultProps = {
 NavBar.propTypes = {
   toggleNav: PropTypes.func.isRequired,
   navBarState: PropTypes.bool,
+  setGameName: PropTypes.func.isRequired,
 };
 
 export default NavBar;

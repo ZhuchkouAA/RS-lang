@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Container, Box } from '@material-ui/core';
 
 import AppSectionCard from '../../components/AppSectionCard';
@@ -6,14 +7,13 @@ import UserProgressCard from '../../components/UserProgressCard';
 import PATH from '../../constants/path';
 import { GAMES, WORD_CARD } from '../../constants/section';
 
-const MainPage = () => {
+const MainPage = ({ setGameName }) => {
   const { name: cardName, description: cardDescription } = WORD_CARD;
-
   const gameCards = GAMES.map((game) => {
     const { path, name, description } = game;
 
     return (
-      <Box m={1} key={`MainPage__${name}`}>
+      <Box onClick={() => setGameName(name)} m={1} key={`MainPage__${name}`}>
         <AppSectionCard path={path} name={name} description={description} />
       </Box>
     );
@@ -36,6 +36,10 @@ const MainPage = () => {
       </Box>
     </Container>
   );
+};
+
+MainPage.propTypes = {
+  setGameName: PropTypes.func.isRequired,
 };
 
 export default MainPage;

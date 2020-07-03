@@ -33,3 +33,9 @@ export const SET_NAVBAR_STATE = 'NAVBAR/SET_STATE';
 // loader
 export const RUN_LOADER = 'RUN_LOADER';
 export const STOP_LOADER = 'STOP_LOADER';
+// game mode
+export const GET_GAME_MODE_STATE = 'GAMEMODE/GET_STATE';
+export const SET_GAME_NAME = 'GAMEMODE/SET_GAME_NAME';
+export const SET_GAME_MODE = 'GAMEMODE/SET_GAME_MODE';
+export const SET_GAME_WORDS = 'GAMEMODE/SET_GAME_WORDS';
+export const SET_RANDOM_WORDS = 'GAMEMODE/SET_RANDOM_WORDS';

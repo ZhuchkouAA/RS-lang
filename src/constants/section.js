@@ -35,8 +35,8 @@ export const ALL_SECTIONS = [
     section: 'SPRINT',
     name: 'Спринт',
     description: 'Играем и учим слова в игре',
-    path: '/sprint',
     category: 'game',
+    path: '/game-start-screen',
   },
   {
     section: 'SAVANNA',
@@ -104,7 +104,7 @@ export const GAMES = [
     section: 'SPRINT',
     name: 'Спринт',
     description: 'Играем и учим слова в игре',
-    path: '/sprint',
+    path: '/game-start-screen',
   },
   {
     section: 'SAVANNA',

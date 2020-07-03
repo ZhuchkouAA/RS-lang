@@ -14,7 +14,6 @@ export const setCookie = (name, value, options = initValueOptions) => {
     updatedCookie += `; ${key}`;
     updatedCookie += options[key] ? `=${options[key]}` : '';
   });
-
   document.cookie = updatedCookie;
 };
 
