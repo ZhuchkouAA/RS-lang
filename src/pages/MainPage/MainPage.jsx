@@ -21,11 +21,11 @@ const MainPage = () => {
 
   return (
     <Container maxWidth="sm">
-      <Grid container justify="space-around" mb={4} spacing={2}>
-        <Box mb={2}>
+      <Grid container justify="space-around" mb={2}>
+        <Box mb={1}>
           <AppSectionCard path={PATH.WORD_CARD} name={cardName} description={cardDescription} />
         </Box>
-        <Box mb={2}>
+        <Box mb={1}>
           <UserProgressCard />
         </Box>
       </Grid>
