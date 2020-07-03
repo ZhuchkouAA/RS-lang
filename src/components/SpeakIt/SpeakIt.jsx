@@ -13,6 +13,12 @@ import {
 
 import styles from './SpeakIt.module.scss';
 
+const playAudio = (url) => {
+  const audio = new Audio();
+  audio.src = url;
+  audio.play();
+};
+
 const SpeakIt = () => {
   const cardExample = {
     word: 'instruct',
@@ -37,22 +43,10 @@ const SpeakIt = () => {
   ];
 
   const [value, setValue] = React.useState(0);
-  // const [audioExample, setAudioExample] = React.useState('');
-  //
-  // const playAudio = () => {
-  //   const audio = new Audio();
-  //   audio.src = audioExample;
-  //   audio.play();
-  // };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  // const handleAudioExample = (url) => {
-  //   setAudioExample(url);
-  //   playAudio();
-  // };
 
   return (
     <Card className={styles.SpeakIt}>
@@ -74,7 +68,7 @@ const SpeakIt = () => {
           {wordsExample.map((element) => {
             return (
               <Card className={styles.SpeakIt__item}>
-                <Audiotrack />
+                <Audiotrack onClick={(e) => playAudio(element.AUDIO, e)} />
                 <Typography>{element.word}</Typography>
                 <Typography>{element.transcriptionText}</Typography>
               </Card>
