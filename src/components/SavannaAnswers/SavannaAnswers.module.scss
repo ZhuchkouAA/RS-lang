@@ -1,5 +1,6 @@
 .answer__wrapper {
   left: 50%;
+<<<<<<< HEAD
   position: absolute;
   top: 100px;
   transform: translate(-50%, -50%);
@@ -7,4 +8,11 @@
   @media (max-width: 700px) {
     top: 150px;
   }
+=======
+  max-width: 60%;
+  min-width: 30%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+>>>>>>> RSL-34: add simpe game structure
 }

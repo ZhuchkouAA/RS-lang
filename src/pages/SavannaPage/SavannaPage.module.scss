@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import '../../styles-global/index.module';
 
 .Savanna {
@@ -48,4 +49,12 @@
   position: absolute;
   top: 100px;
   transform: translateY(-50%);
+=======
+.Savanna {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+>>>>>>> RSL-34: add simpe game structure
 }

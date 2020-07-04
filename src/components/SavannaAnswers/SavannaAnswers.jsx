@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
 import { Grid } from '@material-ui/core';
 import ButtonMU from '@material-ui/core/Button';
 
@@ -21,29 +20,13 @@ const SavannaAnswers = ({ answers, handlerClick }) => {
           );
         })}
       </Grid>
-=======
-import Button from '../Button';
-
-import styles from './SavannaAnswers.module.scss';
-
-const SavannaAnswers = ({ answers }) => {
-  return (
-    <div className={styles.answer__wrapper}>
-      {answers.map((answer) => {
-        return <Button text={answer} color="primary" />;
-      })}
->>>>>>> RLS-34: add Savanna components
     </div>
   );
 };
 
 SavannaAnswers.propTypes = {
-<<<<<<< HEAD
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
   handlerClick: PropTypes.func.isRequired,
-=======
-  answers: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.bool, PropTypes.string])).isRequired,
->>>>>>> RLS-34: add Savanna components
 };
 
 export default SavannaAnswers;
