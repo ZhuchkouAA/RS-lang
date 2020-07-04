@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {
   Grid,
@@ -21,32 +23,26 @@ import MusicOffIcon from '@material-ui/icons/MusicOff';
 import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
+import TranslateIcon from '@material-ui/icons/Translate';
 
+import WordColoredChecker from '../WordColoredChecker';
 import VoteButtonsPanel from '../VoteButtonsPanel';
 import WordInput from '../WordInput';
-import IconMini from '../IconMini';
 import SentenceWithWord from '../SentenceWithWord';
+import Dialog from '../Dialog';
+
+import PATH from '../../constants/path';
 import URLS from '../../constants/APIUrls';
+import WORD_HANDLER_KEYS from '../../constants/keys';
+import { DIFFICULTY_REPEAT_VALUE } from '../../constants/variables-learning';
 import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
-import WordColoredChecker from '../WordColoredChecker';
+import { getUserRate } from '../../helpers/text-utils';
+import { getNewWordDifficulty } from '../../helpers/repeat-logic-utils';
+import { WORDS_END } from '../../constants/modal-messages';
 
 import styles from './WordCard.module.scss';
 
-const cardState = {
-  word: 'instruct',
-  image: true,
-  wordTranslateText: 'инструктирует',
-  transcriptionText: '[instrʌ́kt]',
-  textMeaningText: 'To <i>instruct</i> is to teach.',
-  textExampleText: 'My teacher <b>instructs</b> us in several subjects.',
-  textExampleTranslateText: 'Мой учитель учит нас нескольким предметам',
-  PICTURE_URL: `${URLS.ASSETS}files/04_0070.jpg`,
-  AUDIO: `${URLS.ASSETS}files/02_0621.mp3`,
-  AUDIO_MEANING: `${URLS.ASSETS}files/02_0621_meaning.mp3`,
-  AUDIO_EXAMPLE: `${URLS.ASSETS}files/02_0621_example.mp3`,
-};
-
-const WordCard = ({ settings }) => {
+const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
   const {
     isAnswerBtnShow,
     isDelFromLearnBtnShow,
@@ -56,113 +52,305 @@ const WordCard = ({ settings }) => {
     isTextExampleShow,
     isTranscriptionShow,
     isWordTranslateShow,
-    isTextExampleTranslateShow,
     isAudioShow,
     isAudioMeaningShow,
     isAudioExampleShow,
   } = settings;
 
-  const {
-    word,
-    wordTranslateText,
-    transcriptionText,
-    textExampleText,
-    textExampleTranslateText,
-    textMeaningText,
-    PICTURE_URL,
-    AUDIO,
-    AUDIO_MEANING,
-    AUDIO_EXAMPLE,
-  } = cardState;
+  const history = useHistory();
 
-  const [isVotePanelShow] = useState(true);
+  const [controlsState, setControlsState] = useState({
+    isVotePanelShow: false,
+    isAnswerBtnShow,
+    isNextBtnShow: false,
+    isInputDisable: false,
+    isTranslateShow: false,
+  });
+  const [wordsQueue, setWordsQueue] = useState(queueOrdinary);
+  const [isTranslateShow, setTranslateShow] = useState(isWordTranslateShow);
   const [isMute, setIsMute] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
+  const [player, setPlayer] = useState(undefined);
   const [isWordGuessed, setWordGuessed] = useState(false);
-  const [isCheckerVisible, setCheckerVisible] = useState(false);
+  const [checkerState, setCheckerState] = useState({ isShow: false, isWorking: false });
   const [enteredWord, setEnteredWord] = useState('');
   const [wordToCheck, setWordToCheck] = useState('');
   const [cntLearnErrors, setLearnErrors] = useState(0);
+  const [isAnswerShowed, setAnswerShowed] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
 
-  const trackList = getTrackList(settings, cardState);
   const SoundIcon = isMute ? MusicOffIcon : MusicIcon;
 
+  const nextBtn = useRef(null);
+
+  const {
+    word,
+    wordTranslate,
+    transcription,
+    textExample,
+    textExampleTranslate,
+    textMeaning,
+    textMeaningTranslate,
+    image,
+    audio,
+    audioMeaning,
+    audioExample,
+  } = wordsQueue[0].optional;
+
+  const imageUrl = `${URLS.ASSETS}${image}`;
+  const audioUrl = `${URLS.ASSETS}${audio}`;
+  const audioMeaningUrl = `${URLS.ASSETS}${audioMeaning}`;
+  const audioExampleUrl = `${URLS.ASSETS}${audioExample}`;
+
+  const pickNextWordFromQueue = () => {
+    const newWordsQueue = wordsQueue.slice(1);
+
+    if (newWordsQueue.length > 0) {
+      setWordsQueue(newWordsQueue);
+    } else {
+      setModalOpen(true);
+      setControlsState({
+        ...controlsState,
+        isVotePanelShow: false,
+        isAnswerBtnShow: false,
+        isNextBtnShow: false,
+      });
+    }
+  };
+
+  const resetStateForNewWord = () => {
+    setCheckerState({ isShow: false, isWorking: false });
+    setControlsState({
+      isVotePanelShow: false,
+      isAnswerBtnShow,
+      isNextBtnShow: false,
+      isInputDisable: false,
+      isTranslateShow: false,
+    });
+    setPlaying(false);
+    setWordGuessed(false);
+    setEnteredWord('');
+    setWordToCheck('');
+    setLearnErrors(0);
+    setAnswerShowed(false);
+  };
+
+  const goToNextWord = () => {
+    resetStateForNewWord();
+    pickNextWordFromQueue();
+  };
+
   const startPlaying = (tracks) => {
-    if (isPlaying || isMute) {
+    if (isPlaying) {
       return;
     }
+
     setPlaying(true);
-    playTrackList(tracks, () => setPlaying(false));
+    const newPlayer = playTrackList(tracks, () => {
+      setPlaying(false);
+
+      if (isWordGuessed) {
+        goToNextWord();
+      }
+    });
+
+    setPlayer(newPlayer);
+  };
+
+  const redirectToMainPage = () => {
+    history.push(PATH.MAIN);
+  };
+
+  const CheckEnteredWord = () => {
+    if (enteredWord.length === 0) {
+      return;
+    }
+
+    setWordToCheck(enteredWord);
+    setCheckerState({ isShow: true, isWorking: true });
+    setEnteredWord('');
+
+    if (enteredWord.toLowerCase() === word.toLowerCase()) {
+      if (!isMute) {
+        const trackList = getTrackList(settings, wordsQueue[0].optional);
+        startPlaying(trackList);
+      }
+
+      setWordGuessed(true);
+      setControlsState({
+        ...controlsState,
+        isVotePanelShow: true,
+        isAnswerBtnShow: false,
+        isNextBtnShow: true,
+        isInputDisable: true,
+        isTranslateShow: true,
+      });
+
+      const { difficulty } = wordsQueue[0];
+      const penaltyForShowingAnswer = isAnswerShowed ? DIFFICULTY_REPEAT_VALUE : 0;
+      const newWordDifficulty = getNewWordDifficulty(
+        difficulty,
+        penaltyForShowingAnswer,
+        cntLearnErrors
+      );
+      const wordOption = [WORD_HANDLER_KEYS.difficulty, newWordDifficulty];
+
+      if (cntLearnErrors > 0) {
+        setWordsQueue([...wordsQueue, wordsQueue[0]]);
+      }
+
+      updateWordServerState(wordsQueue[0], wordOption);
+    } else {
+      setLearnErrors(cntLearnErrors + 1);
+    }
   };
 
   const handleInputChange = ({ target: { value } }) => {
     setEnteredWord(value);
 
     if (cntLearnErrors > 0 && value.length > 0) {
-      setCheckerVisible(false);
+      setCheckerState({ ...checkerState, isWorking: false });
     }
   };
 
   const handlerSubmit = (e) => {
     e.preventDefault();
 
-    setWordToCheck(enteredWord);
-    setCheckerVisible(true);
-    setEnteredWord('');
-
-    if (enteredWord === word) {
-      setWordGuessed(true);
-      startPlaying(trackList);
-    } else {
-      setLearnErrors(cntLearnErrors + 1);
-    }
-  };
-
-  const handlerClickSayWord = () => {
-    startPlaying([AUDIO]);
+    CheckEnteredWord();
   };
 
   const handlerClickSayMeaning = () => {
-    startPlaying([AUDIO_MEANING]);
+    startPlaying([audioMeaningUrl]);
   };
 
   const handlerClickSayExample = () => {
-    startPlaying([AUDIO_EXAMPLE]);
+    startPlaying([audioExampleUrl]);
   };
 
-  const muteSwitchHandler = () => {
+  const handlerClickSayWord = () => {
+    startPlaying([audioUrl]);
+  };
+
+  const handlerClickCheckWord = () => {
+    CheckEnteredWord();
+  };
+
+  const handlerClickShowAnswer = () => {
+    setAnswerShowed(true);
+    setEnteredWord(word);
+    setControlsState({
+      ...controlsState,
+      isAnswerBtnShow: false,
+      isNextBtnShow: true,
+    });
+  };
+
+  const handlerClickNextWord = () => {
+    goToNextWord();
+
+    if (player) {
+      player.stop();
+    }
+  };
+
+  const handlerClickMuteSwitch = () => {
     setIsMute(!isMute);
   };
 
-  const handlerClickVoteButton = () => {
-    // console.log(`handlerClickVoteButton = ${target.innerText}`);
+  const handlerClickTranslateSwitch = () => {
+    setTranslateShow(!isTranslateShow);
   };
+
+  const handlerClickVoteButton = ({ target }) => {
+    setControlsState({ ...controlsState, isVotePanelShow: false });
+
+    const voteResult = getUserRate(target);
+
+    if (voteResult === DIFFICULTY_REPEAT_VALUE && cntLearnErrors === 0) {
+      setWordsQueue([...wordsQueue, wordsQueue[0]]);
+    }
+
+    const { difficulty } = wordsQueue[0];
+    const newWordDifficulty = getNewWordDifficulty(difficulty, voteResult, cntLearnErrors);
+    const wordOption = [WORD_HANDLER_KEYS.difficulty, newWordDifficulty];
+
+    updateWordServerState(wordsQueue[0], wordOption);
+
+    nextBtn.current.focus();
+  };
+
+  const handlerClickDeleteWord = () => {
+    const wordOption = [WORD_HANDLER_KEYS.isDeleted, true];
+
+    updateWordServerState(wordsQueue[0], wordOption);
+    goToNextWord();
+  };
+
+  const handlerClickHardWord = () => {
+    const wordOption = [WORD_HANDLER_KEYS.isHard, true];
+
+    updateWordServerState(wordsQueue[0], wordOption);
+  };
+
+  useEffect(() => {
+    if (isAnswerShowed) {
+      CheckEnteredWord();
+    }
+
+    if (controlsState.isNextBtnShow) {
+      nextBtn.current.focus();
+    }
+  }, [controlsState.isNextBtnShow, isAnswerShowed, CheckEnteredWord]);
+
+  const isTranslateNeed = controlsState.isTranslateShow && isTranslateShow;
+  const translateIcoColor = isTranslateShow ? 'secondary' : 'default';
+
+  const translateWordClasses = classNames(styles.WordCard__word, {
+    [styles['Block--hide']]: !(isTranslateNeed || isWordTranslateShow),
+  });
+
+  const isTranslateExampleShow = isTranslateNeed && isTextExampleShow;
+  const isTranslateMeaningShow = isTranslateNeed && isTextMeaningShow;
+
+  const imageClasses = classNames(styles.WordCard__image, {
+    [styles['Block--hide']]: !isImageShow,
+  });
+
+  const isVoteButtonsPanelShow =
+    controlsState.isVotePanelShow && !isAnswerShowed && isFeedBackButtonsShow;
+
+  if (!queueOrdinary[0]) return null;
+
+  const FocusedWordInput = forwardRef((props, ref) => {
+    return (
+      <WordInput
+        word={word}
+        handleInputChange={handleInputChange}
+        enteredWord={enteredWord}
+        isInputDisable={controlsState.isInputDisable}
+        isFocusNeed={isAnswerBtnShow}
+        ref={ref}
+      />
+    );
+  });
 
   return (
     <Card className={styles.WordCard__wrapper}>
       <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
         <Grid item className={styles.WordCard__header}>
-          {isImageShow && (
-            <CardMedia
-              className={styles.WordCard__image}
-              image={PICTURE_URL}
-              title="Изучаемое слово"
-            />
-          )}
+          <CardMedia className={imageClasses} image={imageUrl} title="Изучаемое слово" />
         </Grid>
         <Grid item>
-          <div>
-            {isWordTranslateShow && (
-              <Typography className={styles.WordCard__word} gutterBottom variant="h6">
-                {wordTranslateText}
-              </Typography>
-            )}
-            {isTranscriptionShow && (
-              <Typography className={styles.WordCard__word} gutterBottom variant="h6">
-                {transcriptionText}
-              </Typography>
-            )}
-          </div>
+          {isWordTranslateShow && (
+            <Typography className={translateWordClasses} gutterBottom variant="h6">
+              {wordTranslate}
+            </Typography>
+          )}
+          {isTranscriptionShow && (
+            <Typography className={styles.WordCard__word} gutterBottom variant="h6">
+              {transcription}
+            </Typography>
+          )}
         </Grid>
       </Grid>
       <CardContent className={styles.WordCard__content}>
@@ -171,36 +359,36 @@ const WordCard = ({ settings }) => {
             <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
               <Grid item>
                 {isFeedBackButtonsShow && (
-                  <Tooltip title="Добавить слово в 'Сложные'" aria-label="add">
-                    <Fab color="primary" size="small">
+                  <Tooltip title="Добавить слово в 'Сложные'" aria-label="add" enterDelay={1000}>
+                    <Fab onClick={handlerClickHardWord} color="primary" size="small">
                       <AddIcon />
                     </Fab>
                   </Tooltip>
                 )}
               </Grid>
               <Grid item className={styles.WordCard__input}>
-                <WordInput
-                  word={word}
-                  handleInputChange={handleInputChange}
-                  enteredWord={enteredWord}
-                />
-                <WordColoredChecker
-                  isVisible={isCheckerVisible}
-                  word={word}
-                  wordToCheck={wordToCheck}
-                />
-                <VoteButtonsPanel handlerClick={handlerClickVoteButton} isShow={isVotePanelShow} />
+                <FocusedWordInput />
+                {checkerState.isShow && (
+                  <WordColoredChecker
+                    isVisible={checkerState.isWorking}
+                    word={word}
+                    wordToCheck={wordToCheck}
+                  />
+                )}
+                {isVoteButtonsPanelShow && (
+                  <VoteButtonsPanel handlerClick={handlerClickVoteButton} />
+                )}
               </Grid>
               <Grid item>
-                <Tooltip title="Проверить слово" aria-label="add">
-                  <Fab type="submit" color="primary" size="small">
+                <Tooltip title="Проверить слово" aria-label="add" enterDelay={1000}>
+                  <Fab onClick={handlerClickCheckWord} type="submit" color="primary" size="small">
                     <CheckIcon />
                   </Fab>
                 </Tooltip>
               </Grid>
               {isAudioShow && (
                 <Grid item>
-                  <Tooltip title="Произнести слово" aria-label="add">
+                  <Tooltip title="Произнести слово" aria-label="add" enterDelay={1000}>
                     <span>
                       <Fab onClick={handlerClickSayWord} type="button" color="primary" size="small">
                         <PlayCircleOutlineRoundedIcon />
@@ -212,75 +400,93 @@ const WordCard = ({ settings }) => {
             </Grid>
           </form>
         </Box>
-        <Grid container direction="row" justify="center">
-          {isTextExampleShow && (
-            <SentenceWithWord
-              word={word}
-              sentence={textExampleText}
-              isWordVisible={isWordGuessed}
-            />
-          )}
-          {isAudioExampleShow && <IconMini handlerClick={handlerClickSayExample} />}
-        </Grid>
-        {isTextExampleTranslateShow && (
-          <Typography
-            className={styles.WordCard__text}
-            variant="body1"
-            color="textSecondary"
-            component="p"
-            gutterBottom
-          >
-            {textExampleTranslateText}
-          </Typography>
-        )}
-        <Grid container direction="row" justify="center">
-          {isTextMeaningShow && (
-            <SentenceWithWord
-              word={word}
-              sentence={textMeaningText}
-              isWordVisible={isWordGuessed}
-            />
-          )}
-          {isAudioMeaningShow && <IconMini handlerClick={handlerClickSayMeaning} />}
-        </Grid>
+        <SentenceWithWord
+          word={word}
+          sentence={textExample}
+          translateText={textExampleTranslate}
+          playText={handlerClickSayExample}
+          isWordVisible={isWordGuessed}
+          isSentenceShow={isTextExampleShow}
+          isTranslateShow={isTranslateExampleShow}
+          isAudioBtnShow={isAudioExampleShow}
+        />
+        <SentenceWithWord
+          word={word}
+          sentence={textMeaning}
+          translateText={textMeaningTranslate}
+          playText={handlerClickSayMeaning}
+          isWordVisible={isWordGuessed}
+          isSentenceShow={isTextMeaningShow}
+          isTranslateShow={isTranslateMeaningShow}
+          isAudioBtnShow={isAudioMeaningShow}
+        />
       </CardContent>
       <CardActions>
         <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-          <Grid item>
-            {isAnswerBtnShow && (
-              <Button variant="contained" color="secondary">
+          {controlsState.isAnswerBtnShow && (
+            <Grid item>
+              <Button variant="contained" color="secondary" onClick={handlerClickShowAnswer}>
                 Показать ответ
               </Button>
-            )}
-          </Grid>
-          <Grid item>
-            <Button variant="contained" color="primary">
-              Следующее слово
-            </Button>
-          </Grid>
+            </Grid>
+          )}
+          {controlsState.isNextBtnShow && (
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handlerClickNextWord}
+                ref={nextBtn}
+              >
+                Следующее слово
+              </Button>
+            </Grid>
+          )}
         </Grid>
         {isDelFromLearnBtnShow && (
           <Box position="absolute">
-            <Tooltip title="Удалить слово из изучения">
-              <IconButton aria-label="delete">
+            <Tooltip title="Удалить слово из изучения" enterDelay={1000}>
+              <IconButton aria-label="delete" onClick={handlerClickDeleteWord}>
                 <DeleteIcon fontSize="small" />
               </IconButton>
             </Tooltip>
           </Box>
         )}
         <Box position="absolute" right="16px">
-          <Tooltip title="Выключить звук">
-            <IconButton onClick={muteSwitchHandler} aria-label="mute">
+          <Tooltip title="Отключить автовоспроизведение" enterDelay={1000}>
+            <IconButton onClick={handlerClickMuteSwitch} aria-label="mute">
               <SoundIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </Box>
+        <Box position="absolute" right="52px">
+          <Tooltip title="Не показывать перевод" enterDelay={1000}>
+            <IconButton
+              onClick={handlerClickTranslateSwitch}
+              color={translateIcoColor}
+              aria-label="translate"
+            >
+              <TranslateIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </CardActions>
+      {isModalOpen && (
+        <Dialog
+          isOpen={isModalOpen}
+          type="info"
+          tittle={WORDS_END.tittle}
+          message={WORDS_END.message}
+          callBack={redirectToMainPage}
+        />
+      )}
     </Card>
   );
 };
 
 WordCard.propTypes = {
-  settings: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.bool, PropTypes.string])).isRequired,
+  settings: PropTypes.objectOf(PropTypes.any).isRequired,
+  queueOrdinary: PropTypes.arrayOf(PropTypes.object).isRequired,
+  updateWordServerState: PropTypes.func.isRequired,
 };
 export default WordCard;

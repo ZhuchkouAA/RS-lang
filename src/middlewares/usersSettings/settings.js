@@ -8,7 +8,7 @@ import store from '../../redux/redux-store';
 import API_URLS from '../../constants/APIUrls';
 import { USER_ID, TOKEN } from '../../constants/cookiesNames';
 
-export const getSettings = async (dispatch) => {
+export const getSettings = () => async (dispatch) => {
   const url = API_URLS.USER_SETTINGS(getCookie(USER_ID));
 
   try {

@@ -1,8 +1,5 @@
-import {
-  setAlertMessage,
-  setUserData,
-  buttonActivitySwitch,
-} from '../../redux/actions/creators/sign-in-data';
+import { setAlertMessage, setUserData } from '../../redux/actions/creators/sign-in-data';
+import { runLoader, stopLoader } from '../../redux/actions/creators/loader-creator';
 import postRequest from '../../helpers/fetch-utils/post-response';
 import getRequest from '../../helpers/fetch-utils/getWithToken-response';
 import { getCookie } from '../../helpers/cookies-utils';
@@ -23,7 +20,7 @@ const isFirsInit = async () => {
 export default (login, password) => {
   return async (dispatch) => {
     try {
-      dispatch(buttonActivitySwitch());
+      dispatch(runLoader());
       const url = API_URLS.SIGN_IN;
       const body = JSON.stringify({ email: login, password });
       const rawResponse = await postRequest(url, body);
@@ -31,14 +28,14 @@ export default (login, password) => {
 
       dispatch(setUserData({ token, userId }));
       if (await isFirsInit()) {
-        dispatch((disp) => disp(putSettings()));
-        dispatch(putProgress);
+        dispatch(putSettings());
+        dispatch(putProgress());
       }
-      dispatch(serverSynchronization);
-      dispatch(buttonActivitySwitch());
+      dispatch(serverSynchronization());
+      dispatch(stopLoader());
     } catch (error) {
       dispatch(setAlertMessage('invalid data entered'));
-      dispatch(buttonActivitySwitch());
+      dispatch(stopLoader());
     }
   };
 };

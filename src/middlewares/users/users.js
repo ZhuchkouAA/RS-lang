@@ -14,7 +14,7 @@ export const updateUser = (email, password) => {
     password,
   });
 
-  return async (dispatch) => {
+  return () => async (dispatch) => {
     try {
       const rawResponse = await putWithTokenRequest(url, token, body);
       const response = await rawResponse.json();

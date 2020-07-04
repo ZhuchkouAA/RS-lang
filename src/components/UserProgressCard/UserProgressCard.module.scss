@@ -2,8 +2,9 @@
 
 .UserProgressCard {
   @extend %main-page-card;
+  height: min-content;
+  width: 320px;
 
-  width: 600px;
 
   &__text {
     word-wrap: break-word;

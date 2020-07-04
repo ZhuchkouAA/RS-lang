@@ -5,12 +5,19 @@
 
   background-color: $white-color-transparent;
   border-radius: 5px;
-  max-width: 0;
-  position: absolute;
-  transition: all 1s;
-  z-index: 5;
+  // left: 50%;
+  left: calc(50% - 150px);
 
-  &__show {
-    max-width: 300px;
-  }
+  // max-width: 300;
+  position: absolute;
+  top: -30px;
+  // transition: opacity 1s;
+  z-index: 4;
+
+  // &__show {
+  //   left: calc(50% - 150px);
+  //   max-width: 300px;
+  //   opacity: 1;
+  //   z-index: 5;
+  // }
 }

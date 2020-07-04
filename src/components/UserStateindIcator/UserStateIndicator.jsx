@@ -10,41 +10,45 @@ import {
   makeStyles,
   Grid,
 } from '@material-ui/core';
+import { getRatingColors } from '../../helpers/repeat-logic-utils';
 
 import style from './UserStateIndicator.module.scss';
 
-const useStyles = makeStyles((theme) => ({
-  button: {
-    margin: theme.spacing(1),
-  },
-  customWidth: {
-    maxWidth: 500,
-  },
-  noMaxWidth: {
-    maxWidth: 'none',
-  },
-  tooltipText: {
-    textAlign: 'justify',
-    padding: '10px',
-    opacity: 1,
-    fontSize: '15px',
-    color: 'white',
-  },
-}));
+const UserStateIndicator = ({ progress, settings }) => {
+  const cardsShowedStatistic = progress.cardsShowedAllTime;
+  const { wordsPerDay } = settings;
+  const value = (cardsShowedStatistic * 100) / wordsPerDay;
 
-const CircularProgressWithLabel = (props) => {
-  const { nowValue, maxValue, tittle, hint } = props;
-  const value = (nowValue * 100) / maxValue;
+  const stateColors = getRatingColors(value);
+
+  const useStyles = makeStyles((theme) => ({
+    button: {
+      margin: theme.spacing(1),
+    },
+    tooltipText: {
+      textAlign: 'justify',
+      padding: '10px',
+      fontSize: '14px',
+      backgroundColor: 'black',
+    },
+    circular: {
+      color: stateColors.backgroundColor,
+    },
+  }));
 
   const classes = useStyles();
 
   const Circular = () => {
-    console.log(tittle);
     return (
       <Grid container direction="row">
-        <p className={style.TittleProgress}>{tittle}</p>
+        <p className={style.TittleProgress}>Tittle</p>
         <Box position="relative" display="inline-flex">
-          <CircularProgress size="70px" variant="static" value={value} />
+          <CircularProgress
+            classes={{ root: stateColors }}
+            size="70px"
+            variant="static"
+            value={value}
+          />
           <Box
             top={0}
             left={0}
@@ -57,14 +61,14 @@ const CircularProgressWithLabel = (props) => {
           >
             <Typography variant="caption" component="div" color="textSecondary">
               <div className={style.nowValue}>
-                {nowValue}
+                {cardsShowedStatistic}
                 <br />
               </div>
               <div className={style.separatorValue}>
                 /
                 <br />
               </div>
-              <div className={style.maxValue}>{maxValue}</div>
+              <div className={style.maxValue}>{wordsPerDay}</div>
             </Typography>
           </Box>
         </Box>
@@ -73,17 +77,15 @@ const CircularProgressWithLabel = (props) => {
   };
 
   return (
-    <Tooltip title={hint} classes={{ tooltip: classes.tooltipText }}>
+    <Tooltip title="hover hover hover" classes={{ tooltip: classes.tooltipText }}>
       <Button className={classes.button}>{Circular()}</Button>
     </Tooltip>
   );
 };
 
-export default CircularProgressWithLabel;
+export default UserStateIndicator;
 
-CircularProgressWithLabel.propTypes = {
-  hint: PropTypes.string.isRequired,
-  tittle: PropTypes.string.isRequired,
-  nowValue: PropTypes.number.isRequired,
-  maxValue: PropTypes.number.isRequired,
+UserStateIndicator.propTypes = {
+  progress: PropTypes.objectOf(PropTypes.any).isRequired,
+  settings: PropTypes.objectOf(PropTypes.any).isRequired,
 };

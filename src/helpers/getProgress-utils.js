@@ -1,30 +1,27 @@
 import store from '../redux/redux-store';
 import { getCookie } from './cookies-utils';
 import getRequest from './fetch-utils/getWithToken-response';
-
+import { shuffle } from './games-utils/filtersAndSorters';
 import API_URLS from '../constants/APIUrls';
 import { USER_ID, TOKEN } from '../constants/cookiesNames';
+import { MAX_DIFFICULTY, MSEC_PER_DAY } from '../constants/wordConfig';
 
 export const isDateOfReceiptOfWordsCome = (serverDate) => {
   return serverDate < Date.now();
 };
 
 export const getNewDateOfReceiptOfWords = () => {
-  return Date.now() + 86400000;
+  return Date.now() + MSEC_PER_DAY;
 };
 
 export const getNewLeftNewWordsToday = () => {
-  const {
-    settings: { newWordsPerDay },
-  } = store.getState();
+  const { newWordsPerDay } = store.getState().settings;
 
   return newWordsPerDay;
 };
 
 export const getNewLeftRepeatWordsToday = () => {
-  const {
-    settings: { wordsPerDay, newWordsPerDay },
-  } = store.getState();
+  const { wordsPerDay, newWordsPerDay } = store.getState().settings;
   return wordsPerDay - newWordsPerDay;
 };
 
@@ -41,14 +38,14 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
 
   // забираем слова из первой группы
   if (firstWordNumber < leftNewWordsToday) {
-    const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 1, 100, firstWordNumber));
+    const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 0, 100, WORDS_IN_GROUP));
     const words = await rawWords.json();
-    const newWords = words.slice(0, leftNewWordsToday);
-    wordsArray = wordsArray.concat(newWords);
+    const newWords = words.slice(firstWordNumber, firstWordNumber + leftNewWordsToday);
+    wordsArray = [...wordsArray, ...newWords];
   } else {
     const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 0, 100, leftNewWordsToday));
     const newWords = await rawWords.json();
-    wordsArray = wordsArray.concat(newWords);
+    wordsArray = [...wordsArray, ...newWords];
   }
 
   // если надо,добираем слова из следующей группы
@@ -59,16 +56,16 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
       API_URLS.GET_WORDS(groupOfLastWord, 0, 100, lastWordNumberInAnotherGroup)
     );
     const newWords = await rawWords.json();
-    wordsArray = wordsArray.concat(newWords);
+    wordsArray = [...wordsArray, ...newWords];
   }
   // преобразуем в стандартный вид serverWord
   return wordsArray.map((el) => {
     const { id, ...other } = el;
     return {
-      difficulty: '100',
+      difficulty: String(MAX_DIFFICULTY),
       wordId: id,
       optional: {
-        repeatDate: 'func=>date',
+        repeatDate: 0,
         isStudying: true,
         isHard: false,
         isDeleted: false,
@@ -101,5 +98,15 @@ export const getQueueRandom300 = async () => {
     )
   );
   const words = await rawWords.json();
-  return words;
+  return shuffle(words);
+};
+
+export const array15FromString = (string) => {
+  const arrayStr = [...string.split('-').slice(0, 15)];
+  return arrayStr.map((el) => Number(el));
+};
+
+export const newArray15FromString = (string) => {
+  const arrayStr = [0, ...string.split('-').slice(0, 14)];
+  return arrayStr.map((el) => Number(el));
 };

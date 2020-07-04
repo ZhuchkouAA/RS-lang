@@ -1,37 +1,18 @@
-export const onlyStudying = (words) => {
-  return words.filter((word) => {
-    return word.optional.isStudying;
-  });
-};
+export const onlyStudying = (words) => words.filter((word) => word.optional.isStudying);
 
-export const onlyHard = (words) => {
-  return words.filter((word) => {
-    return word.optional.isHard;
-  });
-};
+export const onlyHard = (words) => words.filter((word) => word.optional.isHard);
 
-export const onlyNotDeleted = (words) => {
-  return words.filter((word) => {
-    return !word.optional.isDeleted;
-  });
-};
+export const onlyNotDeleted = (words) => words.filter((word) => !word.optional.isDeleted);
 
-export const dateFilter = (words) => {
-  return words.filter((word) => {
-    return Date.now() < word.optional.repeatDate;
-  });
-};
+export const dateFilter = (words) => words.filter((word) => Date.now() > word.optional.repeatDate);
 
-export const highPriorityFirstSorter = (words) => {
-  return words.sort(
+export const highPriorityFirstSorter = (words) =>
+  words.sort(
     (
       { optional: { isHighPriority: isHighPriority1 } },
       { optional: { isHighPriority: isHighPriority2 } }
-    ) => {
-      return isHighPriority2 > isHighPriority1;
-    }
+    ) => isHighPriority2 > isHighPriority1
   );
-};
 
 export const shuffle = (array) => {
   const newArray = array.slice(0, array.length);
@@ -41,3 +22,5 @@ export const shuffle = (array) => {
   }
   return newArray;
 };
+
+export const onlyLearnedWords = (words) => words.filter((word) => Number(word.difficulty) === 0);

@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import style from './Header.module.scss';
-import ProgressBar from '../ProgressBar';
 
-const Header = ({ toggleNav, token, removeUserData, navBarState }) => {
+const Header = ({ toggleNav, token, removeUserData }) => {
   const authButtons = (
     <div className={style['Header__auth-container-login']}>
       <button className={style['Header__auth-button']} type="button">
@@ -19,13 +18,12 @@ const Header = ({ toggleNav, token, removeUserData, navBarState }) => {
   );
   const logoutButton = (
     <div className={style['Header__auth-container-logout']}>
-      <Button color="primary" text="logout" handlerClick={removeUserData} />
+      <Button color="primary" text="Выйти" handlerClick={removeUserData} />
     </div>
   );
 
   const handlerOnClickNavBar = () => {
-    const state = navBarState === 'disable' ? 'active' : 'disable';
-    toggleNav(state);
+    toggleNav(true);
   };
 
   const NavBarElement = (
@@ -50,19 +48,16 @@ const Header = ({ toggleNav, token, removeUserData, navBarState }) => {
           </div>
         </div>
       </header>
-      <ProgressBar />
     </>
   );
 };
 
 Header.defaultProps = {
   token: null,
-  navBarState: 'disable',
 };
 
 Header.propTypes = {
   token: PropTypes.string,
-  navBarState: PropTypes.string,
   removeUserData: PropTypes.func.isRequired,
   toggleNav: PropTypes.func.isRequired,
 };

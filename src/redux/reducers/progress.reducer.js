@@ -7,21 +7,39 @@ import {
   QUEUE_NEW_WORDS,
   QUEUE_REPEAT_WORDS,
   REWRITE_PROGRESS,
+  UPDATE_PROGRESS_AFTER_WORD_PROCESSED,
 } from '../actions/types/action-types';
+
+import { BASE_EMPTY_ARRAY_15 } from '../../constants/app-settings';
+import { MSEC_PER_DAY } from '../../constants/wordConfig';
 
 const initialProgressState = {
   differentCardsShowedAllTime: 0,
   cardsShowedAllTime: 0,
-  dateOfReceiptOfWords: Date.now() + 86400000,
+  rightAnswersAllTime: 0,
+  dateOfReceiptOfWords: Date.now() + MSEC_PER_DAY,
   leftNewWordsToday: 10,
   queueNewWords: [],
   queueRepeatWords: [],
-  queueRandom300: [],
-  leftRepeatWordsToday: 20,
+  leftRepeatWordsToday: 10,
+  longestTodaySeries: 0,
+  learnedWordsStatistic: BASE_EMPTY_ARRAY_15,
+  cardsShowedStatistic: BASE_EMPTY_ARRAY_15,
+  newCardsShowedStatistic: BASE_EMPTY_ARRAY_15,
+  rightAnswersStatistic: BASE_EMPTY_ARRAY_15,
 };
 
 const progressReducer = (state = initialProgressState, { type, payload }) => {
+  const [firstCardShowedStatistic, ...otherCardsShowedStatistic] = state.cardsShowedStatistic;
   switch (type) {
+    case UPDATE_PROGRESS_AFTER_WORD_PROCESSED:
+      return {
+        ...state,
+        differentCardsShowedAllTime: state.differentCardsShowedAllTime + 1,
+        cardsShowedAllTime: state.cardsShowedAllTime + 1,
+        cardsShowedToday: state.cardsShowedToday + 1,
+        cardsShowed15Days: [firstCardShowedStatistic + 1, ...otherCardsShowedStatistic],
+      };
     case DIFFERENT_CARDS_COUNTER_PLUS_ONE:
       return {
         ...state,

@@ -4,8 +4,38 @@ $white-color-transparent: #ffffffc2;
 $hidden-word-bg: #7fbdf7;
 $color-card-hover: #adcbff70;
 $black-color: #000;
+$success-main: #4caf50;
 
 $green-color: #3fd18f;
 $red-color: #f30;
 $orange-color: #fd8642;
 $input-text-color: #456d52;
+
+$learning-fail-color: #ff0606;
+$learning-bad-color: #f80;
+$learning-normal-color: #ddd900;
+$learning-good-color: #0f2;
+$learning-excellent-color: #8c00ff;
+
+$learning-fail-bg-color: #ff000048;
+$learning-bad-bg-color: #ffc37e3f;
+$learning-normal-bg-color: #ddd9003f;
+$learning-good-bg-color: #00ff2234;
+$learning-excellent-bg-color: #8c00ff3b;
+
+:export {
+  /* stylelint-disable property-no-unknown */
+  learningBadBGColor: $learning-bad-bg-color;
+  learningBadColor: $learning-bad-color;
+  learningExcellentBGColor: $learning-excellent-bg-color;
+  learningExcellentColor: $learning-excellent-color;
+  learningFailBGColor: $learning-fail-bg-color;
+  learningFailColor: $learning-fail-color;
+  learningGoodBGColor: $learning-good-bg-color;
+  learningGoodColor: $learning-good-color;
+  learningNormalBGColor: $learning-normal-bg-color;
+  learningNormalColor: $learning-normal-color;
+  /* stylelint-enable */
+}
+
+

@@ -1,25 +1,3 @@
-.BoxOne {
-  display: inline-flex;
-  position: relative;
-}
-
-.Box {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
-.abc {
-  // font-size: 40px;
-  // color: red;
-  // background-color: red;
-}
-
-.CircularProgress {
-  height: 70px;
-  width: 70px;
-}
-
 .nowValue {
   line-height: 2;
   padding-right: 10px;
@@ -37,10 +15,9 @@
   text-align: right;
 }
 
-
 .TittleProgress {
   align-items: center;
   display: flex;
-  margin-right: 20px;
-  
+  margin-right: 5px;
+  text-transform: none;
 }

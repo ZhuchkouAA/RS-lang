@@ -1,0 +1,129 @@
+.wrapper {
+  background: url('../../img/sprint-background.png');
+}
+
+.Card {
+  box-sizing: border-box;
+  height: 380px;
+  margin-bottom: 50px;
+  min-width: 250px;
+  padding: 0 20px;
+  width: 40%;
+
+
+  &__header,
+  &__main {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__header {
+    background: url('./../../img/wood.png') 50% 25% no-repeat;
+    height: 175px;
+  }
+
+  &__main {
+    margin: 10px 0 20px;
+  }
+
+  &__icons {
+    margin-top: 45px;
+  }
+
+  &__points {
+    background-color: rgba(0, 150, 0, 0.2);
+    border-radius: 20px;
+    padding: 0 10px;
+  }
+}
+
+.ButtonsGroup {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 0;
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 0;
+  }
+
+  &__button {
+    margin-right: 20px;
+  }
+}
+
+.Points {
+  margin: 0 auto 10px;
+  max-width: 40%;
+  min-width: 250px;
+  padding-top: 10px;
+
+  &__point-counter {
+    border: 1px solid;
+    border-radius: 20px;
+    margin-right: 20px;
+    text-align: center;
+    width: 70px;
+  }
+
+  &__counters {
+    display: flex;
+  }
+}
+
+.false-color {
+  animation: false 0.5s ease-in-out;
+  outline: 5px solid rgba(255, 51, 0, 100);
+
+}
+
+.true-color {
+  animation: true 0.5s ease-in-out;
+  outline: 5px solid rgba(76, 175, 80, 100);
+}
+
+@keyframes true {
+  0% {
+    outline-color: rgba(76, 175, 80, 0);
+  }
+
+  50% {
+    outline-color: rgba(76, 175, 80, 100);
+  }
+
+  100% {
+    outline-color: rgba(76, 175, 80, 0);
+  }
+}
+
+@keyframes false {
+  0% {
+    outline-color: rgba(255, 51, 0, 0);
+  }
+
+  50% {
+    outline-color: rgba(255, 51, 0, 100);
+  }
+
+  100% {
+    outline-color: rgba(255, 51, 0, 0);
+  }
+}
+
+.Points {
+  margin: 0 auto 10px;
+  max-width: 40%;
+  min-width: 250px;
+  padding-top: 10px;
+
+  &__point-counter {
+    border: 1px solid;
+    border-radius: 20px;
+    padding: 0 10px;
+  }
+}
+
+
+
