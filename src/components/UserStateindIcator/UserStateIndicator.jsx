@@ -44,7 +44,7 @@ const UserStateIndicator = ({ progress, settings }) => {
         <p className={style.TittleProgress}>Tittle</p>
         <Box position="relative" display="inline-flex">
           <CircularProgress
-            classes={{ root: stateColors }}
+            classes={{ root: classes.circular }}
             size="70px"
             variant="static"
             value={value}
