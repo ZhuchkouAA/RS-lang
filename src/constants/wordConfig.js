@@ -1,9 +1,8 @@
-const MSEC_PER_HOUR = 3600000;
+import { MSEC_PER_HOUR } from './common';
+
 const REPEAT_INTERVAL_HOURS = 1;
 const COEFFICIENT = 0.5;
 export const WORD_REPEAT_INTERVAL = REPEAT_INTERVAL_HOURS * MSEC_PER_HOUR * COEFFICIENT;
 
 export const MIN_DIFFICULTY = 0;
 export const MAX_DIFFICULTY = 100;
-
-export const MSEC_PER_DAY = 86400000;

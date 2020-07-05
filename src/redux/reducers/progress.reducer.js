@@ -11,7 +11,7 @@ import {
 } from '../actions/types/action-types';
 
 import { BASE_EMPTY_ARRAY_15 } from '../../constants/app-settings';
-import { MSEC_PER_DAY } from '../../constants/wordConfig';
+import { MSEC_PER_DAY } from '../../constants/common';
 
 const initialProgressState = {
   differentCardsShowedAllTime: 0,

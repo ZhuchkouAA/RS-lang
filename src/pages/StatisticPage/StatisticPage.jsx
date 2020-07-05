@@ -4,9 +4,9 @@ import { Grid, Container, Typography } from '@material-ui/core';
 
 import ChartSplineArea from '../../components/ChartSplineArea';
 import { onlyStudying } from '../../helpers/games-utils/filtersAndSorters';
-import DELTA from '../../constants/common';
+import { DELTA, MSEC_PER_DAY, MSEC_PER_HOUR } from '../../constants/common';
 
-const StatisticPage = ({ progress, serverSynchronization }) => {
+const StatisticPage = ({ progress, serverSynchronization, isLoading }) => {
   const {
     differentCardsShowedAllTime,
     cardsShowedAllTime,
@@ -27,7 +27,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
   }, []);
 
   const chartDayDateByInd = (ind) => {
-    const date = Date.now() - ind * 86400000;
+    const date = Date.now() - ind * MSEC_PER_DAY;
     const day = new Date(date).getDate();
     return day;
   };
@@ -59,10 +59,9 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
 
   const learnedWordsAllTime = onlyStudying(queueRepeatWords).length + 1;
   const rightAnswersPercentAllTime = Math.round(rightAnswersAllTime / (cardsShowedAllTime + DELTA));
-  const now = new Date(Date.now());
-  const receiptDate = new Date(dateOfReceiptOfWords);
-  const hoursToReceiptWords = new Date(now - receiptDate);
+  const hoursToReceiptWords = Math.round((dateOfReceiptOfWords - Date.now()) / MSEC_PER_HOUR);
 
+  if (isLoading) return <div />;
   return (
     <>
       <Grid container direction="row" justify="center" alignItems="center">
@@ -71,7 +70,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
             {`Всего  показано новых слов -- ${differentCardsShowedAllTime}!`}
           </Typography>
           <Typography gutterBottom align="center" variant="h6">
-            {`Выучено ${learnedWordsAllTime} слов из 3600, правильных ответов -- ${rightAnswersPercentAllTime}%!`}
+            {`На изучении ${learnedWordsAllTime} слов из 3600, правильных ответов -- ${rightAnswersPercentAllTime}%!`}
           </Typography>
           <Typography gutterBottom align="center" variant="h6">
             Сегодняшний прогресс:
@@ -90,7 +89,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
             {`Самая длинная серия правильных ответов сегодня -- ${longestTodaySeries}`}
           </Typography>
           <Typography gutterBottom align="center" variant="h6">
-            {`Карточки с новыми словами прибудут в течение ${hoursToReceiptWords.getHours()} часов!`}
+            {`Карточки с новыми словами прибудут в течение ${hoursToReceiptWords} часов!`}
           </Typography>
         </Container>
         <ChartSplineArea
@@ -149,6 +148,7 @@ const StatisticPage = ({ progress, serverSynchronization }) => {
 StatisticPage.propTypes = {
   progress: PropTypes.objectOf(PropTypes.any).isRequired,
   serverSynchronization: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default StatisticPage;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
@@ -9,12 +9,26 @@ import Inputs from '../../components/Input';
 
 import style from './SettingsPage.module.scss';
 
-const SettingsPage = ({ settings: storeSettings, putSettings }) => {
+const SettingsPage = ({
+  settings: storeSettings,
+  putSettings,
+  hardReset,
+  serverSynchronization,
+}) => {
   const [settings, setSettings] = useState(storeSettings);
+
+  useEffect(() => {
+    serverSynchronization();
+  }, []);
 
   const onSaveButton = (event) => {
     event.preventDefault();
     putSettings(settings);
+  };
+
+  const onResetButton = (event) => {
+    event.preventDefault();
+    hardReset();
   };
 
   return (
@@ -30,12 +44,12 @@ const SettingsPage = ({ settings: storeSettings, putSettings }) => {
 
         <Inputs
           label="Учить слова за один день"
-          value={settings.wordsPerDay}
+          value={String(settings.wordsPerDay)}
           onChange={(e) => setSettings({ ...settings, wordsPerDay: e.target.value })}
         />
         <Inputs
           label="Новых слов в день"
-          value={settings.newWordsPerDay}
+          value={String(settings.newWordsPerDay)}
           onChange={(e) => setSettings({ ...settings, newWordsPerDay: e.target.value })}
         />
         <Toggle
@@ -139,14 +153,24 @@ const SettingsPage = ({ settings: storeSettings, putSettings }) => {
         >
           Сохранить изменения
         </Button>
+        <Button
+          className={style.Settings__btn}
+          variant="outlined"
+          color="secondary"
+          onClick={onResetButton}
+        >
+          Полный сброс настроек и статистики
+        </Button>
       </div>
     </form>
   );
 };
 
 SettingsPage.propTypes = {
-  settings: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.bool, PropTypes.string])).isRequired,
+  settings: PropTypes.objectOf(PropTypes.any).isRequired,
   putSettings: PropTypes.func.isRequired,
+  hardReset: PropTypes.func.isRequired,
+  serverSynchronization: PropTypes.func.isRequired,
 };
 
 export default SettingsPage;
