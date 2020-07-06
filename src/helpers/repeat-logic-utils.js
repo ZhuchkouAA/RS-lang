@@ -59,3 +59,17 @@ export const getRatingColors = (rate) => {
 
   return { passedColor, backgroundColor };
 };
+
+export const getHintForCountDaysBeforeNextWordRepeat = (lastRepeatDate) => {
+  if (!lastRepeatDate) {
+    return '';
+  }
+
+  const countDays = Math.round((lastRepeatDate - Date.now()) / (60 * 60 * 24 * 1000));
+
+  if (countDays < 1) {
+    return 'Слово должно появиться в ближайшей пренировке';
+  }
+
+  return `Осталось дней до посторения: ${countDays}`;
+};

@@ -25,6 +25,7 @@ import RestorePageIcon from '@material-ui/icons/RestorePage';
 import IconMini from '../IconMini';
 import WordDifficultyIndicator from '../WordDifficultyIndicator';
 
+import { getHintForCountDaysBeforeNextWordRepeat } from '../../helpers/repeat-logic-utils';
 import { TABLE_PAGE_SIZE, DICTIONARY_PAGINATION } from '../../constants/dictionary';
 import WORD_HANDLER_KEYS from '../../constants/keys';
 import URLS from '../../constants/APIUrls';
@@ -136,9 +137,23 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
     ).map(
       ({
         difficulty,
-        optional: { word, transcription, wordTranslate, audio, textMeaning, textExample },
+        optional: {
+          word,
+          transcription,
+          wordTranslate,
+          audio,
+          textMeaning,
+          textExample,
+          lastRepeatWordDate,
+          repeatDate,
+        },
       }) => {
         const audioUrl = `${URLS.ASSETS}${audio}`;
+        const lastRepeatDate = lastRepeatWordDate
+          ? new Date(lastRepeatWordDate).toLocaleDateString('ru')
+          : '';
+        const nextRepeatDate = repeatDate ? new Date(repeatDate).toLocaleDateString('ru') : '';
+        const leftDaysHint = getHintForCountDaysBeforeNextWordRepeat(repeatDate);
 
         return (
           <TableRow hover key={word}>
@@ -151,6 +166,15 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
             <TableCell>{word}</TableCell>
             {isTranscriptionShow && <TableCell>{transcription}</TableCell>}
             <TableCell>{wordTranslate}</TableCell>
+
+            {type !== 'deleted' && <TableCell>{lastRepeatDate}</TableCell>}
+            {type !== 'deleted' && (
+              <TableCell>
+                <Tooltip title={leftDaysHint} enterDelay={500}>
+                  <span>{nextRepeatDate}</span>
+                </Tooltip>
+              </TableCell>
+            )}
             {isTextMeaningShow && <TableCell>{textMeaning.replace(/<.?[i,b]>/g, '')}</TableCell>}
             {isTextExampleShow && <TableCell>{textExample.replace(/<.?[i,b]>/g, '')}</TableCell>}
             {type === 'deleted' && (
@@ -199,6 +223,11 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
 
   columns.push('Перевод');
 
+  if (type !== 'deleted') {
+    columns.push('Дата последнего повторения');
+    columns.push('Дата следующего повторения');
+  }
+
   if (isTextMeaningShow) {
     columns.push('Значение слова');
   }
@@ -218,9 +247,10 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
           {cntWords !== 0 && (
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
-                  <TableCell key={column}>{column}</TableCell>
-                ))}
+                {columns.map((column, index) => {
+                  const key = `DictionaryTable_${column}-${index}`;
+                  return <TableCell key={key}>{column}</TableCell>;
+                })}
               </TableRow>
             </TableHead>
           )}

@@ -6,6 +6,7 @@ import {
   withoutDeletedAndHard,
   onlyDeleted,
   onlyHard,
+  queueSortByNextRepeatDateAsc,
 } from '../../helpers/games-utils/filtersAndSorters';
 
 import DictionaryPage from './DictionaryPage';
@@ -14,7 +15,7 @@ const mapStateToProps = ({ progress: { queueRepeatWords }, loader: { isLoading }
   serverSynchronization();
 
   const userWords = queueRepeatWords;
-  const learningWordsQueue = withoutDeletedAndHard(userWords);
+  const learningWordsQueue = queueSortByNextRepeatDateAsc(withoutDeletedAndHard(userWords));
   const deletedWordsQueue = onlyDeleted(userWords);
   const hardWordsQueue = onlyHard(userWords);
 

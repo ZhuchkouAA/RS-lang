@@ -306,11 +306,12 @@ const WordCard = ({
   };
 
   const handlerClickHardWord = () => {
-    wordsQueue[0] = wordHandler(wordsQueue[0], [
+    const woradMarkedAsHard = wordHandler(wordsQueue[0], [
       { key: WORD_HANDLER_KEYS.isHard, value: true },
       { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 1 },
     ]);
-    onHardButton(wordsQueue[0]);
+
+    onHardButton(woradMarkedAsHard);
   };
 
   useEffect(() => {

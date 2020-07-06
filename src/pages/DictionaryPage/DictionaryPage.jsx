@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Tab, Paper, AppBar, Fab, Tooltip } from '@material-ui/core';
 import { TabPanel, TabContext, TabList } from '@material-ui/lab';
@@ -6,8 +7,8 @@ import RepeatIcon from '@material-ui/icons/Repeat';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import PATH from '../../constants/path';
 import DictionaryTable from '../../components/DictionaryTable';
-
 import wordHandler from '../../helpers/games-utils/wordHandler';
 
 const useStyles = makeStyles({
@@ -27,6 +28,7 @@ const DictionaryPage = ({
   finallySendWordAndProgress,
   serverSynchronization,
 }) => {
+  const history = useHistory();
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = useState('1');
 
@@ -48,6 +50,7 @@ const DictionaryPage = ({
 
   const handlerClickTrainHard = () => {
     // console.log(`TODO train hard words`);
+    history.push(PATH.WORD_CARD);
   };
 
   if (!learningWordsQueue || !hardWordsQueue || !deletedWordsQueue) return null;
