@@ -7,6 +7,7 @@ const getRandomWords = ({ gameModeData }) => {
 const getWords = ({ gameModeData }) => {
   return gameModeData.words;
 };
+<<<<<<< HEAD
 const wordCounter = 20;
 const savannaWordsQueue = createSelector(getRandomWords, getWords, (randowWords, newWords) => {
   const slicedNewWords = newWords.slice(0, wordCounter);
@@ -24,6 +25,26 @@ const savannaWordsQueue = createSelector(getRandomWords, getWords, (randowWords,
       isCorrectTranslation: newWord.optional.wordTranslate,
     };
     return word;
+=======
+
+const savannaWordsQueue = createSelector(getRandomWords, getWords, (randowWords, newWords) => {
+  const slicedNewWords = newWords.slice(0, 20);
+  return slicedNewWords.map((newWord, index) => {
+    const word = {
+      word: newWord.optional.word,
+      wordTranslate: newWord.optional.wordTranslate,
+      id: newWord.optional.wordId,
+      isCorrectTranslation: true,
+    };
+    if (Math.random() > 0.5) {
+      return word;
+    }
+    return {
+      ...word,
+      wordTranslate: randowWords[index].wordTranslate,
+      isCorrectTranslation: false,
+    };
+>>>>>>> RSL-34: add word queue
   });
 });
 

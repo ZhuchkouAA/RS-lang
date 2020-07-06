@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Grid } from '@material-ui/core/';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 import WORD_HANDLER_KEYS from '../../constants/keys';
 import wordHandler from '../../helpers/games-utils/wordHandler';
+=======
+
+>>>>>>> RSL-34: add word queue
 import Button from '../../components/Button';
 import SavannaQuestion from '../../components/SavannaQuestion';
 import SavannaAnswers from '../../components/SavannaAnswers';
@@ -36,12 +40,17 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
+<<<<<<< HEAD
 const SavannaPage = ({ words, finallySendWordAndProgress }) => {
+=======
+const SavannaPage = ({ words }) => {
+>>>>>>> RSL-34: add word queue
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [lives, setLives] = useState(LIVES.length);
   const [showResult, setShowResult] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
+<<<<<<< HEAD
   const [animation, setAnimation] = useState(true);
   const [speed, setSpeed] = useState(GAME_SPEED);
   const [showAnswers, setShowAnswers] = useState(true);
@@ -51,6 +60,9 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
   const correctAnswerSound = new Audio(correctSound);
   const incorrectAnswerSound = new Audio(incorrectSound);
 
+=======
+  console.log(words);
+>>>>>>> RSL-34: add word queue
   const endGame = () => {
     if (currentQuestion + 1 === words.length) {
       setIsRunning(false);
@@ -119,12 +131,14 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
     }
     answerArr = answers;
     answerArr.push(answer);
+    console.log(answerArr);
     setAnswers(answerArr);
     setSpeed(1000);
     setAnimation(false);
     endGame();
   };
 
+<<<<<<< HEAD
   return (
     <div className={style.Savanna}>
       {showResult && (
@@ -179,6 +193,42 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
 SavannaPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
+=======
+  if (showResult) {
+    return (
+      <Grid container direction="column" justify="space-around" alignItems="center">
+        {answers.map((el, index) => {
+          const key = index;
+          let res = 'верно';
+          if (el !== questions[key].word) {
+            res = 'ошибка';
+          }
+          return <span key={`${el}+${key}`}>{`${el} ${res}`}</span>;
+        })}
+      </Grid>
+    );
+  }
+  if (isRunning) {
+    return (
+      <div className={style.Savanna}>
+        <span>
+          {lives}
+          Жизни
+        </span>
+        <SavannaQuestion word={question.word} />
+        <SavannaAnswers
+          answers={['first', 'second', 'third', '44']}
+          handlerClick={answerBtnClick}
+        />
+      </div>
+    );
+  }
+  return <Button handlerClick={gameStart} text="Начать игру" color="secondary" />;
+>>>>>>> RSL-34: add word queue
+};
+
+SavannaPage.propTypes = {
+  words: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default SavannaPage;
