@@ -9,7 +9,7 @@ import style from './Student.module.scss';
 
 const Student = ({ name, linkGit, imgSrc }) => {
   return (
-    <Grid className={style.CardStudent__wrapper} alignItems="center">
+    <Grid className={style.CardStudent__wrapper}>
       <Card className={style.CardStudent}>
         <CardActionArea>
           <CardMedia className={style['CardStudent__img-student']} image={imgSrc} title="photo" />
@@ -23,7 +23,12 @@ const Student = ({ name, linkGit, imgSrc }) => {
           </Typography>
         </CardActionArea>
         <Button className={style['CardStudent__wrapper-icon-link']} size="small" color="primary">
-          <a className={style.CardStudent__link} href={linkGit}>
+          <a
+            className={style.CardStudent__link}
+            href={linkGit}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               className={style['CardStudent__img-git']}
               width="60"

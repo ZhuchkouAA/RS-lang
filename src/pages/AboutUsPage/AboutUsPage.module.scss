@@ -1,15 +1,5 @@
 .Students__container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
   margin: 0 30px;
-}
-
-.Description {
-  margin: 0 30px;
-  max-width: 1300px;
-  text-align: justify;
 }
 
 @media (max-width: 500px) {
