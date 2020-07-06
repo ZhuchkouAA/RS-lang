@@ -17,7 +17,7 @@ const isFirsInit = async () => {
   return !rawResponseSetiings.ok;
 };
 
-export default (login, password) => {
+const signIn = (login, password) => {
   return async (dispatch) => {
     try {
       dispatch(runLoader());
@@ -31,7 +31,7 @@ export default (login, password) => {
         dispatch(putSettings());
         dispatch(putProgress());
       }
-      dispatch(serverSynchronization());
+      await dispatch(serverSynchronization());
       dispatch(stopLoader());
     } catch (error) {
       dispatch(setAlertMessage('invalid data entered'));
@@ -39,3 +39,5 @@ export default (login, password) => {
     }
   };
 };
+
+export default signIn;

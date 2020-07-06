@@ -35,14 +35,22 @@ import PATH from '../../constants/path';
 import URLS from '../../constants/APIUrls';
 import WORD_HANDLER_KEYS from '../../constants/keys';
 import { DIFFICULTY_REPEAT_VALUE } from '../../constants/variables-learning';
+import { WORDS_END } from '../../constants/modal-messages';
+import wordHandler from '../../helpers/games-utils/wordHandler';
 import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
 import { getUserRate } from '../../helpers/text-utils';
 import { getNewWordDifficulty } from '../../helpers/repeat-logic-utils';
-import { WORDS_END } from '../../constants/modal-messages';
 
 import styles from './WordCard.module.scss';
 
-const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
+const WordCard = ({
+  settings,
+  queueOrdinary,
+  onDeleteButton,
+  onHardButton,
+  onCheckEnteredWord,
+  onVoteButton,
+}) => {
   const {
     isAnswerBtnShow,
     isDelFromLearnBtnShow,
@@ -83,6 +91,20 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
 
   const nextBtn = useRef(null);
 
+  const defaultWord = {
+    word: 'acre',
+    wordTranslate: 'акр',
+    transcription: '[éikər]',
+    textMeaning: 'An <i>acre</i> is a unit for measuring area.',
+    textMeaningTranslate: 'Акр - это единица измерения площади',
+    textExample: 'They lived on a 150-<b>acre</b> farm.',
+    textExampleTranslate: 'Они жили на 150-акровой ферме',
+    image: 'files/01_1201.jpg',
+    audio: 'files/01_1201.mp3',
+    audioMeaning: 'files/01_1201_meaning.mp3',
+    audioExample: 'files/01_1201_example.mp3',
+  };
+
   const {
     word,
     wordTranslate,
@@ -95,7 +117,7 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
     audio,
     audioMeaning,
     audioExample,
-  } = wordsQueue[0].optional;
+  } = queueOrdinary[0] ? wordsQueue[0].optional : { defaultWord };
 
   const imageUrl = `${URLS.ASSETS}${image}`;
   const audioUrl = `${URLS.ASSETS}${audio}`;
@@ -193,13 +215,13 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
         penaltyForShowingAnswer,
         cntLearnErrors
       );
-      const wordOption = [WORD_HANDLER_KEYS.difficulty, newWordDifficulty];
 
       if (cntLearnErrors > 0) {
         setWordsQueue([...wordsQueue, wordsQueue[0]]);
       }
 
-      updateWordServerState(wordsQueue[0], wordOption);
+      const isFailsExist = cntLearnErrors !== 0;
+      onCheckEnteredWord(wordsQueue[0], isFailsExist, newWordDifficulty);
     } else {
       setLearnErrors(cntLearnErrors + 1);
     }
@@ -265,31 +287,30 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
     setControlsState({ ...controlsState, isVotePanelShow: false });
 
     const voteResult = getUserRate(target);
+    const isRepeat = voteResult === DIFFICULTY_REPEAT_VALUE;
 
-    if (voteResult === DIFFICULTY_REPEAT_VALUE && cntLearnErrors === 0) {
+    if (isRepeat && cntLearnErrors === 0) {
       setWordsQueue([...wordsQueue, wordsQueue[0]]);
     }
 
     const { difficulty } = wordsQueue[0];
     const newWordDifficulty = getNewWordDifficulty(difficulty, voteResult, cntLearnErrors);
-    const wordOption = [WORD_HANDLER_KEYS.difficulty, newWordDifficulty];
 
-    updateWordServerState(wordsQueue[0], wordOption);
-
+    onVoteButton(wordsQueue[0], newWordDifficulty, isRepeat);
     nextBtn.current.focus();
   };
 
   const handlerClickDeleteWord = () => {
-    const wordOption = [WORD_HANDLER_KEYS.isDeleted, true];
-
-    updateWordServerState(wordsQueue[0], wordOption);
+    onDeleteButton(wordsQueue[0]);
     goToNextWord();
   };
 
   const handlerClickHardWord = () => {
-    const wordOption = [WORD_HANDLER_KEYS.isHard, true];
-
-    updateWordServerState(wordsQueue[0], wordOption);
+    wordsQueue[0] = wordHandler(wordsQueue[0], [
+      { key: WORD_HANDLER_KEYS.isHard, value: true },
+      { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 1 },
+    ]);
+    onHardButton(wordsQueue[0]);
   };
 
   useEffect(() => {
@@ -319,7 +340,17 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
   const isVoteButtonsPanelShow =
     controlsState.isVotePanelShow && !isAnswerShowed && isFeedBackButtonsShow;
 
-  if (!queueOrdinary[0]) return null;
+  if (!queueOrdinary[0]) {
+    return (
+      <Dialog
+        isOpen
+        type="info"
+        tittle={WORDS_END.tittle}
+        message={WORDS_END.message}
+        callBack={redirectToMainPage}
+      />
+    );
+  }
 
   const FocusedWordInput = forwardRef((props, ref) => {
     return (
@@ -487,6 +518,9 @@ const WordCard = ({ settings, queueOrdinary, updateWordServerState }) => {
 WordCard.propTypes = {
   settings: PropTypes.objectOf(PropTypes.any).isRequired,
   queueOrdinary: PropTypes.arrayOf(PropTypes.object).isRequired,
-  updateWordServerState: PropTypes.func.isRequired,
+  onDeleteButton: PropTypes.func.isRequired,
+  onHardButton: PropTypes.func.isRequired,
+  onCheckEnteredWord: PropTypes.func.isRequired,
+  onVoteButton: PropTypes.func.isRequired,
 };
 export default WordCard;

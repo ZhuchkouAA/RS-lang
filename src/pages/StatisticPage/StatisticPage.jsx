@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Grid, Container, Typography } from '@material-ui/core';
 
 import ChartSplineArea from '../../components/ChartSplineArea';
-import { onlyStudying } from '../../helpers/games-utils/filtersAndSorters';
+import { onlyLearned, onlyStudying } from '../../helpers/games-utils/filtersAndSorters';
 import { DELTA, MSEC_PER_DAY, MSEC_PER_HOUR } from '../../constants/common';
 
 const StatisticPage = ({ progress, serverSynchronization, isLoading }) => {
@@ -36,7 +36,7 @@ const StatisticPage = ({ progress, serverSynchronization, isLoading }) => {
     .map((el, ind) => {
       return {
         day: chartDayDateByInd(ind),
-        cards: Math.round(el / (cardsShowedStatistic[ind] + DELTA)),
+        cards: Math.round((el / (cardsShowedStatistic[ind] + DELTA)) * 100),
       };
     })
     .reverse();
@@ -57,8 +57,14 @@ const StatisticPage = ({ progress, serverSynchronization, isLoading }) => {
 
   const dataChartNewCardsShowedStatistic = chartDateByProgressArray(newCardsShowedStatistic);
 
-  const learnedWordsAllTime = onlyStudying(queueRepeatWords).length + 1;
-  const rightAnswersPercentAllTime = Math.round(rightAnswersAllTime / (cardsShowedAllTime + DELTA));
+  const learnedWordsAllTime = onlyLearned(queueRepeatWords).length;
+  const onlyStudyingWords = onlyStudying(queueRepeatWords).length;
+  const rightAnswersPercentAllTime = Math.round(
+    (rightAnswersAllTime / (cardsShowedAllTime + DELTA)) * 100
+  );
+  const rightAnswersToday = Math.round(
+    (rightAnswersStatistic[0] / (cardsShowedStatistic[0] + DELTA)) * 100
+  );
   const hoursToReceiptWords = Math.round((dateOfReceiptOfWords - Date.now()) / MSEC_PER_HOUR);
 
   if (isLoading) return <div />;
@@ -70,7 +76,7 @@ const StatisticPage = ({ progress, serverSynchronization, isLoading }) => {
             {`Всего  показано новых слов -- ${differentCardsShowedAllTime}!`}
           </Typography>
           <Typography gutterBottom align="center" variant="h6">
-            {`На изучении ${learnedWordsAllTime} слов из 3600, правильных ответов -- ${rightAnswersPercentAllTime}%!`}
+            {`Выучено ${learnedWordsAllTime} слов, на изучении ${onlyStudyingWords} из 3600, правильных ответов -- ${rightAnswersPercentAllTime}%!`}
           </Typography>
           <Typography gutterBottom align="center" variant="h6">
             Сегодняшний прогресс:
@@ -81,9 +87,7 @@ const StatisticPage = ({ progress, serverSynchronization, isLoading }) => {
           </Typography>
           <Typography gutterBottom align="center" variant="h6">
             {`Всего сегодня было показано ${cardsShowedStatistic[0]} карточек!
-            Правильных ответов сегодня -- ${rightAnswersStatistic[0]} или ${
-              rightAnswersStatistic[0] / (cardsShowedStatistic[0] + DELTA)
-            }%`}
+            Правильных ответов сегодня -- ${rightAnswersStatistic[0]} или ${rightAnswersToday}%`}
           </Typography>
           <Typography gutterBottom align="center" variant="h6">
             {`Самая длинная серия правильных ответов сегодня -- ${longestTodaySeries}`}

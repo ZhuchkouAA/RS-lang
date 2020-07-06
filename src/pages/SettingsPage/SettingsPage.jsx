@@ -11,9 +11,14 @@ import style from './SettingsPage.module.scss';
 
 const SettingsPage = ({
   settings: storeSettings,
+  isLoading,
+  progress,
+  putProgress,
   putSettings,
   hardReset,
   serverSynchronization,
+  setLeftNewWordsToday,
+  setLeftRepeatWordsToday,
 }) => {
   const [settings, setSettings] = useState(storeSettings);
 
@@ -21,15 +26,26 @@ const SettingsPage = ({
     serverSynchronization();
   }, []);
 
-  const onSaveButton = (event) => {
+  useEffect(() => {
+    setSettings(storeSettings);
+  }, [storeSettings]);
+
+  const onSaveButton = async (event) => {
     event.preventDefault();
+    const leftNewWordsToday = settings.newWordsPerDay - progress.newCardsShowedStatistic[0];
+    const leftRepeatWordsToday = settings.wordsPerDay - progress.cardsShowedStatistic[0];
+    await setLeftNewWordsToday(leftNewWordsToday);
+    await setLeftRepeatWordsToday(leftRepeatWordsToday);
     putSettings(settings);
+    putProgress();
   };
 
   const onResetButton = (event) => {
     event.preventDefault();
     hardReset();
   };
+
+  if (isLoading) return <div />;
 
   return (
     <form className={style.Settings}>
@@ -159,7 +175,7 @@ const SettingsPage = ({
           color="secondary"
           onClick={onResetButton}
         >
-          Полный сброс настроек и статистики
+          Удалить текущего пользователя
         </Button>
       </div>
     </form>
@@ -168,9 +184,14 @@ const SettingsPage = ({
 
 SettingsPage.propTypes = {
   settings: PropTypes.objectOf(PropTypes.any).isRequired,
+  progress: PropTypes.objectOf(PropTypes.any).isRequired,
   putSettings: PropTypes.func.isRequired,
   hardReset: PropTypes.func.isRequired,
   serverSynchronization: PropTypes.func.isRequired,
+  putProgress: PropTypes.func.isRequired,
+  setLeftNewWordsToday: PropTypes.func.isRequired,
+  setLeftRepeatWordsToday: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default SettingsPage;

@@ -14,17 +14,16 @@ export const createQueueOrdinary = () => {
   const { queueNewWords, queueRepeatWords } = store.getState().progress;
   const amountRepeatWords = getNewLeftRepeatWordsToday();
 
-  const shortenedQueueRepeatWords = highPriorityFirstSorter(queueRepeatWords).slice(
-    0,
-    amountRepeatWords
-  );
-  const workingQueue = [...queueNewWords, ...shortenedQueueRepeatWords];
-  const filteredWithOnlyStudying = onlyStudying(workingQueue);
+  const filteredWithHightPriority = highPriorityFirstSorter(queueRepeatWords);
+  const filteredWithOnlyStudying = onlyStudying(filteredWithHightPriority);
   const filteredWithDateFilter = dateFilter(filteredWithOnlyStudying);
   const filteredWithOnlyNotDeleted = onlyNotDeleted(filteredWithDateFilter);
   const shuffledWorkingQueue = shuffle(filteredWithOnlyNotDeleted);
+  const shortenedRepeatQueue = shuffledWorkingQueue.slice(0, amountRepeatWords);
 
-  return shuffledWorkingQueue;
+  const workingQueue = [...shortenedRepeatQueue, ...queueNewWords];
+
+  return workingQueue;
 };
 
 export const createQueueOnlyHard = () => {
