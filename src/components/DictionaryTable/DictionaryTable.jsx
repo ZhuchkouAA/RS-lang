@@ -23,6 +23,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import RestorePageIcon from '@material-ui/icons/RestorePage';
 
 import IconMini from '../IconMini';
+import WordDifficultyIndicator from '../WordDifficultyIndicator';
 
 import { TABLE_PAGE_SIZE, DICTIONARY_PAGINATION } from '../../constants/dictionary';
 import WORD_HANDLER_KEYS from '../../constants/keys';
@@ -30,17 +31,16 @@ import URLS from '../../constants/APIUrls';
 
 import styles from './DictionaryTable.module.scss';
 
-const useStyles1 = makeStyles((theme) => ({
+const useStylesPagination = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
     marginLeft: theme.spacing(2.5),
   },
 }));
 
-function TablePaginationActions(props) {
-  const classes = useStyles1();
+function TablePaginationActions({ count, page, rowsPerPage, onChangePage }) {
+  const classes = useStylesPagination();
   const theme = useTheme();
-  const { count, page, rowsPerPage, onChangePage } = props;
 
   const handleFirstPageButtonClick = (event) => {
     onChangePage(event, 0);
@@ -95,13 +95,14 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-const useStylesTable = makeStyles({
+const useStylesTable = makeStyles(() => ({
   table: {
     minWidth: 320,
   },
-});
+}));
 
-const DictionaryTable = ({ words, type, updateWordServerState }) => {
+const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
+  const { isTextMeaningShow, isTextExampleShow, isTranscriptionShow } = settings;
   const classes = useStylesTable();
 
   const [page, setPage] = useState(0);
@@ -133,7 +134,10 @@ const DictionaryTable = ({ words, type, updateWordServerState }) => {
       ? words.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       : words
     ).map(
-      ({ optional: { word, transcription, wordTranslate, audio, textMeaning, textExample } }) => {
+      ({
+        difficulty,
+        optional: { word, transcription, wordTranslate, audio, textMeaning, textExample },
+      }) => {
         const audioUrl = `${URLS.ASSETS}${audio}`;
 
         return (
@@ -141,11 +145,14 @@ const DictionaryTable = ({ words, type, updateWordServerState }) => {
             <TableCell>
               <IconMini srcUrl={audioUrl} />
             </TableCell>
+            <TableCell>
+              <WordDifficultyIndicator difficulty={difficulty} />
+            </TableCell>
             <TableCell>{word}</TableCell>
-            <TableCell>{transcription}</TableCell>
+            {isTranscriptionShow && <TableCell>{transcription}</TableCell>}
             <TableCell>{wordTranslate}</TableCell>
-            <TableCell>{textMeaning.replace(/<.?[i,b]>/g, '')}</TableCell>
-            <TableCell>{textExample.replace(/<.?[i,b]>/g, '')}</TableCell>
+            {isTextMeaningShow && <TableCell>{textMeaning.replace(/<.?[i,b]>/g, '')}</TableCell>}
+            {isTextExampleShow && <TableCell>{textExample.replace(/<.?[i,b]>/g, '')}</TableCell>}
             {type === 'deleted' && (
               <TableCell>
                 <Tooltip title="Восстановить слово для изучения" enterDelay={500}>
@@ -184,14 +191,25 @@ const DictionaryTable = ({ words, type, updateWordServerState }) => {
     );
   }
 
-  const columns = [
-    ' ',
-    'Слово',
-    'Транскрипция',
-    'Перевод',
-    'Значение слова',
-    'Пример использования',
-  ];
+  const columns = [' ', 'Уровень', 'Слово'];
+
+  if (isTranscriptionShow) {
+    columns.push('Транскрипция');
+  }
+
+  columns.push('Перевод');
+
+  if (isTextMeaningShow) {
+    columns.push('Значение слова');
+  }
+
+  if (isTextExampleShow) {
+    columns.push('Пример использования');
+  }
+
+  if (type === 'hard' || type === 'deleted') {
+    columns.push(' ');
+  }
 
   return (
     <Paper className={classes.root}>
@@ -239,6 +257,7 @@ DictionaryTable.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
   type: PropTypes.string.isRequired,
   updateWordServerState: PropTypes.func,
+  settings: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default DictionaryTable;

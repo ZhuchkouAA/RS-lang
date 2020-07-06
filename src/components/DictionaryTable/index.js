@@ -1,3 +1,7 @@
+import { connect } from 'react-redux';
+
 import DictionaryTable from './DictionaryTable';
 
-export default DictionaryTable;
+const mapStateToProps = ({ settings }) => ({ settings });
+
+export default connect(mapStateToProps)(DictionaryTable);
