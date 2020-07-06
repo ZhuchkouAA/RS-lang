@@ -1,5 +1,3 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
@@ -10,14 +8,14 @@ import styles from './SavannaAnswers.module.scss';
 const SavannaAnswers = ({ answers, handlerClick }) => {
   return (
     <div className={styles.answer__wrapper}>
-      <Grid container direction="row" justify="space-evenly" alignItems="center">
-        {answers.map((answer) => {
+      <Grid container direction="row" justify="space-between" alignItems="center">
+        {answers.map((answer, index) => {
           return (
             <Button
-              text={answer}
+              text={`${index + 1}. ${answer}`}
               color="primary"
               handlerClick={() => handlerClick(answer)}
-              key={answer}
+              key={`Digit${index + 1}`}
             />
           );
         })}
@@ -27,7 +25,7 @@ const SavannaAnswers = ({ answers, handlerClick }) => {
 };
 
 SavannaAnswers.propTypes = {
-  answers: PropTypes.arrayOf(PropTypes.string),
+  answers: PropTypes.arrayOf(PropTypes.string).isRequired,
   handlerClick: PropTypes.func.isRequired,
 };
 

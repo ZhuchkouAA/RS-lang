@@ -5,3 +5,10 @@
   position: relative;
   width: 100%;
 }
+
+.startBtn {
+  left: -50%;
+  position: absolute;
+  top: 100px;
+  transform: translateY(-50%);
+}

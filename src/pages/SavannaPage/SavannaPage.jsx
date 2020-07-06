@@ -10,17 +10,6 @@ import style from './SavannaPage.module.scss';
 
 const answerArr = [];
 const gameSpeed = 2000;
-const questions = [
-  {
-    word: 'first',
-  },
-  {
-    word: 'second',
-  },
-  {
-    word: 'third',
-  },
-];
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -47,9 +36,11 @@ const SavannaPage = ({ words }) => {
   const [lives, setLives] = useState(5);
   const [showResult, setShowResult] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
-  console.log(words);
+
+  const question = words[currentQuestion];
+
   const endGame = () => {
-    if (currentQuestion + 1 === questions.length) {
+    if (currentQuestion + 1 === words.length) {
       setIsRunning(false);
       setShowResult(true);
     }
@@ -60,16 +51,17 @@ const SavannaPage = ({ words }) => {
   };
 
   const nextQuestion = () => {
-    if (currentQuestion + 1 < questions.length) {
+    if (currentQuestion + 1 < words.length) {
       return currentQuestion + 1;
     }
-    return 5;
+    return null;
   };
 
   useInterval(
     () => {
       if (answerArr.length === currentQuestion) {
-        answerArr.push('false');
+        answerArr.push('нет ответа');
+        setLives(lives - 1);
       }
       setAnswers(answerArr);
       endGame();
@@ -82,14 +74,11 @@ const SavannaPage = ({ words }) => {
     setIsRunning(true);
   };
 
-  const question = questions[currentQuestion];
-
   const answerBtnClick = (answer) => {
-    if (answer !== question.word) {
+    if (answer !== question.isCorrectTranslation) {
       setLives(lives - 1);
     }
     answerArr.push(answer);
-    console.log(answerArr);
     setAnswers(answerArr);
     endGame();
   };
@@ -100,10 +89,10 @@ const SavannaPage = ({ words }) => {
         {answers.map((el, index) => {
           const key = index;
           let res = 'верно';
-          if (el !== questions[key].word) {
+          if (el !== words[index].isCorrectTranslation) {
             res = 'ошибка';
           }
-          return <span key={`${el}+${key}`}>{`${el} ${res}`}</span>;
+          return <span key={`${el}+${key}`}>{`${el} - ${words[index].word} - ${res}`}</span>;
         })}
       </Grid>
     );
@@ -116,14 +105,15 @@ const SavannaPage = ({ words }) => {
           Жизни
         </span>
         <SavannaQuestion word={question.word} />
-        <SavannaAnswers
-          answers={['first', 'second', 'third', '44']}
-          handlerClick={answerBtnClick}
-        />
+        <SavannaAnswers answers={question.wordTranslate} handlerClick={answerBtnClick} />
       </div>
     );
   }
-  return <Button handlerClick={gameStart} text="Начать игру" color="secondary" />;
+  return (
+    <Grid container direction="column" justify="center" alignItems="center">
+      <Button handlerClick={gameStart} text="Начать игру" color="secondary" />
+    </Grid>
+  );
 };
 
 SavannaPage.propTypes = {
