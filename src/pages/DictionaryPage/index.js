@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 
 import serverSynchronization from '../../middlewares/serverSynchronization';
 import finallySendWordAndProgress from '../../middlewares/finallySendWordAndProgress';
-import { updateProgressAfterWordProcessed } from '../../redux/actions/creators/progress-data';
 import {
   withoutDeletedAndHard,
   onlyDeleted,
@@ -25,7 +24,6 @@ const mapStateToProps = ({ progress: { queueRepeatWords }, loader: { isLoading }
 const actionCreators = {
   serverSynchronization,
   finallySendWordAndProgress,
-  updateProgressAfterWordProcessed,
 };
 
 export default connect(mapStateToProps, actionCreators)(DictionaryPage);

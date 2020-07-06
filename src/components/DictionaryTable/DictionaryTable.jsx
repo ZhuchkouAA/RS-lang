@@ -122,7 +122,7 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
   const handlerClickRestoreWord = (word, wordKey) => {
     const onlyWords = words.map(({ optional: { word: text } }) => text);
     const wordIndex = onlyWords.indexOf(word);
-    const wordOption = [wordKey, false];
+    const wordOption = [{ key: wordKey, value: false }];
 
     updateWordServerState(words[wordIndex], wordOption);
   };

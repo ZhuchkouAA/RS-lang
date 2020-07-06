@@ -14,6 +14,7 @@ const useStyles = makeStyles({
   root: {
     flexGrow: 1,
   },
+
   flexContainer: {
     justifyContent: 'center',
   },
@@ -24,7 +25,6 @@ const DictionaryPage = ({
   hardWordsQueue,
   deletedWordsQueue,
   finallySendWordAndProgress,
-  updateProgressAfterWordProcessed,
   serverSynchronization,
 }) => {
   const classes = useStyles();
@@ -42,8 +42,6 @@ const DictionaryPage = ({
 
   const updateWordServerState = async (word, option) => {
     const updatedWord = wordHandler(word, option);
-
-    await updateProgressAfterWordProcessed();
 
     finallySendWordAndProgress(updatedWord);
   };
@@ -102,7 +100,6 @@ DictionaryPage.propTypes = {
   hardWordsQueue: PropTypes.arrayOf(PropTypes.object).isRequired,
   deletedWordsQueue: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverSynchronization: PropTypes.func.isRequired,
-  updateProgressAfterWordProcessed: PropTypes.func.isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
 };
 
