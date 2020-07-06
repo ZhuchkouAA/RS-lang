@@ -7,4 +7,8 @@ export default {
     discription: 'default',
     path: '/main',
   },
+  Саванна: {
+    discription: 'Угадай слово, пока оно падает, как высохшие листья с деревьев в саванне',
+    path: '/savanna',
+  },
 };

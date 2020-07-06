@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Button from '../../components/Button';
+import { Grid } from '@material-ui/core/';
+import PropTypes from 'prop-types';
 
+import Button from '../../components/Button';
 import SavannaQuestion from '../../components/SavannaQuestion';
 import SavannaAnswers from '../../components/SavannaAnswers';
 
@@ -39,13 +41,13 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-const SavannaPage = () => {
+const SavannaPage = ({ words }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [lives, setLives] = useState(5);
   const [showResult, setShowResult] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
-
+  console.log(words);
   const endGame = () => {
     if (currentQuestion + 1 === questions.length) {
       setIsRunning(false);
@@ -87,13 +89,14 @@ const SavannaPage = () => {
       setLives(lives - 1);
     }
     answerArr.push(answer);
+    console.log(answerArr);
     setAnswers(answerArr);
     endGame();
   };
 
   if (showResult) {
     return (
-      <div>
+      <Grid container direction="column" justify="space-around" alignItems="center">
         {answers.map((el, index) => {
           const key = index;
           let res = 'верно';
@@ -102,7 +105,7 @@ const SavannaPage = () => {
           }
           return <span key={`${el}+${key}`}>{`${el} ${res}`}</span>;
         })}
-      </div>
+      </Grid>
     );
   }
   if (isRunning) {
@@ -121,6 +124,10 @@ const SavannaPage = () => {
     );
   }
   return <Button handlerClick={gameStart} text="Начать игру" color="secondary" />;
+};
+
+SavannaPage.propTypes = {
+  words: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default SavannaPage;
