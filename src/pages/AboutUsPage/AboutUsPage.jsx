@@ -10,7 +10,7 @@ import informationStudentArray from '../../constants/About-us-information.json';
 const AboutUsPage = () => {
   return (
     <>
-      <Typography variant="h4" component="h2" gutterBottom align="center">
+      <Typography variant="h5" component="h2" gutterBottom align="center">
         Над приложением работали
       </Typography>
       <Grid className={style.Students__container} container justify="center">

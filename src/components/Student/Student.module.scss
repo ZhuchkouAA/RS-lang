@@ -2,14 +2,14 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin: 30px;
+  margin: 15px;
   width: min-content;
 
   &__wrapper-mentor {
     display: flex;
     justify-content: center;
-    margin: 50px auto;
-    width: 100%;  
+    margin: 15px auto;
+    width: 100%;
   }
 
   &__wrapper-developer {
@@ -22,13 +22,14 @@
 
   &__img-student {
     background-size: contain;
-    height: 300px;
+    height: 200px;
     margin-bottom: 15px;
     object-fit: contain;
-    width: 300px;
+    width: 200px;
   }
 
   &__name-student {
+    font-size: 16px;
     text-align: center;
   }
 
@@ -45,20 +46,23 @@
   &__header-developer {
     align-items: center;
     display: flex;
-    height: 40px;
     justify-content: center;
     position: relative;
   }
-  
+
+  &__header-developer {
+    justify-content: center;
+  }
+
   &__header-mentor::before,
   &__header-team-leader::before,
   &__header-developer::before {
     content: '';
-    height: 30px;
-    left: 5px;
+    height: 20px;
+    left: 2px;
     position: absolute;
-    top: calc(50% - 15px);
-  } 
+    top: calc(50% - 10px);
+  }
 
   &__header-mentor::before {
     background: url('../../img/mentor.png');
@@ -66,7 +70,8 @@
     background-repeat: no-repeat;
     background-size: contain;
     content: '';
-    width: 60px;
+    left: 6px;
+    width: 40px;
   }
 
   &__header-team-leader::before {
@@ -86,15 +91,23 @@
     content: '';
     width: 30px;
   }
-
-
 }
 
 @media (max-width: 500px) {
   .CardStudent {
+    &__name-student {
+      height: 64px;
+    }
+
+    &__header-mentor::before,
+    &__header-team-leader::before,
+    &__header-developer::before {
+      display: none;
+    }
+
     &__img-student {
-      height: 200px;
-      width: 200px;
+      height: 150px;
+      width: 150px;
     }
 
     &__img-git {

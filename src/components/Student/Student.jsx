@@ -24,7 +24,7 @@ const Student = ({ name, linkGit, imgSrc, headerTextCard, type }) => {
         <CardActionArea>
           <Typography
             className={typeHeaderCard}
-            variant="h5"
+            variant="h6"
             component="h2"
             gutterBottom
             align="center"
@@ -35,7 +35,7 @@ const Student = ({ name, linkGit, imgSrc, headerTextCard, type }) => {
           <Typography
             className={style['CardStudent__name-student']}
             gutterBottom
-            variant="h5"
+            variant="h6"
             component="h2"
           >
             {name}
@@ -50,8 +50,8 @@ const Student = ({ name, linkGit, imgSrc, headerTextCard, type }) => {
           >
             <img
               className={style['CardStudent__img-git']}
-              width="60"
-              height="60"
+              width="40"
+              height="40"
               src={gitImg}
               alt="git"
             />
