@@ -8,6 +8,7 @@ const getWords = ({ gameModeData }) => {
   return gameModeData.words;
 };
 <<<<<<< HEAD
+<<<<<<< HEAD
 const wordCounter = 20;
 const savannaWordsQueue = createSelector(getRandomWords, getWords, (randowWords, newWords) => {
   const slicedNewWords = newWords.slice(0, wordCounter);
@@ -27,24 +28,28 @@ const savannaWordsQueue = createSelector(getRandomWords, getWords, (randowWords,
     return word;
 =======
 
+=======
+const wordCounter = 20;
+>>>>>>> RSL-34: fix word queue, add simple res tab
 const savannaWordsQueue = createSelector(getRandomWords, getWords, (randowWords, newWords) => {
-  const slicedNewWords = newWords.slice(0, 20);
+  const slicedNewWords = newWords.slice(0, wordCounter);
   return slicedNewWords.map((newWord, index) => {
     const word = {
       word: newWord.optional.word,
-      wordTranslate: newWord.optional.wordTranslate,
+      wordTranslate: [
+        newWord.optional.wordTranslate,
+        randowWords[index + wordCounter].wordTranslate,
+        randowWords[index + wordCounter * 2].wordTranslate,
+        randowWords[index + wordCounter * 3].wordTranslate,
+      ],
       id: newWord.optional.wordId,
-      isCorrectTranslation: true,
+      isCorrectTranslation: newWord.optional.wordTranslate,
     };
-    if (Math.random() > 0.5) {
-      return word;
-    }
-    return {
-      ...word,
-      wordTranslate: randowWords[index].wordTranslate,
-      isCorrectTranslation: false,
-    };
+<<<<<<< HEAD
 >>>>>>> RSL-34: add word queue
+=======
+    return word;
+>>>>>>> RSL-34: fix word queue, add simple res tab
   });
 });
 
