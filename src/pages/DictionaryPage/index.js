@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import serverSynchronization from '../../middlewares/serverSynchronization';
 import finallySendWordAndProgress from '../../middlewares/finallySendWordAndProgress';
+import { setPrevPageAsDictionary } from '../../redux/actions/creators/navBar-creator';
 import {
   withoutDeletedAndHard,
   onlyDeleted,
@@ -25,6 +26,7 @@ const mapStateToProps = ({ progress: { queueRepeatWords }, loader: { isLoading }
 const actionCreators = {
   serverSynchronization,
   finallySendWordAndProgress,
+  setPrevPageAsDictionary,
 };
 
 export default connect(mapStateToProps, actionCreators)(DictionaryPage);

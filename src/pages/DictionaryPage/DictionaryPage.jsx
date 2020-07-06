@@ -27,6 +27,7 @@ const DictionaryPage = ({
   deletedWordsQueue,
   finallySendWordAndProgress,
   serverSynchronization,
+  setPrevPageAsDictionary,
 }) => {
   const history = useHistory();
   const classes = useStyles();
@@ -49,7 +50,8 @@ const DictionaryPage = ({
   };
 
   const handlerClickTrainHard = () => {
-    // console.log(`TODO train hard words`);
+    setPrevPageAsDictionary();
+
     history.push(PATH.WORD_CARD);
   };
 
@@ -104,6 +106,7 @@ DictionaryPage.propTypes = {
   deletedWordsQueue: PropTypes.arrayOf(PropTypes.object).isRequired,
   serverSynchronization: PropTypes.func.isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
+  setPrevPageAsDictionary: PropTypes.func.isRequired,
 };
 
 export default DictionaryPage;
