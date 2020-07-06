@@ -27,6 +27,7 @@ export const getNewLeftRepeatWordsToday = () => {
 };
 
 export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWordsToday) => {
+  if (leftNewWordsToday === 0) return [];
   const WORDS_IN_GROUP = 600;
   const groupOfFirstWord = Math.floor(differentCardsShowedAllTime / WORDS_IN_GROUP);
   const groupOfLastWord = Math.floor(
@@ -38,13 +39,13 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
   let wordsArray = [];
 
   // забираем слова из первой группы
-  if (firstWordNumber < leftNewWordsToday) {
+  if (firstWordNumber <= leftNewWordsToday) {
     const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 0, 100, WORDS_IN_GROUP));
     const words = await rawWords.json();
     const newWords = words.slice(firstWordNumber, firstWordNumber + leftNewWordsToday);
     wordsArray = [...wordsArray, ...newWords];
   } else {
-    const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 0, 100, leftNewWordsToday));
+    const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 1, 100, leftNewWordsToday));
     const newWords = await rawWords.json();
     wordsArray = [...wordsArray, ...newWords];
   }
@@ -67,11 +68,13 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
       wordId: id,
       optional: {
         repeatDate: 0,
+        lastRepeatWordDate: 0,
         isStudying: true,
         isHard: false,
         isDeleted: false,
         isMethodPost: true,
         isHighPriority: false,
+        countRepeatsWordAllTime: 0,
         ...other,
       },
     };

@@ -10,7 +10,6 @@ import {
   getNewLeftRepeatWordsToday,
   getNewQueueNewWords,
   getNewQueueRepeatWords,
-  // getQueueRandom300,
   array15FromString,
   newArray15FromString,
 } from '../../helpers/getProgress-utils';
@@ -101,7 +100,6 @@ export const getProgress = () => async (dispatch) => {
       );
       const newQueueRepeatWords = await getNewQueueRepeatWords();
       const newLeftRepeatWordsToday = getNewLeftRepeatWordsToday();
-      // const queueRandom300 = await getQueueRandom300();
       dispatch(
         rewriteProgress({
           differentCardsShowedAllTime,
@@ -111,7 +109,6 @@ export const getProgress = () => async (dispatch) => {
           leftNewWordsToday: newLeftNewWordsToday,
           queueNewWords: newQueueNewWords,
           queueRepeatWords: newQueueRepeatWords,
-          // queueRandom300,
           leftRepeatWordsToday: newLeftRepeatWordsToday,
           cardsShowedToday: 0,
           rightTodayAnswers: 0,
@@ -128,7 +125,6 @@ export const getProgress = () => async (dispatch) => {
         leftNewWordsToday
       );
       const newQueueRepeatWords = await getNewQueueRepeatWords();
-      // const queueRandom300 = await getQueueRandom300();
       dispatch(
         rewriteProgress({
           differentCardsShowedAllTime,
@@ -138,7 +134,6 @@ export const getProgress = () => async (dispatch) => {
           leftNewWordsToday,
           queueNewWords: newQueueNewWords,
           queueRepeatWords: newQueueRepeatWords,
-          // queueRandom300,
           leftRepeatWordsToday,
           cardsShowedToday,
           rightTodayAnswers,

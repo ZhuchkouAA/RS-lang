@@ -7,26 +7,56 @@ import {
   QUEUE_NEW_WORDS,
   QUEUE_REPEAT_WORDS,
   REWRITE_PROGRESS,
-  DELETE_WORD_FROM_LEARNING,
-  MARK_WORD_AS_HARD,
-  SET_NEW_WORD_DIFFICULTY,
-  UPDATE_PROGRESS_AFTER_WORD_PROCESSED,
+  CARDS_SHOW_ALL_TIME_INCREASE,
+  RIGHT_ANSWERS_ALLTIME_INCREASE,
+  LONGEST_TODAY_SERIES_INCREASE,
+  LONGEST_TODAY_SERIES_RESET,
+  LEANED_WORDS_STATISTIC_INCREASE,
+  CARDS_SHOWED_STATISTIC_INCREASE,
+  NEW_CARDS_SHOWED_STATISTIC_INCREASE,
+  RIGHT_ANSWERS_STATISTIC_INCREASE,
+  SET_LEFT_NEW_WORDS_TODAY,
+  SET_LEFT_REPEAT_WORDS_TODAY,
 } from '../types/action-types';
 
-export const updateProgressAfterWordProcessed = () => ({
-  type: UPDATE_PROGRESS_AFTER_WORD_PROCESSED,
+export const setLeftNewWordsToday = (value) => ({
+  type: SET_LEFT_NEW_WORDS_TODAY,
+  payload: value,
+});
+export const setLeftRepeatWordsToday = (value) => ({
+  type: SET_LEFT_REPEAT_WORDS_TODAY,
+  payload: value,
+});
+export const cardsShowedAllTimeIncrease = () => ({
+  type: CARDS_SHOW_ALL_TIME_INCREASE,
 });
 
-export const deleteWordFromLearning = () => ({
-  type: DELETE_WORD_FROM_LEARNING,
+export const rightAnswersAllTimeIncrease = () => ({
+  type: RIGHT_ANSWERS_ALLTIME_INCREASE,
 });
 
-export const markWordAsHard = () => ({
-  type: MARK_WORD_AS_HARD,
+export const longestTodaySeriesIncrease = () => ({
+  type: LONGEST_TODAY_SERIES_INCREASE,
 });
 
-export const setNewWordDifficulty = () => ({
-  type: SET_NEW_WORD_DIFFICULTY,
+export const longestTodaySeriesReset = () => ({
+  type: LONGEST_TODAY_SERIES_RESET,
+});
+
+export const learnedWordsStatisticIncrease = () => ({
+  type: LEANED_WORDS_STATISTIC_INCREASE,
+});
+
+export const cardsShowedStatisticIncrease = () => ({
+  type: CARDS_SHOWED_STATISTIC_INCREASE,
+});
+
+export const newCardsShowedStatisticIncrease = () => ({
+  type: NEW_CARDS_SHOWED_STATISTIC_INCREASE,
+});
+
+export const rightAnswersStatisticIcrease = () => ({
+  type: RIGHT_ANSWERS_STATISTIC_INCREASE,
 });
 
 export const differentCardPlusOne = () => ({
