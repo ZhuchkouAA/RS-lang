@@ -28,7 +28,7 @@ const WordPage = ({
   reduceLeftRepeatWordsToday,
   isLoading,
   wordsQueue,
-  isDemoQueue,
+  resetPrevPage,
 }) => {
   const history = useHistory();
 
@@ -124,7 +124,7 @@ const WordPage = ({
     return <div />;
   }
 
-  if (!isDemoQueue && wordsQueue.length === 0) {
+  if (!wordsQueue.isDemoQueue && wordsQueue.length === 0) {
     return (
       <Dialog
         isOpen
@@ -144,7 +144,8 @@ const WordPage = ({
       onCheckEnteredWord={onCheckEnteredWord}
       onVoteButton={onVoteButton}
       queue={wordsQueue}
-      isDemoQueue={isDemoQueue}
+      isDemoQueue={wordsQueue.isDemoQueue}
+      resetPrevPage={resetPrevPage}
     />
   );
 };
@@ -165,8 +166,8 @@ WordPage.propTypes = {
   reduceLeftNewWordsToday: PropTypes.func.isRequired,
   reduceLeftRepeatWordsToday: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  isDemoQueue: PropTypes.bool.isRequired,
   wordsQueue: PropTypes.arrayOf(PropTypes.object).isRequired,
+  resetPrevPage: PropTypes.func.isRequired,
 };
 
 export default WordPage;

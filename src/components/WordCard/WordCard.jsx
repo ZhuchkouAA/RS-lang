@@ -51,6 +51,7 @@ const WordCard = ({
   onVoteButton,
   queue,
   isDemoQueue,
+  resetPrevPage,
 }) => {
   const {
     isAnswerBtnShow,
@@ -167,6 +168,7 @@ const WordCard = ({
   };
 
   const redirectToMainPage = () => {
+    resetPrevPage();
     history.push(PATH.MAIN);
   };
 
@@ -511,5 +513,6 @@ WordCard.propTypes = {
   onVoteButton: PropTypes.func.isRequired,
   queue: PropTypes.arrayOf(PropTypes.object).isRequired,
   isDemoQueue: PropTypes.bool.isRequired,
+  resetPrevPage: PropTypes.func.isRequired,
 };
 export default WordCard;

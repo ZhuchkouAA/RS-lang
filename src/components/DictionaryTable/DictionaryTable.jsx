@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 import {
   Table,
@@ -15,15 +15,12 @@ import {
   Tooltip,
 } from '@material-ui/core';
 
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import DeleteIcon from '@material-ui/icons/Delete';
 import RestorePageIcon from '@material-ui/icons/RestorePage';
 
 import IconMini from '../IconMini';
+import DeleteIconButton from '../DeleteIconButton';
 import WordDifficultyIndicator from '../WordDifficultyIndicator';
+import TablePaginationActions from './TablePaginationActions';
 
 import { getHintForCountDaysBeforeNextWordRepeat } from '../../helpers/repeat-logic-utils';
 import { TABLE_PAGE_SIZE, DICTIONARY_PAGINATION } from '../../constants/dictionary';
@@ -31,70 +28,6 @@ import WORD_HANDLER_KEYS from '../../constants/keys';
 import URLS from '../../constants/APIUrls';
 
 import styles from './DictionaryTable.module.scss';
-
-const useStylesPagination = makeStyles((theme) => ({
-  root: {
-    flexShrink: 0,
-    marginLeft: theme.spacing(2.5),
-  },
-}));
-
-function TablePaginationActions({ count, page, rowsPerPage, onChangePage }) {
-  const classes = useStylesPagination();
-  const theme = useTheme();
-
-  const handleFirstPageButtonClick = (event) => {
-    onChangePage(event, 0);
-  };
-
-  const handleBackButtonClick = (event) => {
-    onChangePage(event, page - 1);
-  };
-
-  const handleNextButtonClick = (event) => {
-    onChangePage(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = (event) => {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
-  return (
-    <div className={classes.root}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-      </IconButton>
-      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
-        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
-      >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-      </IconButton>
-    </div>
-  );
-}
-
-TablePaginationActions.propTypes = {
-  count: PropTypes.number.isRequired,
-  onChangePage: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-};
 
 const useStylesTable = makeStyles(() => ({
   table: {
@@ -134,77 +67,68 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
     tableCells = (rowsPerPage > 0
       ? words.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       : words
-    ).map(
-      ({
-        difficulty,
-        optional: {
-          word,
-          transcription,
-          wordTranslate,
-          audio,
-          textMeaning,
-          textExample,
-          lastRepeatWordDate,
-          repeatDate,
-        },
-      }) => {
-        const audioUrl = `${URLS.ASSETS}${audio}`;
-        const lastRepeatDate = lastRepeatWordDate
-          ? new Date(lastRepeatWordDate).toLocaleDateString('ru')
-          : '';
-        const nextRepeatDate = repeatDate ? new Date(repeatDate).toLocaleDateString('ru') : '';
-        const leftDaysHint = getHintForCountDaysBeforeNextWordRepeat(repeatDate);
+    ).map(({ difficulty, optional }) => {
+      const audioUrl = `${URLS.ASSETS}${optional.audio}`;
+      const lastRepeatDate = optional.lastRepeatWordDate
+        ? new Date(optional.lastRepeatWordDate).toLocaleDateString('ru')
+        : '';
+      const nextRepeatDate = optional.repeatDate
+        ? new Date(optional.repeatDate).toLocaleDateString('ru')
+        : '';
+      const leftDaysHint = getHintForCountDaysBeforeNextWordRepeat(optional.repeatDate);
 
-        return (
-          <TableRow hover key={word}>
-            <TableCell>
-              <IconMini srcUrl={audioUrl} />
-            </TableCell>
-            <TableCell>
-              <WordDifficultyIndicator difficulty={difficulty} />
-            </TableCell>
-            <TableCell>{word}</TableCell>
-            {isTranscriptionShow && <TableCell>{transcription}</TableCell>}
-            <TableCell>{wordTranslate}</TableCell>
+      return (
+        <TableRow hover key={optional.word}>
+          <TableCell>
+            <IconMini srcUrl={audioUrl} />
+          </TableCell>
+          <TableCell>
+            <WordDifficultyIndicator difficulty={difficulty} />
+          </TableCell>
+          <TableCell>{optional.word}</TableCell>
+          {isTranscriptionShow && <TableCell>{optional.transcription}</TableCell>}
+          <TableCell>{optional.wordTranslate}</TableCell>
 
-            {type !== 'deleted' && <TableCell>{lastRepeatDate}</TableCell>}
-            {type !== 'deleted' && (
-              <TableCell>
-                <Tooltip title={leftDaysHint} enterDelay={500}>
-                  <span>{nextRepeatDate}</span>
-                </Tooltip>
-              </TableCell>
-            )}
-            {isTextMeaningShow && <TableCell>{textMeaning.replace(/<.?[i,b]>/g, '')}</TableCell>}
-            {isTextExampleShow && <TableCell>{textExample.replace(/<.?[i,b]>/g, '')}</TableCell>}
-            {type === 'deleted' && (
-              <TableCell>
-                <Tooltip title="Восстановить слово для изучения" enterDelay={500}>
-                  <IconButton
-                    aria-label="restore"
-                    onClick={() => handlerClickRestoreWord(word, WORD_HANDLER_KEYS.isDeleted)}
-                  >
-                    <RestorePageIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </TableCell>
-            )}
-            {type === 'hard' && (
-              <TableCell>
-                <Tooltip title="Удалить из сложных" enterDelay={500}>
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => handlerClickRestoreWord(word, WORD_HANDLER_KEYS.isHard)}
-                  >
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </TableCell>
-            )}
-          </TableRow>
-        );
-      }
-    );
+          {type !== 'deleted' && <TableCell>{lastRepeatDate}</TableCell>}
+          {type !== 'deleted' && (
+            <TableCell>
+              <Tooltip title={leftDaysHint} enterDelay={500}>
+                <span>{nextRepeatDate}</span>
+              </Tooltip>
+            </TableCell>
+          )}
+          {isTextMeaningShow && (
+            <TableCell>{optional.textMeaning.replace(/<.?[i,b]>/g, '')}</TableCell>
+          )}
+          {isTextExampleShow && (
+            <TableCell>{optional.textExample.replace(/<.?[i,b]>/g, '')}</TableCell>
+          )}
+          {type === 'deleted' && (
+            <TableCell>
+              <Tooltip title="Восстановить слово для изучения" enterDelay={500}>
+                <IconButton
+                  aria-label="restore"
+                  onClick={() =>
+                    handlerClickRestoreWord(optional.word, WORD_HANDLER_KEYS.isDeleted)
+                  }
+                >
+                  <RestorePageIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </TableCell>
+          )}
+          {type === 'hard' && (
+            <TableCell>
+              <DeleteIconButton
+                handlerClick={handlerClickRestoreWord}
+                word={optional.word}
+                wordKey={WORD_HANDLER_KEYS.isHard}
+              />
+            </TableCell>
+          )}
+        </TableRow>
+      );
+    });
   } else {
     tableCells = (
       <TableRow>
@@ -224,8 +148,7 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
   columns.push('Перевод');
 
   if (type !== 'deleted') {
-    columns.push('Дата последнего повторения');
-    columns.push('Дата следующего повторения');
+    columns.push('Дата последнего повторения', 'Дата следующего повторения');
   }
 
   if (isTextMeaningShow) {
