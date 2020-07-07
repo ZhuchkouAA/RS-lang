@@ -1,26 +1,23 @@
-const getSpeechRecognition = (successCallback, failCallback) => {
+const getSpeechRecognition = (successCallback) => {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
   const recognition = new SpeechRecognition();
 
   recognition.continuous = false;
   recognition.lang = 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
+  recognition.interimResults = true;
 
-  recognition.onerror = () => {
-    recognition.stop();
-    failCallback('error.speechrec');
-  };
+  // const recoStart = () => {
+  //   recognition.start();
+  // };
 
   recognition.onresult = (event) => {
     const result = event.results[event.results.length - 1][0].transcript;
     successCallback(result);
-    recognition.stop();
   };
 
-  recognition.onspeechend = () => {
-    recognition.stop();
+  recognition.onend = () => {
+    recognition.start();
   };
 
   return recognition;
