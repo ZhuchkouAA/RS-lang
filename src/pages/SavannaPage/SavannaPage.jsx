@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Grid } from '@material-ui/core/';
 import PropTypes from 'prop-types';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 import Button from '../../components/Button';
 import SavannaQuestion from '../../components/SavannaQuestion';
@@ -8,8 +10,8 @@ import SavannaAnswers from '../../components/SavannaAnswers';
 
 import style from './SavannaPage.module.scss';
 
-const answerArr = [];
-const gameSpeed = 2000;
+const GAME_SPEED = 5000;
+const LIVES = [1, 2, 3, 4, 5];
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -33,11 +35,13 @@ function useInterval(callback, delay) {
 const SavannaPage = ({ words }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
-  const [lives, setLives] = useState(5);
+  const [lives, setLives] = useState(LIVES.length);
   const [showResult, setShowResult] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
+  const [animation, setAnimation] = useState(true);
 
   const question = words[currentQuestion];
+  const answerArr = [];
 
   const endGame = () => {
     if (currentQuestion + 1 === words.length) {
@@ -59,6 +63,7 @@ const SavannaPage = ({ words }) => {
 
   useInterval(
     () => {
+      setAnimation(true);
       if (answerArr.length === currentQuestion) {
         answerArr.push('нет ответа');
         setLives(lives - 1);
@@ -67,7 +72,7 @@ const SavannaPage = ({ words }) => {
       endGame();
       setCurrentQuestion(nextQuestion);
     },
-    isRunning ? gameSpeed : null
+    isRunning ? GAME_SPEED : null
   );
 
   const gameStart = () => {
@@ -78,6 +83,7 @@ const SavannaPage = ({ words }) => {
     if (answer !== question.isCorrectTranslation) {
       setLives(lives - 1);
     }
+    setAnimation(false);
     answerArr.push(answer);
     setAnswers(answerArr);
     endGame();
@@ -101,10 +107,15 @@ const SavannaPage = ({ words }) => {
     return (
       <div className={style.Savanna}>
         <span>
-          {lives}
-          Жизни
+          {LIVES.map((element, index) => {
+            return index < lives ? (
+              <FavoriteIcon key={`livesIcon${element}`} color="secondary" />
+            ) : (
+              <FavoriteBorderIcon key={`livesIcon${element}`} color="secondary" />
+            );
+          })}
         </span>
-        <SavannaQuestion word={question.word} />
+        <SavannaQuestion word={question.word} animation={animation} />
         <SavannaAnswers answers={question.wordTranslate} handlerClick={answerBtnClick} />
       </div>
     );

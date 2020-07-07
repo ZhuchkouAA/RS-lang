@@ -6,12 +6,19 @@
 }
   
 .question__wrapper {
-  animation: moveBot 5.1s linear infinite;
   display: flex;
   justify-content: center;
   position: relative;
 }
   
+.question__wrapper_animated {
+  animation: moveBot 5s linear infinite;
+}
+
+.question__wrapper_animated1 {
+  animation: moveBotFaster 1s linear;
+}
+
 @keyframes moveBot {
   0% {
     opacity: 1;
@@ -24,7 +31,19 @@
   }
 
   100% {
-    opacity: 0;
+    opacity: 0.3;
     top: 50%;
+  }
+}
+
+@keyframes moveBotFaster {
+  0% {
+    opacity: 0.5;
+    top: 50%;
+  }
+
+  100% {
+    opacity: 0;
+    top: 100%;
   }
 }

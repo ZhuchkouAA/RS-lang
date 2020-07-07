@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
-import Button from '../Button';
+import ButtonMU from '@material-ui/core/Button';
 
 import styles from './SavannaAnswers.module.scss';
 
@@ -11,12 +11,14 @@ const SavannaAnswers = ({ answers, handlerClick }) => {
       <Grid container direction="row" justify="space-between" alignItems="center">
         {answers.map((answer, index) => {
           return (
-            <Button
-              text={`${index + 1}. ${answer}`}
+            <ButtonMU
+              onClick={() => handlerClick(answer)}
+              variant="outlined"
               color="primary"
-              handlerClick={() => handlerClick(answer)}
               key={`Digit${index + 1}`}
-            />
+            >
+              {`${index + 1}. ${answer}`}
+            </ButtonMU>
           );
         })}
       </Grid>
