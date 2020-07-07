@@ -55,10 +55,14 @@ CustomizedDialogs.defaultProps = {
   callBack: () => {},
 };
 
+CustomizedDialogs.defaultProps = {
+  title: 'Уведомление',
+};
+
 CustomizedDialogs.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   message: PropTypes.string.isRequired,
   callBack: PropTypes.func,
 };

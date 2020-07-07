@@ -20,18 +20,35 @@ const iconStyles = makeStyles({
   },
 });
 
-const IconMini = ({ handlerClick }) => {
+const IconMini = ({ handlerClick, srcUrl }) => {
   const fab = fabStyles();
   const icon = iconStyles();
+
+  const handlerClickPlay = () => {
+    if (srcUrl) {
+      const player = new Audio();
+      player.src = srcUrl;
+      player.autoplay = true;
+    }
+  };
+
+  const handler = srcUrl ? handlerClickPlay : handlerClick;
+
   return (
-    <Fab onClick={handlerClick} className={fab.root} type="button" color="primary" size="small">
+    <Fab onClick={handler} className={fab.root} type="button" color="primary" size="small">
       <PlayCircleOutlineRoundedIcon className={icon.root} />
     </Fab>
   );
 };
 
+IconMini.defaultProps = {
+  handlerClick: () => {},
+  srcUrl: '',
+};
+
 IconMini.propTypes = {
-  handlerClick: PropTypes.func.isRequired,
+  handlerClick: PropTypes.func,
+  srcUrl: PropTypes.string,
 };
 
 export default IconMini;

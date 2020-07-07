@@ -35,7 +35,7 @@ import PATH from '../../constants/path';
 import URLS from '../../constants/APIUrls';
 import WORD_HANDLER_KEYS from '../../constants/keys';
 import { DIFFICULTY_REPEAT_VALUE } from '../../constants/variables-learning';
-import { WORDS_END } from '../../constants/modal-messages';
+import { WORDS_END, HARD_WORDS_END } from '../../constants/modal-messages';
 import wordHandler from '../../helpers/games-utils/wordHandler';
 import { getTrackList, playTrackList } from '../../helpers/playsound-utils';
 import { getUserRate } from '../../helpers/text-utils';
@@ -45,11 +45,13 @@ import styles from './WordCard.module.scss';
 
 const WordCard = ({
   settings,
-  queueOrdinary,
   onDeleteButton,
   onHardButton,
   onCheckEnteredWord,
   onVoteButton,
+  queue,
+  isDemoQueue,
+  resetPrevPage,
 }) => {
   const {
     isAnswerBtnShow,
@@ -74,7 +76,7 @@ const WordCard = ({
     isInputDisable: false,
     isTranslateShow: false,
   });
-  const [wordsQueue, setWordsQueue] = useState(queueOrdinary);
+  const [wordsQueue, setWordsQueue] = useState(queue);
   const [isTranslateShow, setTranslateShow] = useState(isWordTranslateShow);
   const [isMute, setIsMute] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
@@ -91,20 +93,6 @@ const WordCard = ({
 
   const nextBtn = useRef(null);
 
-  const defaultWord = {
-    word: 'acre',
-    wordTranslate: 'акр',
-    transcription: '[éikər]',
-    textMeaning: 'An <i>acre</i> is a unit for measuring area.',
-    textMeaningTranslate: 'Акр - это единица измерения площади',
-    textExample: 'They lived on a 150-<b>acre</b> farm.',
-    textExampleTranslate: 'Они жили на 150-акровой ферме',
-    image: 'files/01_1201.jpg',
-    audio: 'files/01_1201.mp3',
-    audioMeaning: 'files/01_1201_meaning.mp3',
-    audioExample: 'files/01_1201_example.mp3',
-  };
-
   const {
     word,
     wordTranslate,
@@ -117,7 +105,7 @@ const WordCard = ({
     audio,
     audioMeaning,
     audioExample,
-  } = queueOrdinary[0] ? wordsQueue[0].optional : { defaultWord };
+  } = wordsQueue[0].optional;
 
   const imageUrl = `${URLS.ASSETS}${image}`;
   const audioUrl = `${URLS.ASSETS}${audio}`;
@@ -180,6 +168,7 @@ const WordCard = ({
   };
 
   const redirectToMainPage = () => {
+    resetPrevPage();
     history.push(PATH.MAIN);
   };
 
@@ -306,11 +295,12 @@ const WordCard = ({
   };
 
   const handlerClickHardWord = () => {
-    wordsQueue[0] = wordHandler(wordsQueue[0], [
+    const woradMarkedAsHard = wordHandler(wordsQueue[0], [
       { key: WORD_HANDLER_KEYS.isHard, value: true },
       { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 1 },
     ]);
-    onHardButton(wordsQueue[0]);
+
+    onHardButton(woradMarkedAsHard);
   };
 
   useEffect(() => {
@@ -340,13 +330,13 @@ const WordCard = ({
   const isVoteButtonsPanelShow =
     controlsState.isVotePanelShow && !isAnswerShowed && isFeedBackButtonsShow;
 
-  if (!queueOrdinary[0]) {
+  if (!wordsQueue[0]) {
     return (
       <Dialog
         isOpen
         type="info"
         tittle={WORDS_END.tittle}
-        message={WORDS_END.message}
+        message={isDemoQueue ? HARD_WORDS_END.message : WORDS_END.message}
         callBack={redirectToMainPage}
       />
     );
@@ -507,7 +497,7 @@ const WordCard = ({
           isOpen={isModalOpen}
           type="info"
           tittle={WORDS_END.tittle}
-          message={WORDS_END.message}
+          message={isDemoQueue ? HARD_WORDS_END.message : WORDS_END.message}
           callBack={redirectToMainPage}
         />
       )}
@@ -517,10 +507,12 @@ const WordCard = ({
 
 WordCard.propTypes = {
   settings: PropTypes.objectOf(PropTypes.any).isRequired,
-  queueOrdinary: PropTypes.arrayOf(PropTypes.object).isRequired,
   onDeleteButton: PropTypes.func.isRequired,
   onHardButton: PropTypes.func.isRequired,
   onCheckEnteredWord: PropTypes.func.isRequired,
   onVoteButton: PropTypes.func.isRequired,
+  queue: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isDemoQueue: PropTypes.bool.isRequired,
+  resetPrevPage: PropTypes.func.isRequired,
 };
 export default WordCard;

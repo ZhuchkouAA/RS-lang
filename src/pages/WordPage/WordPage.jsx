@@ -1,8 +1,13 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import WORD_HANDLER_KEYS from '../../constants/keys';
+import PATH from '../../constants/path';
+import { WORDS_END } from '../../constants/modal-messages';
 
 import WordCard from '../../components/WordCard';
+import Dialog from '../../components/Dialog';
 
 import wordHandler from '../../helpers/games-utils/wordHandler';
 
@@ -22,7 +27,11 @@ const WordPage = ({
   reduceLeftNewWordsToday,
   reduceLeftRepeatWordsToday,
   isLoading,
+  wordsQueue,
+  resetPrevPage,
 }) => {
+  const history = useHistory();
+
   useEffect(() => {
     serverSynchronization();
   }, []);
@@ -107,8 +116,24 @@ const WordPage = ({
     }
   };
 
+  const redirectToMainPage = () => {
+    history.push(PATH.MAIN);
+  };
+
   if (isLoading) {
     return <div />;
+  }
+
+  if (!wordsQueue.isDemoQueue && wordsQueue.length === 0) {
+    return (
+      <Dialog
+        isOpen
+        type="info"
+        tittle={WORDS_END.tittle}
+        message={WORDS_END.message}
+        callBack={redirectToMainPage}
+      />
+    );
   }
 
   return (
@@ -118,6 +143,9 @@ const WordPage = ({
       onHardButton={onHardButton}
       onCheckEnteredWord={onCheckEnteredWord}
       onVoteButton={onVoteButton}
+      queue={wordsQueue}
+      isDemoQueue={wordsQueue.isDemoQueue}
+      resetPrevPage={resetPrevPage}
     />
   );
 };
@@ -138,6 +166,8 @@ WordPage.propTypes = {
   reduceLeftNewWordsToday: PropTypes.func.isRequired,
   reduceLeftRepeatWordsToday: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  wordsQueue: PropTypes.arrayOf(PropTypes.object).isRequired,
+  resetPrevPage: PropTypes.func.isRequired,
 };
 
 export default WordPage;

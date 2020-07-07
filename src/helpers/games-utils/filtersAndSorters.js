@@ -4,7 +4,13 @@ export const onlyLearned = (words) => words.filter((word) => !word.optional.isSt
 
 export const onlyHard = (words) => words.filter((word) => word.optional.isHard);
 
+export const onlyNotHard = (words) => words.filter((word) => !word.optional.isHard);
+
+export const onlyDeleted = (words) => words.filter((word) => word.optional.isDeleted);
+
 export const onlyNotDeleted = (words) => words.filter((word) => !word.optional.isDeleted);
+
+export const withoutDeletedAndHard = (words) => onlyNotHard(onlyNotDeleted(words));
 
 export const dateFilter = (words) => words.filter((word) => Date.now() > word.optional.repeatDate);
 
@@ -28,3 +34,17 @@ export const shuffle = (array) => {
 };
 
 export const onlyLearnedWords = (words) => words.filter((word) => Number(word.difficulty) === 0);
+
+export const queueSortByNextRepeatDateAsc = (queue) => {
+  const comparer = (a, b) => {
+    if (a.optional.repeatDate < b.optional.repeatDate) {
+      return -1;
+    }
+    if (a.optional.repeatDate > b.optional.repeatDate) {
+      return 1;
+    }
+    return 0;
+  };
+
+  return queue.sort(comparer);
+};

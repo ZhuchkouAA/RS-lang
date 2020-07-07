@@ -1,6 +1,8 @@
 import store from '../../redux/redux-store';
-import { getNewLeftRepeatWordsToday } from '../getProgress-utils';
 
+import { getNewLeftRepeatWordsToday } from '../getProgress-utils';
+import { DEFAULT_WORD } from '../../constants/variables-learning';
+import { resetPrevPage } from '../../redux/actions/creators/navBar-creator';
 import {
   highPriorityFirstSorter,
   shuffle,
@@ -32,4 +34,28 @@ export const createQueueOnlyHard = () => {
   const shuffledWorkingQueue = shuffle(filteredWithOnlyHard);
 
   return shuffledWorkingQueue;
+};
+
+export const selectWordsQueue = (isPrevPageDictionary) => {
+  const { queueRepeatWords } = store.getState().progress;
+
+  let wordsQueue = [];
+  let isDemoQueue = false;
+
+  if (isPrevPageDictionary) {
+    const userWords = queueRepeatWords;
+
+    isDemoQueue = true;
+    wordsQueue = shuffle(onlyHard(userWords));
+
+    resetPrevPage();
+  } else {
+    wordsQueue = createQueueOrdinary();
+  }
+
+  wordsQueue = wordsQueue.length > 0 ? wordsQueue : [DEFAULT_WORD];
+
+  wordsQueue.isDemoQueue = isDemoQueue;
+
+  return wordsQueue;
 };
