@@ -1,13 +1,32 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
-import PATH from '../../constants/path';
+import { Grid, Typography } from '@material-ui/core';
+import style from './AboutUsPage.module.scss';
 
-const AboutUsPage = () => (
-  <>
-    <p>AboutUsPage</p>
-    <NavLink to={PATH.SIGN_UP}>SignInPage</NavLink>
-  </>
-);
+import Student from '../../components/Student';
+
+import informationStudentArray from '../../constants/About-us-information.json';
+
+const AboutUsPage = () => {
+  return (
+    <>
+      <Typography variant="h5" component="h2" gutterBottom align="center">
+        Над приложением работали
+      </Typography>
+      <Grid className={style.AboutUsPage} container justify="center">
+        {informationStudentArray.map(({ name, linkGit, imgSrc, headerTextCard, type }) => (
+          <Student
+            name={name}
+            linkGit={linkGit}
+            imgSrc={imgSrc}
+            key={`AboutUsPage-${name}`}
+            headerTextCard={headerTextCard}
+            type={type}
+          />
+        ))}
+      </Grid>
+    </>
+  );
+};
 
 export default AboutUsPage;
