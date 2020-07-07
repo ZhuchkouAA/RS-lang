@@ -13,13 +13,13 @@ const AboutUsPage = () => {
       <Typography variant="h5" component="h2" gutterBottom align="center">
         Над приложением работали
       </Typography>
-      <Grid className={style.Students__container} container justify="center">
+      <Grid className={style.AboutUsPage} container justify="center">
         {informationStudentArray.map(({ name, linkGit, imgSrc, headerTextCard, type }) => (
           <Student
             name={name}
             linkGit={linkGit}
             imgSrc={imgSrc}
-            key={`AboutUsPage_student-${name}`}
+            key={`AboutUsPage-${name}`}
             headerTextCard={headerTextCard}
             type={type}
           />

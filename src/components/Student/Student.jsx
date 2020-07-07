@@ -10,17 +10,17 @@ import style from './Student.module.scss';
 
 const Student = ({ name, linkGit, imgSrc, headerTextCard, type }) => {
   const typeCard = classNames({
-    [style['CardStudent__wrapper-mentor']]: type.toLowerCase() === 'mentor',
-    [style['CardStudent__wrapper-developer']]: type.toLowerCase() === 'developer',
+    [style['Student__wrapper-mentor']]: type.toLowerCase() === 'mentor',
+    [style['Student__wrapper-developer']]: type.toLowerCase() === 'developer',
   });
   const typeHeaderCard = classNames({
-    [style['CardStudent__header-mentor']]: type.toLowerCase() === 'mentor',
-    [style['CardStudent__header-team-leader']]: type.toLowerCase() === 'team-leader',
-    [style['CardStudent__header-developer']]: type.toLowerCase() === 'developer',
+    [style['Student__header-mentor']]: type.toLowerCase() === 'mentor',
+    [style['Student__header-team-leader']]: type.toLowerCase() === 'team-leader',
+    [style['Student__header-developer']]: type.toLowerCase() === 'developer',
   });
   return (
     <Grid className={typeCard}>
-      <Card className={style.CardStudent}>
+      <Card className={style.Student}>
         <CardActionArea>
           <Typography
             className={typeHeaderCard}
@@ -31,9 +31,9 @@ const Student = ({ name, linkGit, imgSrc, headerTextCard, type }) => {
           >
             {headerTextCard}
           </Typography>
-          <CardMedia className={style['CardStudent__img-student']} image={imgSrc} title="photo" />
+          <CardMedia className={style['Student__img-student']} image={imgSrc} title="photo" />
           <Typography
-            className={style['CardStudent__name-student']}
+            className={style['Student__name-student']}
             gutterBottom
             variant="h6"
             component="h2"
@@ -41,15 +41,15 @@ const Student = ({ name, linkGit, imgSrc, headerTextCard, type }) => {
             {name}
           </Typography>
         </CardActionArea>
-        <Button className={style['CardStudent__wrapper-icon-link']} size="small" color="primary">
+        <Button className={style['Student__wrapper-icon-link']} size="small" color="primary">
           <a
-            className={style.CardStudent__link}
+            className={style.Student__link}
             href={linkGit}
             target="_blank"
             rel="noopener noreferrer"
           >
             <img
-              className={style['CardStudent__img-git']}
+              className={style['Student__img-git']}
               width="40"
               height="40"
               src={gitImg}

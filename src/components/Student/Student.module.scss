@@ -1,4 +1,4 @@
-.CardStudent {
+.Student {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -16,31 +16,6 @@
     width: min-content;
   }
 
-  &__img-git {
-    background-size: cover;
-  }
-
-  &__img-student {
-    background-size: contain;
-    height: 200px;
-    margin-bottom: 15px;
-    object-fit: contain;
-    width: 200px;
-  }
-
-  &__name-student {
-    font-size: 16px;
-    text-align: center;
-  }
-
-  &__wrapper-icon-link {
-    height: max-content;
-    margin: 0 auto;
-    width: max-content;
-  }
-}
-
-.CardStudent {
   &__header-mentor,
   &__header-team-leader,
   &__header-developer {
@@ -91,10 +66,33 @@
     content: '';
     width: 30px;
   }
+
+  &__img-git {
+    background-size: cover;
+  }
+
+  &__img-student {
+    background-size: contain;
+    height: 200px;
+    margin-bottom: 15px;
+    object-fit: contain;
+    width: 200px;
+  }
+
+  &__name-student {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  &__wrapper-icon-link {
+    height: max-content;
+    margin: 0 auto;
+    width: max-content;
+  }
 }
 
 @media (max-width: 500px) {
-  .CardStudent {
+  .Student {
     &__name-student {
       height: 64px;
     }
