@@ -28,12 +28,17 @@
 
   &__item {
     align-items: center;
+    cursor: pointer;
     display: flex;
     flex-wrap: wrap;
     height: 50px;
     justify-content: center;
     margin: 5px;
     padding: 10px;
+  }
+
+  &__item_true {
+    background-color: rgb(171, 171, 228) !important;
   }
 
   &__control {
