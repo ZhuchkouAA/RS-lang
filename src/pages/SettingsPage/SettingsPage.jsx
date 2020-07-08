@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Grid, Box, Typography } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 
 import Toggle from '../../components/Toggle';
 import Inputs from '../../components/Input';
@@ -31,6 +31,78 @@ const SettingsPage = ({
   const [isUnsavedChanges, setUnsavedChanges] = useState(false);
   const [countMainHints, setCountMainHints] = useState(countSavedHints);
   const saveBtnVariant = isUnsavedChanges ? 'contained' : 'outlined';
+  const [inputPropsWords, setInputPropsWords] = useState({ style: { color: 'black' } });
+  const [inputPropsNewWords, setInputPropsNewWords] = useState({ style: { color: 'black' } });
+
+  const AMOUNT_ALL_WORDS = 3600;
+  const INFINITY = 999999;
+
+  useEffect(() => {
+    const isWordsPerDayBottomRangeValid = +settings.wordsPerDay >= +settings.newWordsPerDay;
+    const isWordsPerDayTopRangeValid = +settings.wordsPerDay <= INFINITY;
+
+    // if (isWordsPerDayTypeInteger || isNewWordsPerDayTypeInteger) {
+    //   setSettings({ ...storeSettings });
+    //   return undefined;
+    // }
+
+    if (!isWordsPerDayBottomRangeValid) {
+      setInputPropsWords({ style: { color: 'red' } });
+      const timer = setTimeout(() => {
+        setInputPropsWords({ style: { color: 'black' } });
+        setSettings({ ...settings, wordsPerDay: +settings.newWordsPerDay || 1 });
+      }, 1000);
+      return () => {
+        clearInterval(timer);
+      };
+    }
+
+    if (!isWordsPerDayTopRangeValid) {
+      setInputPropsWords({ style: { color: 'red' } });
+      const timer = setTimeout(() => {
+        setInputPropsWords({ style: { color: 'black' } });
+        setSettings({ ...settings, wordsPerDay: INFINITY });
+      }, 1000);
+      return () => {
+        clearInterval(timer);
+      };
+    }
+
+    return undefined;
+  }, [settings.wordsPerDay]);
+
+  useEffect(() => {
+    const isNewWordsPerDayBottomRangeValid = +settings.newWordsPerDay >= 0;
+    const isNewWordsPerDayTopRangeValid =
+      +settings.newWordsPerDay <= +settings.wordsPerDay &&
+      +settings.newWordsPerDay <= AMOUNT_ALL_WORDS;
+    const newWordsPerDay =
+      settings.wordsPerDay > AMOUNT_ALL_WORDS ? AMOUNT_ALL_WORDS : settings.wordsPerDay;
+
+    if (!isNewWordsPerDayBottomRangeValid) {
+      setInputPropsNewWords({ style: { color: 'red' } });
+      const timer = setTimeout(() => {
+        setInputPropsNewWords({ style: { color: 'black' } });
+        setSettings({ ...settings, newWordsPerDay: 0 });
+      }, 1000);
+      return () => {
+        clearInterval(timer);
+      };
+    }
+
+    if (!isNewWordsPerDayTopRangeValid) {
+      setInputPropsNewWords({ style: { color: 'red' } });
+      const timer = setTimeout(() => {
+        setInputPropsNewWords({ style: { color: 'black' } });
+        setSettings({ ...settings, newWordsPerDay });
+      }, 1000);
+      return () => {
+        clearInterval(timer);
+      };
+    }
+
+    return undefined;
+  }, [settings.newWordsPerDay]);
 
   useEffect(() => {
     serverSynchronization();
@@ -75,42 +147,34 @@ const SettingsPage = ({
 
   return (
     <form className={style.Settings}>
-      <Box className={style.Settings__wrapper}>
-        <Grid container direction="column" justify="center" alignItems="flex-start">
+      <Grid container direction="row" justify="space-around" alignItems="flex-start" width="80%">
+        <div>
           <Typography variant="h6" gutterBottom>
             Общие настройки приложения
           </Typography>
           <Inputs
-            label="Максимальное количество слов в день."
+            label="Максимально карточек в день (без учета сегодняшнего повтора)."
             startValue={String(settings.wordsPerDay)}
             settingName="wordsPerDay"
             onChange={onSettingsChange}
-            minValue={+settings.newWordsPerDay}
+            inputProps={inputPropsWords}
+            required
           />
           <Inputs
             label="Новых слов в день (не может быть больше всех слов в день)."
             startValue={String(settings.newWordsPerDay)}
             settingName="newWordsPerDay"
             onChange={onSettingsChange}
+            minValue={0}
             maxValue={+settings.wordsPerDay}
+            inputProps={inputPropsNewWords}
+            required
           />
-        </Grid>
-      </Box>
-      <Box className={style.Settings__wrapper}>
-        <Grid
-          className={style.Settings__wrapper}
-          container
-          direction="column"
-          justify="flex-start"
-          alignItems="flex-start"
-        >
-          <Typography variant="h6" gutterBottom>
-            Настройки карточки изучения слов
-          </Typography>
 
-          <Typography variant="overline" gutterBottom>
+          <Typography variant="h6" gutterBottom>
             Элементы управления
           </Typography>
+
           <Toggle
             label="Кнопка 'Показать ответ'"
             settingName="isAnswerBtnShow"
@@ -149,8 +213,9 @@ const SettingsPage = ({
             После отгадывания слова, можно оценить его сложность для более точного определения
             времени его следующего повторения.
           </Typography>
-
-          <Typography variant="overline" gutterBottom>
+        </div>
+        <div>
+          <Typography variant="h6" gutterBottom>
             Подсказки
           </Typography>
           <Toggle
@@ -203,9 +268,6 @@ const SettingsPage = ({
             Показывать транскрипцию слова. Так же отображается в &quot;Словаре&quot;.
           </Typography>
 
-          <Typography variant="overline" gutterBottom>
-            Озвучка
-          </Typography>
           <Toggle
             label="Кнопка 'прослушать слово'"
             settingName="isAudioShow"
@@ -233,37 +295,24 @@ const SettingsPage = ({
           <Typography className={style.Settings__hint} variant="body2" gutterBottom>
             При нажатии звучит предложение со значением слова.
           </Typography>
-        </Grid>
-        <Grid
-          container
-          className={style.Settings__btn}
-          direction="row"
-          justify="center"
-          alignItems="center"
-          spacing={2}
-        >
-          <Grid item>
-            <Button
-              className={style.Settings__btn}
-              variant={saveBtnVariant}
-              color="primary"
-              onClick={onSaveButton}
-            >
-              Сохранить изменения
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              className={style.Settings__btn}
-              variant="outlined"
-              color="secondary"
-              onClick={onResetButton}
-            >
-              Удалить пользователя
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
+        </div>
+      </Grid>
+      <Button
+        className={style.Settings__btn}
+        variant={saveBtnVariant}
+        color="primary"
+        onClick={onSaveButton}
+      >
+        Сохранить изменения
+      </Button>
+      <Button
+        className={style.Settings__btn}
+        variant="outlined"
+        color="secondary"
+        onClick={onResetButton}
+      >
+        Удалить пользователя
+      </Button>
     </form>
   );
 };
