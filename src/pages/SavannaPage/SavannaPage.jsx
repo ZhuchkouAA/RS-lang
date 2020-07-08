@@ -7,6 +7,8 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Button from '../../components/Button';
 import SavannaQuestion from '../../components/SavannaQuestion';
 import SavannaAnswers from '../../components/SavannaAnswers';
+import correctSound from '../../sounds/correct-answer.mp3';
+import incorrectSound from '../../sounds/incorrect-sound.mp3';
 
 import style from './SavannaPage.module.scss';
 
@@ -39,19 +41,27 @@ const SavannaPage = ({ words }) => {
   const [showResult, setShowResult] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [animation, setAnimation] = useState(true);
+  const [speed, setSpeed] = useState(GAME_SPEED);
+  const [showAnswers, setShowAnswers] = useState(true);
 
   const question = words[currentQuestion];
-  const answerArr = [];
+  let answerArr = [];
+  const correctAnswerSound = new Audio(correctSound);
+  const incorrectAnswerSound = new Audio(incorrectSound);
 
   const endGame = () => {
     if (currentQuestion + 1 === words.length) {
       setIsRunning(false);
       setShowResult(true);
     }
-    if (lives < 2) {
+    if (lives < 1) {
       setIsRunning(false);
       setShowResult(true);
     }
+  };
+
+  const playSound = (sound) => {
+    sound.play();
   };
 
   const nextQuestion = () => {
@@ -63,16 +73,20 @@ const SavannaPage = ({ words }) => {
 
   useInterval(
     () => {
-      setAnimation(true);
-      if (answerArr.length === currentQuestion) {
+      setShowAnswers(true);
+      if (answers.length === currentQuestion) {
+        answerArr = answers;
+        console.log(answerArr, 'ответы после тика', currentQuestion);
         answerArr.push('нет ответа');
         setLives(lives - 1);
+        setAnswers(answerArr);
       }
-      setAnswers(answerArr);
+      setAnimation(true);
+      setSpeed(5000);
       endGame();
       setCurrentQuestion(nextQuestion);
     },
-    isRunning ? GAME_SPEED : null
+    isRunning ? speed : null
   );
 
   const gameStart = () => {
@@ -80,12 +94,19 @@ const SavannaPage = ({ words }) => {
   };
 
   const answerBtnClick = (answer) => {
+    setShowAnswers(false);
     if (answer !== question.isCorrectTranslation) {
+      playSound(incorrectAnswerSound);
       setLives(lives - 1);
+    } else {
+      playSound(correctAnswerSound);
     }
-    setAnimation(false);
+    answerArr = answers;
     answerArr.push(answer);
+    console.log(answerArr, 'ответ', currentQuestion);
     setAnswers(answerArr);
+    setSpeed(1000);
+    setAnimation(false);
     endGame();
   };
 
@@ -116,7 +137,9 @@ const SavannaPage = ({ words }) => {
           })}
         </span>
         <SavannaQuestion word={question.word} animation={animation} />
-        <SavannaAnswers answers={question.wordTranslate} handlerClick={answerBtnClick} />
+        {showAnswers && (
+          <SavannaAnswers answers={question.wordTranslate} handlerClick={answerBtnClick} />
+        )}
       </div>
     );
   }
