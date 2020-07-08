@@ -79,3 +79,16 @@ export const getQueueLearned20 = () => {
   const queueLearned20 = shuffledQueue.slice(0, 20);
   return queueLearned20;
 };
+
+export const getQueueMiniGame10 = async (group) => {
+  const WORDS_PER_PAGE = 10;
+  const randomPage = Math.random() * 60;
+  const FIRST_WORD_NUMBER = WORDS_PER_PAGE * randomPage;
+  const LAST_WORD_NUMBER = WORDS_PER_PAGE * randomPage + WORDS_PER_PAGE;
+
+  const queueMiniGame600 = await getQueue600ByGroup(group);
+
+  const queueMiniGame10 = queueMiniGame600.slice(FIRST_WORD_NUMBER, LAST_WORD_NUMBER);
+
+  return shuffle(queueMiniGame10);
+};

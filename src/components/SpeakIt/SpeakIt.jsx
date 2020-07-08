@@ -14,12 +14,20 @@ import classNames from 'classnames';
 
 import styles from './SpeakIt.module.scss';
 import getSpeechRecognition from './speech';
+// import { getQueueMiniGame10 } from '../../helpers/games-utils/createQueueMiniGame';
 
 const playAudio = (url) => {
   const audio = new Audio();
   audio.src = url;
   audio.play();
 };
+
+// const getWords = (level) => {
+//   let result;
+//   async function getResult() {
+//     const res = await getQueueMiniGame10(level);
+//   }
+// };
 
 const SpeakIt = () => {
   const cardExample = {
@@ -56,13 +64,18 @@ const SpeakIt = () => {
   const handleInputText = (newValue) => {
     setInputText(newValue);
   };
-
+  const speechRec = getSpeechRecognition(handleInputText);
+  // const recoStart = () => {
+  //   speechRec.start();
+  // };
   const handleStartGame = (start) => {
-    const speechRec = getSpeechRecognition(handleInputText);
-    speechRec.start();
-    setStartGame(start);
+    if (start && !isStartGame) {
+      speechRec.start();
+      setStartGame(start);
+    }
+
     if (!start) {
-      speechRec.stop();
+      speechRec.abort();
       setStartGame(start);
     }
   };
