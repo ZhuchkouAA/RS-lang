@@ -1,5 +1,5 @@
 import WORD_HANDLER_KEYS from '../../constants/keys';
-import { MIN_DIFFICULTY, MAX_DIFFICULTY, WORD_REPEAT_INTERVAL } from '../../constants/wordConfig';
+import { MIN_DIFFICULTY, MAX_DIFFICULTY, REPEAT_INTERVAL } from '../../constants/wordConfig';
 
 const wordHandler = (word, options) => {
   const { difficulty, wordId, optional } = word;
@@ -36,10 +36,10 @@ const wordHandler = (word, options) => {
     newWord.optional.lastRepeatWordDate = Date.now();
 
     newWord.optional.repeatDate =
-      // linear function
-      Date.now() + WORD_REPEAT_INTERVAL * (MAX_DIFFICULTY + 1 - newWord.difficulty);
-    // inverse square function
-    // Date.now() + (1 / (newWord.difficulty + 1)) ** 1.4 * WORD_REPEAT_INTERVAL;
+      // log function
+      Date.now() + REPEAT_INTERVAL(newWord.difficulty);
+    // linear function
+    // Date.now() + WORD_REPEAT_INTERVAL_MAX * (MAX_DIFFICULTY + 1 - newWord.difficulty);
 
     if (key === WORD_HANDLER_KEYS.repeatDate) {
       newWord.optional.repeatDate = value;
