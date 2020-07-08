@@ -8,10 +8,7 @@
 }
   
 .question__wrapper {
-<<<<<<< HEAD
   color: $learning-good-color;
-=======
->>>>>>> RSL-34: fix animation, add lives icons
   display: flex;
   font-size: 36px;
   justify-content: center;
@@ -56,14 +53,9 @@
   }
 
   100% {
-<<<<<<< HEAD
     color: $learning-bad-color;
     opacity: 0;
     top: 100%;
-=======
-    opacity: 0.3;
-    top: 50%;
->>>>>>> RSL-34: fix animation, add lives icons
   }
 }
 

@@ -43,7 +43,6 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
   const [showResult, setShowResult] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [animation, setAnimation] = useState(true);
-<<<<<<< HEAD
   const [speed, setSpeed] = useState(GAME_SPEED);
   const [showAnswers, setShowAnswers] = useState(true);
 
@@ -51,11 +50,6 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
   let answerArr = [];
   const correctAnswerSound = new Audio(correctSound);
   const incorrectAnswerSound = new Audio(incorrectSound);
-=======
-
-  const question = words[currentQuestion];
-  const answerArr = [];
->>>>>>> RSL-34: fix animation, add lives icons
 
   const endGame = () => {
     if (currentQuestion + 1 === words.length) {
@@ -90,14 +84,9 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
 
   useInterval(
     () => {
-<<<<<<< HEAD
       setShowAnswers(true);
       if (answers.length === currentQuestion) {
         answerArr = answers;
-=======
-      setAnimation(true);
-      if (answerArr.length === currentQuestion) {
->>>>>>> RSL-34: fix animation, add lives icons
         answerArr.push('нет ответа');
         updateWordStatistic(10, true);
         setLives(lives - 1);
@@ -108,11 +97,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
       endGame();
       setCurrentQuestion(nextQuestion);
     },
-<<<<<<< HEAD
     isRunning ? speed : null
-=======
-    isRunning ? GAME_SPEED : null
->>>>>>> RSL-34: fix animation, add lives icons
   );
 
   const gameStart = () => {
@@ -132,11 +117,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
       playSound(correctAnswerSound);
       updateWordStatistic(-10, false);
     }
-<<<<<<< HEAD
     answerArr = answers;
-=======
-    setAnimation(false);
->>>>>>> RSL-34: fix animation, add lives icons
     answerArr.push(answer);
     setAnswers(answerArr);
     setSpeed(1000);
@@ -144,40 +125,6 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
     endGame();
   };
 
-<<<<<<< HEAD
-=======
-  if (showResult) {
-    return (
-      <Grid container direction="column" justify="space-around" alignItems="center">
-        {answers.map((el, index) => {
-          const key = index;
-          let res = 'верно';
-          if (el !== words[index].isCorrectTranslation) {
-            res = 'ошибка';
-          }
-          return <span key={`${el}+${key}`}>{`${el} - ${words[index].word} - ${res}`}</span>;
-        })}
-      </Grid>
-    );
-  }
-  if (isRunning) {
-    return (
-      <div className={style.Savanna}>
-        <span>
-          {LIVES.map((element, index) => {
-            return index < lives ? (
-              <FavoriteIcon key={`livesIcon${element}`} color="secondary" />
-            ) : (
-              <FavoriteBorderIcon key={`livesIcon${element}`} color="secondary" />
-            );
-          })}
-        </span>
-        <SavannaQuestion word={question.word} animation={animation} />
-        <SavannaAnswers answers={question.wordTranslate} handlerClick={answerBtnClick} />
-      </div>
-    );
-  }
->>>>>>> RSL-34: fix animation, add lives icons
   return (
     <div className={style.Savanna}>
       {showResult && (
