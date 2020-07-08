@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import { Button, Grid, Box, Typography } from '@material-ui/core';
 
 import Toggle from '../../components/Toggle';
 import Inputs from '../../components/Input';
 
 import style from './SettingsPage.module.scss';
+
+const countHintsFromSettings = ({ isWordTranslateShow, isTextMeaningShow, isTextExampleShow }) => {
+  let res = isWordTranslateShow && 1;
+  res += isTextMeaningShow && 1;
+  res += isTextExampleShow && 1;
+
+  return res;
+};
 
 const SettingsPage = ({
   settings: storeSettings,
@@ -20,7 +27,10 @@ const SettingsPage = ({
   setLeftNewWordsToday,
   setLeftRepeatWordsToday,
 }) => {
-  const [settings, setSettings] = useState(storeSettings);
+  const countSavedHints = countHintsFromSettings(storeSettings);
+  const [settings, setSettings] = useState({ ...storeSettings });
+  const [isUnsavedChanges, setUnsavedChanges] = useState(false);
+  const [countMainHints, setCountMainHints] = useState(countSavedHints);
 
   useEffect(() => {
     serverSynchronization();
@@ -34,10 +44,23 @@ const SettingsPage = ({
     event.preventDefault();
     const leftNewWordsToday = settings.newWordsPerDay - progress.newCardsShowedStatistic[0];
     const leftRepeatWordsToday = settings.wordsPerDay - progress.cardsShowedStatistic[0];
+
     await setLeftNewWordsToday(leftNewWordsToday);
     await setLeftRepeatWordsToday(leftRepeatWordsToday);
+
     putSettings(settings);
     putProgress();
+    setSettings({ ...settings });
+    setUnsavedChanges(false);
+  };
+
+  const onSettingsChange = (newSettings, isMainHint, step) => {
+    if (isMainHint) {
+      setCountMainHints(countMainHints + step);
+    }
+
+    setSettings({ ...settings, ...newSettings });
+    setUnsavedChanges(true);
   };
 
   const onResetButton = (event) => {
@@ -47,137 +70,199 @@ const SettingsPage = ({
 
   if (isLoading) return <div />;
 
+  const saveBtnVariant = isUnsavedChanges ? 'contained' : 'outlined';
+
   return (
     <form className={style.Settings}>
-      <Grid
-        className={style.Settings__wrapper}
-        container
-        direction="column"
-        justify="flex-start"
-        alignItems="flex-start"
-      >
-        <p className={style.Settings__title}>Настройки приложения</p>
-
-        <Inputs
-          label="Учить слова за один день"
-          value={String(settings.wordsPerDay)}
-          onChange={(e) => setSettings({ ...settings, wordsPerDay: e.target.value })}
-        />
-        <Inputs
-          label="Новых слов в день"
-          value={String(settings.newWordsPerDay)}
-          onChange={(e) => setSettings({ ...settings, newWordsPerDay: e.target.value })}
-        />
-        <Toggle
-          label="Кнопка 'Показать ответ'"
-          checkValue={settings.isAnswerBtnShow}
-          toggle={() => setSettings({ ...settings, isAnswerBtnShow: !settings.isAnswerBtnShow })}
-        />
-        <Toggle
-          label="Кнопка 'Удалить из изучения'"
-          checkValue={settings.isDelFromLearnBtnShow}
-          toggle={() =>
-            setSettings({ ...settings, isDelFromLearnBtnShow: !settings.isDelFromLearnBtnShow })
-          }
-        />
-        <Toggle
-          label="Кнопки 'Оценить сложность слова'"
-          checkValue={settings.isFeedBackButtonsShow}
-          toggle={() =>
-            setSettings({ ...settings, isFeedBackButtonsShow: !settings.isFeedBackButtonsShow })
-          }
-        />
-      </Grid>
-
-      <Grid
-        className={style.Settings__wrapper}
-        container
-        direction="column"
-        justify="flex-start"
-        alignItems="flex-start"
-      >
-        <p className={style.Settings__title}>Элементы карточки</p>
-        <Toggle
-          label="Показывать картинку"
-          checkValue={settings.isImageShow}
-          toggle={() => setSettings({ ...settings, isImageShow: !settings.isImageShow })}
-        />
-        <Toggle
-          label="Показывать транскрипцию"
-          checkValue={settings.isTranscriptionShow}
-          toggle={() =>
-            setSettings({ ...settings, isTranscriptionShow: !settings.isTranscriptionShow })
-          }
-        />
-        <Toggle
-          label="Показывать перевод"
-          checkValue={settings.isWordTranslateShow}
-          toggle={() =>
-            setSettings({ ...settings, isWordTranslateShow: !settings.isWordTranslateShow })
-          }
-        />
-        <Toggle
-          label="Перевод предложения"
-          checkValue={settings.isTextExampleTranslateShow}
-          toggle={() =>
-            setSettings({
-              ...settings,
-              isTextExampleTranslateShow: !settings.isTextExampleTranslateShow,
-            })
-          }
-        />
-        <Toggle
-          label="Перевод значения"
-          checkValue={settings.isAudioMeaningShow}
-          toggle={() =>
-            setSettings({ ...settings, isAudioMeaningShow: !settings.isAudioMeaningShow })
-          }
-        />
-        <Toggle
-          label="Кнопка 'прослушать слово'"
-          checkValue={settings.isAudioShow}
-          toggle={() => setSettings({ ...settings, isAudioShow: !settings.isAudioShow })}
-        />
-        <Toggle
-          label="Кнопка 'прослушать предложение'"
-          checkValue={settings.isAudioExampleShow}
-          toggle={() =>
-            setSettings({ ...settings, isAudioExampleShow: !settings.isAudioExampleShow })
-          }
-        />
-        <Toggle
-          label="Кнопка 'прослушать значение'"
-          checkValue={settings.isTextMeaningShow}
-          toggle={() =>
-            setSettings({ ...settings, isTextMeaningShow: !settings.isTextMeaningShow })
-          }
-        />
-        <Toggle
-          label="Показвыть пример использования"
-          checkValue={settings.isTextExampleShow}
-          toggle={() =>
-            setSettings({ ...settings, isTextExampleShow: !settings.isTextExampleShow })
-          }
-        />
-      </Grid>
-      <div className={style.Settings__btn}>
-        <Button
-          className={style.Settings__btn}
-          variant="outlined"
-          color="secondary"
-          onClick={onSaveButton}
+      <Box className={style.Settings__wrapper}>
+        <Grid container direction="column" justify="center" alignItems="flex-start">
+          <Typography variant="h6" gutterBottom>
+            Общие настройки приложения
+          </Typography>
+          <Inputs
+            label="Максимальное количество слов в день."
+            startValue={String(settings.wordsPerDay)}
+            settingName="wordsPerDay"
+            onChange={onSettingsChange}
+            minValue={+settings.newWordsPerDay}
+          />
+          <Inputs
+            label="Новых слов в день (не может быть больше всех слов в день)."
+            startValue={String(settings.newWordsPerDay)}
+            settingName="newWordsPerDay"
+            onChange={onSettingsChange}
+            maxValue={+settings.wordsPerDay}
+          />
+        </Grid>
+      </Box>
+      <Box className={style.Settings__wrapper}>
+        <Grid
+          className={style.Settings__wrapper}
+          container
+          direction="column"
+          justify="flex-start"
+          alignItems="flex-start"
         >
-          Сохранить изменения
-        </Button>
-        <Button
+          <Typography variant="h6" gutterBottom>
+            Настройки карточки изучения слов
+          </Typography>
+
+          <Typography variant="overline" gutterBottom>
+            Элементы управления
+          </Typography>
+          <Toggle
+            label="Кнопка 'Показать ответ'"
+            settingName="isAnswerBtnShow"
+            checkValue={settings.isAnswerBtnShow}
+            toggle={onSettingsChange}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            Вводит нужное слово, со штрафом к уровню изучения.
+          </Typography>
+          <Toggle
+            label="Кнопка 'Удалить из изучения'"
+            settingName="isDelFromLearnBtnShow"
+            checkValue={settings.isDelFromLearnBtnShow}
+            toggle={onSettingsChange}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            Удаляет слово из изучения. Восстановить слова можно в &quot;Словаре&quot;.
+          </Typography>
+          <Toggle
+            label="Кнопка 'Добавить слово в сложные'"
+            settingName="isHardWordBtnShow"
+            checkValue={settings.isHardWordBtnShow}
+            toggle={onSettingsChange}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            Помечает слова как сложное. Сложные слова можно тренировать отдельно, запустив
+            тренировку из &quot;Словаря&quot;.
+          </Typography>
+          <Toggle
+            label="Кнопки 'Оценить сложность слова'"
+            settingName="isFeedBackButtonsShow"
+            checkValue={settings.isFeedBackButtonsShow}
+            toggle={onSettingsChange}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            После отгадывания слова, можно оценить его сложность для более точного определения
+            времени его следующего повторения.
+          </Typography>
+
+          <Typography variant="overline" gutterBottom>
+            Подсказки
+          </Typography>
+          <Toggle
+            label="Перевод"
+            settingName="isWordTranslateShow"
+            checkValue={settings.isWordTranslateShow}
+            toggle={onSettingsChange}
+            countHints={countMainHints}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            Показывать перевод слова. А также переводы предложений со словом (если они включены).
+            Можно временно отключать на карточке. Основная подсказка.
+          </Typography>
+          <Toggle
+            label="Пример использования слова"
+            settingName="isTextExampleShow"
+            checkValue={settings.isTextExampleShow}
+            toggle={onSettingsChange}
+            countHints={countMainHints}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            Показывать пример с использованием слова. Основная подсказка.
+          </Typography>
+          <Toggle
+            label="Значение слова"
+            settingName="isTextMeaningShow"
+            checkValue={settings.isTextMeaningShow}
+            toggle={onSettingsChange}
+            countHints={countMainHints}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            Показывать значение слова. Основная подсказка.
+          </Typography>
+          <Toggle
+            label="Картинка"
+            settingName="isImageShow"
+            checkValue={settings.isImageShow}
+            toggle={onSettingsChange}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            Показывать картинку, ассоциированную со словом.
+          </Typography>
+          <Toggle
+            label="Транскрипция"
+            settingName="isTranscriptionShow"
+            checkValue={settings.isTranscriptionShow}
+            toggle={onSettingsChange}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            Показывать транскрипцию слова. Так же отображается в &quot;Словаре&quot;.
+          </Typography>
+
+          <Typography variant="overline" gutterBottom>
+            Озвучка
+          </Typography>
+          <Toggle
+            label="Кнопка 'прослушать слово'"
+            settingName="isAudioShow"
+            checkValue={settings.isAudioShow}
+            toggle={onSettingsChange}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            При нажатии звучит изучаемое слово.
+          </Typography>
+          <Toggle
+            label="Кнопка 'прослушать пример использования'"
+            settingName="isAudioExampleShow"
+            checkValue={settings.isAudioExampleShow}
+            toggle={onSettingsChange}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            При нажатии звучит предложение с примером использования слова.
+          </Typography>
+          <Toggle
+            label="Кнопка 'прослушать значение  '"
+            settingName="isAudioMeaning"
+            checkValue={settings.isAudioMeaning}
+            toggle={onSettingsChange}
+          />
+          <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+            При нажатии звучит предложение со значением слова.
+          </Typography>
+        </Grid>
+        <Grid
+          container
           className={style.Settings__btn}
-          variant="outlined"
-          color="secondary"
-          onClick={onResetButton}
+          direction="row"
+          justify="center"
+          alignItems="center"
+          spacing={2}
         >
-          Удалить текущего пользователя
-        </Button>
-      </div>
+          <Grid item>
+            <Button
+              className={style.Settings__btn}
+              variant={saveBtnVariant}
+              color="primary"
+              onClick={onSaveButton}
+            >
+              Сохранить изменения
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              className={style.Settings__btn}
+              variant="outlined"
+              color="secondary"
+              onClick={onResetButton}
+            >
+              Удалить пользователя
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
     </form>
   );
 };
