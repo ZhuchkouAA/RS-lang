@@ -12,6 +12,7 @@ const savannaWordsQueue = createSelector(getRandomWords, getWords, (randowWords,
   const slicedNewWords = newWords.slice(0, wordCounter);
   return slicedNewWords.map((newWord, index) => {
     const word = {
+      originalWordObject: newWord,
       word: newWord.optional.word,
       wordTranslate: [
         newWord.optional.wordTranslate,

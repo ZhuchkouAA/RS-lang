@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
+import WORD_HANDLER_KEYS from '../../constants/keys';
+import wordHandler from '../../helpers/games-utils/wordHandler';
+import finallySendWordAndProgress from '../../middlewares/finallySendWordAndProgress';
 import Button from '../../components/Button';
 import SavannaQuestion from '../../components/SavannaQuestion';
 import SavannaAnswers from '../../components/SavannaAnswers';
@@ -76,8 +79,13 @@ const SavannaPage = ({ words }) => {
       setShowAnswers(true);
       if (answers.length === currentQuestion) {
         answerArr = answers;
-        console.log(answerArr, 'ответы после тика', currentQuestion);
         answerArr.push('нет ответа');
+        const options = [
+          { key: WORD_HANDLER_KEYS.difficulty, value: 1 },
+          { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
+        ];
+        const preparedWord = wordHandler(question.originalWordObject, options);
+        finallySendWordAndProgress(preparedWord);
         setLives(lives - 1);
         setAnswers(answerArr);
       }
@@ -91,62 +99,68 @@ const SavannaPage = ({ words }) => {
 
   const gameStart = () => {
     setIsRunning(true);
+    setShowResult(false);
+    answerArr = [];
+    setLives(LIVES.length);
   };
 
   const answerBtnClick = (answer) => {
     setShowAnswers(false);
     if (answer !== question.isCorrectTranslation) {
+      // слово отвечено неправильно
       playSound(incorrectAnswerSound);
       setLives(lives - 1);
     } else {
       playSound(correctAnswerSound);
     }
+    // слово отвечено правильно
     answerArr = answers;
     answerArr.push(answer);
-    console.log(answerArr, 'ответ', currentQuestion);
     setAnswers(answerArr);
     setSpeed(1000);
     setAnimation(false);
     endGame();
   };
 
-  if (showResult) {
-    return (
-      <Grid container direction="column" justify="space-around" alignItems="center">
-        {answers.map((el, index) => {
-          const key = index;
-          let res = 'верно';
-          if (el !== words[index].isCorrectTranslation) {
-            res = 'ошибка';
-          }
-          return <span key={`${el}+${key}`}>{`${el} - ${words[index].word} - ${res}`}</span>;
-        })}
-      </Grid>
-    );
-  }
-  if (isRunning) {
-    return (
-      <div className={style.Savanna}>
-        <span>
-          {LIVES.map((element, index) => {
-            return index < lives ? (
-              <FavoriteIcon key={`livesIcon${element}`} color="secondary" />
-            ) : (
-              <FavoriteBorderIcon key={`livesIcon${element}`} color="secondary" />
-            );
-          })}
-        </span>
-        <SavannaQuestion word={question.word} animation={animation} />
-        {showAnswers && (
-          <SavannaAnswers answers={question.wordTranslate} handlerClick={answerBtnClick} />
-        )}
-      </div>
-    );
-  }
   return (
-    <Grid container direction="column" justify="center" alignItems="center">
-      <Button handlerClick={gameStart} text="Начать игру" color="secondary" />
-    </Grid>
+    <div className={style.Savanna}>
+      {showResult && (
+        <Grid container direction="column" justify="space-around" alignItems="center">
+          {answers.map((el, index) => {
+            const key = index;
+            let res = 'верно';
+            if (el !== words[index].isCorrectTranslation) {
+              res = 'ошибка';
+            }
+            return <span key={`${el}+${key}`}>{`${el} - ${words[index].word} - ${res}`}</span>;
+          })}
+        </Grid>
+      )}
+
+      {isRunning && (
+        <div>
+          <span className={style.Savanna__lives}>
+            {LIVES.map((element, index) => {
+              return index < lives ? (
+                <FavoriteIcon key={`livesIcon${element}`} color="secondary" />
+              ) : (
+                <FavoriteBorderIcon key={`livesIcon${element}`} color="secondary" />
+              );
+            })}
+          </span>
+          <SavannaQuestion word={question.word} animation={animation} />
+          {showAnswers && (
+            <SavannaAnswers answers={question.wordTranslate} handlerClick={answerBtnClick} />
+          )}
+        </div>
+      )}
+
+      {!isRunning && !showResult && (
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Button handlerClick={gameStart} text="Начать игру" color="secondary" />
+        </Grid>
+      )}
+    </div>
   );
 };
 

@@ -6,19 +6,22 @@ import ButtonMU from '@material-ui/core/Button';
 import styles from './SavannaAnswers.module.scss';
 
 const SavannaAnswers = ({ answers, handlerClick }) => {
+  const answerArr = answers.sort(() => Math.random() - 0.5);
   return (
     <div className={styles.answer__wrapper}>
-      <Grid container direction="row" justify="space-between" alignItems="center">
-        {answers.map((answer, index) => {
+      <Grid container spacing={1} direction="row" justify="space-between" alignItems="center">
+        {answerArr.map((answer, index) => {
           return (
-            <ButtonMU
-              onClick={() => handlerClick(answer)}
-              variant="outlined"
-              color="primary"
-              key={`Digit${index + 1}`}
-            >
-              {`${index + 1}. ${answer}`}
-            </ButtonMU>
+            <Grid item>
+              <ButtonMU
+                onClick={() => handlerClick(answer)}
+                variant="outlined"
+                color="primary"
+                key={`Digit${index + 1}`}
+              >
+                {`${index + 1}. ${answer}`}
+              </ButtonMU>
+            </Grid>
           );
         })}
       </Grid>
