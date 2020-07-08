@@ -5,6 +5,7 @@ const initiaSettingState = {
   newWordsPerDay: 10,
   isAnswerBtnShow: true,
   isDelFromLearnBtnShow: true,
+  isHardWordBtnShow: true,
   isFeedBackButtonsShow: true,
   isImageShow: true,
   isAudioShow: true,

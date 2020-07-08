@@ -1,20 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Input from '@material-ui/core/Input';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { TextField, Typography } from '@material-ui/core';
 
-const Inputs = ({ label, value, onChange }) => (
-  <FormControlLabel
-    label={label}
-    control={<Input type="number" value={value} onChange={onChange} id={label} />}
-  />
-);
+const MAX_WORDS_PER_DAY = 999999;
+
+const Inputs = ({ label, startValue, settingName, onChange, minValue, maxValue }) => {
+  const handlerOnChange = ({ target: { value } }) => {
+    if (value < minValue || maxValue < value) {
+      return null;
+    }
+
+    const newSettingObj = {
+      [settingName]: +value,
+    };
+
+    return onChange(newSettingObj);
+  };
+
+  return (
+    <>
+      <TextField
+        variant="outlined"
+        autoComplete="off"
+        type="number"
+        onChange={handlerOnChange}
+        size="small"
+        value={startValue}
+      />
+      <Typography variant="body2" gutterBottom>
+        {label}
+      </Typography>
+    </>
+  );
+};
+
+Inputs.defaultProps = {
+  minValue: 1,
+  maxValue: MAX_WORDS_PER_DAY,
+};
 
 Inputs.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  startValue: PropTypes.string.isRequired,
+  minValue: PropTypes.number,
+  maxValue: PropTypes.number,
+  settingName: PropTypes.string.isRequired,
 };
 
 export default Inputs;
