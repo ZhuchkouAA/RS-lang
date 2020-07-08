@@ -14,11 +14,8 @@ import { getRatingColors } from '../../helpers/repeat-logic-utils';
 
 import style from './UserStateIndicator.module.scss';
 
-const UserStateIndicator = ({ progress, settings }) => {
-  const cardsShowedStatistic = progress.cardsShowedAllTime;
-  const { wordsPerDay } = settings;
-  const value = (cardsShowedStatistic * 100) / wordsPerDay;
-
+const UserStateIndicator = ({ lowerLimit, upperLimit, hint, header }) => {
+  const value = (lowerLimit * 100) / upperLimit;
   const stateColors = getRatingColors(value);
 
   const useStyles = makeStyles((theme) => ({
@@ -41,7 +38,7 @@ const UserStateIndicator = ({ progress, settings }) => {
   const Circular = () => {
     return (
       <Grid container direction="row">
-        <p className={style.TittleProgress}>Tittle</p>
+        <p className={style.TittleProgress}>{header}</p>
         <Box position="relative" display="inline-flex">
           <CircularProgress
             classes={{ root: classes.circular }}
@@ -60,15 +57,15 @@ const UserStateIndicator = ({ progress, settings }) => {
             justifyContent="center"
           >
             <Typography variant="caption" component="div" color="textSecondary">
-              <div className={style.nowValue}>
-                {cardsShowedStatistic}
+              <div className={style.lowerLimit}>
+                {lowerLimit}
                 <br />
               </div>
               <div className={style.separatorValue}>
                 /
                 <br />
               </div>
-              <div className={style.maxValue}>{wordsPerDay}</div>
+              <div className={style.upperLimit}>{upperLimit}</div>
             </Typography>
           </Box>
         </Box>
@@ -77,7 +74,7 @@ const UserStateIndicator = ({ progress, settings }) => {
   };
 
   return (
-    <Tooltip title="hover hover hover" classes={{ tooltip: classes.tooltipText }}>
+    <Tooltip title={hint} classes={{ tooltip: classes.tooltipText }}>
       <Button className={classes.button}>{Circular()}</Button>
     </Tooltip>
   );
@@ -86,6 +83,8 @@ const UserStateIndicator = ({ progress, settings }) => {
 export default UserStateIndicator;
 
 UserStateIndicator.propTypes = {
-  progress: PropTypes.objectOf(PropTypes.any).isRequired,
-  settings: PropTypes.objectOf(PropTypes.any).isRequired,
+  lowerLimit: PropTypes.number.isRequired,
+  upperLimit: PropTypes.number.isRequired,
+  hint: PropTypes.string.isRequired,
+  header: PropTypes.string.isRequired,
 };
