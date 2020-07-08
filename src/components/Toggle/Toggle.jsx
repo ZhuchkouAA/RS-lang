@@ -11,19 +11,19 @@ import Dialog from '../Dialog';
 const Toggle = ({ label, checkValue, settingName, toggle, countHints }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const isMainHint = MAIN_HINTS.includes(settingName);
+  const toggleColor = isMainHint ? 'secondary' : 'primary';
 
   const handlerOnChange = () => {
     const isTurnOffLastMainHint = checkValue && countHints === MINIMUN_COUNT_HINTS;
 
     if (isMainHint && isTurnOffLastMainHint) {
-      setModalOpen(true);
-
-      return null;
+      return setModalOpen(true);
     }
 
     const step = checkValue ? -1 : 1;
-    const newSettingObj = {};
-    newSettingObj[settingName] = !checkValue;
+    const newSettingObj = {
+      [settingName]: !checkValue,
+    };
 
     return toggle(newSettingObj, isMainHint, step);
   };
@@ -43,8 +43,6 @@ const Toggle = ({ label, checkValue, settingName, toggle, countHints }) => {
       />
     );
   }
-
-  const toggleColor = isMainHint ? 'secondary' : 'primary';
 
   return (
     <FormControlLabel

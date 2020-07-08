@@ -9,11 +9,10 @@ import Inputs from '../../components/Input';
 import style from './SettingsPage.module.scss';
 
 const countHintsFromSettings = ({ isWordTranslateShow, isTextMeaningShow, isTextExampleShow }) => {
-  let res = isWordTranslateShow && 1;
-  res += isTextMeaningShow && 1;
-  res += isTextExampleShow && 1;
-
-  return res;
+  return [isWordTranslateShow, isTextMeaningShow, isTextExampleShow].reduce(
+    (accum, item) => (item ? accum + 1 : accum),
+    0
+  );
 };
 
 const SettingsPage = ({
@@ -31,6 +30,7 @@ const SettingsPage = ({
   const [settings, setSettings] = useState({ ...storeSettings });
   const [isUnsavedChanges, setUnsavedChanges] = useState(false);
   const [countMainHints, setCountMainHints] = useState(countSavedHints);
+  const saveBtnVariant = isUnsavedChanges ? 'contained' : 'outlined';
 
   useEffect(() => {
     serverSynchronization();
@@ -39,6 +39,10 @@ const SettingsPage = ({
   useEffect(() => {
     setSettings(storeSettings);
   }, [storeSettings]);
+
+  useEffect(() => {
+    setCountMainHints(countSavedHints);
+  }, [countSavedHints]);
 
   const onSaveButton = async (event) => {
     event.preventDefault();
@@ -50,7 +54,6 @@ const SettingsPage = ({
 
     putSettings(settings);
     putProgress();
-    setSettings({ ...settings });
     setUnsavedChanges(false);
   };
 
@@ -69,8 +72,6 @@ const SettingsPage = ({
   };
 
   if (isLoading) return <div />;
-
-  const saveBtnVariant = isUnsavedChanges ? 'contained' : 'outlined';
 
   return (
     <form className={style.Settings}>

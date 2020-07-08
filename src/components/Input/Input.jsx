@@ -7,18 +7,13 @@ const MAX_WORDS_PER_DAY = 999999;
 
 const Inputs = ({ label, startValue, settingName, onChange, minValue, maxValue }) => {
   const handlerOnChange = ({ target: { value } }) => {
-    const newVal = +value;
-
-    if (newVal < minValue) {
+    if (value < minValue || maxValue < value) {
       return null;
     }
 
-    if (maxValue < newVal) {
-      return null;
-    }
-
-    const newSettingObj = {};
-    newSettingObj[settingName] = newVal;
+    const newSettingObj = {
+      [settingName]: +value,
+    };
 
     return onChange(newSettingObj);
   };
