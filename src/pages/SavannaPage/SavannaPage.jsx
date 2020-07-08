@@ -117,6 +117,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
       playSound(correctAnswerSound);
       updateWordStatistic(-10, false);
     }
+    // слово отвечено правильно
     answerArr = answers;
     answerArr.push(answer);
     setAnswers(answerArr);

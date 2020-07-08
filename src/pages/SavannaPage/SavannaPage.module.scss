@@ -51,12 +51,24 @@
   transform: translateY(-50%);
 =======
 .Savanna {
+  background-image: url('../../img/savannaBG.jpg');
   display: flex;
   flex-direction: column;
+  height: 80vh;
   justify-content: center;
   position: relative;
   width: 100%;
+<<<<<<< HEAD
 >>>>>>> RSL-34: add simpe game structure
+=======
+
+  &__lives {
+    left: 40px;
+    position: absolute;
+    top: 40px;
+  }
+  
+>>>>>>> RSL-34: refactor code
 }
 
 .startBtn {
