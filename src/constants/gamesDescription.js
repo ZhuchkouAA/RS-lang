@@ -1,10 +1,14 @@
 export default {
   Спринт: {
-    discription: 'Очень хорошая игра на время пиу пиу',
+    description: 'Очень хорошая игра на время пиу пиу',
     path: '/sprint',
   },
+  Аудио_Вызов: {
+    description: 'что то',
+    path: '/audio-call',
+  },
   default: {
-    discription: 'default',
+    description: 'default',
     path: '/main',
   },
 };

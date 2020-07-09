@@ -47,6 +47,7 @@ const coefficient = 1.66;
 const initialPointsData = { pointPerWin: 10, winStreak: 0, points: 0 };
 
 const SprintPage = ({ words }) => {
+  console.log(words);
   const [counter, setCounter] = useState(initialTimer);
   const [actualWord, setActualWord] = useState(0);
   const [pointsData, setPointsData] = useState(initialPointsData);

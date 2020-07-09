@@ -1,0 +1,48 @@
+.AudioCallPage {
+  position:absolute;
+  width: 100%;
+  height:100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  //background: linear-gradient(#e66465, #9198e5);
+}
+
+.AudioCallPage__examples {
+  margin-bottom: 100px;
+  user-select: none;
+
+  &-word {
+    margin: 0 10px 0 10px;
+    font-size: 20px;
+    font-weight: 100;
+    font-family: 'Roboto', sans-serif;
+    transition: 0.3s;
+  }
+
+  &-word:hover {
+    opacity: 0.3;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+}
+
+.AudioCallPage__next {
+  user-select: none;
+
+  margin: 0 10px 0 10px;
+  color: rgb(148, 20, 14);
+  font-size: 19px;
+  font-weight: 100;
+  font-family: 'Roboto', sans-serif;
+  transition: 0.3s;
+
+  &:hover {
+    opacity: 0.3;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+}
