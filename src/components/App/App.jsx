@@ -7,6 +7,7 @@ import Footer from '../Footer/Footer';
 import AppWithRoutes from './indexAppWithRouter';
 import Authorization from './Authorization';
 import Loader from '../Loader';
+import SuperBackground from '../SuperBackground';
 
 import style from './App.module.scss';
 
@@ -15,6 +16,7 @@ const App = ({ token, isLoading }) => {
 
   return (
     <div className={style.App__wrapper}>
+      <SuperBackground />
       <BrowserRouter>
         <Header />
         {isLoading && <Loader />}
