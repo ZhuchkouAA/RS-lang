@@ -14,7 +14,8 @@ import classNames from 'classnames';
 
 import styles from './SpeakIt.module.scss';
 import getSpeechRecognition from './speech';
-// import { getQueueMiniGame10 } from '../../helpers/games-utils/createQueueMiniGame';
+import { getQueueMiniGame10 } from '../../helpers/games-utils/createQueueMiniGame';
+// import Loader from '../Loader';
 
 const playAudio = (url) => {
   const audio = new Audio();
@@ -22,39 +23,33 @@ const playAudio = (url) => {
   audio.play();
 };
 
-// const getWords = (level) => {
-//   let result;
-//   async function getResult() {
-//     const res = await getQueueMiniGame10(level);
-//   }
-// };
+const getWords = (level = 1) => {
+  let result = [];
+  const path = 'https://raw.githubusercontent.com/zhuchkouaa/rslang-data/master/';
+  async function getResult() {
+    const res = await getQueueMiniGame10(level);
+    result = res.map((element) => {
+      const obj = {};
+      obj.audio = path + element.optional.audio;
+      obj.image = path + element.optional.image;
+      obj.word = element.optional.word;
+      obj.wordTranslate = element.optional.wordTranslate;
+      obj.transcription = element.optional.transcription;
+      return obj;
+    });
+    return result;
+  }
+  return getResult();
+};
 
 const SpeakIt = () => {
-  const cardExample = {
-    word: 'instruct',
-    wordTranslateText: 'инструктирует',
-    transcriptionText: '[instrʌ́kt]',
-    PICTURE_URL:
-      'https://raw.githubusercontent.com/zhuchkouaa/rslang-data/master/files/04_0070.jpg',
-    AUDIO: 'https://raw.githubusercontent.com/zhuchkouaa/rslang-data/master/files/02_0623.mp3',
-  };
-
-  const wordsExample = [
-    cardExample,
-    cardExample,
-    cardExample,
-    cardExample,
-    cardExample,
-    cardExample,
-    cardExample,
-    cardExample,
-    cardExample,
-    cardExample,
-  ];
+  let wordsExample = [];
+  // eslint-disable-next-line no-return-assign
+  getWords().then((value) => (wordsExample = value));
 
   const [value, setValue] = useState(0);
   const [inputText, setInputText] = useState('');
-  const [wordsImage, setWordImage] = useState(cardExample.PICTURE_URL);
+  const [wordsImage, setWordImage] = useState('');
   const [isStartGame, setStartGame] = useState(false);
 
   const handleChange = (event, newValue) => {
@@ -110,14 +105,14 @@ const SpeakIt = () => {
                 })}
                 key={Math.random()}
                 onClick={(e) => {
-                  playAudio(element.AUDIO, e);
-                  handleInputText(element.wordTranslateText);
-                  handleWordsImage(element.PICTURE_URL);
+                  playAudio(element.audio, e);
+                  handleInputText(element.wordTranslate);
+                  handleWordsImage(element.image);
                 }}
               >
                 <Audiotrack />
                 <Typography className="word">{element.word}</Typography>
-                <Typography>{element.transcriptionText}</Typography>
+                <Typography>{element.transcription}</Typography>
               </Card>
             );
           })}
