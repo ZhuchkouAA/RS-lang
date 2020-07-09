@@ -10,25 +10,26 @@ import {
   makeStyles,
   Grid,
 } from '@material-ui/core';
+
 import { getRatingColors } from '../../helpers/repeat-logic-utils';
 
-import style from './UserStateIndicator.module.scss';
+const UserStateIndicator = ({ header, hint, rating, value, unit, reverse }) => {
+  const PERCENTS = 100;
 
-const UserStateIndicator = ({ lowerLimit, upperLimit, hint, header }) => {
-  const value = (lowerLimit * 100) / upperLimit;
-  const stateColors = getRatingColors(value);
+  let checkedRating = rating > 0 ? rating : 0;
+  checkedRating = checkedRating <= PERCENTS ? checkedRating : PERCENTS;
 
-  const useStyles = makeStyles((theme) => ({
-    button: {
-      margin: theme.spacing(1),
+  const colorRate = reverse ? Math.round(PERCENTS - checkedRating) : checkedRating;
+  const stateColors = getRatingColors(colorRate);
+  const ratingSource = value || rating;
+  const ratingText = unit ? `${ratingSource}${unit}` : ratingSource;
+
+  const useStyles = makeStyles(() => ({
+    passedColor: {
+      color: stateColors.passedColor,
     },
-    tooltipText: {
-      textAlign: 'justify',
-      padding: '10px',
-      fontSize: '14px',
-      backgroundColor: 'black',
-    },
-    circular: {
+
+    backgroundColor: {
       color: stateColors.backgroundColor,
     },
   }));
@@ -38,34 +39,59 @@ const UserStateIndicator = ({ lowerLimit, upperLimit, hint, header }) => {
   const Circular = () => {
     return (
       <Grid container direction="row">
-        <p className={style.TittleProgress}>{header}</p>
         <Box position="relative" display="inline-flex">
           <CircularProgress
-            classes={{ root: classes.circular }}
-            size="70px"
+            classes={{ root: classes.passedColor }}
+            size="50px"
             variant="static"
-            value={value}
+            value={checkedRating}
           />
           <Box
             top={0}
             left={0}
             bottom={0}
             right={0}
+            zIndex={-2}
             position="absolute"
             display="flex"
             alignItems="center"
             justifyContent="center"
           >
-            <Typography variant="caption" component="div" color="textSecondary">
-              <div className={style.lowerLimit}>
-                {lowerLimit}
-                <br />
-              </div>
-              <div className={style.separatorValue}>
-                /
-                <br />
-              </div>
-              <div className={style.upperLimit}>{upperLimit}</div>
+            <CircularProgress
+              classes={{ root: classes.backgroundColor }}
+              size="50px"
+              variant="static"
+              value={PERCENTS}
+            />
+          </Box>
+          <Box
+            top={0}
+            left={0}
+            bottom={0}
+            right={0}
+            zIndex={-2}
+            position="absolute"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Typography variant="caption" component="div">
+              {ratingText}
+            </Typography>
+          </Box>
+          <Box
+            top={-65}
+            left={0}
+            bottom={0}
+            right={0}
+            zIndex={-2}
+            position="absolute"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Typography variant="caption" component="span">
+              {header}
             </Typography>
           </Box>
         </Box>
@@ -80,11 +106,19 @@ const UserStateIndicator = ({ lowerLimit, upperLimit, hint, header }) => {
   );
 };
 
-export default UserStateIndicator;
+UserStateIndicator.defaultProps = {
+  unit: '',
+  reverse: false,
+  value: 0,
+};
 
 UserStateIndicator.propTypes = {
-  lowerLimit: PropTypes.number.isRequired,
-  upperLimit: PropTypes.number.isRequired,
+  rating: PropTypes.number.isRequired,
+  value: PropTypes.number,
   hint: PropTypes.string.isRequired,
   header: PropTypes.string.isRequired,
+  unit: PropTypes.string,
+  reverse: PropTypes.bool,
 };
+
+export default UserStateIndicator;

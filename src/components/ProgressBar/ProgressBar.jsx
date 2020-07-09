@@ -20,9 +20,11 @@ const ProgressBar = ({ progress, settings }) => {
     root: {
       width: '100%',
     },
+
     passed: {
       background: stateColors.passedColor,
     },
+
     full: {
       background: stateColors.backgroundColor,
     },
