@@ -17,14 +17,12 @@ const SuperBackground = ({ opacity }) => {
 
   const classes = useStyles();
   return (
-    <>
       <iframe
         id="superBackground"
         src="https://cdpn.io/at80/fullpage/tqdmv"
         title="background"
         className={classes.superBackground}
       />
-    </>
   );
 };
 
