@@ -1,6 +1,10 @@
 .answer__wrapper {
   left: 50%;
   position: absolute;
-  top: 50%;
+  top: 100px;
   transform: translate(-50%, -50%);
+
+  @media (max-width: 700px) {
+    top: 150px;
+  }
 }

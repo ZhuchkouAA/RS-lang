@@ -6,7 +6,6 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 import WORD_HANDLER_KEYS from '../../constants/keys';
 import wordHandler from '../../helpers/games-utils/wordHandler';
-import finallySendWordAndProgress from '../../middlewares/finallySendWordAndProgress';
 import Button from '../../components/Button';
 import SavannaQuestion from '../../components/SavannaQuestion';
 import SavannaAnswers from '../../components/SavannaAnswers';
@@ -37,7 +36,7 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-const SavannaPage = ({ words }) => {
+const SavannaPage = ({ words, finallySendWordAndProgress }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [lives, setLives] = useState(LIVES.length);
@@ -74,23 +73,27 @@ const SavannaPage = ({ words }) => {
     return null;
   };
 
+  const updateWordStatistic = (newDifficulty, newHighPrioryti) => {
+    const options = [
+      { key: WORD_HANDLER_KEYS.difficulty, value: newDifficulty },
+      { key: WORD_HANDLER_KEYS.isHighPriority, value: newHighPrioryti },
+    ];
+    const preparedWord = wordHandler(question.originalWordObject, options);
+    finallySendWordAndProgress(preparedWord);
+  };
+
   useInterval(
     () => {
       setShowAnswers(true);
       if (answers.length === currentQuestion) {
         answerArr = answers;
         answerArr.push('нет ответа');
-        const options = [
-          { key: WORD_HANDLER_KEYS.difficulty, value: 1 },
-          { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
-        ];
-        const preparedWord = wordHandler(question.originalWordObject, options);
-        finallySendWordAndProgress(preparedWord);
+        updateWordStatistic(10, true);
         setLives(lives - 1);
         setAnswers(answerArr);
       }
       setAnimation(true);
-      setSpeed(5000);
+      setSpeed(GAME_SPEED);
       endGame();
       setCurrentQuestion(nextQuestion);
     },
@@ -107,13 +110,13 @@ const SavannaPage = ({ words }) => {
   const answerBtnClick = (answer) => {
     setShowAnswers(false);
     if (answer !== question.isCorrectTranslation) {
-      // слово отвечено неправильно
+      updateWordStatistic(10, true);
       playSound(incorrectAnswerSound);
       setLives(lives - 1);
     } else {
       playSound(correctAnswerSound);
+      updateWordStatistic(-10, false);
     }
-    // слово отвечено правильно
     answerArr = answers;
     answerArr.push(answer);
     setAnswers(answerArr);
@@ -125,20 +128,29 @@ const SavannaPage = ({ words }) => {
   return (
     <div className={style.Savanna}>
       {showResult && (
-        <Grid container direction="column" justify="space-around" alignItems="center">
-          {answers.map((el, index) => {
-            const key = index;
-            let res = 'верно';
-            if (el !== words[index].isCorrectTranslation) {
-              res = 'ошибка';
-            }
-            return <span key={`${el}+${key}`}>{`${el} - ${words[index].word} - ${res}`}</span>;
-          })}
-        </Grid>
+        <div className={style.Savanna__results}>
+          <Grid container direction="column" justify="space-around" alignItems="center">
+            {answers.map((el, index) => {
+              const key = index;
+              if (el !== words[index].isCorrectTranslation) {
+                return (
+                  <span className={style.Savanna__answers_wrong} key={`${el}+${key}`}>
+                    {`${el} - ${words[index].word} - ошибка`}
+                  </span>
+                );
+              }
+              return (
+                <span className={style.Savanna__answers_right} key={`${el}+${key}`}>
+                  {`${el} - ${words[index].word} - правильно`}
+                </span>
+              );
+            })}
+          </Grid>
+        </div>
       )}
 
       {isRunning && (
-        <div>
+        <div className={style.Savanna__wrapper}>
           <span className={style.Savanna__lives}>
             {LIVES.map((element, index) => {
               return index < lives ? (
@@ -166,6 +178,7 @@ const SavannaPage = ({ words }) => {
 
 SavannaPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
+  finallySendWordAndProgress: PropTypes.func.isRequired,
 };
 
 export default SavannaPage;

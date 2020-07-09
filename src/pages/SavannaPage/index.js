@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 
+import finallySendWordAndProgress from '../../middlewares/finallySendWordAndProgress';
 import SavannaPage from './SavannaPage';
 import savannaWordsQueue from '../../selectors/savanna-selectors';
 
@@ -7,4 +8,8 @@ const mapStateToProps = (state) => ({
   words: savannaWordsQueue(state),
 });
 
-export default connect(mapStateToProps)(SavannaPage);
+const actionCreators = {
+  finallySendWordAndProgress,
+};
+
+export default connect(mapStateToProps, actionCreators)(SavannaPage);
