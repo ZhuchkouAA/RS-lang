@@ -55,8 +55,6 @@ const SprintPage = ({ words }) => {
   const [isSoundsMute, setIsSoundsMute] = useState(false);
   const [isMusicMute, setIsMusicMute] = useState(false);
 
-  console.log(newWordsData);
-
   const playSound = (sound) => {
     if (isSoundsMute) return;
     sound.play();
