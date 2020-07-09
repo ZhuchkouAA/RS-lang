@@ -1,9 +1,13 @@
 @import '../../styles-global/index.module';
 
 .UserProgressCard {
-  @extend %main-page-card;
-
-  width: 320px;
+  @extend %card-shadow;
+  border-radius: 5px;
+  height: 150px;
+  min-width: 320px;
+  padding: 6px;
+  transition: 0.3s;
+  user-select: none;
 
   &__text {
     word-wrap: break-word;
