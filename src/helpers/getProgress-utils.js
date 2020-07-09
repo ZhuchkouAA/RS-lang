@@ -5,7 +5,7 @@ import { shuffle } from './games-utils/filtersAndSorters';
 import API_URLS from '../constants/APIUrls';
 import { USER_ID, TOKEN } from '../constants/cookiesNames';
 import { MAX_DIFFICULTY } from '../constants/wordConfig';
-import { MSEC_PER_DAY } from '../constants/common';
+import { MSEC_PER_DAY, COUNT_ALL_WORDS } from '../constants/common';
 
 export const isDateOfReceiptOfWordsCome = (serverDate) => {
   return serverDate < Date.now();
@@ -110,4 +110,31 @@ export const array15FromString = (string) => {
 export const newArray15FromString = (string) => {
   const arrayStr = [0, ...string.split('-').slice(0, 14)];
   return arrayStr.map((el) => Number(el));
+};
+
+export const calcUserIndicatorState = (settings, progress) => {
+  const { wordsPerDay, newWordsPerDay } = settings;
+  const { differentCardsShowedAllTime, longestTodaySeries, leftNewWordsToday } = progress;
+
+  const PERCENTS = 100;
+  const leftNewWordsTodayPercent = Math.round(
+    Math.trunc(leftNewWordsToday / newWordsPerDay) * PERCENTS
+  );
+  const leftRepeatWordsTodayPercent =
+    wordsPerDay - newWordsPerDay > 0
+      ? Math.round(Math.trunc(leftNewWordsToday / (wordsPerDay - newWordsPerDay)) * PERCENTS)
+      : 0;
+  const longestTodaySeriesPercent = Math.round(
+    Math.trunc(longestTodaySeries / wordsPerDay) * PERCENTS
+  );
+  const differentCardsShowedAllTimePercent = Math.round(
+    Math.trunc(differentCardsShowedAllTime / COUNT_ALL_WORDS) * PERCENTS
+  );
+
+  return {
+    leftNewWordsTodayPercent,
+    leftRepeatWordsTodayPercent,
+    longestTodaySeriesPercent,
+    differentCardsShowedAllTimePercent,
+  };
 };

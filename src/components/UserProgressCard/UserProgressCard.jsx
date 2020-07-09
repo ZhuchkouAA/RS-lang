@@ -1,15 +1,13 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 
-import PropTypes from 'prop-types';
+import UserStateIndicator from '../UserStateindIcator';
+import { calcUserIndicatorState } from '../../helpers/getProgress-utils';
 
 import styles from './UserProgressCard.module.scss';
 
-import UserStateIndicator from '../UserStateindIcator';
-
-const UserProgressCard = ({ progress, settings }) => {
-  const { wordsPerDay, newWordsPerDay } = settings;
+const UserProgressCard = ({ settings, progress }) => {
   const {
     differentCardsShowedAllTime,
     longestTodaySeries,
@@ -17,21 +15,8 @@ const UserProgressCard = ({ progress, settings }) => {
     leftNewWordsToday,
     rightAnswersStatistic,
   } = progress;
-  const COUNT_ALL_WORDS = 3600;
-  const PERCENTS = 100;
-  const leftNewWordsTodayPercent = Math.round(
-    Math.trunc(leftNewWordsToday / newWordsPerDay) * PERCENTS
-  );
-  const leftRepeatWordsTodayPercent =
-    wordsPerDay - newWordsPerDay > 0
-      ? Math.round(Math.trunc(leftNewWordsToday / (wordsPerDay - newWordsPerDay)) * PERCENTS)
-      : 0;
-  const longestTodaySeriesPercent = Math.round(
-    Math.trunc(longestTodaySeries / wordsPerDay) * PERCENTS
-  );
-  const differentCardsShowedAllTimePercent = Math.round(
-    Math.trunc(differentCardsShowedAllTime / COUNT_ALL_WORDS) * PERCENTS
-  );
+
+  const userIndicatorState = calcUserIndicatorState(settings, progress);
 
   return (
     <Grid
@@ -46,7 +31,7 @@ const UserProgressCard = ({ progress, settings }) => {
         <UserStateIndicator
           header="Новые"
           hint="Осталось изучить новых слов сегодня"
-          rating={leftNewWordsTodayPercent}
+          rating={userIndicatorState.leftNewWordsTodayPercent}
           value={leftNewWordsToday}
           reverse
         />
@@ -55,7 +40,7 @@ const UserProgressCard = ({ progress, settings }) => {
         <UserStateIndicator
           header="Повторы"
           hint="Осталось повторить слов сегодня"
-          rating={leftRepeatWordsTodayPercent}
+          rating={userIndicatorState.leftRepeatWordsTodayPercent}
           value={leftRepeatWordsToday}
           reverse
         />
@@ -72,7 +57,7 @@ const UserProgressCard = ({ progress, settings }) => {
         <UserStateIndicator
           header="Серия"
           hint="Самая длинная серия правильных ответов сегодня"
-          rating={longestTodaySeriesPercent}
+          rating={userIndicatorState.longestTodaySeriesPercent}
           value={longestTodaySeries}
         />
       </Grid>
@@ -80,7 +65,7 @@ const UserProgressCard = ({ progress, settings }) => {
         <UserStateIndicator
           header="Всего"
           hint="Всего на изучении разных слов из 3600"
-          rating={differentCardsShowedAllTimePercent}
+          rating={userIndicatorState.differentCardsShowedAllTimePercent}
           value={differentCardsShowedAllTime}
         />
       </Grid>
