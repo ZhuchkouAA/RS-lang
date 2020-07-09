@@ -1,21 +1,16 @@
 import React from 'react';
+
 import PropTypes from 'prop-types';
 
 import { TextField, Typography } from '@material-ui/core';
 
-const MAX_WORDS_PER_DAY = 999999;
-
-const Inputs = ({ label, startValue, settingName, onChange, minValue, maxValue }) => {
-  const handlerOnChange = ({ target: { value } }) => {
-    if (value < minValue || maxValue < value) {
-      return null;
-    }
-
-    const newSettingObj = {
-      [settingName]: +value,
+const Inputs = ({ label, startValue, settingName, onChange, inputProps }) => {
+  const handlerOnChange = ({ target }) => {
+    const settingObj = {
+      [settingName]: +target.value,
     };
 
-    return onChange(newSettingObj);
+    return onChange(settingObj);
   };
 
   return (
@@ -23,10 +18,11 @@ const Inputs = ({ label, startValue, settingName, onChange, minValue, maxValue }
       <TextField
         variant="outlined"
         autoComplete="off"
-        type="number"
         onChange={handlerOnChange}
+        type="number"
         size="small"
         value={startValue}
+        inputProps={inputProps}
       />
       <Typography variant="body2" gutterBottom>
         {label}
@@ -35,17 +31,11 @@ const Inputs = ({ label, startValue, settingName, onChange, minValue, maxValue }
   );
 };
 
-Inputs.defaultProps = {
-  minValue: 1,
-  maxValue: MAX_WORDS_PER_DAY,
-};
-
 Inputs.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   startValue: PropTypes.string.isRequired,
-  minValue: PropTypes.number,
-  maxValue: PropTypes.number,
+  inputProps: PropTypes.objectOf(PropTypes.any).isRequired,
   settingName: PropTypes.string.isRequired,
 };
 
