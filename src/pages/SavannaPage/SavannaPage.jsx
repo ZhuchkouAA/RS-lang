@@ -117,7 +117,6 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
       playSound(correctAnswerSound);
       updateWordStatistic(-10, false);
     }
-    // слово отвечено правильно
     answerArr = answers;
     answerArr.push(answer);
     setAnswers(answerArr);
@@ -180,10 +179,13 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
 SavannaPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
+<<<<<<< HEAD
 };
 
 SavannaPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
+=======
+>>>>>>> RLS-34: add styles, impruve statistic
 };
 
 export default SavannaPage;

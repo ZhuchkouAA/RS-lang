@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 @import '../../styles-global/index.module';
 
 .Savanna {
@@ -50,11 +51,17 @@
   top: 100px;
   transform: translateY(-50%);
 =======
+=======
+@import '../../styles-global/index.module';
+
+>>>>>>> RLS-34: add styles, impruve statistic
 .Savanna {
-  background-image: url('../../img/savannaBG.jpg');
+  background-image: url('../../img/SavannaBG3.png');
+  background-position: left bottom;
+  background-size: cover;
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  height: 70vh;
   justify-content: center;
   position: relative;
   width: 100%;
@@ -62,13 +69,40 @@
 >>>>>>> RSL-34: add simpe game structure
 =======
 
+  &__wrapper {
+    position: relative;
+  }
+
+  &__results {
+    background-color: $white-color-transparent;
+    border: 2px solid $learning-bad-color;
+    left: 50%;
+    max-width: 300px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+  }
+
   &__lives {
     left: 40px;
     position: absolute;
     top: 40px;
   }
   
+<<<<<<< HEAD
 >>>>>>> RSL-34: refactor code
+=======
+  &__answers_wrong {
+    color: $learning-fail-color;
+    font-size: 16px;
+  }
+
+  &__answers_right {
+    color: $learning-good-color;
+    font-size: 16px;
+  }
+>>>>>>> RLS-34: add styles, impruve statistic
 }
 
 .startBtn {

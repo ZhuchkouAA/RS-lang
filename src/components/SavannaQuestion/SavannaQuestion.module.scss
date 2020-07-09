@@ -42,6 +42,7 @@
     color: $learning-fail-color;
     opacity: 0.3;
     top: 60%;
+<<<<<<< HEAD
   }
 }
 
@@ -56,16 +57,20 @@
     color: $learning-bad-color;
     opacity: 0;
     top: 100%;
+=======
+>>>>>>> RLS-34: add styles, impruve statistic
   }
 }
 
 @keyframes moveBotFaster {
   0% {
+    color: $learning-bad-color;
     opacity: 0.5;
-    top: 50%;
+    top: 60%;
   }
 
   100% {
+    color: $learning-bad-color;
     opacity: 0;
     top: 100%;
   }
