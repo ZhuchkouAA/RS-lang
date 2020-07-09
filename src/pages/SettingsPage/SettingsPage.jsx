@@ -289,23 +289,34 @@ const SettingsPage = ({
           </div>
         </Grid>
       </Container>
-      <Grid container max-width="sm" justify="center">
-        <Button
-          className={style.Settings__btn}
-          variant={saveBtnVariant}
-          color="primary"
-          onClick={onSaveButton}
-        >
-          Сохранить изменения
-        </Button>
-        <Button
-          className={style.Settings__btn}
-          variant="outlined"
-          color="secondary"
-          onClick={onResetButton}
-        >
-          Удалить пользователя
-        </Button>
+      <Grid
+        container
+        className={style.Settings__btn}
+        direction="row"
+        justify="center"
+        alignItems="center"
+        spacing={2}
+      >
+        <Grid item>
+          <Button
+            className={style.Settings__btn}
+            variant={saveBtnVariant}
+            color="primary"
+            onClick={onSaveButton}
+          >
+            Сохранить изменения
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            className={style.Settings__btn}
+            variant="outlined"
+            color="secondary"
+            onClick={onResetButton}
+          >
+            Удалить пользователя
+          </Button>
+        </Grid>
       </Grid>
     </form>
   );
