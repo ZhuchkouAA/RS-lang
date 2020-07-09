@@ -12,6 +12,7 @@ const sprintWordsQueue = createSelector(getRandomWords, getWords, (randowWords, 
   const slicedNewWords = newWords.slice(0, 300);
   return slicedNewWords.map((newWord, index) => {
     const word = {
+      wordDefault: newWord,
       word: newWord.optional.word,
       wordTranslate: newWord.optional.wordTranslate,
       id: newWord.optional.wordId,

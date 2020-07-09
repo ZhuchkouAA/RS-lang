@@ -14,6 +14,14 @@ import sprintMusic from '../../sounds/sprint-music.mp3';
 import correctSound from '../../sounds/correct-answer.mp3';
 import incorrectSound from '../../sounds/incorrect-sound.mp3';
 import SprintResultPage from './SprintResultPage';
+
+import {
+  DIFFICULTY_GAME_PENALTY,
+  DIFFICULTY_GAME_REWARD,
+} from '../../constants/variables-learning';
+import WORD_HANDLER_KEYS from '../../constants/keys';
+import wordHandler from '../../helpers/games-utils/wordHandler';
+
 import styles from './SprintPage.module.scss';
 
 const maxPointPerWord = 80;
@@ -46,8 +54,7 @@ const initialTimer = 60;
 const coefficient = 1.66;
 const initialPointsData = { pointPerWin: 10, winStreak: 0, points: 0 };
 
-const SprintPage = ({ words }) => {
-  console.log(words);
+const SprintPage = ({ words, finallySendWordAndProgress }) => {
   const [counter, setCounter] = useState(initialTimer);
   const [actualWord, setActualWord] = useState(0);
   const [pointsData, setPointsData] = useState(initialPointsData);
@@ -68,12 +75,21 @@ const SprintPage = ({ words }) => {
       setTimeout(() => setIsTrueAnswer(false), 500);
       setPointsData(getNewPointsData(pointsData));
       newWordsData.push({ id: words[actualWord].id, isCorrectAnswer: true });
+      const preparedWord = wordHandler(words[actualWord].wordDefault, [
+        { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
+      ]);
+      finallySendWordAndProgress(preparedWord);
     } else {
       playSound(incorrectAnswerSound);
       setIsFalseAnswer(true);
       setTimeout(() => setIsFalseAnswer(false), 500);
       newWordsData.push({ id: words[actualWord].id, isCorrectAnswer: false });
       setPointsData({ ...initialPointsData, points: pointsData.points });
+      const preparedWord = wordHandler(words[actualWord].wordDefault, [
+        { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_REWARD },
+        { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
+      ]);
+      finallySendWordAndProgress(preparedWord);
     }
     setActualWord(actualWord + 1);
   };
@@ -210,6 +226,7 @@ const SprintPage = ({ words }) => {
 
 SprintPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
+  finallySendWordAndProgress: PropTypes.func.isRequired,
 };
 
 export default SprintPage;
