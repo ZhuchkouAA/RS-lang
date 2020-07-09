@@ -14,7 +14,6 @@ import sprintMusic from '../../sounds/sprint-music.mp3';
 import correctSound from '../../sounds/correct-answer.mp3';
 import incorrectSound from '../../sounds/incorrect-sound.mp3';
 import SprintResultPage from './SprintResultPage';
-import styles from './SprintPage.module.scss';
 
 import {
   DIFFICULTY_GAME_PENALTY,
@@ -22,6 +21,8 @@ import {
 } from '../../constants/variables-learning';
 import WORD_HANDLER_KEYS from '../../constants/keys';
 import wordHandler from '../../helpers/games-utils/wordHandler';
+
+import styles from './SprintPage.module.scss';
 
 const maxPointPerWord = 80;
 const multiplyingFactor = 2;
