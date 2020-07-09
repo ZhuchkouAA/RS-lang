@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { Grid, Container, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
-import styles from './StatisticPage.module.scss';
 import ChartSplineArea from '../../components/ChartSplineArea';
 import { onlyLearned, onlyStudying } from '../../helpers/games-utils/filtersAndSorters';
 import { getRatingColorStyleName } from '../../helpers/repeat-logic-utils';
 import { DELTA, MSEC_PER_DAY, MSEC_PER_HOUR } from '../../constants/common';
+
+import styles from './StatisticPage.module.scss';
 
 const StatisticPage = ({ settings, progress, serverSynchronization, isLoading }) => {
   const AMOUNT_ALL_WORDS = 3600;
