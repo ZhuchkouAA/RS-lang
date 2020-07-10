@@ -16,7 +16,6 @@ import {
   Tooltip,
   Fab,
 } from '@material-ui/core';
-
 import DeleteIcon from '@material-ui/icons/Delete';
 import MusicIcon from '@material-ui/icons/MusicNote';
 import MusicOffIcon from '@material-ui/icons/MusicOff';
@@ -24,6 +23,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
 import TranslateIcon from '@material-ui/icons/Translate';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import WordColoredChecker from '../WordColoredChecker';
 import VoteButtonsPanel from '../VoteButtonsPanel';
@@ -272,6 +272,11 @@ const WordCard = ({
     setTranslateShow(!isTranslateShow);
   };
 
+  const handlerClickResetRepeatHardWords = () => {
+    resetPrevPage();
+    history.push(PATH.MAIN);
+  };
+
   const handlerClickVoteButton = ({ target }) => {
     setControlsState({ ...controlsState, isVotePanelShow: false });
 
@@ -495,6 +500,16 @@ const WordCard = ({
             </IconButton>
           </Tooltip>
         </Box>
+
+        {isDemoQueue && (
+          <Box position="absolute" className={styles['WordCard__translate-btn']} top="5px">
+            <Tooltip title="Отменить повторение сложных слов" enterDelay={500}>
+              <IconButton onClick={handlerClickResetRepeatHardWords} aria-label="reset-hard">
+                <RefreshIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        )}
       </CardActions>
       {isModalOpen && (
         <Dialog

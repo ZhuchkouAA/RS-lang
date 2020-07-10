@@ -137,7 +137,7 @@ const SettingsPage = ({
 
   return (
     <form className={style.Settings}>
-      <Container ClassName={style.Settings__wrapper}>
+      <Container className={style.Settings__wrapper}>
         <Grid container direction="row" justify="space-around" alignItems="flex-start">
           <div>
             <Typography variant="h6" gutterBottom>

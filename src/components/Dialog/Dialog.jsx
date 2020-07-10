@@ -1,5 +1,6 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import {
   Grid,
   Button,
@@ -10,8 +11,8 @@ import {
   DialogActions,
 } from '@material-ui/core';
 
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { WORDS_END } from '../../constants/modal-messages';
+
 import style from './Dialog.module.scss';
 
 const CustomizedDialogs = ({ isOpen, type, title, message, callBack }) => {
@@ -53,12 +54,13 @@ const CustomizedDialogs = ({ isOpen, type, title, message, callBack }) => {
 
 CustomizedDialogs.defaultProps = {
   callBack: () => {},
+  title: WORDS_END.tittle,
 };
 
 CustomizedDialogs.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   message: PropTypes.string.isRequired,
   callBack: PropTypes.func,
 };
