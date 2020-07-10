@@ -14,7 +14,6 @@ import MiniGamesStatistics from '../../components/MiniGamesStatistics';
 import sprintMusic from '../../sounds/sprint-music.mp3';
 import correctSound from '../../sounds/correct-answer.mp3';
 import incorrectSound from '../../sounds/incorrect-sound.mp3';
-import SprintResultPage from './SprintResultPage';
 
 import {
   DIFFICULTY_GAME_PENALTY,
@@ -27,21 +26,21 @@ import styles from './SprintPage.module.scss';
 
 const maxPointPerWord = 80;
 const multiplyingFactor = 2;
-const numberOfCorrectAnswersForCombos = 4;
+const numberOfCorrectAnswersForCombos = 3;
 const firstComboLevel = numberOfCorrectAnswersForCombos;
-const secondComboLevel = numberOfCorrectAnswersForCombos * 2 - 1;
-const thirdComboLevel = numberOfCorrectAnswersForCombos * 3 - 2;
+const secondComboLevel = numberOfCorrectAnswersForCombos * 2;
+const thirdComboLevel = numberOfCorrectAnswersForCombos * 3;
 
 const getNewPointsData = ({ pointPerWin, winStreak, points }) => {
   if (
     winStreak !== 0 &&
-    (winStreak % numberOfCorrectAnswersForCombos) - 1 === 0 &&
+    winStreak % numberOfCorrectAnswersForCombos === 0 &&
     pointPerWin < maxPointPerWord
   ) {
     return {
       pointPerWin: pointPerWin * multiplyingFactor,
       winStreak: winStreak + 1,
-      points: points + pointPerWin,
+      points: points + pointPerWin * multiplyingFactor,
     };
   }
   return { pointPerWin, winStreak: winStreak + 1, points: points + pointPerWin };
@@ -64,7 +63,6 @@ const SprintPage = ({ words, finallySendWordAndProgress }) => {
   const [isFalseAnswer, setIsFalseAnswer] = useState(false);
   const [isSoundsMute, setIsSoundsMute] = useState(false);
   const [isMusicMute, setIsMusicMute] = useState(false);
-
   const playSound = (sound) => {
     if (isSoundsMute) return;
     sound.play();
@@ -156,6 +154,13 @@ const SprintPage = ({ words, finallySendWordAndProgress }) => {
     return undefined;
   }, [counter]);
 
+  const points = () => {
+    if (pointsData.winStreak !== 0) {
+      return <Box>{`+${pointsData.pointPerWin} очков`}</Box>;
+    }
+    return <Box>Поднажми!</Box>;
+  };
+
   const sprintCard = () => (
     <>
       <Grid
@@ -204,7 +209,7 @@ const SprintPage = ({ words, finallySendWordAndProgress }) => {
               <StatusIcon isActive={pointsData.winStreak >= thirdComboLevel} />
             </Box>
             <Typography className={styles.Card__points} gutterBottom variant="h6">
-              <Box>{`+${pointsData.pointPerWin} очков`}</Box>
+              {points()}
             </Typography>
           </Grid>
           <Grid className={styles.Card__main}>
