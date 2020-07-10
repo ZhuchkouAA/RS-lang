@@ -1,29 +1,36 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { IconButton } from '@material-ui/core';
+import { VolumeUp } from '@material-ui/icons';
+
+import correctSound from '../../sounds/correct-answer.mp3';
+import incorrectSound from '../../sounds/incorrect-sound.mp3';
 import style from './AudioCallPage.module.scss';
 
 const wordArr = [
-  { word: 'puddle', wordTranslate: 'район', id: undefined, isCorrectTranslation: false },
-  { word: 'observe', wordTranslate: 'наблюдать', id: undefined, isCorrectTranslation: true },
-  { word: 'enter', wordTranslate: 'войти', id: undefined, isCorrectTranslation: true },
-  { word: 'mail', wordTranslate: 'дразнить', id: undefined, isCorrectTranslation: false },
-  { word: 'specific', wordTranslate: 'ползать', id: undefined, isCorrectTranslation: false },
-  { word: 'secret', wordTranslate: 'сосать', id: undefined, isCorrectTranslation: false },
-  { word: 'appear', wordTranslate: 'появляются', id: undefined, isCorrectTranslation: true },
-  { word: 'condition', wordTranslate: 'поражение', id: undefined, isCorrectTranslation: false },
-  { word: 'driveway', wordTranslate: 'отказаться', id: undefined, isCorrectTranslation: false },
-  { word: 'image', wordTranslate: 'образ', id: undefined, isCorrectTranslation: true },
+  { word: 'golf', wordTranslate: 'гольф', id: undefined, isCorrectTranslation: false },
+  { word: 'magic', wordTranslate: 'магия', id: undefined, isCorrectTranslation: false },
+  { word: 'planet', wordTranslate: 'планета', id: undefined, isCorrectTranslation: false },
+  { word: 'hunger', wordTranslate: 'голод', id: undefined, isCorrectTranslation: true },
+  { word: 'life', wordTranslate: 'жизнь', id: undefined, isCorrectTranslation: false },
+  { word: 'banana', wordTranslate: 'банан', id: undefined, isCorrectTranslation: false },
+  { word: 'cheer', wordTranslate: 'поболеть', id: undefined, isCorrectTranslation: true },
+  // { word: 'prize', wordTranslate: 'приз', id: undefined, isCorrectTranslation: false },
+  // { word: 'sport', wordTranslate: 'спорт', id: undefined, isCorrectTranslation: true },
+  // { word: 'participant', wordTranslate: 'участник', id: undefined, isCorrectTranslation: true },
 ];
 
+const correctAnswerSound = new Audio(correctSound);
+correctAnswerSound.volume = 0.5;
+const incorrectAnswerSound = new Audio(incorrectSound);
+incorrectAnswerSound.volume = 0.5;
+
+const answers = [];
+
 const AudioCallPage = ({ words }) => {
-  console.log(words);
   const [index, setIndex] = useState(0);
   const collection = [];
-
-  const clickApproveHandler = () => {
-    setIndex(index + 1);
-  };
 
   const createList = () => {
     const blockedIndex = [index];
@@ -31,13 +38,13 @@ const AudioCallPage = ({ words }) => {
 
     for (let i = 0; i <= 4; i += 1) {
       let isFind = false;
-      let randNum = Math.floor(Math.random() * wordArr.length) + index;
+      let randNum = Math.floor(Math.random() * wordArr.length);
       while (!isFind) {
         if (!blockedIndex.includes(randNum)) {
           isFind = !isFind;
           blockedIndex.push(randNum);
         } else {
-          randNum = Math.floor(Math.random() * wordArr.length) + index;
+          randNum = Math.floor(Math.random() * wordArr.length);
         }
       }
 
@@ -52,23 +59,72 @@ const AudioCallPage = ({ words }) => {
       collection[randPos] = currentPos;
     }
   };
-
   createList();
 
-  return (
-    <div className={style.AudioCallPage}>
+  const handlerClickPlayAudio = () => {
+    // const audio = Audio(words[index].audio);
+    // audio.play();
+  };
+
+  const handlerClickAnswerWord = (event) => {
+    const chosenWord = event.target.innerHTML;
+    const condition = wordArr[index].wordTranslate === chosenWord;
+
+    if (condition) {
+      correctAnswerSound.play();
+    } else {
+      incorrectAnswerSound.play();
+    }
+
+    answers.push({
+      word: wordArr[index].word,
+      isGuessed: condition,
+    });
+    setIndex(index + 1);
+  };
+
+  const handlerClickSkipWord = () => {
+    setIndex(index + 1);
+  };
+
+  const gameHtml = (
+    <>
       <div className={style.AudioCallPage__audio}>
-        <div className={style['AudioCallPage__audio-icon']} />
+        <div className={style['AudioCallPage__audio-icon']}>
+          <IconButton aria-label="mute" onClick={() => handlerClickPlayAudio()}>
+            <VolumeUp fontSize="large" />
+          </IconButton>
+        </div>
       </div>
       <div className={style.AudioCallPage__examples}>
-        {collection.map(({ word, wordTranslate }) => (
-          <span className={style['AudioCallPage__examples-word']} key={word}>
-            {wordTranslate}
-          </span>
-        ))}
+        {!(wordArr.length === index) &&
+          collection.map(({ word, wordTranslate }) => (
+            <button
+              className={style['AudioCallPage__examples-word']}
+              type="button"
+              key={word}
+              onClick={(event) => handlerClickAnswerWord(event)}
+            >
+              {wordTranslate}
+            </button>
+          ))}
       </div>
-      <div className={style.AudioCallPage__next}>Не знаю</div>
-    </div>
+      <button
+        className={style.AudioCallPage__next}
+        type="button"
+        onClick={() => handlerClickSkipWord()}
+      >
+        Не знаю
+      </button>
+    </>
+  );
+
+  const resultHtml = answers.map(({ word, isGuessed }) => (
+    <div key={word}>{`${word} / ${isGuessed}`}</div>
+  ));
+
+  return (
+    <div className={style.AudioCallPage}>{wordArr.length === index ? resultHtml : gameHtml}</div>
   );
 };
 

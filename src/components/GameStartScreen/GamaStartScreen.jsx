@@ -26,7 +26,6 @@ const GameStartScreen = ({
   setRandomWords,
   runLoader,
   stopLoader,
-  serverSynchronization,
 }) => {
   const { gameName } = gameModeData;
   const { mode } = gameModeData;
@@ -63,7 +62,6 @@ const GameStartScreen = ({
 
   useEffect(() => {
     const updateData = async () => {
-      await serverSynchronization();
       runLoader();
       await addWordsGameMode(mode);
       const randomWords = await getQueueRandom300();
@@ -138,7 +136,6 @@ GameStartScreen.propTypes = {
   setRandomWords: PropTypes.func.isRequired,
   runLoader: PropTypes.func.isRequired,
   stopLoader: PropTypes.func.isRequired,
-  serverSynchronization: PropTypes.func.isRequired,
 };
 
 export default GameStartScreen;

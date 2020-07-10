@@ -115,28 +115,49 @@ export const newArray15FromString = (string) => {
   return arrayStr.map((el) => Number(el));
 };
 
+const PERCENTS = 100;
+
+const getCategoryPassedPercent = (currentValue, maxValue) => {
+  return Math.round((currentValue / maxValue) * PERCENTS);
+};
+
 export const calcUserIndicatorState = (settings, progress) => {
   const { wordsPerDay, newWordsPerDay } = settings;
-  const { differentCardsShowedAllTime, longestTodaySeries, leftNewWordsToday } = progress;
+  const {
+    differentCardsShowedAllTime,
+    longestTodaySeries,
+    leftNewWordsToday,
+    rightAnswersStatistic,
+    leftRepeatWordsToday,
+  } = progress;
 
-  const PERCENTS = 100;
   const leftNewWordsTodayPercent = Math.round(
-    Math.trunc(leftNewWordsToday / newWordsPerDay) * PERCENTS
+    PERCENTS - getCategoryPassedPercent(leftNewWordsToday, newWordsPerDay)
   );
+
   const leftRepeatWordsTodayPercent =
     wordsPerDay - newWordsPerDay > 0
-      ? Math.round(Math.trunc(leftNewWordsToday / (wordsPerDay - newWordsPerDay)) * PERCENTS)
+      ? Math.round(
+          PERCENTS - getCategoryPassedPercent(leftRepeatWordsToday, wordsPerDay - newWordsPerDay)
+        )
       : 0;
-  const longestTodaySeriesPercent = Math.round(
-    Math.trunc(longestTodaySeries / wordsPerDay) * PERCENTS
+
+  const rightAnswersStatisticPercent = getCategoryPassedPercent(
+    rightAnswersStatistic[0],
+    wordsPerDay
   );
-  const differentCardsShowedAllTimePercent = Math.round(
-    Math.trunc(differentCardsShowedAllTime / COUNT_ALL_WORDS) * PERCENTS
+
+  const longestTodaySeriesPercent = getCategoryPassedPercent(longestTodaySeries, wordsPerDay);
+
+  const differentCardsShowedAllTimePercent = getCategoryPassedPercent(
+    differentCardsShowedAllTime,
+    COUNT_ALL_WORDS
   );
 
   return {
     leftNewWordsTodayPercent,
     leftRepeatWordsTodayPercent,
+    rightAnswersStatisticPercent,
     longestTodaySeriesPercent,
     differentCardsShowedAllTimePercent,
   };

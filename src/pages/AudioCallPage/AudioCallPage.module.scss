@@ -1,7 +1,7 @@
 .AudioCallPage {
-  position:absolute;
+  position: absolute;
   width: 100%;
-  height:100%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -9,6 +9,21 @@
   align-items: center;
 
   //background: linear-gradient(#e66465, #9198e5);
+  background-color: #fff;
+
+  &--correct {
+    box-shadow: inset 0px 0px 4px 1px #37fb52;
+  }
+  &--incorrect {
+    box-shadow: inset 0px 0px 4px 1px #fb1731;
+  }
+}
+
+.AudioCallPage__audio {
+  margin-bottom: 50px;
+  &-icon {
+
+  }
 }
 
 .AudioCallPage__examples {
