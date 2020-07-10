@@ -55,7 +55,22 @@ const initialTimer = 60;
 const coefficient = 1.66;
 const initialPointsData = { pointPerWin: 10, winStreak: 0, points: 0 };
 
-const SprintPage = ({ words, finallySendWordAndProgress }) => {
+const sendingStatistics = (isPenalty, word, callback) => {
+  let preparedWord;
+  if (isPenalty) {
+    preparedWord = wordHandler(word.wordDefault, [
+      { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
+    ]);
+  } else {
+    preparedWord = wordHandler(word.wordDefault, [
+      { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_REWARD },
+      { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
+    ]);
+  }
+  callback(preparedWord);
+};
+
+const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
   const [counter, setCounter] = useState(initialTimer);
   const [actualWord, setActualWord] = useState(0);
   const [pointsData, setPointsData] = useState(initialPointsData);
@@ -72,28 +87,26 @@ const SprintPage = ({ words, finallySendWordAndProgress }) => {
     if (counter <= 0) {
       return null;
     }
-
     if (isTrueButton === words[actualWord].isCorrectTranslation) {
       playSound(correctAnswerSound);
       setIsTrueAnswer(true);
       setTimeout(() => setIsTrueAnswer(false), 500);
       setPointsData(getNewPointsData(pointsData));
       newWordsData.push({ id: words[actualWord].id, isCorrectAnswer: true });
-      const preparedWord = wordHandler(words[actualWord].wordDefault, [
-        { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
-      ]);
-      finallySendWordAndProgress(preparedWord);
+
+      if (mode === 'learned words') {
+        sendingStatistics(false, words[actualWord], finallySendWordAndProgress);
+      }
     } else {
       playSound(incorrectAnswerSound);
       setIsFalseAnswer(true);
       setTimeout(() => setIsFalseAnswer(false), 500);
       newWordsData.push({ id: words[actualWord].id, isCorrectAnswer: false });
       setPointsData({ ...initialPointsData, points: pointsData.points });
-      const preparedWord = wordHandler(words[actualWord].wordDefault, [
-        { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_REWARD },
-        { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
-      ]);
-      finallySendWordAndProgress(preparedWord);
+
+      if (mode === 'learned words') {
+        sendingStatistics(true, words[actualWord], finallySendWordAndProgress);
+      }
     }
 
     return setActualWord(actualWord + 1);
@@ -256,6 +269,7 @@ const SprintPage = ({ words, finallySendWordAndProgress }) => {
 SprintPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
+  mode: PropTypes.string.isRequired,
 };
 
 export default SprintPage;
