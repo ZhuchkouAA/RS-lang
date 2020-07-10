@@ -59,7 +59,6 @@ export const getQueueMiniGame20 = async (group, page) => {
   return shuffle(queueMiniGame20);
 };
 
-
 export const getQueueMiniGame10 = async (group) => {
   const WORDS_PER_PAGE = 10;
   const randomPage = Math.random() * 60;
@@ -79,5 +78,4 @@ export const getQueueLearned20 = () => {
   const shuffledQueue = shuffle(onlyLearnedQueue);
   const queueLearned20 = shuffledQueue.slice(0, 20);
   return queueLearned20;
-
 };

@@ -35,11 +35,14 @@ const wordHandler = (word, options) => {
 
     newWord.optional.lastRepeatWordDate = Date.now();
 
-    newWord.optional.repeatDate =
-      // log function
-      Date.now() + REPEAT_INTERVAL(newWord.difficulty);
-    // linear function
-    // Date.now() + WORD_REPEAT_INTERVAL_MAX * (MAX_DIFFICULTY + 1 - newWord.difficulty);
+    // const interval =
+    //   REPEAT_INTERVAL(newWord.difficulty) > MIN_REPEAT_INTERVAL
+    //     ? REPEAT_INTERVAL(newWord.difficulty)
+    //     : MIN_REPEAT_INTERVAL;
+
+    const interval = REPEAT_INTERVAL(newWord.difficulty);
+
+    newWord.optional.repeatDate = Date.now() + interval;
 
     if (key === WORD_HANDLER_KEYS.repeatDate) {
       newWord.optional.repeatDate = value;
