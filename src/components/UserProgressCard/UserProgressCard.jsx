@@ -13,7 +13,6 @@ const UserProgressCard = ({ settings, progress }) => {
     longestTodaySeries,
     leftRepeatWordsToday,
     leftNewWordsToday,
-    rightAnswersStatistic,
   } = progress;
 
   const userIndicatorState = calcUserIndicatorState(settings, progress);
@@ -33,7 +32,6 @@ const UserProgressCard = ({ settings, progress }) => {
           hint="Осталось изучить новых слов сегодня"
           rating={userIndicatorState.leftNewWordsTodayPercent}
           value={leftNewWordsToday}
-          reverse
         />
       </Grid>
       <Grid item>
@@ -42,14 +40,13 @@ const UserProgressCard = ({ settings, progress }) => {
           hint="Осталось повторить слов сегодня"
           rating={userIndicatorState.leftRepeatWordsTodayPercent}
           value={leftRepeatWordsToday}
-          reverse
         />
       </Grid>
       <Grid item>
         <UserStateIndicator
           header="Ответы"
           hint="Процент правильных ответов сегодня"
-          rating={rightAnswersStatistic[0]}
+          rating={userIndicatorState.rightAnswersStatisticPercent}
           unit="%"
         />
       </Grid>

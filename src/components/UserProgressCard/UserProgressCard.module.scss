@@ -3,8 +3,7 @@
 .UserProgressCard {
   @extend %card-shadow;
   border-radius: 5px;
-  height: 150px;
-  min-width: 320px;
+  max-width: 320px;
   padding: 6px;
   transition: 0.3s;
   user-select: none;
