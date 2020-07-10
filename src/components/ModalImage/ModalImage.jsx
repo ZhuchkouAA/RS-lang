@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Dialog } from '@material-ui/core';
 
+import styles from './ModalImage.module.scss';
+
 const ModalImage = ({ isOpen, imageAlt, imageSrc, callBack }) => {
   const [open, setOpen] = React.useState(isOpen);
 
@@ -13,7 +15,7 @@ const ModalImage = ({ isOpen, imageAlt, imageSrc, callBack }) => {
 
   return (
     <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-      <img src={imageSrc} alt={imageAlt} />
+      <img className={styles.ModalImage__image} src={imageSrc} alt={imageAlt} />
     </Dialog>
   );
 };
