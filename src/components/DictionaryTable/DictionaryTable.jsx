@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-
 import {
   Table,
   TableBody,
@@ -14,13 +13,14 @@ import {
   IconButton,
   Tooltip,
 } from '@material-ui/core';
-
 import RestorePageIcon from '@material-ui/icons/RestorePage';
 
 import IconMini from '../IconMini';
 import DeleteIconButton from '../DeleteIconButton';
 import WordDifficultyIndicator from '../WordDifficultyIndicator';
+import ModalImage from '../ModalImage';
 import TablePaginationActions from './TablePaginationActions';
+import TableButtonLink from './TableButtonLink';
 
 import { getHintForCountDaysBeforeNextWordRepeat } from '../../helpers/repeat-logic-utils';
 import { TABLE_PAGE_SIZE, DICTIONARY_PAGINATION } from '../../constants/dictionary';
@@ -41,6 +41,7 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(TABLE_PAGE_SIZE);
+  const [wordImage, setWordImage] = useState({ word: '', imageSrc: '', isShow: false });
 
   const cntWords = words && words.length ? words.length : 0;
 
@@ -59,6 +60,10 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
     const wordOption = [{ key: wordKey, value: false }];
 
     updateWordServerState(words[wordIndex], wordOption);
+  };
+
+  const handlerClickShowWordImage = (word, imageSrc) => {
+    setWordImage({ imageSrc, word, isShow: true });
   };
 
   let tableCells;
@@ -85,7 +90,13 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
           <TableCell>
             <WordDifficultyIndicator difficulty={difficulty} />
           </TableCell>
-          <TableCell>{optional.word}</TableCell>
+          <TableCell>
+            <TableButtonLink
+              word={optional.word}
+              imageSrc={optional.image}
+              onClick={handlerClickShowWordImage}
+            />
+          </TableCell>
           {isTranscriptionShow && <TableCell>{optional.transcription}</TableCell>}
           <TableCell>{optional.wordTranslate}</TableCell>
 
@@ -196,6 +207,14 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
           ActionsComponent={TablePaginationActions}
+        />
+      )}
+      {wordImage.isShow && (
+        <ModalImage
+          isOpen={wordImage.isShow}
+          imageAlt={wordImage.word}
+          imageSrc={wordImage.imageSrc}
+          callBack={setWordImage}
         />
       )}
     </Paper>
