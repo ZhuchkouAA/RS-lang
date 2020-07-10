@@ -29,6 +29,7 @@ const wordHandler = (word, options) => {
         newDifficulty = MIN_DIFFICULTY;
         newWord.isStudying = false;
       }
+
       newDifficulty = newDifficulty > MAX_DIFFICULTY ? MAX_DIFFICULTY : newDifficulty;
       newWord.difficulty = String(newDifficulty);
     }
