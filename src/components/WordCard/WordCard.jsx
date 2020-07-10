@@ -57,6 +57,7 @@ const WordCard = ({
     isAnswerBtnShow,
     isDelFromLearnBtnShow,
     isFeedBackButtonsShow,
+    isHardWordBtnShow,
     isImageShow,
     isTextMeaningShow,
     isTextExampleShow,
@@ -388,7 +389,7 @@ const WordCard = ({
           <form onSubmit={handlerSubmit}>
             <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
               <Grid item>
-                {isFeedBackButtonsShow && (
+                {isHardWordBtnShow && (
                   <Tooltip title="Добавить слово в 'Сложные'" aria-label="add" enterDelay={1000}>
                     <Fab onClick={handlerClickHardWord} color="primary" size="small">
                       <AddIcon />
