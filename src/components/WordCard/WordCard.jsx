@@ -30,6 +30,7 @@ import VoteButtonsPanel from '../VoteButtonsPanel';
 import WordInput from '../WordInput';
 import SentenceWithWord from '../SentenceWithWord';
 import Dialog from '../Dialog';
+import ShortStatisticsDialog from '../ShortStatisticsDialog';
 
 import PATH from '../../constants/path';
 import URLS from '../../constants/APIUrls';
@@ -211,6 +212,7 @@ const WordCard = ({
       }
 
       const isFailsExist = cntLearnErrors !== 0;
+
       onCheckEnteredWord(wordsQueue[0], isFailsExist, newWordDifficulty);
     } else {
       setLearnErrors(cntLearnErrors + 1);
@@ -513,14 +515,17 @@ const WordCard = ({
           </Box>
         )}
       </CardActions>
-      {isModalOpen && (
+      {isModalOpen && isDemoQueue && (
         <Dialog
           isOpen={isModalOpen}
           type="info"
           tittle={WORDS_END.tittle}
-          message={isDemoQueue ? HARD_WORDS_END.message : WORDS_END.message}
+          message={HARD_WORDS_END.message}
           callBack={redirectToMainPage}
         />
+      )}
+      {isModalOpen && !isDemoQueue && (
+        <ShortStatisticsDialog isOpen={isModalOpen} isWordsRemain={wordsQueue.length > 0} />
       )}
     </Card>
   );

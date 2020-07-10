@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
 import {
   Grid,
   Button,
@@ -18,21 +17,26 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import PATH from '../../constants/path';
 import { getRatingColorStyleName } from '../../helpers/repeat-logic-utils';
+import { getCategoryPassedPercent } from '../../helpers/getProgress-utils';
 
 import styles from './ShortStatisticsDialog.module.scss';
 
 const useStyles = makeStyles({
   root: {
-    marginTop: '20px',
     marginBottom: 0,
+    marginTop: '20px',
   },
 });
 
 const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) => {
   const history = useHistory();
-  const { rightAnswersStatistic, longestTodaySeries } = progress;
+  const { rightAnswersStatistic, cardsShowedStatistic, longestTodaySeries } = progress;
   const { newWordsPerDay, wordsPerDay } = settings;
-  const rightAnswersToday = rightAnswersStatistic[0];
+
+  const rightAnswersToday = getCategoryPassedPercent(
+    rightAnswersStatistic[0],
+    cardsShowedStatistic[0]
+  );
 
   const [open, setOpen] = useState(isOpen);
 
