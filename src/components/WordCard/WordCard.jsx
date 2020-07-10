@@ -323,7 +323,7 @@ const WordCard = ({
   const translateIcoColor = isTranslateShow ? 'secondary' : 'default';
 
   const translateWordClasses = classNames(styles.WordCard__word, {
-    [styles['Block--hide']]: !(isTranslateNeed || isWordTranslateShow),
+    [styles['Block--hide']]: !(isTranslateNeed || isWordTranslateShow || isWordGuessed),
   });
 
   const isTranslateExampleShow = isTranslateNeed && isTextExampleShow;
@@ -370,7 +370,7 @@ const WordCard = ({
         <Grid item>
           <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
             <Grid item>
-              {isWordTranslateShow && (
+              {(isWordTranslateShow || isWordGuessed) && (
                 <Typography className={translateWordClasses} gutterBottom variant="h6">
                   {wordTranslate}
                 </Typography>
