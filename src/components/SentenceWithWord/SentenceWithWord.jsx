@@ -56,7 +56,7 @@ const SentenceWithWord = ({
             return <span key={`${keyPre}_${text}`}>{text}</span>;
           })}
         </Typography>
-        {isAudioBtnShow && <IconMini handlerClick={playText} />}
+        {isSentenceShow && isAudioBtnShow && <IconMini handlerClick={playText} />}
       </Grid>
       <Typography
         className={translateTextClasses}

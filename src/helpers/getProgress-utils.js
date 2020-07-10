@@ -5,7 +5,7 @@ import { shuffle } from './games-utils/filtersAndSorters';
 import API_URLS from '../constants/APIUrls';
 import { USER_ID, TOKEN } from '../constants/cookiesNames';
 import { MAX_DIFFICULTY } from '../constants/wordConfig';
-import { MSEC_PER_DAY, COUNT_ALL_WORDS } from '../constants/common';
+import { DELTA, MSEC_PER_DAY, COUNT_ALL_WORDS } from '../constants/common';
 
 export const isDateOfReceiptOfWordsCome = (serverDate) => {
   return serverDate < Date.now();
@@ -117,8 +117,8 @@ export const newArray15FromString = (string) => {
 
 const PERCENTS = 100;
 
-const getCategoryPassedPercent = (currentValue, maxValue) => {
-  return Math.round((currentValue / maxValue) * PERCENTS);
+export const getCategoryPassedPercent = (currentValue, maxValue) => {
+  return Math.round((currentValue / maxValue + DELTA) * PERCENTS);
 };
 
 export const calcUserIndicatorState = (settings, progress) => {
@@ -128,6 +128,7 @@ export const calcUserIndicatorState = (settings, progress) => {
     longestTodaySeries,
     leftNewWordsToday,
     rightAnswersStatistic,
+    cardsShowedStatistic,
     leftRepeatWordsToday,
   } = progress;
 
@@ -144,7 +145,7 @@ export const calcUserIndicatorState = (settings, progress) => {
 
   const rightAnswersStatisticPercent = getCategoryPassedPercent(
     rightAnswersStatistic[0],
-    wordsPerDay
+    cardsShowedStatistic[0]
   );
 
   const longestTodaySeriesPercent = getCategoryPassedPercent(longestTodaySeries, wordsPerDay);
