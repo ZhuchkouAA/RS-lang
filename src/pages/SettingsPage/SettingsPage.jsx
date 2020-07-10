@@ -279,8 +279,8 @@ const SettingsPage = ({
             </Typography>
             <Toggle
               label="Кнопка 'прослушать значение  '"
-              settingName="isAudioMeaning"
-              checkValue={settings.isAudioMeaning}
+              settingName="isAudioMeaningShow"
+              checkValue={settings.isAudioMeaningShow}
               toggle={onSettingsChange}
             />
             <Typography className={style.Settings__hint} variant="body2" gutterBottom>
