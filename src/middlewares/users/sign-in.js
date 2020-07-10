@@ -6,7 +6,7 @@ import { getCookie } from '../../helpers/cookies-utils';
 import { putSettings } from '../usersSettings/settings';
 import { putProgress } from '../usersStatistic/statistics';
 
-import serverSynchronization from '../serverSynchronization';
+// import serverSynchronization from '../serverSynchronization';
 import API_URLS from '../../constants/APIUrls';
 import { USER_ID, TOKEN } from '../../constants/cookiesNames';
 
@@ -31,7 +31,7 @@ const signIn = (login, password) => {
         dispatch(putSettings());
         dispatch(putProgress());
       }
-      await dispatch(serverSynchronization());
+      // await dispatch(serverSynchronization());
       dispatch(stopLoader());
     } catch (error) {
       dispatch(setAlertMessage('invalid data entered'));

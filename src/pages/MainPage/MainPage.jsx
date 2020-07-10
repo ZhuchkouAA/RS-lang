@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Container, Box } from '@material-ui/core';
 
@@ -7,7 +7,10 @@ import UserProgressCard from '../../components/UserProgressCard';
 import PATH from '../../constants/path';
 import { GAMES, WORD_CARD } from '../../constants/section';
 
-const MainPage = ({ setGameName }) => {
+const MainPage = ({ setGameName, serverSynchronization }) => {
+  useEffect(() => {
+    serverSynchronization();
+  }, []);
   const { name: cardName, description: cardDescription } = WORD_CARD;
   const gameCards = GAMES.map((game) => {
     const { path, name, description } = game;
@@ -40,6 +43,7 @@ const MainPage = ({ setGameName }) => {
 
 MainPage.propTypes = {
   setGameName: PropTypes.func.isRequired,
+  serverSynchronization: PropTypes.func.isRequired,
 };
 
 export default MainPage;
