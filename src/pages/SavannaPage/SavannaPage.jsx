@@ -3,7 +3,9 @@ import { Grid } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { NavLink } from 'react-router-dom';
 
+import PATHS from '../../constants/path';
 import WORD_HANDLER_KEYS from '../../constants/keys';
 import wordHandler from '../../helpers/games-utils/wordHandler';
 import Button from '../../components/Button';
@@ -16,6 +18,7 @@ import style from './SavannaPage.module.scss';
 
 const GAME_SPEED = 5000;
 const LIVES = [1, 2, 3, 4, 5];
+const ROUND = 20;
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -49,10 +52,12 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
   const question = words[currentQuestion];
   let answerArr = [];
   const correctAnswerSound = new Audio(correctSound);
+  correctAnswerSound.volume = 0.5;
   const incorrectAnswerSound = new Audio(incorrectSound);
+  incorrectAnswerSound.volume = 0.5;
 
   const endGame = () => {
-    if (currentQuestion + 1 === words.length) {
+    if ((currentQuestion + 1) % ROUND === 0) {
       setIsRunning(false);
       setShowResult(true);
     }
@@ -104,6 +109,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
     setIsRunning(true);
     setShowResult(false);
     answerArr = [];
+    setAnswers(answerArr);
     setLives(LIVES.length);
   };
 
@@ -124,6 +130,23 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
     setAnimation(false);
     endGame();
   };
+
+  if (words.length < 1) {
+    return (
+      <div className={style.Savanna}>
+        <Grid container direction="column" justify="space-around" alignItems="center">
+          <span className={style.Savanna__anouncment}>
+            Произошла ошибка с получением данных от сервера.
+          </span>
+          <NavLink className={style.NavBar__link} to={PATHS.GAME_START_SCREEN}>
+            <Grid container direction="column" justify="center" alignItems="center">
+              <Button handlerClick={gameStart} text="К выбору уровня" color="primary" />
+            </Grid>
+          </NavLink>
+        </Grid>
+      </div>
+    );
+  }
 
   return (
     <div className={style.Savanna}>
@@ -146,6 +169,11 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
               );
             })}
           </Grid>
+          <NavLink className={style.NavBar__link} to={PATHS.GAME_START_SCREEN}>
+            <Grid container direction="column" justify="center" alignItems="center">
+              <Button handlerClick={gameStart} text="К выбору уровня" color="primary" />
+            </Grid>
+          </NavLink>
         </div>
       )}
 

@@ -34,13 +34,13 @@
 
   50% {
     color: $learning-normal-color;
-    opacity: 0.5;
+    opacity: 0.8;
     top: 40%;
   }
 
   100% {
     color: $learning-fail-color;
-    opacity: 0.3;
+    opacity: 0.6;
     top: 60%;
 <<<<<<< HEAD
   }
@@ -71,7 +71,7 @@
 
   100% {
     color: $learning-bad-color;
-    opacity: 0;
+    opacity: 0.2;
     top: 100%;
   }
 }

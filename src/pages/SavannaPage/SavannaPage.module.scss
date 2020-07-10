@@ -8,7 +8,7 @@
   background-size: cover;
   display: flex;
   flex-direction: column;
-  height: 70vh;
+  height: 80vh;
   justify-content: center;
   position: relative;
   width: 100%;
@@ -20,8 +20,10 @@
   &__results {
     background-color: $white-color-transparent;
     border: 2px solid $learning-bad-color;
+    border-radius: 5px;
     left: 50%;
-    max-width: 300px;
+    max-width: 310px;
+    padding: 20px 10px;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -36,12 +38,19 @@
   
   &__answers_wrong {
     color: $learning-fail-color;
-    font-size: 16px;
+    font-size: 18px;
   }
 
   &__answers_right {
-    color: $learning-good-color;
-    font-size: 16px;
+    color: $learning-good-bg-color;
+    font-size: 18px;
+  }
+
+  &__anouncment {
+    background-color: $white-color-transparent;
+    border-radius: 5px;
+    color: $learning-fail-color;
+    font-size: 32px;
   }
 }
 
