@@ -330,7 +330,8 @@ const WordCard = ({
   const isTranslateMeaningShow = isTranslateNeed && isTextMeaningShow;
 
   const imageClasses = classNames(styles.WordCard__image, {
-    [styles['Block--hide']]: !isImageShow,
+    [styles['WordCard__image--hide']]: !isImageShow,
+    [styles['WordCard__image--show']]: isImageShow,
   });
 
   const isVoteButtonsPanelShow =
