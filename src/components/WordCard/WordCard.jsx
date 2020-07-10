@@ -358,20 +358,24 @@ const WordCard = ({
   return (
     <Card className={styles.WordCard__wrapper}>
       <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-        <Grid item className={styles.WordCard__header}>
+        <Grid item>
           <CardMedia className={imageClasses} image={imageUrl} title="Изучаемое слово" />
         </Grid>
         <Grid item>
-          {isWordTranslateShow && (
-            <Typography className={translateWordClasses} gutterBottom variant="h6">
-              {wordTranslate}
-            </Typography>
-          )}
-          {isTranscriptionShow && (
-            <Typography className={styles.WordCard__word} gutterBottom variant="h6">
-              {transcription}
-            </Typography>
-          )}
+          <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
+            <Grid item>
+              {isWordTranslateShow && (
+                <Typography className={translateWordClasses} gutterBottom variant="h6">
+                  {wordTranslate}
+                </Typography>
+              )}
+              {isTranscriptionShow && (
+                <Typography className={styles.WordCard__word} gutterBottom variant="h6">
+                  {transcription}
+                </Typography>
+              )}
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <CardContent className={styles.WordCard__content}>
@@ -473,14 +477,14 @@ const WordCard = ({
             </Tooltip>
           </Box>
         )}
-        <Box position="absolute" right="16px">
+        <Box position="absolute" className={styles['WordCard__mute-btn']} right="16px">
           <Tooltip title="Отключить автовоспроизведение" enterDelay={1000}>
             <IconButton onClick={handlerClickMuteSwitch} aria-label="mute">
               <SoundIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </Box>
-        <Box position="absolute" right="52px">
+        <Box position="absolute" className={styles['WordCard__translate-btn']} right="52px">
           <Tooltip title="Не показывать перевод" enterDelay={1000}>
             <IconButton
               onClick={handlerClickTranslateSwitch}
