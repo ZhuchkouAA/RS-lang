@@ -1,0 +1,15 @@
+@import '../../styles-global/index.module';
+
+.GamesStatisticsDialog {
+  &__wrapper {
+    max-height: 400px;
+  }
+
+  &__answer--good {
+    color: $green-color;
+  }
+
+  &__answer--bad {
+    color: $red-color;
+  }
+}
