@@ -5,7 +5,7 @@ import { shuffle } from './games-utils/filtersAndSorters';
 import API_URLS from '../constants/APIUrls';
 import { USER_ID, TOKEN } from '../constants/cookiesNames';
 import { MAX_DIFFICULTY } from '../constants/wordConfig';
-import { DELTA, MSEC_PER_DAY, COUNT_ALL_WORDS } from '../constants/common';
+import { MSEC_PER_DAY, COUNT_ALL_WORDS } from '../constants/common';
 
 export const isDateOfReceiptOfWordsCome = (serverDate) => {
   return serverDate < Date.now();
@@ -118,7 +118,9 @@ export const newArray15FromString = (string) => {
 const PERCENTS = 100;
 
 export const getCategoryPassedPercent = (currentValue, maxValue) => {
-  return Math.round((currentValue / maxValue + DELTA) * PERCENTS);
+  if (maxValue === 0) return 0;
+
+  return Math.round((currentValue / maxValue) * PERCENTS);
 };
 
 export const calcUserIndicatorState = (settings, progress) => {
