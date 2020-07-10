@@ -1,7 +1,9 @@
 
 .Form {
-  height: 300px;
+  background: linear-gradient(230deg, #edeabb 0%, #edeabb 35%, #edeabb 100%);
+  box-shadow: 0 25px 25px 45px #edeabb;
   margin: 0 auto;
+  opacity: 0.8;
   width: 250px;
 
   &__switcher {
@@ -19,5 +21,3 @@
   }
 
 }
-
-
