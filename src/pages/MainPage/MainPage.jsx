@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Container, Box } from '@material-ui/core';
+import { Grid, Container, Box, Divider } from '@material-ui/core';
 
 import AppSectionCard from '../../components/AppSectionCard';
 import UserProgressCard from '../../components/UserProgressCard';
@@ -25,13 +25,14 @@ const MainPage = ({ setGameName, serverSynchronization }) => {
   return (
     <Container maxWidth="sm">
       <Grid container justify="space-around" mb={2}>
-        <Box mb={1}>
+        <Box mb={2}>
           <AppSectionCard path={PATH.WORD_CARD} name={cardName} description={cardDescription} />
         </Box>
-        <Box mb={1}>
+        <Box mb={2}>
           <UserProgressCard />
         </Box>
       </Grid>
+      <Divider />
       <Box m={2}>
         <Grid container direction="row" justify="space-around" alignItems="center" spacing={2}>
           {gameCards}
