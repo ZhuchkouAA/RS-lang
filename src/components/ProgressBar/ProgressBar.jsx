@@ -11,9 +11,11 @@ const ProgressBar = ({ progress, settings }) => {
   const { cardsShowedStatistic } = progress;
   const { wordsPerDay } = settings;
 
-  const cntCardsShoedToday = cardsShowedStatistic[0];
+  const cntCardsShowedToday = cardsShowedStatistic[0];
   const maxProgressValue = 100;
-  const currentLearningProgress = (maxProgressValue * cntCardsShoedToday) / wordsPerDay;
+  const currentLearningProgress = (maxProgressValue * cntCardsShowedToday) / wordsPerDay;
+  const progressValue =
+    currentLearningProgress > maxProgressValue ? maxProgressValue : currentLearningProgress;
   const stateColors = getRatingColors(currentLearningProgress);
 
   const useStyles = makeStyles({
@@ -37,10 +39,12 @@ const ProgressBar = ({ progress, settings }) => {
       <div className={classes.root}>
         <LinearProgress
           variant="determinate"
-          value={currentLearningProgress}
+          value={progressValue}
           classes={{ barColorPrimary: classes.passed, colorPrimary: classes.full }}
         />
-        <div className={styles.ProgressBar__values}>{`${cntCardsShoedToday} / ${wordsPerDay}`}</div>
+        <div className={styles.ProgressBar__values}>
+          {`${cntCardsShowedToday} / ${wordsPerDay}`}
+        </div>
       </div>
     </Tooltip>
   );
