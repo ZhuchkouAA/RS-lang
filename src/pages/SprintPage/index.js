@@ -4,8 +4,9 @@ import SprintPage from './SprintPage';
 import sprintWordsQueue from '../../selectors/sprint-selectors';
 import finallySendWordAndProgress from '../../middlewares/finallySendWordAndProgress';
 
-const mapStateToProps = (state) => ({
-  words: sprintWordsQueue(state),
+const mapStateToProps = ({ gameModeData, gameModeData: { mode } }) => ({
+  words: sprintWordsQueue(gameModeData),
+  mode,
 });
 
 const actionCreators = { finallySendWordAndProgress };

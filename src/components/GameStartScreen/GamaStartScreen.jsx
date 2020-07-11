@@ -14,7 +14,8 @@ import {
 import gamesDiscription from '../../constants/gamesDescription';
 import { getQueueMiniGame600ByGroup } from '../../helpers/games-utils/createQueueMiniGame';
 import { getQueueRandom300 } from '../../helpers/getProgress-utils';
-import { onlyLearnedWords } from '../../helpers/games-utils/filtersAndSorters';
+import { onlyStudying } from '../../helpers/games-utils/filtersAndSorters';
+import serverSynchronization from '../../middlewares/serverSynchronization';
 import PATHS from '../../constants/path';
 import style from './GameStartScreen.module.scss';
 
@@ -26,6 +27,7 @@ const GameStartScreen = ({
   setRandomWords,
   runLoader,
   stopLoader,
+  isLoading,
 }) => {
   const { gameName } = gameModeData;
   const { mode } = gameModeData;
@@ -41,8 +43,8 @@ const GameStartScreen = ({
     { value: '5', label: 'Уровень 6' },
   ];
 
-  const wordsLearnedMinimumLength = 100;
-  const learnedWords = onlyLearnedWords(repeatWords);
+  const wordsLearnedMinimumLength = 50;
+  const learnedWords = onlyStudying(repeatWords);
   if (learnedWords.length > wordsLearnedMinimumLength) {
     levels.unshift({ value: 'learned words', label: 'Изученные слова' });
   }
@@ -63,6 +65,7 @@ const GameStartScreen = ({
   useEffect(() => {
     const updateData = async () => {
       runLoader();
+      await serverSynchronization();
       await addWordsGameMode(mode);
       const randomWords = await getQueueRandom300();
       await setRandomWords(randomWords);
@@ -77,6 +80,10 @@ const GameStartScreen = ({
     setGameMode(value);
     addWordsGameMode(value);
   };
+
+  if (isLoading) {
+    return <div />;
+  }
 
   return (
     <div className={style.GameStartScreen}>
@@ -136,6 +143,7 @@ GameStartScreen.propTypes = {
   setRandomWords: PropTypes.func.isRequired,
   runLoader: PropTypes.func.isRequired,
   stopLoader: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default GameStartScreen;

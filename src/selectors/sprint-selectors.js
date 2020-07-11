@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
 
-const getRandomWords = ({ gameModeData }) => {
+const getRandomWords = (gameModeData) => {
   return gameModeData.randomWords;
 };
 
-const getWords = ({ gameModeData }) => {
+const getWords = (gameModeData) => {
   return gameModeData.words;
 };
 
