@@ -5,7 +5,8 @@ import finallySendWordAndProgress from '../../middlewares/finallySendWordAndProg
 import audioCallWordsQueue from '../../selectors/audioCall-selectors';
 
 const mapStateToProps = (state) => ({
-  words: audioCallWordsQueue(state),
+  wordsForRandom: audioCallWordsQueue(state).wordsForRandom,
+  wordsForGame: audioCallWordsQueue(state).wordsForGame,
 });
 
 const actionCreators = { finallySendWordAndProgress };

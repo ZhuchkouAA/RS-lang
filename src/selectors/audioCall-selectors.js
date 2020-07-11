@@ -9,8 +9,9 @@ const getWords = ({ gameModeData }) => {
 };
 
 const audioCallWordsQueue = createSelector(getRandomWords, getWords, (randowWords, newWords) => {
-  const slicedNewWords = newWords.slice(0, 100);
-  return slicedNewWords.map((newWord) => {
+  const slicedNewWords = newWords.slice(0, 30);
+
+  const wordsForGame = slicedNewWords.map((newWord) => {
     return {
       wordDefault: newWord,
       word: newWord.optional.word,
@@ -21,6 +22,23 @@ const audioCallWordsQueue = createSelector(getRandomWords, getWords, (randowWord
       transcription: newWord.optional.transcription,
     };
   });
+
+  const wordsForRandom = newWords.slice(0, 300).map((newWord) => {
+    return {
+      wordDefault: newWord,
+      word: newWord.optional.word,
+      wordTranslate: newWord.optional.wordTranslate,
+      id: newWord.wordId,
+      audio: newWord.optional.audio,
+      image: newWord.optional.image,
+      transcription: newWord.optional.transcription,
+    };
+  });
+
+  return {
+    wordsForGame,
+    wordsForRandom,
+  };
 });
 
 export default audioCallWordsQueue;

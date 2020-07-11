@@ -22,7 +22,7 @@ incorrectAnswerSound.volume = 0.5;
 const answers = [];
 const collection = [];
 
-const AudioCallPage = ({ words, finallySendWordAndProgress }) => {
+const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgress }) => {
   const [index, setIndex] = useState(0);
   const [isAudioPlaying, setAudioPlaying] = useState(false);
   const [isNewWord, setIsNewWord] = useState(true);
@@ -34,21 +34,21 @@ const AudioCallPage = ({ words, finallySendWordAndProgress }) => {
     collection.length = 0;
 
     const blockedIndex = [index];
-    collection.push(words[index]);
+    collection.push(wordsForGame[index]);
 
     for (let i = 0; i <= 3; i += 1) {
       let isFind = false;
-      let randNum = Math.floor(Math.random() * words.length);
+      let randNum = Math.floor(Math.random() * wordsForRandom.length);
       while (!isFind) {
         if (!blockedIndex.includes(randNum)) {
           isFind = !isFind;
           blockedIndex.push(randNum);
         } else {
-          randNum = Math.floor(Math.random() * words.length);
+          randNum = Math.floor(Math.random() * wordsForRandom.length);
         }
       }
 
-      collection.push(words[randNum]);
+      collection.push(wordsForRandom[randNum]);
     }
 
     for (let i = 0; i <= collection.length - 1; i += 1) {
@@ -65,7 +65,7 @@ const AudioCallPage = ({ words, finallySendWordAndProgress }) => {
       return;
     }
 
-    const audioUrl = `${URLS.ASSETS}${words[index].audio}`;
+    const audioUrl = `${URLS.ASSETS}${wordsForGame[index].audio}`;
 
     setAudioPlaying(true);
     playTrackList([audioUrl], () => {
@@ -75,10 +75,10 @@ const AudioCallPage = ({ words, finallySendWordAndProgress }) => {
 
   const answerCreate = (condition, chosenWord = false) => {
     answers.push({
-      rightWord: words[index].word,
+      rightWord: wordsForGame[index].word,
       chosenWord,
       isGuessed: condition,
-      wordDefault: words[index].wordDefault,
+      wordDefault: wordsForGame[index].wordDefault,
     });
   };
 
@@ -121,7 +121,7 @@ const AudioCallPage = ({ words, finallySendWordAndProgress }) => {
     }, 150);
 
     const chosenWord = event.target.innerHTML;
-    const condition = words[index].wordTranslate === chosenWord;
+    const condition = wordsForGame[index].wordTranslate === chosenWord;
     answerCreate(condition, chosenWord);
   };
 
@@ -153,12 +153,12 @@ const AudioCallPage = ({ words, finallySendWordAndProgress }) => {
         <div className={imageClasses}>
           <CardMedia
             className={style['AudioCallPage__header-image']}
-            image={`${URLS.ASSETS}${words[index].image}`}
+            image={`${URLS.ASSETS}${wordsForGame[index].image}`}
             title="Изучаемое слово"
           />
-          <div className={style['AudioCallPage__header-translate']}>{words[index].word}</div>
+          <div className={style['AudioCallPage__header-translate']}>{wordsForGame[index].word}</div>
           <div className={style['AudioCallPage__header-transcription']}>
-            {words[index].transcription}
+            {wordsForGame[index].transcription}
           </div>
         </div>
         <div className={style['AudioCallPage__header-audio']}>
@@ -172,7 +172,7 @@ const AudioCallPage = ({ words, finallySendWordAndProgress }) => {
         </div>
       </div>
       <div className={style.AudioCallPage__examples}>
-        {!(words.length === index) &&
+        {!(wordsForGame.length === index) &&
           collection.map(({ word, wordTranslate }, i) => {
             const checkWordCondition = () => {
               let wordCondition = 'skipped';
@@ -181,17 +181,17 @@ const AudioCallPage = ({ words, finallySendWordAndProgress }) => {
                 case false:
                   if (wordTranslate === answers[answers.length - 1].chosenWord) {
                     wordCondition = 'wrong';
-                  } else if (word === words[index].word) {
+                  } else if (word === wordsForGame[index].word) {
                     wordCondition = 'right';
                   }
                   break;
                 case true:
-                  if (word === words[index].word) {
+                  if (word === wordsForGame[index].word) {
                     wordCondition = 'right';
                   }
                   break;
                 default:
-                  if (word === words[index].word) {
+                  if (word === wordsForGame[index].word) {
                     wordCondition = 'right';
                   }
                   break;
@@ -235,12 +235,15 @@ const AudioCallPage = ({ words, finallySendWordAndProgress }) => {
   ));
 
   return (
-    <div className={style.AudioCallPage}>{words.length === index ? resultHtml : gameHtml}</div>
+    <div className={style.AudioCallPage}>
+      {wordsForGame.length === index ? resultHtml : gameHtml}
+    </div>
   );
 };
 
 AudioCallPage.propTypes = {
-  words: PropTypes.arrayOf(PropTypes.object).isRequired,
+  wordsForGame: PropTypes.arrayOf(PropTypes.object).isRequired,
+  wordsForRandom: PropTypes.arrayOf(PropTypes.object).isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
 };
 
