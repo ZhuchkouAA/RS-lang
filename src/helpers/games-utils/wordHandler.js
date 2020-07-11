@@ -5,6 +5,10 @@ const wordHandler = (word, options) => {
   const { difficulty, wordId, optional } = word;
   const newWord = { difficulty, wordId, optional };
   options.forEach(({ key, value }) => {
+    if (key === WORD_HANDLER_KEYS.isMethodPost) {
+      newWord.optional.isMethodPost = value;
+    }
+
     if (key === WORD_HANDLER_KEYS.countRepeatsWordAllTime) {
       newWord.optional.countRepeatsWordAllTime += value;
     }
