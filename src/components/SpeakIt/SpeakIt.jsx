@@ -1,21 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Card, CardMedia, Button, Typography, Tab, Tabs } from '@material-ui/core';
-import {
-  Audiotrack,
-  LooksOne,
-  LooksTwo,
-  Looks3,
-  Looks4,
-  Looks5,
-  Looks6,
-  Mic,
-} from '@material-ui/icons';
+import { LooksOne, LooksTwo, Looks3, Looks4, Looks5, Looks6, Mic } from '@material-ui/icons';
 import classNames from 'classnames';
 
 import styles from './SpeakIt.module.scss';
 import getSpeechRecognition from './speech';
 import { getQueueMiniGame10 } from '../../helpers/games-utils/createQueueMiniGame';
 import Loader from '../Loader';
+import defaultImage from '../../img/speakIt.jpg';
 
 const playAudio = (url) => {
   const audio = new Audio();
@@ -23,7 +15,7 @@ const playAudio = (url) => {
   audio.play();
 };
 
-const getWords = async (level = 1) => {
+const getWords = async (level = 0) => {
   const path = 'https://raw.githubusercontent.com/zhuchkouaa/rslang-data/master/';
   const res = await getQueueMiniGame10(level);
   return res.map((element) => {
@@ -33,6 +25,8 @@ const getWords = async (level = 1) => {
     obj.word = element.optional.word;
     obj.wordTranslate = element.optional.wordTranslate;
     obj.transcription = element.optional.transcription;
+    obj.defaultWord = element;
+    obj.isGuested = false;
     return obj;
   });
 };
@@ -42,21 +36,33 @@ const SpeakIt = () => {
   const [inputText, setInputText] = useState('');
   const [wordsImage, setWordImage] = useState('');
   const [isStartGame, setStartGame] = useState(false);
-  const [wordsExample, setWordExample] = useState(false);
+  const [wordsExample, setWordExample] = useState([]);
 
   const handleWordExample = (lvl) => {
     getWords(lvl).then((val) => setWordExample(val));
   };
+  useEffect(() => {
+    handleWordExample();
+  }, []);
 
-  handleWordExample();
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleWordsImage = (url) => {
+    setWordImage(url);
   };
 
+  useEffect(() => {
+    handleWordsImage(defaultImage);
+  }, []);
   const handleInputText = (newValue) => {
     setInputText(newValue);
   };
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    handleWordExample(newValue);
+    handleWordsImage(defaultImage);
+    handleInputText('');
+  };
+
   const speechRec = getSpeechRecognition(handleInputText);
   // const recoStart = () => {
   //   speechRec.start();
@@ -65,6 +71,9 @@ const SpeakIt = () => {
     if (start && !isStartGame) {
       speechRec.start();
       setStartGame(start);
+      speechRec.onend = () => {
+        speechRec.start();
+      };
     }
 
     if (!start) {
@@ -73,13 +82,21 @@ const SpeakIt = () => {
     }
   };
 
-  const handleWordsImage = (url) => {
-    setWordImage(url);
-  };
+  useEffect(() => {
+    setWordExample(
+      wordsExample.map((el) => {
+        const word = el;
+        if (el.word === inputText) {
+          word.isGuested = true;
+        }
+        return word;
+      })
+    );
+  }, [inputText]);
 
   return (
     <Card className={styles.SpeakIt}>
-      {!wordsExample ? (
+      {wordsExample.length === 0 ? (
         <Loader />
       ) : (
         <Grid item className={styles.SpeakIt__wrapper}>
@@ -98,11 +115,13 @@ const SpeakIt = () => {
           </Card>
           <Card className={styles.SpeakIt__containWords}>
             {wordsExample.map((element) => {
+              const isGuested = element.word === inputText || element.isGuested;
+
               return (
                 <Card
                   className={classNames({
                     [styles.SpeakIt__item]: true,
-                    [styles.SpeakIt__item_true]: isStartGame && element.word === inputText,
+                    [styles.SpeakIt__item_true]: isStartGame && isGuested,
                   })}
                   key={Math.random()}
                   onClick={(e) => {
@@ -111,8 +130,7 @@ const SpeakIt = () => {
                     handleWordsImage(element.image);
                   }}
                 >
-                  <Audiotrack />
-                  <Typography className="word">{element.word}</Typography>
+                  <Typography className={styles.SpeakIt__item__word}>{element.word}</Typography>
                   <Typography>{element.transcription}</Typography>
                 </Card>
               );

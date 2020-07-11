@@ -9,11 +9,13 @@
   &__image {
     height: 300px;
     margin-bottom: 10px;
+    margin-top: 10px;
     width: 100%;
   }
 
   &__word {
     display: flex;
+    height: 25px;
     justify-content: center;
   }
 
@@ -35,10 +37,19 @@
     justify-content: center;
     margin: 5px;
     padding: 10px;
+    transition: 0.5s;
+  }
+
+  &__item:hover {
+    background-color: rgb(202, 202, 243);
   }
 
   &__item_true {
     background-color: rgb(171, 171, 228) !important;
+  }
+
+  &__item__word {
+    margin-right: 5px !important;
   }
 
   &__control {
