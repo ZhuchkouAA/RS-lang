@@ -3,6 +3,7 @@ const WORD_HANDLER_KEYS = {
   isDeleted: 'isDeleted',
   difficulty: 'difficulty',
   isHighPriority: 'isHighPriority',
+  isMethodPost: 'isMethodPost',
   countRepeatsWordAllTime: 'countRepeatsWordAllTime',
   repeatDate: 'repeatDate',
 };

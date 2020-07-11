@@ -5,6 +5,10 @@ const wordHandler = (word, options) => {
   const { difficulty, wordId, optional } = word;
   const newWord = { difficulty, wordId, optional };
   options.forEach(({ key, value }) => {
+    if (key === WORD_HANDLER_KEYS.isMethodPost) {
+      newWord.optional.isMethodPost = value;
+    }
+
     if (key === WORD_HANDLER_KEYS.countRepeatsWordAllTime) {
       newWord.optional.countRepeatsWordAllTime += value;
     }
@@ -29,6 +33,7 @@ const wordHandler = (word, options) => {
         newDifficulty = MIN_DIFFICULTY;
         newWord.isStudying = false;
       }
+
       newDifficulty = newDifficulty > MAX_DIFFICULTY ? MAX_DIFFICULTY : newDifficulty;
       newWord.difficulty = String(newDifficulty);
     }

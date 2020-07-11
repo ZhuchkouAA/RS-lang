@@ -34,7 +34,7 @@ const signIn = (login, password) => {
       // await dispatch(serverSynchronization());
       dispatch(stopLoader());
     } catch (error) {
-      dispatch(setAlertMessage('invalid data entered'));
+      dispatch(setAlertMessage('неверные данные'));
       dispatch(stopLoader());
     }
   };

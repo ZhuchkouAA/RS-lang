@@ -213,7 +213,21 @@ const WordCard = ({
 
       const isFailsExist = cntLearnErrors !== 0;
 
-      onCheckEnteredWord(wordsQueue[0], isFailsExist, newWordDifficulty);
+      const deltaDifficulty = newWordDifficulty - wordsQueue[0].difficulty;
+      wordsQueue[0] = wordHandler(wordsQueue[0], [
+        { key: WORD_HANDLER_KEYS.difficulty, value: deltaDifficulty },
+        { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 1 },
+        { key: WORD_HANDLER_KEYS.isHighPriority, value: false },
+      ]);
+
+      const { ...optional } = { ...wordsQueue[0].optional };
+      const updatedWord = { ...wordsQueue[0], optional };
+
+      onCheckEnteredWord(updatedWord, isFailsExist);
+
+      wordsQueue[0] = wordHandler(wordsQueue[0], [
+        { key: WORD_HANDLER_KEYS.isMethodPost, value: false },
+      ]);
     } else {
       setLearnErrors(cntLearnErrors + 1);
     }
@@ -293,22 +307,51 @@ const WordCard = ({
     const { difficulty } = wordsQueue[0];
     const newWordDifficulty = getNewWordDifficulty(difficulty, voteResult, cntLearnErrors);
 
-    onVoteButton(wordsQueue[0], newWordDifficulty, isRepeat);
+    const deltaDifficulty = newWordDifficulty - wordsQueue[0].difficulty;
+    const now = Date.now();
+
+    if (isRepeat) {
+      wordsQueue[0] = wordHandler(wordsQueue[0], [
+        { key: WORD_HANDLER_KEYS.difficulty, value: deltaDifficulty },
+        { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
+        { key: WORD_HANDLER_KEYS.repeatDate, value: now },
+      ]);
+    } else {
+      wordsQueue[0] = wordHandler(wordsQueue[0], [
+        { key: WORD_HANDLER_KEYS.difficulty, value: deltaDifficulty },
+      ]);
+    }
+
+    onVoteButton(wordsQueue[0]);
+
     nextBtn.current.focus();
   };
 
   const handlerClickDeleteWord = () => {
     onDeleteButton(wordsQueue[0]);
+
+    wordsQueue[0] = wordHandler(wordsQueue[0], [
+      { key: WORD_HANDLER_KEYS.isDeleted, value: true },
+      { key: WORD_HANDLER_KEYS.isMethodPost, value: false },
+    ]);
+
     goToNextWord();
   };
 
   const handlerClickHardWord = () => {
-    const woradMarkedAsHard = wordHandler(wordsQueue[0], [
+    wordsQueue[0] = wordHandler(wordsQueue[0], [
       { key: WORD_HANDLER_KEYS.isHard, value: true },
       { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 1 },
     ]);
 
-    onHardButton(woradMarkedAsHard);
+    const { ...optional } = { ...wordsQueue[0].optional };
+    const updatedWord = { ...wordsQueue[0], optional };
+
+    onHardButton(updatedWord);
+
+    wordsQueue[0] = wordHandler(wordsQueue[0], [
+      { key: WORD_HANDLER_KEYS.isMethodPost, value: false },
+    ]);
   };
 
   useEffect(() => {

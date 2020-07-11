@@ -54,13 +54,7 @@ const WordPage = ({
     finallySendWordAndProgress(word);
   };
 
-  const onCheckEnteredWord = async (word, isFailsExist, newWordDifficulty) => {
-    const deltaDifficulty = newWordDifficulty - word.difficulty;
-    const updatedWord = wordHandler(word, [
-      { key: WORD_HANDLER_KEYS.difficulty, value: deltaDifficulty },
-      { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 1 },
-      { key: WORD_HANDLER_KEYS.isHighPriority, value: false },
-    ]);
+  const onCheckEnteredWord = async (word, isFailsExist) => {
     await cardsShowedAllTimeIncrease();
     await cardsShowedStatisticIncrease();
 
@@ -92,28 +86,11 @@ const WordPage = ({
       await learnedWordsStatisticIncrease();
     }
 
-    finallySendWordAndProgress(updatedWord);
+    finallySendWordAndProgress(word);
   };
 
-  const onVoteButton = async (word, newWordDifficulty, isRepeat) => {
-    const deltaDifficulty = newWordDifficulty - word.difficulty;
-
-    const now = Date.now();
-    if (isRepeat) {
-      const updatedWord = wordHandler(word, [
-        { key: WORD_HANDLER_KEYS.difficulty, value: deltaDifficulty },
-        { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
-        { key: WORD_HANDLER_KEYS.repeatDate, value: now },
-      ]);
-
-      finallySendWordAndProgress(updatedWord);
-    } else {
-      const updatedWord = wordHandler(word, [
-        { key: WORD_HANDLER_KEYS.difficulty, value: deltaDifficulty },
-      ]);
-
-      finallySendWordAndProgress(updatedWord);
-    }
+  const onVoteButton = async (word) => {
+    finallySendWordAndProgress(word);
   };
 
   const redirectToMainPage = () => {
