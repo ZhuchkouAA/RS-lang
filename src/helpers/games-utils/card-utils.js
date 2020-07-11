@@ -1,7 +1,6 @@
 import store from '../../redux/redux-store';
 
 import { getNewLeftRepeatWordsToday } from '../getProgress-utils';
-import { DEFAULT_WORD } from '../../constants/variables-learning';
 import { resetPrevPage } from '../../redux/actions/creators/navBar-creator';
 import {
   highPriorityFirstSorter,
@@ -53,7 +52,7 @@ export const selectWordsQueue = (isPrevPageDictionary) => {
     wordsQueue = createQueueOrdinary();
   }
 
-  wordsQueue = wordsQueue.length > 0 ? wordsQueue : [DEFAULT_WORD];
+  wordsQueue = wordsQueue.length > 0 ? wordsQueue : [];
 
   wordsQueue.isDemoQueue = isDemoQueue;
 

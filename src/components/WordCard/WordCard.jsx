@@ -16,7 +16,6 @@ import {
   Tooltip,
   Fab,
 } from '@material-ui/core';
-
 import DeleteIcon from '@material-ui/icons/Delete';
 import MusicIcon from '@material-ui/icons/MusicNote';
 import MusicOffIcon from '@material-ui/icons/MusicOff';
@@ -24,12 +23,14 @@ import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
 import TranslateIcon from '@material-ui/icons/Translate';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import WordColoredChecker from '../WordColoredChecker';
 import VoteButtonsPanel from '../VoteButtonsPanel';
 import WordInput from '../WordInput';
 import SentenceWithWord from '../SentenceWithWord';
 import Dialog from '../Dialog';
+import ShortStatisticsDialog from '../ShortStatisticsDialog';
 
 import PATH from '../../constants/path';
 import URLS from '../../constants/APIUrls';
@@ -57,6 +58,7 @@ const WordCard = ({
     isAnswerBtnShow,
     isDelFromLearnBtnShow,
     isFeedBackButtonsShow,
+    isHardWordBtnShow,
     isImageShow,
     isTextMeaningShow,
     isTextExampleShow,
@@ -210,7 +212,22 @@ const WordCard = ({
       }
 
       const isFailsExist = cntLearnErrors !== 0;
-      onCheckEnteredWord(wordsQueue[0], isFailsExist, newWordDifficulty);
+
+      const deltaDifficulty = newWordDifficulty - wordsQueue[0].difficulty;
+      wordsQueue[0] = wordHandler(wordsQueue[0], [
+        { key: WORD_HANDLER_KEYS.difficulty, value: deltaDifficulty },
+        { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 1 },
+        { key: WORD_HANDLER_KEYS.isHighPriority, value: false },
+      ]);
+
+      const { ...optional } = { ...wordsQueue[0].optional };
+      const updatedWord = { ...wordsQueue[0], optional };
+
+      onCheckEnteredWord(updatedWord, isFailsExist);
+
+      wordsQueue[0] = wordHandler(wordsQueue[0], [
+        { key: WORD_HANDLER_KEYS.isMethodPost, value: false },
+      ]);
     } else {
       setLearnErrors(cntLearnErrors + 1);
     }
@@ -272,6 +289,11 @@ const WordCard = ({
     setTranslateShow(!isTranslateShow);
   };
 
+  const handlerClickResetRepeatHardWords = () => {
+    resetPrevPage();
+    history.push(PATH.MAIN);
+  };
+
   const handlerClickVoteButton = ({ target }) => {
     setControlsState({ ...controlsState, isVotePanelShow: false });
 
@@ -285,22 +307,51 @@ const WordCard = ({
     const { difficulty } = wordsQueue[0];
     const newWordDifficulty = getNewWordDifficulty(difficulty, voteResult, cntLearnErrors);
 
-    onVoteButton(wordsQueue[0], newWordDifficulty, isRepeat);
+    const deltaDifficulty = newWordDifficulty - wordsQueue[0].difficulty;
+    const now = Date.now();
+
+    if (isRepeat) {
+      wordsQueue[0] = wordHandler(wordsQueue[0], [
+        { key: WORD_HANDLER_KEYS.difficulty, value: deltaDifficulty },
+        { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
+        { key: WORD_HANDLER_KEYS.repeatDate, value: now },
+      ]);
+    } else {
+      wordsQueue[0] = wordHandler(wordsQueue[0], [
+        { key: WORD_HANDLER_KEYS.difficulty, value: deltaDifficulty },
+      ]);
+    }
+
+    onVoteButton(wordsQueue[0]);
+
     nextBtn.current.focus();
   };
 
   const handlerClickDeleteWord = () => {
     onDeleteButton(wordsQueue[0]);
+
+    wordsQueue[0] = wordHandler(wordsQueue[0], [
+      { key: WORD_HANDLER_KEYS.isDeleted, value: true },
+      { key: WORD_HANDLER_KEYS.isMethodPost, value: false },
+    ]);
+
     goToNextWord();
   };
 
   const handlerClickHardWord = () => {
-    const woradMarkedAsHard = wordHandler(wordsQueue[0], [
+    wordsQueue[0] = wordHandler(wordsQueue[0], [
       { key: WORD_HANDLER_KEYS.isHard, value: true },
       { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 1 },
     ]);
 
-    onHardButton(woradMarkedAsHard);
+    const { ...optional } = { ...wordsQueue[0].optional };
+    const updatedWord = { ...wordsQueue[0], optional };
+
+    onHardButton(updatedWord);
+
+    wordsQueue[0] = wordHandler(wordsQueue[0], [
+      { key: WORD_HANDLER_KEYS.isMethodPost, value: false },
+    ]);
   };
 
   useEffect(() => {
@@ -317,14 +368,15 @@ const WordCard = ({
   const translateIcoColor = isTranslateShow ? 'secondary' : 'default';
 
   const translateWordClasses = classNames(styles.WordCard__word, {
-    [styles['Block--hide']]: !(isTranslateNeed || isWordTranslateShow),
+    [styles['Block--hide']]: !(isTranslateNeed || isWordTranslateShow || isWordGuessed),
   });
 
   const isTranslateExampleShow = isTranslateNeed && isTextExampleShow;
   const isTranslateMeaningShow = isTranslateNeed && isTextMeaningShow;
 
   const imageClasses = classNames(styles.WordCard__image, {
-    [styles['Block--hide']]: !isImageShow,
+    [styles['WordCard__image--hide']]: !isImageShow,
+    [styles['WordCard__image--show']]: isImageShow,
   });
 
   const isVoteButtonsPanelShow =
@@ -358,20 +410,24 @@ const WordCard = ({
   return (
     <Card className={styles.WordCard__wrapper}>
       <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-        <Grid item className={styles.WordCard__header}>
+        <Grid item>
           <CardMedia className={imageClasses} image={imageUrl} title="Изучаемое слово" />
         </Grid>
         <Grid item>
-          {isWordTranslateShow && (
-            <Typography className={translateWordClasses} gutterBottom variant="h6">
-              {wordTranslate}
-            </Typography>
-          )}
-          {isTranscriptionShow && (
-            <Typography className={styles.WordCard__word} gutterBottom variant="h6">
-              {transcription}
-            </Typography>
-          )}
+          <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
+            <Grid item>
+              {(isWordTranslateShow || isWordGuessed) && (
+                <Typography className={translateWordClasses} gutterBottom variant="h6">
+                  {wordTranslate}
+                </Typography>
+              )}
+              {isTranscriptionShow && (
+                <Typography className={styles.WordCard__word} gutterBottom variant="h6">
+                  {transcription}
+                </Typography>
+              )}
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <CardContent className={styles.WordCard__content}>
@@ -379,7 +435,7 @@ const WordCard = ({
           <form onSubmit={handlerSubmit}>
             <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
               <Grid item>
-                {isFeedBackButtonsShow && (
+                {isHardWordBtnShow && (
                   <Tooltip title="Добавить слово в 'Сложные'" aria-label="add" enterDelay={1000}>
                     <Fab onClick={handlerClickHardWord} color="primary" size="small">
                       <AddIcon />
@@ -473,14 +529,14 @@ const WordCard = ({
             </Tooltip>
           </Box>
         )}
-        <Box position="absolute" right="16px">
+        <Box position="absolute" className={styles['WordCard__mute-btn']} right="16px">
           <Tooltip title="Отключить автовоспроизведение" enterDelay={1000}>
             <IconButton onClick={handlerClickMuteSwitch} aria-label="mute">
               <SoundIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </Box>
-        <Box position="absolute" right="52px">
+        <Box position="absolute" className={styles['WordCard__translate-btn']} right="52px">
           <Tooltip title="Не показывать перевод" enterDelay={1000}>
             <IconButton
               onClick={handlerClickTranslateSwitch}
@@ -491,15 +547,28 @@ const WordCard = ({
             </IconButton>
           </Tooltip>
         </Box>
+
+        {isDemoQueue && (
+          <Box position="absolute" className={styles['WordCard__translate-btn']} top="5px">
+            <Tooltip title="Отменить повторение сложных слов" enterDelay={500}>
+              <IconButton onClick={handlerClickResetRepeatHardWords} aria-label="reset-hard">
+                <RefreshIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        )}
       </CardActions>
-      {isModalOpen && (
+      {isModalOpen && isDemoQueue && (
         <Dialog
           isOpen={isModalOpen}
           type="info"
           tittle={WORDS_END.tittle}
-          message={isDemoQueue ? HARD_WORDS_END.message : WORDS_END.message}
+          message={HARD_WORDS_END.message}
           callBack={redirectToMainPage}
         />
+      )}
+      {isModalOpen && !isDemoQueue && (
+        <ShortStatisticsDialog isOpen={isModalOpen} isWordsRemain={wordsQueue.length > 0} />
       )}
     </Card>
   );

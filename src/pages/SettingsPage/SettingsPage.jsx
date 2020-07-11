@@ -137,7 +137,7 @@ const SettingsPage = ({
 
   return (
     <form className={style.Settings}>
-      <Container ClassName={style.Settings__wrapper}>
+      <Container className={style.Settings__wrapper}>
         <Grid container direction="row" justify="space-around" alignItems="flex-start">
           <div>
             <Typography variant="h6" gutterBottom>
@@ -279,8 +279,8 @@ const SettingsPage = ({
             </Typography>
             <Toggle
               label="Кнопка 'прослушать значение  '"
-              settingName="isAudioMeaning"
-              checkValue={settings.isAudioMeaning}
+              settingName="isAudioMeaningShow"
+              checkValue={settings.isAudioMeaningShow}
               toggle={onSettingsChange}
             />
             <Typography className={style.Settings__hint} variant="body2" gutterBottom>

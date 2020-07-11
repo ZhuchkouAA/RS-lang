@@ -95,6 +95,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
   const learnedWordsAllTimeClasses = classNames(styles[learnedWordsAllTimeColor]);
 
   if (isLoading) return <div />;
+
   return (
     <>
       <Grid container direction="column" justify="center" alignItems="center">
@@ -146,7 +147,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
             </Typography>
             <Typography gutterBottom align="center" variant="h6">
               {`${onlyStudyingWords} (${
-                Math.round((onlyStudyingWords / DELTA + differentCardsShowedAllTime) * 1000) / 10
+                Math.round((onlyStudyingWords / (DELTA + differentCardsShowedAllTime)) * 1000) / 10
               }%) из показанных`}
             </Typography>
           </Grid>

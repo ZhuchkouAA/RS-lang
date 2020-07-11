@@ -22,7 +22,6 @@ import { resetPrevPage } from '../../redux/actions/creators/navBar-creator';
 
 const mapStateToProps = ({ settings, loader: { isLoading }, navBar: { isPrevPageDictionary } }) => {
   const wordsQueue = selectWordsQueue(isPrevPageDictionary);
-  resetPrevPage();
 
   return { settings, isLoading, wordsQueue };
 };

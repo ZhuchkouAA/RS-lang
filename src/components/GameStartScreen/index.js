@@ -5,9 +5,10 @@ import { setGameMode, setGameWords, setRandomWords } from '../../redux/actions/c
 import { runLoader, stopLoader } from '../../redux/actions/creators/loader-creator';
 import serverSynchronization from '../../middlewares/serverSynchronization';
 
-const mapStateToProps = ({ gameModeData, progress }) => ({
+const mapStateToProps = ({ gameModeData, progress, loader }) => ({
   gameModeData,
   repeatWords: progress.queueRepeatWords,
+  isLoading: loader.isLoading,
 });
 
 const actionCreators = {

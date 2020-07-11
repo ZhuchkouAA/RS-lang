@@ -117,7 +117,9 @@ export const newArray15FromString = (string) => {
 
 const PERCENTS = 100;
 
-const getCategoryPassedPercent = (currentValue, maxValue) => {
+export const getCategoryPassedPercent = (currentValue, maxValue) => {
+  if (maxValue === 0) return 0;
+
   return Math.round((currentValue / maxValue) * PERCENTS);
 };
 
@@ -128,6 +130,7 @@ export const calcUserIndicatorState = (settings, progress) => {
     longestTodaySeries,
     leftNewWordsToday,
     rightAnswersStatistic,
+    cardsShowedStatistic,
     leftRepeatWordsToday,
   } = progress;
 
@@ -144,7 +147,7 @@ export const calcUserIndicatorState = (settings, progress) => {
 
   const rightAnswersStatisticPercent = getCategoryPassedPercent(
     rightAnswersStatistic[0],
-    wordsPerDay
+    cardsShowedStatistic[0]
   );
 
   const longestTodaySeriesPercent = getCategoryPassedPercent(longestTodaySeries, wordsPerDay);
