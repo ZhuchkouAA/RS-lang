@@ -21,7 +21,6 @@ import NavBar from '../NavBar';
 import GameStartScreen from '../GameStartScreen';
 
 const AppWithRoutes = ({ gameName, words }) => {
-  console.log(gamesDescriptionObj[gameName])
   const gameStartScreenComponent = gamesDescriptionObj[gameName] ? GameStartScreen : MainPage;
   return (
     <>
@@ -40,7 +39,6 @@ const AppWithRoutes = ({ gameName, words }) => {
         <Route exact path={PATH.PROMO} component={PromoPage} />
         <Route exact path={PATH.ABOUT_US} component={AboutUsPage} />
         <Route exact path={PATH.GAME_START_SCREEN} component={gameStartScreenComponent} />
-        <Route exact path={PATH.AUDIO_CALL} component={AudioCallPage} />
         {words.length !== 0 && <Route exact path={PATH.SPRINT} component={SprintPage} />}
         {words.length !== 0 && <Route exact path={PATH.AUDIO_CALL} component={AudioCallPage} />}
         <Redirect to={{ pathname: PATH.MAIN }} />

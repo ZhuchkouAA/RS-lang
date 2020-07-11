@@ -116,8 +116,8 @@ export const GAMES = [
     section: 'AUDIO_CALL',
     name: 'Аудио Вызов',
     description: 'Играем и учим слова в игре',
-    path: '/audio-call',
-    // path: '/game-start-screen',
+    // path: '/audio-call',
+    path: '/game-start-screen',
   },
   {
     section: 'SPEAK_IT',

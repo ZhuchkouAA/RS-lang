@@ -1,63 +1,157 @@
 .AudioCallPage {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
 
   //background: linear-gradient(#e66465, #9198e5);
   background-color: #fff;
 
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+
   &--correct {
-    box-shadow: inset 0px 0px 4px 1px #37fb52;
+    box-shadow: inset 0 0 4px 1px #37fb52;
   }
+
   &--incorrect {
-    box-shadow: inset 0px 0px 4px 1px #fb1731;
+    box-shadow: inset 0 0 4px 1px #fb1731;
   }
 }
 
-.AudioCallPage__audio {
-  margin-bottom: 50px;
-  &-icon {
+.AudioCallPage__header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
+  transition: 0.3s;
+
+  &-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    transition: 0.3s;
+  }
+
+  &-audio {
+    margin-bottom: 50px;
+  }
+
+  &-image {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+  }
+
+  &-translate {
+    font-family: 'Roboto', sans-serif;
+    font-size: 23px;
+    font-weight: 100;
+
+    margin-top: 10px;
+    user-select: none;
+  }
+
+  &-transcription {
+    font-family: 'Roboto', sans-serif;
+    font-size: 17px;
+    font-weight: 100;
+
+    margin-top: 5px;
+    user-select: none;
   }
 }
 
 .AudioCallPage__examples {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
   margin-bottom: 100px;
   user-select: none;
 
-  &-word {
-    margin: 0 10px 0 10px;
-    font-size: 20px;
-    font-weight: 100;
+  &-button {
     font-family: 'Roboto', sans-serif;
+    font-size: 26px;
+    font-weight: 100;
+    margin: 0 10px;
+  }
+
+  &-button--right {
+    color: #2a8024;
+  }
+
+  &-button--skipped {
+    opacity: 0.5;
+  }
+
+  &-button--wrong {
+    opacity: 0.5;
+  }
+
+  &-button--wrong &-word {
+    text-decoration: line-through;
+  }
+
+  &-button--off &-word:hover {
+    cursor: default;
+    opacity: unset;
+  }
+
+  &-word {
     transition: 0.3s;
   }
 
   &-word:hover {
+    cursor: pointer;
     opacity: 0.3;
+    transition: 0.3s;
+  }
+
+  &-index {
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    margin-right: 8px;
+  }
+}
+
+.AudioCallPage__next {
+  border: 1px solid;
+  border-radius: 4px;
+  color: rgb(148, 20, 14);
+  font-family: 'Roboto', sans-serif;
+  font-size: 19px;
+  font-weight: 100;
+
+  margin: 0 10px;
+
+  padding: 3px 10px;
+  transition: 0.3s;
+  user-select: none;
+
+  &:hover {
+    //opacity: 0.3;
+    background-color: rgb(148, 20, 14);
+    color: #fff;
     cursor: pointer;
     transition: 0.3s;
   }
 }
 
-.AudioCallPage__next {
-  user-select: none;
+.Block--hide {
+  display: none;
+  opacity: 0;
 
-  margin: 0 10px 0 10px;
-  color: rgb(148, 20, 14);
-  font-size: 19px;
-  font-weight: 100;
-  font-family: 'Roboto', sans-serif;
   transition: 0.3s;
+}
 
-  &:hover {
-    opacity: 0.3;
-    cursor: pointer;
-    transition: 0.3s;
-  }
+.Block--visibility {
+  opacity: 0;
+
+  transition: 0.3s;
 }

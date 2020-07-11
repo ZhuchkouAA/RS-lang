@@ -1,25 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { IconButton } from '@material-ui/core';
+import { CardMedia, IconButton, Tooltip } from '@material-ui/core';
 import { VolumeUp } from '@material-ui/icons';
 
+import classNames from 'classnames';
 import correctSound from '../../sounds/correct-answer.mp3';
 import incorrectSound from '../../sounds/incorrect-sound.mp3';
+import { playTrackList } from '../../helpers/playsound-utils';
+import URLS from '../../constants/APIUrls';
 import style from './AudioCallPage.module.scss';
-
-const wordArr = [
-  { word: 'golf', wordTranslate: 'гольф', id: undefined, isCorrectTranslation: false },
-  { word: 'magic', wordTranslate: 'магия', id: undefined, isCorrectTranslation: false },
-  { word: 'planet', wordTranslate: 'планета', id: undefined, isCorrectTranslation: false },
-  { word: 'hunger', wordTranslate: 'голод', id: undefined, isCorrectTranslation: true },
-  { word: 'life', wordTranslate: 'жизнь', id: undefined, isCorrectTranslation: false },
-  { word: 'banana', wordTranslate: 'банан', id: undefined, isCorrectTranslation: false },
-  { word: 'cheer', wordTranslate: 'поболеть', id: undefined, isCorrectTranslation: true },
-  // { word: 'prize', wordTranslate: 'приз', id: undefined, isCorrectTranslation: false },
-  // { word: 'sport', wordTranslate: 'спорт', id: undefined, isCorrectTranslation: true },
-  // { word: 'participant', wordTranslate: 'участник', id: undefined, isCorrectTranslation: true },
-];
+import wordHandler from '../../helpers/games-utils/wordHandler';
+import WORD_HANDLER_KEYS from '../../constants/keys';
+import { DIFFICULTY_GAME_PENALTY } from '../../constants/variables-learning';
 
 const correctAnswerSound = new Audio(correctSound);
 correctAnswerSound.volume = 0.5;
@@ -27,31 +20,38 @@ const incorrectAnswerSound = new Audio(incorrectSound);
 incorrectAnswerSound.volume = 0.5;
 
 const answers = [];
+const collection = [];
 
-const AudioCallPage = ({ words }) => {
+const AudioCallPage = ({ words, finallySendWordAndProgress }) => {
   const [index, setIndex] = useState(0);
-  const collection = [];
+  const [isAudioPlaying, setAudioPlaying] = useState(false);
+  const [isNewWord, setIsNewWord] = useState(true);
+  const [isWordGuess, setWordGuess] = useState(false);
+  const [isWordVisible, setWordVisible] = useState(false);
 
   const createList = () => {
-    const blockedIndex = [index];
-    collection.push(wordArr[index]);
+    setIsNewWord(false);
+    collection.length = 0;
 
-    for (let i = 0; i <= 4; i += 1) {
+    const blockedIndex = [index];
+    collection.push(words[index]);
+
+    for (let i = 0; i <= 3; i += 1) {
       let isFind = false;
-      let randNum = Math.floor(Math.random() * wordArr.length);
+      let randNum = Math.floor(Math.random() * words.length);
       while (!isFind) {
         if (!blockedIndex.includes(randNum)) {
           isFind = !isFind;
           blockedIndex.push(randNum);
         } else {
-          randNum = Math.floor(Math.random() * wordArr.length);
+          randNum = Math.floor(Math.random() * words.length);
         }
       }
 
-      collection.push(wordArr[randNum]);
+      collection.push(words[randNum]);
     }
 
-    for (let i = 0; i <= 5; i += 1) {
+    for (let i = 0; i <= collection.length - 1; i += 1) {
       const randPos = Math.floor(Math.random() * (5 - i));
       const currentPos = collection[i];
 
@@ -59,62 +59,173 @@ const AudioCallPage = ({ words }) => {
       collection[randPos] = currentPos;
     }
   };
-  createList();
+
+  const startPlayingSound = () => {
+    if (isAudioPlaying) {
+      return;
+    }
+
+    const audioUrl = `${URLS.ASSETS}${words[index].audio}`;
+
+    setAudioPlaying(true);
+    playTrackList([audioUrl], () => {
+      setAudioPlaying(false);
+    });
+  };
+
+  const answerCreate = (condition, chosenWord = false) => {
+    answers.push({
+      rightWord: words[index].word,
+      chosenWord,
+      isGuessed: condition,
+      wordDefault: words[index].wordDefault,
+    });
+  };
+
+  const newWordPrepare = () => {
+    let preparedWord = [];
+    if (!answers[answers.length - 1].isGuessed) {
+      preparedWord = wordHandler(answers[answers.length - 1].wordDefault, [
+        { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
+        { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
+      ]);
+    } else {
+      preparedWord = wordHandler(answers[answers.length - 1].wordDefault, [
+        { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
+      ]);
+    }
+    finallySendWordAndProgress(preparedWord);
+
+    setIndex(index + 1);
+    setWordGuess(false);
+    setIsNewWord(true);
+  };
+
+  if (isNewWord) {
+    createList();
+    startPlayingSound();
+  }
 
   const handlerClickPlayAudio = () => {
-    // const audio = Audio(words[index].audio);
-    // audio.play();
+    startPlayingSound();
   };
 
   const handlerClickAnswerWord = (event) => {
-    const chosenWord = event.target.innerHTML;
-    const condition = wordArr[index].wordTranslate === chosenWord;
-
-    if (condition) {
-      correctAnswerSound.play();
-    } else {
-      incorrectAnswerSound.play();
+    if (isWordGuess) {
+      return;
     }
 
-    answers.push({
-      word: wordArr[index].word,
-      isGuessed: condition,
-    });
-    setIndex(index + 1);
+    setWordGuess(true);
+    setTimeout(() => {
+      setWordVisible(true);
+    }, 150);
+
+    const chosenWord = event.target.innerHTML;
+    const condition = words[index].wordTranslate === chosenWord;
+    answerCreate(condition, chosenWord);
   };
 
   const handlerClickSkipWord = () => {
-    setIndex(index + 1);
+    if (!isWordGuess) {
+      setWordGuess(true);
+      setTimeout(() => {
+        setWordVisible(true);
+      }, 150);
+
+      const condition = 'skipped';
+      answerCreate(condition);
+      return;
+    }
+
+    newWordPrepare();
   };
+
+  // HTML
+
+  const imageClasses = classNames(style['AudioCallPage__header-container'], {
+    [style['Block--hide']]: !isWordGuess,
+    [style['Block--visibility']]: !isWordVisible,
+  });
 
   const gameHtml = (
     <>
-      <div className={style.AudioCallPage__audio}>
-        <div className={style['AudioCallPage__audio-icon']}>
-          <IconButton aria-label="mute" onClick={() => handlerClickPlayAudio()}>
-            <VolumeUp fontSize="large" />
-          </IconButton>
+      <div className={style.AudioCallPage__header}>
+        <div className={imageClasses}>
+          <CardMedia
+            className={style['AudioCallPage__header-image']}
+            image={`${URLS.ASSETS}${words[index].image}`}
+            title="Изучаемое слово"
+          />
+          <div className={style['AudioCallPage__header-translate']}>{words[index].word}</div>
+          <div className={style['AudioCallPage__header-transcription']}>
+            {words[index].transcription}
+          </div>
+        </div>
+        <div className={style['AudioCallPage__header-audio']}>
+          <div className={style['AudioCallPage__audio-icon']}>
+            <Tooltip title="Произнести слово" aria-label="add" enterDelay={1000}>
+              <IconButton aria-label="mute" onClick={handlerClickPlayAudio}>
+                <VolumeUp fontSize="large" />
+              </IconButton>
+            </Tooltip>
+          </div>
         </div>
       </div>
       <div className={style.AudioCallPage__examples}>
-        {!(wordArr.length === index) &&
-          collection.map(({ word, wordTranslate }) => (
-            <button
-              className={style['AudioCallPage__examples-word']}
-              type="button"
-              key={word}
-              onClick={(event) => handlerClickAnswerWord(event)}
-            >
-              {wordTranslate}
-            </button>
-          ))}
+        {!(words.length === index) &&
+          collection.map(({ word, wordTranslate }, i) => {
+            const checkWordCondition = () => {
+              let wordCondition = 'skipped';
+
+              switch (answers[answers.length - 1].isGuessed) {
+                case false:
+                  if (wordTranslate === answers[answers.length - 1].chosenWord) {
+                    wordCondition = 'wrong';
+                  } else if (word === words[index].word) {
+                    wordCondition = 'right';
+                  }
+                  break;
+                case true:
+                  if (word === words[index].word) {
+                    wordCondition = 'right';
+                  }
+                  break;
+                default:
+                  if (word === words[index].word) {
+                    wordCondition = 'right';
+                  }
+                  break;
+              }
+
+              return wordCondition;
+            };
+
+            const stateClass = classNames(style['AudioCallPage__examples-button'], {
+              [style[
+                `AudioCallPage__examples-button--${isWordGuess && checkWordCondition()}`
+              ]]: isWordGuess,
+              [style['AudioCallPage__examples-button--off']]: isWordGuess,
+            });
+
+            return (
+              <button
+                className={stateClass}
+                type="button"
+                key={word}
+                onClick={(event) => handlerClickAnswerWord(event)}
+              >
+                <span className={style['AudioCallPage__examples-index']}>{`${i + 1})`}</span>
+                <span className={style['AudioCallPage__examples-word']}>{wordTranslate}</span>
+              </button>
+            );
+          })}
       </div>
       <button
         className={style.AudioCallPage__next}
         type="button"
         onClick={() => handlerClickSkipWord()}
       >
-        Не знаю
+        {isWordGuess ? 'Дальше' : 'Не знаю'}
       </button>
     </>
   );
@@ -124,12 +235,13 @@ const AudioCallPage = ({ words }) => {
   ));
 
   return (
-    <div className={style.AudioCallPage}>{wordArr.length === index ? resultHtml : gameHtml}</div>
+    <div className={style.AudioCallPage}>{words.length === index ? resultHtml : gameHtml}</div>
   );
 };
 
 AudioCallPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
+  finallySendWordAndProgress: PropTypes.func.isRequired,
 };
 
 export default AudioCallPage;
