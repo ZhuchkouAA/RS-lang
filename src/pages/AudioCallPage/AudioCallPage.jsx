@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { CardMedia, IconButton, Tooltip } from '@material-ui/core';
@@ -28,6 +28,7 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
   const [isNewWord, setIsNewWord] = useState(true);
   const [isWordGuess, setWordGuess] = useState(false);
   const [isWordVisible, setWordVisible] = useState(false);
+  const [isEndOfGame, setEndOfGame] = useState(false);
 
   const createList = () => {
     setIsNewWord(false);
@@ -74,6 +75,13 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
   };
 
   const answerCreate = (condition, chosenWord = false) => {
+    setAudioPlaying(true);
+    if (condition && condition !== 'skipped') {
+      correctAnswerSound.play().then(() => setAudioPlaying(false));
+    } else {
+      incorrectAnswerSound.play().then(() => setAudioPlaying(false));
+    }
+
     answers.push({
       rightWord: wordsForGame[index].word,
       chosenWord,
@@ -96,12 +104,17 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
     }
     finallySendWordAndProgress(preparedWord);
 
+    if (index + 1 === wordsForGame.length) {
+      setEndOfGame(true);
+    }
+
     setIndex(index + 1);
     setWordGuess(false);
     setIsNewWord(true);
+    setWordVisible(false);
   };
 
-  if (isNewWord) {
+  if (isNewWord && !isEndOfGame) {
     createList();
     startPlayingSound();
   }
@@ -110,44 +123,71 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
     startPlayingSound();
   };
 
-  const handlerClickAnswerWord = (event) => {
-    if (isWordGuess) {
-      return;
+  const handlerClickAnswerWord = (event, type = 'click') => {
+    if (isWordGuess || isEndOfGame || isAudioPlaying) {
+      return undefined;
     }
 
-    setWordGuess(true);
     setTimeout(() => {
       setWordVisible(true);
-    }, 150);
+    }, 250);
 
-    const chosenWord = event.target.innerHTML;
+    const chosenWord =
+      type === 'keyUp' ? collection[event - 1].wordTranslate : event.target.innerHTML;
     const condition = wordsForGame[index].wordTranslate === chosenWord;
     answerCreate(condition, chosenWord);
+
+    setWordGuess(true);
+    return undefined;
   };
 
   const handlerClickSkipWord = () => {
+    if (isEndOfGame || isAudioPlaying) {
+      return undefined;
+    }
+
     if (!isWordGuess) {
-      setWordGuess(true);
       setTimeout(() => {
         setWordVisible(true);
-      }, 150);
+      }, 250);
 
       const condition = 'skipped';
       answerCreate(condition);
-      return;
+
+      setWordGuess(true);
+      return undefined;
     }
 
     newWordPrepare();
+    return undefined;
   };
 
-  // HTML
+  const handlerKeyPress = (e) => {
+    if (e.key === 'ArrowRight') {
+      return handlerClickSkipWord();
+    }
+
+    if (e.keyCode >= 49 && e.keyCode <= 53) {
+      return handlerClickAnswerWord(e.key, 'keyUp');
+    }
+
+    return undefined;
+  };
+
+  useEffect(() => {
+    window.addEventListener('keyup', handlerKeyPress);
+
+    return () => {
+      window.removeEventListener('keyup', handlerKeyPress);
+    };
+  }, [isWordGuess, isAudioPlaying]);
 
   const imageClasses = classNames(style['AudioCallPage__header-container'], {
     [style['Block--hide']]: !isWordGuess,
     [style['Block--visibility']]: !isWordVisible,
   });
 
-  const gameHtml = (
+  const gameHtml = () => (
     <>
       <div className={style.AudioCallPage__header}>
         <div className={imageClasses}>
@@ -230,15 +270,49 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
     </>
   );
 
-  const resultHtml = answers.map(({ word, isGuessed }) => (
-    <div key={word}>{`${word} / ${isGuessed}`}</div>
-  ));
+  const resultHtml = () => {
+    const endGameCondition = {
+      guessed: 0,
+      incorrect: 0,
+      skipped: 0,
+    };
 
-  return (
-    <div className={style.AudioCallPage}>
-      {wordsForGame.length === index ? resultHtml : gameHtml}
-    </div>
-  );
+    answers.forEach(({ isGuessed }) => {
+      switch (isGuessed) {
+        case 'skipped':
+          endGameCondition.skipped += 1;
+          break;
+        case true:
+          endGameCondition.guessed += 1;
+          break;
+        default:
+          endGameCondition.incorrect += 1;
+      }
+    });
+
+    return (
+      <div className={style.AudioCallPage__result}>
+        <div className={style['AudioCallPage__result-condition--right']}>
+          {`Верных ответа: ${endGameCondition.guessed}`}
+        </div>
+        <div className={style['AudioCallPage__result-condition--wrong']}>
+          {`Не верных ответа: ${endGameCondition.incorrect}`}
+        </div>
+        <div className={style['AudioCallPage__result-condition--skipped']}>
+          {`Пропущенных слов: ${endGameCondition.skipped}`}
+        </div>
+        <button
+          className={style['AudioCallPage__result-home']}
+          type="button"
+          onClick={() => window.location.reload()}
+        >
+          Домой
+        </button>
+      </div>
+    );
+  };
+
+  return <div className={style.AudioCallPage}>{isEndOfGame ? resultHtml() : gameHtml()}</div>;
 };
 
 AudioCallPage.propTypes = {

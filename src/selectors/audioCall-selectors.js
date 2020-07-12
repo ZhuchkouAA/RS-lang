@@ -9,7 +9,7 @@ const getWords = ({ gameModeData }) => {
 };
 
 const audioCallWordsQueue = createSelector(getRandomWords, getWords, (randowWords, newWords) => {
-  const slicedNewWords = newWords.slice(0, 30);
+  const slicedNewWords = newWords.slice(0, 25);
 
   const wordsForGame = slicedNewWords.map((newWord) => {
     return {
