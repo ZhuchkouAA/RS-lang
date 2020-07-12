@@ -61,9 +61,9 @@ export const ALL_SECTIONS = [
   },
   {
     section: 'OWN_GAME',
-    name: 'Своя игра',
+    name: 'Свояигра',
     description: 'Играем и учим слова в игре',
-    path: '/own-game',
+    path: '/game-start-screen',
     category: 'game',
   },
   {
@@ -126,9 +126,9 @@ export const GAMES = [
   },
   {
     section: 'OWN_GAME',
-    name: 'Своя игра',
+    name: 'Фортуна',
     description: 'Играем и учим слова в игре',
-    path: '/own-game',
+    path: '/game-start-screen',
   },
 ];
 

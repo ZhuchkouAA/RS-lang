@@ -9,7 +9,7 @@ import Timer from '../../components/Timer';
 import StatusIcon from '../../components/StatusIcon';
 import Button from '../../components/Button';
 import SoundDisableIcon from '../../components/SoundsDisableIcon';
-import MiniGamesStatistics from '../../components/MiniGamesStatistics';
+import GamesStatisticsDialog from '../../components/GamesStatisticsDialog';
 
 import sprintMusic from '../../sounds/sprint-music.mp3';
 import correctSound from '../../sounds/correct-answer.mp3';
@@ -78,16 +78,34 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
   const [isFalseAnswer, setIsFalseAnswer] = useState(false);
   const [isSoundsMute, setIsSoundsMute] = useState(false);
   const [isMusicMute, setIsMusicMute] = useState(false);
+  const [isProtectorEnable, setIsProtectorEnable] = useState(false);
+  const [wordsResult, setWordsResult] = useState([]);
+
   const playSound = (sound) => {
     if (isSoundsMute) return;
     sound.play();
+  };
+
+  const wordResultHandler = (isRight) => {
+    const wordResult = { ...words[actualWord].wordDefault };
+    wordResult.isRight = isRight;
+    const newWordsResult = wordsResult;
+    newWordsResult.push(wordResult);
+    setWordsResult(newWordsResult);
   };
 
   const handlerUserAnswer = (isTrueButton) => {
     if (counter <= 0) {
       return null;
     }
+
+    setIsProtectorEnable(true);
+    setTimeout(() => {
+      setIsProtectorEnable(false);
+    }, 300);
+
     if (isTrueButton === words[actualWord].isCorrectTranslation) {
+      wordResultHandler(true);
       playSound(correctAnswerSound);
       setIsTrueAnswer(true);
       setTimeout(() => setIsTrueAnswer(false), 500);
@@ -98,6 +116,7 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
         sendingStatistics(false, words[actualWord], finallySendWordAndProgress);
       }
     } else {
+      wordResultHandler(false);
       playSound(incorrectAnswerSound);
       setIsFalseAnswer(true);
       setTimeout(() => setIsFalseAnswer(false), 500);
@@ -113,6 +132,7 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
   };
 
   const handlerKeyPress = (e) => {
+    if (isProtectorEnable) return undefined;
     if (e.key === 'ArrowRight') {
       return handlerUserAnswer(true);
     }
@@ -149,7 +169,7 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
     return () => {
       window.removeEventListener('keyup', handlerKeyPress);
     };
-  }, [isTrueAnswer, isFalseAnswer]);
+  }, [isTrueAnswer, isFalseAnswer, isProtectorEnable]);
 
   useEffect(() => {
     if (counter > 0) {
@@ -241,10 +261,16 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
                   handlerClick={() => handlerUserAnswer(false)}
                   color="secondary"
                   text="Неверно"
+                  isDisable={isProtectorEnable}
                 />
               </div>
               <div>
-                <Button handlerClick={() => handlerUserAnswer(true)} color="primary" text="Верно" />
+                <Button
+                  isDisable={isProtectorEnable}
+                  handlerClick={() => handlerUserAnswer(true)}
+                  color="primary"
+                  text="Верно"
+                />
               </div>
             </div>
           </Grid>
@@ -256,10 +282,7 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
   return (
     <div className={styles.wrapper}>
       {(counter <= 0 && (
-        <MiniGamesStatistics
-          title={`Твой результат: ${pointsData.points} очков`}
-          description="Твой средний результат 9999 очков, твой рекорд 9999 очков"
-        />
+        <GamesStatisticsDialog isOpen words={wordsResult} score={pointsData.points} />
       )) ||
         sprintCard()}
     </div>

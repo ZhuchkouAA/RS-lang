@@ -1,18 +1,22 @@
 export default {
   Спринт: {
-    description: 'Очень хорошая игра на время пиу пиу',
+    discription: 'У тебя есть 60 секунд которые решат всё...',
     path: '/sprint',
+  },
+  Фортуна: {
+    discription: 'Отгадывай слово целиком либо пользуйся подсказками.',
+    path: '/own-game',
   },
   Аудио_Вызов: {
     description: 'Как хорошо вы воспринимаете на слух слова?',
     path: '/audio-call',
   },
-  default: {
-    description: 'default',
-    path: '/main',
-  },
   Саванна: {
     discription: 'Угадай слово, пока оно падает, как высохшие листья с деревьев в саванне',
     path: '/savanna',
   },
+  default: {
+    description: 'default',
+    path: '/main',
+  },  
 };
