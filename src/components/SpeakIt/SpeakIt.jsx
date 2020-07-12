@@ -64,20 +64,15 @@ const SpeakIt = () => {
   };
 
   const speechRec = getSpeechRecognition(handleInputText);
-  // const recoStart = () => {
-  //   speechRec.start();
-  // };
   const handleStartGame = (start) => {
     if (start && !isStartGame) {
       speechRec.start();
       setStartGame(start);
-      speechRec.onend = () => {
-        speechRec.start();
-      };
     }
 
-    if (!start) {
+    if (!start && isStartGame) {
       speechRec.abort();
+      speechRec.stop();
       setStartGame(start);
     }
   };
@@ -111,7 +106,9 @@ const SpeakIt = () => {
           <CardMedia image={wordsImage} className={styles.SpeakIt__image} />
           <Card className={styles.SpeakIt__word}>
             {isStartGame && <Mic />}
-            <Typography>{inputText}</Typography>
+            <Typography onChange={isStartGame ? handleStartGame(true) : handleStartGame(false)}>
+              {inputText}
+            </Typography>
           </Card>
           <Card className={styles.SpeakIt__containWords}>
             {wordsExample.map((element) => {
@@ -125,9 +122,11 @@ const SpeakIt = () => {
                   })}
                   key={Math.random()}
                   onClick={(e) => {
-                    playAudio(element.audio, e);
-                    handleInputText(element.wordTranslate);
-                    handleWordsImage(element.image);
+                    if (!isStartGame) {
+                      playAudio(element.audio, e);
+                      handleInputText(element.wordTranslate);
+                      handleWordsImage(element.image);
+                    }
                   }}
                 >
                   <Typography className={styles.SpeakIt__item__word}>{element.word}</Typography>
@@ -156,6 +155,7 @@ const SpeakIt = () => {
                 onClick={() => {
                   handleInputText('');
                   handleStartGame(true);
+                  handleWordsImage(defaultImage);
                 }}
               >
                 Старт
