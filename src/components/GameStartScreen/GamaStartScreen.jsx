@@ -11,7 +11,7 @@ import {
   Grid,
 } from '@material-ui/core/';
 
-import gamesDiscription from '../../constants/gamesDescription';
+import gamesDescription from '../../constants/gamesDescription';
 import { getQueueMiniGame600ByGroup } from '../../helpers/games-utils/createQueueMiniGame';
 import { getQueueRandom300 } from '../../helpers/getProgress-utils';
 import { onlyStudying } from '../../helpers/games-utils/filtersAndSorters';
@@ -31,7 +31,7 @@ const GameStartScreen = ({
 }) => {
   const { gameName } = gameModeData;
   const { mode } = gameModeData;
-  const currentGamePath = gamesDiscription[gameName].path;
+  const currentGamePath = gamesDescription[gameName].path;
   const [isActiveButton, setIsActiveButton] = useState(true);
 
   const levels = [
@@ -121,9 +121,11 @@ const GameStartScreen = ({
           </FormControl>
         </form>
         <div className={style.GameStartScreen__about}>
-          <span className={style.GameStartScreen__title}>{gameName}</span>
+          <span className={style.GameStartScreen__title}>
+            {gameName === 'Аудио_Вызов' ? 'Аудио Вызов' : gameName}
+          </span>
           <span className={style.GameStartScreen__description}>
-            {gamesDiscription[gameName].discription}
+            {gamesDescription[gameName].description}
           </span>
         </div>
       </div>

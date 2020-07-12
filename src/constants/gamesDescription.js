@@ -1,10 +1,14 @@
 export default {
   Спринт: {
-    discription: 'Очень хорошая игра на время пиу пиу',
+    description: 'Очень хорошая игра на время пиу пиу',
     path: '/sprint',
   },
+  Аудио_Вызов: {
+    description: 'Как хорошо вы воспринимаете на слух слова?',
+    path: '/audio-call',
+  },
   default: {
-    discription: 'default',
+    description: 'default',
     path: '/main',
   },
   Саванна: {

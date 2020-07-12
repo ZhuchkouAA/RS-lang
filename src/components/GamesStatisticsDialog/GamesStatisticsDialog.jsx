@@ -27,7 +27,7 @@ const getWordsRows = (words) => {
     return (
       <Typography
         key={key}
-        align="center"
+        align="left"
         variant="body1"
         color="textSecondary"
         component="p"
@@ -44,8 +44,8 @@ const GamesStatisticsDialog = ({ isOpen, words, score }) => {
   const history = useHistory();
   const [open, setOpen] = useState(isOpen);
 
-  const rightAnswers = words.filter(({ isRight }) => isRight);
-  const badAnswers = words.filter(({ isRight }) => !isRight);
+  const rightAnswers = words.filter(({ isRight }) => isRight && isRight !== null);
+  const badAnswers = words.filter(({ isRight }) => !isRight && isRight !== null);
   const skippedAnswers = words.filter(({ isSkip }) => isSkip);
   const goodWords = getWordsRows(rightAnswers);
   const badWords = getWordsRows(badAnswers);
@@ -53,6 +53,7 @@ const GamesStatisticsDialog = ({ isOpen, words, score }) => {
 
   const handleClose = () => {
     setOpen(false);
+    history.push(PATH.MAIN);
   };
 
   const handleClickContinue = () => {
