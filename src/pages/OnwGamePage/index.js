@@ -1,8 +1,12 @@
 import { connect } from 'react-redux';
 import OnwGamePage from './OnwGamePage';
+import finallySendWordAndProgress from '../../middlewares/finallySendWordAndProgress';
 
-const mapStateToProps = ({ gameModeData: { words } }) => ({
+const mapStateToProps = ({ gameModeData: { words, mode } }) => ({
   words,
+  mode,
 });
 
-export default connect(mapStateToProps)(OnwGamePage);
+const actionCreators = { finallySendWordAndProgress };
+
+export default connect(mapStateToProps, actionCreators)(OnwGamePage);

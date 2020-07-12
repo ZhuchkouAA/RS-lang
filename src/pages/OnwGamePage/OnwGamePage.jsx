@@ -1,39 +1,84 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Card, Grid, Typography } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
-import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 
 import CustomButton from '../../components/Button';
+import SymbolWindow from '../../components/SymbolWindow';
+import GamesStatisticsDialog from '../../components/GamesStatisticsDialog';
+import randomNumberCreator from '../../helpers/games-utils/returnRandomNumber';
+import wordHandler from '../../helpers/games-utils/wordHandler';
 import URLS from '../../constants/APIUrls';
 import actionText from '../../constants/ownGame';
-import randomNumberCreator from '../../helpers/games-utils/returnRandomNumber';
-import SymbolWindow from '../../components/SymbolWindow';
+import WORD_HANDLER_KEYS from '../../constants/keys';
+import {
+  DIFFICULTY_GAME_PENALTY,
+  DIFFICULTY_GAME_REWARD,
+} from '../../constants/variables-learning';
 import styles from './OnwGamePage.module.scss';
 
-const OnwGamePage = ({ words }) => {
+const sendingStatistics = (isPenalty, word, callback, mode) => {
+  if (mode !== 'learned words') return;
+
+  let preparedWord;
+  if (isPenalty) {
+    preparedWord = wordHandler(word, [
+      { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
+    ]);
+  } else {
+    preparedWord = wordHandler(word, [
+      { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_REWARD },
+      { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
+    ]);
+  }
+  callback(preparedWord);
+};
+
+const OnwGamePage = ({ words, mode, finallySendWordAndProgress }) => {
   const wordDataCreator = (wordId) => {
     const data = new Array(words[wordId].optional.word.length);
     data.fill(false);
     return data;
   };
+
   const initialData = wordDataCreator(0);
+
+  const maxNumberOfWordsInGame = 20;
+  const startGameId = 0;
+  const guessSymbolModeId = 1;
+  const openAnySymbolModeId = 2;
+  const playSoundModeId = 3;
+  const emptyTextModeId = 5;
+  const showPrevWordTextModeId = 6;
 
   const [currentWord, setCurrentWord] = useState({ id: 0, data: initialData });
   const [currentSymbol, setCurrentSymbol] = useState('');
   const [wordAnswer, setWordAnswer] = useState('');
-  const [rouletteData, setRouletteData] = useState(0);
+  const [rouletteData, setRouletteData] = useState(startGameId);
   const [isUserChoiseActive, setIsUserChoiseActive] = useState(false);
   const [prevWord, setPrevWord] = useState('');
+  const [wordsResult, setWordsResult] = useState([]);
+  const [tryCounter, setTryCounter] = useState(0);
+
   const symbolRef = useRef(null);
   const playBtnRef = useRef(null);
+
   const word = words[currentWord.id].optional.word.split('');
   const audioUrl = `${URLS.ASSETS}${words[currentWord.id].optional.audio}`;
   const audio = new Audio(audioUrl);
 
+  const wordResultHandler = (isRight) => {
+    const wordResult = { ...words[currentWord.id] };
+    wordResult.isRight = isRight;
+    const newWordsResult = wordsResult;
+    newWordsResult.push(wordResult);
+    setWordsResult(newWordsResult);
+  };
+
   audio.onended = () => {
-    setRouletteData(5);
+    setRouletteData(emptyTextModeId);
     setIsUserChoiseActive(false);
   };
 
@@ -54,8 +99,9 @@ const OnwGamePage = ({ words }) => {
   };
 
   const openSymbol = (e) => {
-    if (rouletteData === 2 && isUserChoiseActive) {
-      setRouletteData(5);
+    if (rouletteData === openAnySymbolModeId && isUserChoiseActive) {
+      setTryCounter(tryCounter + 1);
+      setRouletteData(emptyTextModeId);
       const openSymbolId = +e.target.id;
       searchForMatchingSymbols(word, word[openSymbolId]);
       setIsUserChoiseActive(false);
@@ -63,7 +109,8 @@ const OnwGamePage = ({ words }) => {
   };
 
   useEffect(() => {
-    if (rouletteData === 3) {
+    if (rouletteData === playSoundModeId) {
+      setTryCounter(tryCounter + 1);
       audio.play();
     }
   }, [rouletteData]);
@@ -72,12 +119,16 @@ const OnwGamePage = ({ words }) => {
     const isAllTrue = currentWord.data.every((elem) => elem === true);
     const isSomeTrue = currentWord.data.some((elem) => elem === true);
     if (isSomeTrue && isAllTrue) {
+      const isPerfectAnswer = tryCounter === 0;
+      sendingStatistics(!isPerfectAnswer, words[currentWord.id], finallySendWordAndProgress, mode);
+      wordResultHandler(false);
       setPrevWord(words[currentWord.id].optional.word);
       const newWordData = wordDataCreator(currentWord.id + 1);
       setCurrentWord({ id: currentWord.id + 1, data: newWordData });
       setIsUserChoiseActive(false);
-      setRouletteData(6);
+      setRouletteData(showPrevWordTextModeId);
       playBtnRef.current.focus();
+      setTryCounter(0);
     }
     return undefined;
   }, [currentWord]);
@@ -90,13 +141,17 @@ const OnwGamePage = ({ words }) => {
     e.preventDefault();
     searchForMatchingSymbols(word, currentSymbol);
     setCurrentSymbol('');
-    setRouletteData(5);
+    setRouletteData(emptyTextModeId);
     setIsUserChoiseActive(false);
+    setTryCounter(tryCounter + 1);
   };
 
   const handlerSubmitWord = (e) => {
     e.preventDefault();
     if (wordAnswer === words[currentWord.id].optional.word) {
+      const isPerfectAnswer = tryCounter === 0;
+      wordResultHandler(isPerfectAnswer);
+      sendingStatistics(!isPerfectAnswer, words[currentWord.id], finallySendWordAndProgress, mode);
       const newWordData = wordDataCreator(currentWord.id + 1);
       setCurrentWord({ id: currentWord.id + 1, data: newWordData });
     }
@@ -110,20 +165,28 @@ const OnwGamePage = ({ words }) => {
   const handlerRouletteClick = () => {
     setCurrentSymbol('');
     setIsUserChoiseActive(true);
-    const randomNumber = Math.round(randomNumberCreator(1, 3));
-    if (randomNumber === 1) {
+    const randomNumber = Math.round(randomNumberCreator(guessSymbolModeId, playSoundModeId));
+    if (randomNumber === guessSymbolModeId) {
       symbolRef.current.focus();
     }
     setRouletteData(randomNumber);
   };
 
   const wordsSymbols = word.map((symbol, id) => {
-    return <SymbolWindow handlerClick={openSymbol} id={id} text={currentWord.data[id] && symbol} />;
+    const key = `OwnGame__${symbol}-${id}`;
+    return (
+      <SymbolWindow
+        handlerClick={openSymbol}
+        id={id}
+        key={key}
+        text={(currentWord.data[id] && symbol) || ''}
+      />
+    );
   });
 
   const actionTextBlock = () => {
     let text;
-    if (rouletteData === 6) {
+    if (rouletteData === showPrevWordTextModeId) {
       text = prevWord;
     } else {
       text = actionText[rouletteData];
@@ -132,8 +195,8 @@ const OnwGamePage = ({ words }) => {
     return <Box className={styles['Card__action-text']}>{text}</Box>;
   };
 
-  return (
-    <div className={styles.wrapper}>
+  const fortune = () => (
+    <>
       <Grid container direction="row" justify="center" alignItems="center">
         <Card className={styles.Card}>
           <Typography className={styles['Card__message-group']} gutterBottom variant="h6">
@@ -145,7 +208,7 @@ const OnwGamePage = ({ words }) => {
               onClick={handlerRouletteClick}
               ref={playBtnRef}
             >
-              Играть
+              Подсказка
             </Button>
           </Typography>
           <Typography className={styles.Card__word} gutterBottom variant="h5">
@@ -180,7 +243,7 @@ const OnwGamePage = ({ words }) => {
                 />
               </Box>
               <CustomButton
-                isDisable={!(rouletteData === 1 && isUserChoiseActive)}
+                isDisable={!(rouletteData === guessSymbolModeId && isUserChoiseActive)}
                 color="primary"
                 type="submit"
                 text="Буква"
@@ -189,12 +252,20 @@ const OnwGamePage = ({ words }) => {
           </Grid>
         </Card>
       </Grid>
+    </>
+  );
+
+  return (
+    <div className={styles.wrapper}>
+      {(currentWord.id > maxNumberOfWordsInGame && <GamesStatisticsDialog isOpen words={wordsResult} />) || fortune()}
     </div>
   );
 };
 
 OnwGamePage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
+  mode: PropTypes.string.isRequired,
+  finallySendWordAndProgress: PropTypes.func.isRequired,
 };
 
 export default OnwGamePage;
