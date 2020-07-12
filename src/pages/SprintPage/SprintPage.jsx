@@ -78,6 +78,8 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
   const [isFalseAnswer, setIsFalseAnswer] = useState(false);
   const [isSoundsMute, setIsSoundsMute] = useState(false);
   const [isMusicMute, setIsMusicMute] = useState(false);
+  const [isProtectorEnable, setIsProtectorEnable] = useState(false);
+
   const playSound = (sound) => {
     if (isSoundsMute) return;
     sound.play();
@@ -87,6 +89,12 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
     if (counter <= 0) {
       return null;
     }
+
+    setIsProtectorEnable(true);
+    setTimeout(() => {
+      setIsProtectorEnable(false);
+    }, 300);
+
     if (isTrueButton === words[actualWord].isCorrectTranslation) {
       playSound(correctAnswerSound);
       setIsTrueAnswer(true);
@@ -113,6 +121,7 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
   };
 
   const handlerKeyPress = (e) => {
+    if (isProtectorEnable) return undefined;
     if (e.key === 'ArrowRight') {
       return handlerUserAnswer(true);
     }
@@ -149,7 +158,7 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
     return () => {
       window.removeEventListener('keyup', handlerKeyPress);
     };
-  }, [isTrueAnswer, isFalseAnswer]);
+  }, [isTrueAnswer, isFalseAnswer, isProtectorEnable]);
 
   useEffect(() => {
     if (counter > 0) {
@@ -241,10 +250,16 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
                   handlerClick={() => handlerUserAnswer(false)}
                   color="secondary"
                   text="Неверно"
+                  isDisable={isProtectorEnable}
                 />
               </div>
               <div>
-                <Button handlerClick={() => handlerUserAnswer(true)} color="primary" text="Верно" />
+                <Button
+                  isDisable={isProtectorEnable}
+                  handlerClick={() => handlerUserAnswer(true)}
+                  color="primary"
+                  text="Верно"
+                />
               </div>
             </div>
           </Grid>
@@ -258,7 +273,7 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
       {(counter <= 0 && (
         <MiniGamesStatistics
           title={`Твой результат: ${pointsData.points} очков`}
-          description="Твой средний результат 9999 очков, твой рекорд 9999 очков"
+          description="Твой средний результат 0 очков, твой рекорд 0 очков"
         />
       )) ||
         sprintCard()}

@@ -1,0 +1,67 @@
+.wrapper {
+  align-items: center;
+  background: url('../../img/batthern.png');
+  display: flex;
+  height: 90vh;
+  justify-content: center;
+}
+
+.Card {
+  background: url('./../../img/owngamebackground2.png') 50% -20px no-repeat;
+  background-size: 300px 150px;
+  box-sizing: border-box;
+  height: 100%;
+  margin: 20px;
+  min-width: 300px;
+  padding: 20px;
+  text-align: center;
+  width: 40%;
+
+  &__action-text {
+    height: 30px;
+    margin: 20px auto;
+    width: 100%;
+  }
+
+  &__word {
+    color: #1976d2;
+  }
+
+  &__hidden-word {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5vh;
+  }
+
+  &__forms {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__symbol,
+  &__word-input {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__symbol {
+    margin-left: 10vw;
+    width: 20px;
+  }
+
+  &__input {
+    border: 1px solid;
+    margin-bottom: 5px;
+    padding: 0 5px;
+  }
+
+  &__word-textarea {
+    width: 120px;
+  }
+
+  &__button {
+    margin-top: 10px;
+  }
+}

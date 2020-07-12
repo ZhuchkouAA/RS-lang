@@ -1,0 +1,15 @@
+.symbol {
+  align-items: center;
+  background-color: #fd8642;
+  border: 1px solid;
+  cursor: pointer;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  width: 20px;
+}
+
+.symbol:hover {
+  opacity: 0.3;
+  transition: 0.3s;
+}
