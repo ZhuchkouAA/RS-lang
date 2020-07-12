@@ -53,6 +53,7 @@ const GamesStatisticsDialog = ({ isOpen, words, score }) => {
 
   const handleClose = () => {
     setOpen(false);
+    history.push(PATH.MAIN);
   };
 
   const handleClickContinue = () => {

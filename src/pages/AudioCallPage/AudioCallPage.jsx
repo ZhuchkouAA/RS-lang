@@ -93,22 +93,26 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
       isRight: condition !== 'skipped' ? condition : null,
       ...wordsForGame[index].wordDefault,
     });
+
+    const preparedWord = [];
+    if (!answers[answers.length - 1].isGuessed) {
+      preparedWord.push(
+        wordHandler(answers[answers.length - 1], [
+          { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
+          { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
+        ])
+      );
+    } else {
+      preparedWord.push(
+        wordHandler(answers[answers.length - 1], [
+          { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
+        ])
+      );
+    }
+    finallySendWordAndProgress(preparedWord[0]);
   };
 
   const newWordPrepare = () => {
-    let preparedWord = [];
-    if (!answers[answers.length - 1].isGuessed) {
-      preparedWord = wordHandler(answers[answers.length - 1], [
-        { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
-        { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
-      ]);
-    } else {
-      preparedWord = wordHandler(answers[answers.length - 1], [
-        { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
-      ]);
-    }
-    finallySendWordAndProgress(preparedWord);
-
     if (index + 1 === wordsForGame.length) {
       setEndOfGame(true);
     }
@@ -117,7 +121,6 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
     setWordGuess(false);
     setIsNewWord(true);
     setWordVisible(false);
-    console.log(opacityByStep);
     setBgColor(bgColor + opacityByStep);
   };
 

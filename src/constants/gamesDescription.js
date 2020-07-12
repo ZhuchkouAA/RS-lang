@@ -4,7 +4,7 @@ export default {
     path: '/sprint',
   },
   Аудио_Вызов: {
-    description: 'что то',
+    description: 'Как хорошо вы воспринимаете на слух слова?',
     path: '/audio-call',
   },
   default: {

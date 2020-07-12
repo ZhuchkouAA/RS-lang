@@ -121,7 +121,9 @@ const GameStartScreen = ({
           </FormControl>
         </form>
         <div className={style.GameStartScreen__about}>
-          <span className={style.GameStartScreen__title}>{gameName}</span>
+          <span className={style.GameStartScreen__title}>
+            {gameName === 'Аудио_Вызов' ? 'Аудио Вызов' : gameName}
+          </span>
           <span className={style.GameStartScreen__description}>
             {gamesDescription[gameName].description}
           </span>
