@@ -18,7 +18,7 @@ import URLS from '../../constants/APIUrls';
 
 import styles from './GamesStatisticsDialog.module.scss';
 
-const GamesStatisticsDialog = ({ isOpen, words, gamePath }) => {
+const GamesStatisticsDialog = ({ isOpen, words }) => {
   const history = useHistory();
 
   const [open, setOpen] = useState(isOpen);
@@ -73,8 +73,8 @@ const GamesStatisticsDialog = ({ isOpen, words, gamePath }) => {
     history.push(PATH.MAIN);
   };
 
-  const handleClickSettings = () => {
-    history.push(gamePath);
+  const handleClickPlayAgain = () => {
+    history.push(PATH.GAME_START_SCREEN);
   };
 
   return (
@@ -113,7 +113,7 @@ const GamesStatisticsDialog = ({ isOpen, words, gamePath }) => {
 
       <DialogActions>
         <Grid>
-          <Button onClick={handleClickSettings} color="primary">
+          <Button onClick={handleClickPlayAgain} color="primary">
             Играть еще раз
           </Button>
 
@@ -129,7 +129,6 @@ const GamesStatisticsDialog = ({ isOpen, words, gamePath }) => {
 GamesStatisticsDialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
-  gamePath: PropTypes.string.isRequired,
 };
 
 export default GamesStatisticsDialog;
