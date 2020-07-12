@@ -167,6 +167,10 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
       return handlerClickSkipWord();
     }
 
+    if (e.key === 'Enter') {
+      return handlerClickSkipWord();
+    }
+
     if (e.keyCode >= 49 && e.keyCode <= 53) {
       return handlerClickAnswerWord(e.key, 'keyUp');
     }
