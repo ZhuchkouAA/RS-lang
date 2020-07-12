@@ -207,13 +207,6 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
 SavannaPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
-<<<<<<< HEAD
-};
-
-SavannaPage.propTypes = {
-  words: PropTypes.arrayOf(PropTypes.object).isRequired,
-=======
->>>>>>> RLS-34: add styles, impruve statistic
 };
 
 export default SavannaPage;
