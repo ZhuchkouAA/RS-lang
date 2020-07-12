@@ -40,14 +40,16 @@ const getWordsRows = (words) => {
   });
 };
 
-const GamesStatisticsDialog = ({ isOpen, words }) => {
+const GamesStatisticsDialog = ({ isOpen, words, score }) => {
   const history = useHistory();
   const [open, setOpen] = useState(isOpen);
 
   const rightAnswers = words.filter(({ isRight }) => isRight);
   const badAnswers = words.filter(({ isRight }) => !isRight);
+  const skippedAnswers = words.filter(({ isSkip }) => isSkip);
   const goodWords = getWordsRows(rightAnswers);
   const badWords = getWordsRows(badAnswers);
+  const skippedWords = getWordsRows(skippedAnswers);
 
   const handleClose = () => {
     setOpen(false);
@@ -68,6 +70,23 @@ const GamesStatisticsDialog = ({ isOpen, words }) => {
       </DialogTitle>
       <DialogContent dividers>
         <Box className={styles.GamesStatisticsDialog__wrapper}>
+          {score >= 0 && (
+            <Typography variant="h6" align="center" gutterBottom>
+              {`Твой результат: ${score} очков.`}
+            </Typography>
+          )}
+          {badAnswers.length > 0 && (
+            <>
+              <Typography
+                className={styles[`GamesStatisticsDialog__answer--bad`]}
+                align="center"
+                gutterBottom
+              >
+                {`Ошибочные ответы: `}
+              </Typography>
+              {badWords}
+            </>
+          )}
           {rightAnswers.length > 0 && (
             <>
               <Typography
@@ -80,16 +99,16 @@ const GamesStatisticsDialog = ({ isOpen, words }) => {
               {goodWords}
             </>
           )}
-          {badAnswers.length > 0 && (
+          {skippedAnswers.length > 0 && (
             <>
               <Typography
-                className={styles[`GamesStatisticsDialog__answer--bad`]}
+                className={styles[`GamesStatisticsDialog__answer--skipped`]}
                 align="center"
                 gutterBottom
               >
-                {`Ошибочные ответы: `}
+                {`Пропущенные ответы: `}
               </Typography>
-              {badWords}
+              {skippedWords}
             </>
           )}
         </Box>
@@ -110,9 +129,14 @@ const GamesStatisticsDialog = ({ isOpen, words }) => {
   );
 };
 
+GamesStatisticsDialog.defaultProps = {
+  score: -1,
+};
+
 GamesStatisticsDialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
+  score: PropTypes.number,
 };
 
 export default GamesStatisticsDialog;
