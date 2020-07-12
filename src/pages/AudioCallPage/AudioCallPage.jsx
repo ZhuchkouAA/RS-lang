@@ -13,6 +13,7 @@ import style from './AudioCallPage.module.scss';
 import wordHandler from '../../helpers/games-utils/wordHandler';
 import WORD_HANDLER_KEYS from '../../constants/keys';
 import { DIFFICULTY_GAME_PENALTY } from '../../constants/variables-learning';
+import GamesStatisticsDialog from '../../components/GamesStatisticsDialog';
 
 const correctAnswerSound = new Audio(correctSound);
 correctAnswerSound.volume = 0.5;
@@ -86,19 +87,21 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
       rightWord: wordsForGame[index].word,
       chosenWord,
       isGuessed: condition,
-      wordDefault: wordsForGame[index].wordDefault,
+      isSkip: condition === 'skipped',
+      isRight: condition !== 'skipped' ? condition : null,
+      ...wordsForGame[index].wordDefault,
     });
   };
 
   const newWordPrepare = () => {
     let preparedWord = [];
     if (!answers[answers.length - 1].isGuessed) {
-      preparedWord = wordHandler(answers[answers.length - 1].wordDefault, [
+      preparedWord = wordHandler(answers[answers.length - 1], [
         { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
         { key: WORD_HANDLER_KEYS.isHighPriority, value: true },
       ]);
     } else {
-      preparedWord = wordHandler(answers[answers.length - 1].wordDefault, [
+      preparedWord = wordHandler(answers[answers.length - 1], [
         { key: WORD_HANDLER_KEYS.difficulty, value: DIFFICULTY_GAME_PENALTY },
       ]);
     }
@@ -274,49 +277,11 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
     </>
   );
 
-  const resultHtml = () => {
-    const endGameCondition = {
-      guessed: 0,
-      incorrect: 0,
-      skipped: 0,
-    };
-
-    answers.forEach(({ isGuessed }) => {
-      switch (isGuessed) {
-        case 'skipped':
-          endGameCondition.skipped += 1;
-          break;
-        case true:
-          endGameCondition.guessed += 1;
-          break;
-        default:
-          endGameCondition.incorrect += 1;
-      }
-    });
-
-    return (
-      <div className={style.AudioCallPage__result}>
-        <div className={style['AudioCallPage__result-condition--right']}>
-          {`Верных ответа: ${endGameCondition.guessed}`}
-        </div>
-        <div className={style['AudioCallPage__result-condition--wrong']}>
-          {`Не верных ответа: ${endGameCondition.incorrect}`}
-        </div>
-        <div className={style['AudioCallPage__result-condition--skipped']}>
-          {`Пропущенных слов: ${endGameCondition.skipped}`}
-        </div>
-        <button
-          className={style['AudioCallPage__result-home']}
-          type="button"
-          onClick={() => window.location.reload()}
-        >
-          Домой
-        </button>
-      </div>
-    );
-  };
-
-  return <div className={style.AudioCallPage}>{isEndOfGame ? resultHtml() : gameHtml()}</div>;
+  return (
+    <div className={style.AudioCallPage}>
+      {isEndOfGame ? <GamesStatisticsDialog isOpen words={answers} /> : gameHtml()}
+    </div>
+  );
 };
 
 AudioCallPage.propTypes = {

@@ -44,8 +44,8 @@ const GamesStatisticsDialog = ({ isOpen, words, score }) => {
   const history = useHistory();
   const [open, setOpen] = useState(isOpen);
 
-  const rightAnswers = words.filter(({ isRight }) => isRight);
-  const badAnswers = words.filter(({ isRight }) => !isRight);
+  const rightAnswers = words.filter(({ isRight }) => isRight && isRight !== null);
+  const badAnswers = words.filter(({ isRight }) => !isRight && isRight !== null);
   const skippedAnswers = words.filter(({ isSkip }) => isSkip);
   const goodWords = getWordsRows(rightAnswers);
   const badWords = getWordsRows(badAnswers);
