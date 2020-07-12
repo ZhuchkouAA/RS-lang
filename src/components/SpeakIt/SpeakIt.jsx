@@ -14,7 +14,10 @@ const playAudio = (url) => {
   audio.src = url;
   audio.play();
 };
-
+const speechRec = getSpeechRecognition();
+const recoStart = () => {
+  speechRec.start();
+};
 const getWords = async (level = 0) => {
   const path = 'https://raw.githubusercontent.com/zhuchkouaa/rslang-data/master/';
   const res = await getQueueMiniGame10(level);
@@ -63,17 +66,19 @@ const SpeakIt = () => {
     handleInputText('');
   };
 
-  const speechRec = getSpeechRecognition(handleInputText);
   const handleStartGame = (start) => {
     if (start && !isStartGame) {
       speechRec.start();
-      setStartGame(start);
+      speechRec.onresult = (event) => {
+        const result = event.results[event.results.length - 1][0].transcript.toLowerCase();
+        handleInputText(result);
+      };
+      speechRec.onend = recoStart;
     }
 
-    if (!start && isStartGame) {
-      speechRec.abort();
+    if (!start) {
       speechRec.stop();
-      setStartGame(start);
+      speechRec.onend = () => false;
     }
   };
 
@@ -106,9 +111,7 @@ const SpeakIt = () => {
           <CardMedia image={wordsImage} className={styles.SpeakIt__image} />
           <Card className={styles.SpeakIt__word}>
             {isStartGame && <Mic />}
-            <Typography onChange={isStartGame ? handleStartGame(true) : handleStartGame(false)}>
-              {inputText}
-            </Typography>
+            <Typography>{inputText}</Typography>
           </Card>
           <Card className={styles.SpeakIt__containWords}>
             {wordsExample.map((element) => {
@@ -141,8 +144,10 @@ const SpeakIt = () => {
                 variant="contained"
                 color="secondary"
                 onClick={() => {
+                  setStartGame(false);
                   handleStartGame(false);
                   handleInputText('');
+                  handleWordsImage(defaultImage);
                 }}
               >
                 Стоп
@@ -153,9 +158,10 @@ const SpeakIt = () => {
                 variant="contained"
                 color="primary"
                 onClick={() => {
+                  setStartGame(true);
+                  handleWordsImage(defaultImage);
                   handleInputText('');
                   handleStartGame(true);
-                  handleWordsImage(defaultImage);
                 }}
               >
                 Старт
