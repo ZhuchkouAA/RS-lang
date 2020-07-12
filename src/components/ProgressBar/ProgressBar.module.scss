@@ -1,0 +1,14 @@
+@import '../../styles-global/index.module';
+
+.ProgressBar {
+  position: absolute;
+  top: 5px;
+
+  &__values {
+    color: $black-color;
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    justify-content: center;
+  }
+}

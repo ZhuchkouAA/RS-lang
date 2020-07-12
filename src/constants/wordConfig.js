@@ -1,0 +1,18 @@
+import { MSEC_PER_DAY } from './common';
+
+const REPEAT_INTERVAL_DAYS_MAX = 120;
+
+export const WORD_REPEAT_INTERVAL_MAX = REPEAT_INTERVAL_DAYS_MAX * MSEC_PER_DAY;
+
+const COEFFICIENT1 = 15000000 / WORD_REPEAT_INTERVAL_MAX;
+const COEFFICIENT2 = 0.065;
+
+export const MIN_DIFFICULTY = 0;
+export const MAX_DIFFICULTY = 100;
+
+export const REPEAT_INTERVAL = (difficulty) =>
+  COEFFICIENT1 *
+  WORD_REPEAT_INTERVAL_MAX *
+  Math.exp((MAX_DIFFICULTY + 1 - difficulty) * COEFFICIENT2);
+
+export const MIN_REPEAT_INTERVAL = 86400000;

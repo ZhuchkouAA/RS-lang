@@ -1,0 +1,42 @@
+.NavBar {
+  background-color: #fff;
+  box-shadow: 1px 0 6px rgba(0, 0, 0, 0.2);
+  height: 100vh;
+  list-style: none;
+  position: fixed;
+  top: 0;
+  transition-duration: 0.25s;
+  width: 350px;
+  z-index: 2;
+
+  &--active {
+    display: block;
+  }
+
+  &--disable {
+    display: none;
+  }
+}
+
+.NavBar__link {
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  font-family: sans-serif;
+  font-weight: 100;
+  text-decoration: none;
+}
+
+.NavBar__link-container {
+  font-size: 22px;
+  user-select: none;
+  width: 300px;
+}
+
+.title {
+  display: flex;
+  font-family: sans-serif;
+  font-weight: 100;
+  justify-content: center;
+  margin: 30px 0 10px;
+  text-decoration: none;
+}

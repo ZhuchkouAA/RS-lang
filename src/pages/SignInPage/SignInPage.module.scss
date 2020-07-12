@@ -1,0 +1,23 @@
+
+.Form {
+  background: linear-gradient(230deg, #edeabb 0%, #edeabb 35%, #edeabb 100%);
+  box-shadow: 0 25px 25px 45px #edeabb;
+  margin: 0 auto;
+  opacity: 0.8;
+  width: 250px;
+
+  &__switcher {
+    align-self: flex-start;
+    color: #1976d2;
+    cursor: pointer;
+    display: block;
+    margin-top: 15px;
+    text-decoration: underline;
+  }
+
+  &__alert,
+  &__switcher {
+    font-family: 'Roboto', sans-serif;
+  }
+
+}

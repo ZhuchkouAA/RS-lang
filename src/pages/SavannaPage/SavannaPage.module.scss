@@ -1,0 +1,60 @@
+@import '../../styles-global/index.module';
+
+.Savanna {
+  background-image: url('../../img/SavannaBG3.png');
+  background-position: left bottom;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+
+  &__wrapper {
+    position: relative;
+  }
+
+  &__results {
+    background-color: $white-color-transparent;
+    border: 2px solid $learning-bad-color;
+    border-radius: 5px;
+    left: 50%;
+    max-width: 310px;
+    padding: 20px 10px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+  }
+
+  &__lives {
+    left: 40px;
+    position: absolute;
+    top: 40px;
+  }
+  
+  &__answers_wrong {
+    color: $learning-fail-color;
+    font-size: 18px;
+  }
+
+  &__answers_right {
+    color: rgba(63, 204, 35, 0.973);
+    font-size: 18px;
+  }
+
+  &__anouncment {
+    background-color: $white-color-transparent;
+    border-radius: 5px;
+    color: $learning-fail-color;
+    font-size: 32px;
+  }
+}
+
+.startBtn {
+  left: -50%;
+  position: absolute;
+  top: 100px;
+  transform: translateY(-50%);
+}

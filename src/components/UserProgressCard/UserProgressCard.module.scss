@@ -1,0 +1,14 @@
+@import '../../styles-global/index.module';
+
+.UserProgressCard {
+  @extend %card-shadow;
+  border-radius: 5px;
+  max-width: 320px;
+  padding: 6px;
+  transition: 0.3s;
+  user-select: none;
+
+  &__text {
+    word-wrap: break-word;
+  }
+}

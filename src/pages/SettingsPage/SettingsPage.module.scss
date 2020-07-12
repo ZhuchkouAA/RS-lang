@@ -1,0 +1,27 @@
+.Settings {
+  display: flex;
+  flex-direction: column;
+  margin: 0 30px 30px;
+
+  &__wrapper {
+    margin: 0 auto;
+    max-width: 1200px;
+    width: 80%;
+  }
+
+  &__btn {
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+  }
+
+  &__hint {
+    max-width: 300px;
+  }
+}

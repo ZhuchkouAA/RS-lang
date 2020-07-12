@@ -1,0 +1,22 @@
+@import '../../styles-global/index.module';
+
+.SentenceWithWord {
+  text-align: center;
+
+  &__full {
+    opacity: 1;
+  }
+
+  &__selected {
+    background-color: $hidden-word-bg;
+    border-radius: 5px;
+    display: inline-block;
+    font-weight: 700;
+  }
+
+  &__text {
+    @extend %transition-all;
+
+    text-align: center;
+  }
+}

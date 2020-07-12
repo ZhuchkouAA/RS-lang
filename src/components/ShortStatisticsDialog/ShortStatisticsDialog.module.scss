@@ -1,0 +1,11 @@
+@import '../../styles-global/index.module';
+
+.ShortStatisticsDialog {
+  &__hint {
+    margin-top: 20px;
+  }
+
+  &--results {
+    font-weight: 700;
+  }
+}

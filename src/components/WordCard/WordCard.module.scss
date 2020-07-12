@@ -1,0 +1,59 @@
+@import '../../styles-global/index.module';
+
+.WordCard {
+  margin-top: 30px;
+
+  &__wrapper {
+    margin: 10px auto;
+    max-width: 700px;
+    min-height: 450px;
+    padding-top: 8px;
+    position: relative;
+  }
+
+  &__image {
+    border-radius: 5px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    height: 200px;
+  }
+
+  &__image--hide {
+    max-width: 0;
+  }
+
+  &__image--show {
+    min-width: 320px;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__word {
+    text-align: center;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    width: 48%;
+  }
+
+  &__input {
+    position: relative;
+  }
+
+  &__translate-btn {
+    @media (max-width: 360px) {
+      right: 30px !important;
+    }
+  }
+
+  &__mute-btn {
+    @media (max-width: 360px) {
+      right: 5px !important;
+    }
+  }
+}
