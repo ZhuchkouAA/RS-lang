@@ -18,52 +18,36 @@ import URLS from '../../constants/APIUrls';
 
 import styles from './GamesStatisticsDialog.module.scss';
 
+const getWordsRows = (words) => {
+  return words.map(({ optional }, index) => {
+    const { word, wordTranslate, audio } = optional;
+    const key = `GamesStatisticsDialog__${word}_${index}`;
+    const audioUrl = `${URLS.ASSETS}${audio}`;
+
+    return (
+      <Typography
+        key={key}
+        align="center"
+        variant="body1"
+        color="textSecondary"
+        component="p"
+        gutterBottom
+      >
+        <IconMini srcUrl={audioUrl} />
+        {` ${word} - ${wordTranslate}`}
+      </Typography>
+    );
+  });
+};
+
 const GamesStatisticsDialog = ({ isOpen, words }) => {
   const history = useHistory();
-
   const [open, setOpen] = useState(isOpen);
 
   const rightAnswers = words.filter(({ isRight }) => isRight);
   const badAnswers = words.filter(({ isRight }) => !isRight);
-  const goodWords = rightAnswers.map(({ optional }, index) => {
-    const { word, wordTranslate, audio } = optional;
-    const key = `GamesStatisticsDialog__${word}_${index}`;
-    const audioUrl = `${URLS.ASSETS}${audio}`;
-
-    return (
-      <Typography
-        key={key}
-        align="center"
-        variant="body1"
-        color="textSecondary"
-        component="p"
-        gutterBottom
-      >
-        <IconMini srcUrl={audioUrl} />
-        {` ${word} - ${wordTranslate}`}
-      </Typography>
-    );
-  });
-
-  const badWords = badAnswers.map(({ optional }, index) => {
-    const { word, wordTranslate, audio } = optional;
-    const key = `GamesStatisticsDialog__${word}_${index}`;
-    const audioUrl = `${URLS.ASSETS}${audio}`;
-
-    return (
-      <Typography
-        key={key}
-        align="center"
-        variant="body1"
-        color="textSecondary"
-        component="p"
-        gutterBottom
-      >
-        <IconMini srcUrl={audioUrl} />
-        {` ${word} - ${wordTranslate}`}
-      </Typography>
-    );
-  });
+  const goodWords = getWordsRows(rightAnswers);
+  const badWords = getWordsRows(badAnswers);
 
   const handleClose = () => {
     setOpen(false);
