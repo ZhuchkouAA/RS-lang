@@ -27,7 +27,7 @@ const getWordsRows = (words) => {
     return (
       <Typography
         key={key}
-        align="center"
+        align="left"
         variant="body1"
         color="textSecondary"
         component="p"

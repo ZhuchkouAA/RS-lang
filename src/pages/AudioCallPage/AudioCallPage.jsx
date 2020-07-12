@@ -30,6 +30,8 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
   const [isWordGuess, setWordGuess] = useState(false);
   const [isWordVisible, setWordVisible] = useState(false);
   const [isEndOfGame, setEndOfGame] = useState(false);
+  const [bgColor, setBgColor] = useState(0.3);
+  const [opacityByStep] = useState(0.6 / wordsForGame.length);
 
   const createList = () => {
     setIsNewWord(false);
@@ -115,6 +117,8 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
     setWordGuess(false);
     setIsNewWord(true);
     setWordVisible(false);
+    console.log(opacityByStep);
+    setBgColor(bgColor + opacityByStep);
   };
 
   if (isNewWord && !isEndOfGame) {
@@ -194,6 +198,10 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
     [style['Block--visibility']]: !isWordVisible,
   });
 
+  const exampleClasses = classNames(style.AudioCallPage__examples, {
+    [style['AudioCallPage__examples--active']]: isWordGuess,
+  });
+
   const gameHtml = () => (
     <>
       <div className={style.AudioCallPage__header}>
@@ -218,7 +226,7 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
           </div>
         </div>
       </div>
-      <div className={style.AudioCallPage__examples}>
+      <div className={exampleClasses}>
         {!(wordsForGame.length === index) &&
           collection.map(({ word, wordTranslate }, i) => {
             const checkWordCondition = () => {
@@ -278,7 +286,12 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
   );
 
   return (
-    <div className={style.AudioCallPage}>
+    <div
+      className={style.AudioCallPage}
+      style={{
+        background: `linear-gradient(rgba(103, 58, 183, ${bgColor}), rgba(255, 193, 55, ${bgColor}))`,
+      }}
+    >
       {isEndOfGame ? <GamesStatisticsDialog isOpen words={answers} /> : gameHtml()}
     </div>
   );
