@@ -8,7 +8,7 @@ import gitImg from '../../img/git.png';
 
 import style from './Student.module.scss';
 
-const Student = ({ name, linkGit, imgSrc, headerTextCard, type }) => {
+const Student = ({ name, linkGit, imgSrc, headerTextCard, type, contribution }) => {
   const typeCard = classNames({
     [style['Student__wrapper-mentor']]: type.toLowerCase() === 'mentor',
     [style['Student__wrapper-developer']]: type.toLowerCase() === 'developer',
@@ -17,6 +17,10 @@ const Student = ({ name, linkGit, imgSrc, headerTextCard, type }) => {
     [style['Student__header-mentor']]: type.toLowerCase() === 'mentor',
     [style['Student__header-team-leader']]: type.toLowerCase() === 'team-leader',
     [style['Student__header-developer']]: type.toLowerCase() === 'developer',
+  });
+  const StudentContribution = classNames({
+    [style.Student__contribution]: contribution !== '',
+    [style['Student__contribution-void']]: contribution === '',
   });
   return (
     <Grid className={typeCard}>
@@ -40,6 +44,7 @@ const Student = ({ name, linkGit, imgSrc, headerTextCard, type }) => {
           >
             {name}
           </Typography>
+          <p className={StudentContribution}>{contribution}</p>
         </CardActionArea>
         <Button className={style['Student__wrapper-icon-link']} size="small" color="primary">
           <a
@@ -68,5 +73,6 @@ Student.propTypes = {
   imgSrc: PropTypes.string.isRequired,
   headerTextCard: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+  contribution: PropTypes.string.isRequired,
 };
 export default Student;

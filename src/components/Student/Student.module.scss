@@ -67,6 +67,16 @@
     width: 30px;
   }
 
+  &__contribution {
+    height: 105px;
+    padding: 0 10px;
+    text-align: justify;
+  }
+
+  &__contribution-void {
+    height: 0;
+  }
+
   &__img-git {
     background-size: cover;
   }
