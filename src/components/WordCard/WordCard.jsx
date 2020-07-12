@@ -77,6 +77,7 @@ const WordCard = ({
     isNextBtnShow: false,
     isInputDisable: false,
     isTranslateShow: false,
+    isHardBtnDisabled: false,
   });
   const [wordsQueue, setWordsQueue] = useState(queue);
   const [isTranslateShow, setTranslateShow] = useState(isWordTranslateShow);
@@ -138,6 +139,7 @@ const WordCard = ({
       isNextBtnShow: false,
       isInputDisable: false,
       isTranslateShow: false,
+      isHardBtnDisabled: false,
     });
     setPlaying(false);
     setWordGuessed(false);
@@ -339,6 +341,8 @@ const WordCard = ({
   };
 
   const handlerClickHardWord = () => {
+    setControlsState({ ...controlsState, isHardBtnDisabled: true });
+
     wordsQueue[0] = wordHandler(wordsQueue[0], [
       { key: WORD_HANDLER_KEYS.isHard, value: true },
       { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 1 },
@@ -436,10 +440,27 @@ const WordCard = ({
             <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
               <Grid item>
                 {isHardWordBtnShow && (
-                  <Tooltip title="Добавить слово в 'Сложные'" aria-label="add" enterDelay={1000}>
-                    <Fab onClick={handlerClickHardWord} color="primary" size="small">
-                      <AddIcon />
-                    </Fab>
+                  <Tooltip
+                    title={
+                      controlsState.isHardBtnDisabled
+                        ? `Добавлено в 'Сложные'`
+                        : `Добавить слово в 'Сложные'`
+                    }
+                    aria-label="add"
+                    enterDelay={1000}
+                    leaveDelay={500}
+                    placement="left-end"
+                  >
+                    <span>
+                      <Fab
+                        onClick={handlerClickHardWord}
+                        color="primary"
+                        size="small"
+                        disabled={controlsState.isHardBtnDisabled}
+                      >
+                        <AddIcon />
+                      </Fab>
+                    </span>
                   </Tooltip>
                 )}
               </Grid>
