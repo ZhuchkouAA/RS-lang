@@ -22,12 +22,19 @@ const initialState = {
 };
 
 const gameModeReducer = (state = initialState, { type, payload }) => {
+  let gameName = payload;
   switch (type) {
     case SET_GAME_NAME:
-      localStorage.setItem('gameModeObj', payload);
+      if (payload === 'Аудио Вызов') {
+        localStorage.setItem('gameModeObj', 'Аудио_Вызов');
+        gameName = 'Аудио_Вызов';
+      } else {
+        localStorage.setItem('gameModeObj', payload);
+      }
+
       return {
         ...state,
-        gameName: payload,
+        gameName,
       };
     case SET_GAME_MODE:
       return {

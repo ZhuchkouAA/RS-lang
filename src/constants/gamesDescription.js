@@ -7,8 +7,16 @@ export default {
     discription: 'Отгадывай слово целиком либо пользуйся подсказками.',
     path: '/own-game',
   },
-  default: {
-    discription: 'default',
-    path: '/main',
+  Аудио_Вызов: {
+    description: 'Как хорошо вы воспринимаете на слух слова?',
+    path: '/audio-call',
   },
+  Саванна: {
+    discription: 'Угадай слово, пока оно падает, как высохшие листья с деревьев в саванне',
+    path: '/savanna',
+  },
+  default: {
+    description: 'default',
+    path: '/main',
+  },  
 };

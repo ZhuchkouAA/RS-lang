@@ -4,55 +4,63 @@
     "linkGit": "https://github.com/ykarduba",
     "imgSrc": "https://avatars0.githubusercontent.com/u/55794248?s=460&v=4",
     "headerTextCard": "Ментор",
-    "type": "mentor"
+    "type": "mentor",
+    "contribution": "Помощь в организации старта разработки^Советы по выбору технологий^Решение проблем^Просмотр кода"
+  },
+  {
+    "name": "Aleksandr Sharikov",
+    "linkGit": "https://github.com/not-SAINT",
+    "imgSrc": "https://avatars3.githubusercontent.com/u/60464016?s=460&u=893a2a47eb6ff1bbfd6042a72ebcb7dc80229542&v=4",
+    "headerTextCard": "Тим-лидер",
+    "type": "team-leader",
+    "contribution": "Страница изучения слов^Словарь^Логика интервального повторения^Общая координация^Главная страница^Настройки"
   },
   {
     "name": "Artsiom Zhuchkou",
     "linkGit": "https://github.com/ZhuchkouAA",
     "imgSrc": "https://avatars3.githubusercontent.com/u/56683813?s=460&u=0b6ba183da88e01f92c642a80286e27e5a083022&v=4",
     "headerTextCard": "Разработчик",
-    "type": "developer"
-  },
-  {
-    "name": "Aleksandr Sharikov",
-    "linkGit": "https://github.com/not-SAINT",
-    "imgSrc": "https://avatars3.githubusercontent.com/u/60464016?s=460&u=893a2a47eb6ff1bbfd6042a72ebcb7dc80229542&v=4",
-    "headerTextCard": "Разработчик",
-    "type": "developer"
+    "type": "developer",
+    "contribution": "Стартовая структура проекта^Работа с бэкендом^Спринт^Своя игра"
   },
   {
     "name": "Viktor Veretennikov",
     "linkGit": "https://github.com/tritonJS826",
     "imgSrc": "https://avatars3.githubusercontent.com/u/56690686?s=460&u=12a16bbff14b7b5890f9467425244206954d8882&v=4",
     "headerTextCard": "Разработчик",
-    "type": "developer"
+    "type": "developer",
+    "contribution": "Структура проекта^Основная работа с бэкендом^Статистика^Настройки^Презентация^Логика интервального повторения"
   },
   {
     "name": "Roman Stelmashuk",
     "linkGit": "https://github.com/bahnovak",
     "imgSrc": "https://avatars3.githubusercontent.com/u/46083110?s=460&v=4",
-    "headerTextCard": "Тим-лидер",
-    "type": "team-leader"
+    "headerTextCard": "Разработчик",
+    "type": "developer",
+    "contribution": "Скажи это!^Лоадер^Полоса прогресса"
   },
   {
     "name": "Daniil Klimianok",
     "linkGit": "https://github.com/daklin2",
     "imgSrc": "https://avatars0.githubusercontent.com/u/38842526?s=460&u=835d50059845d2a70996ad3c5bd507def3306295&v=4",
     "headerTextCard": "Разработчик",
-    "type": "developer"
+    "type": "developer",
+    "contribution": "Аудиовызов^Навигация^Шапка"
   },
   {
     "name": "Alexandr Struchkov",
     "linkGit": "https://github.com/lordshtein",
     "imgSrc": "https://avatars0.githubusercontent.com/u/43145890?s=460&u=ee011cfb2b9bc7148554f74d668f8918bfb3e5de&v=4",
     "headerTextCard": "Разработчик",
-    "type": "developer"
+    "type": "developer",
+    "contribution": "Саванна^Стартовый экран игр^Промо"
   },
   {
     "name": "Araik Rasayan",
     "linkGit": "https://github.com/Rasoan",
     "imgSrc": "https://avatars1.githubusercontent.com/u/60571068?s=460&u=b872461fe6f18ae929c32fc1cf0ca4a5b2e73d53&v=4",
     "headerTextCard": "Разработчик",
-    "type": "developer"
+    "type": "developer",
+    "contribution": "Футер^О нас^Тестирование^Работа с ТЗ^Промо"
   }
 ]

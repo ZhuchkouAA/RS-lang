@@ -14,16 +14,19 @@ const AboutUsPage = () => {
         Над приложением работали
       </Typography>
       <Grid className={style.AboutUsPage} container justify="center">
-        {informationStudentArray.map(({ name, linkGit, imgSrc, headerTextCard, type }) => (
-          <Student
-            name={name}
-            linkGit={linkGit}
-            imgSrc={imgSrc}
-            key={`AboutUsPage-${name}`}
-            headerTextCard={headerTextCard}
-            type={type}
-          />
-        ))}
+        {informationStudentArray.map(
+          ({ name, linkGit, imgSrc, headerTextCard, type, contribution }) => (
+            <Student
+              name={name}
+              linkGit={linkGit}
+              imgSrc={imgSrc}
+              key={`AboutUsPage-${name}`}
+              headerTextCard={headerTextCard}
+              type={type}
+              contribution={contribution || ''}
+            />
+          )
+        )}
       </Grid>
     </>
   );

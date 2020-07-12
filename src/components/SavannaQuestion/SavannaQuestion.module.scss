@@ -1,0 +1,74 @@
+@import '../../styles-global/index.module';
+
+.question {
+  font-size: 24px;
+  height: 80vh;
+  position: relative;
+
+}
+  
+.question__wrapper {
+  color: $learning-good-color;
+  display: flex;
+  font-size: 36px;
+  justify-content: center;
+  position: relative;
+  top: 20%;
+  
+}
+  
+.question__wrapper_animated {
+  animation: moveBot 5s linear infinite;
+}
+
+.question__wrapper_animated1 {
+  animation: moveBotFaster 1s linear;
+}
+
+@keyframes moveBot {
+  0% {
+    color: $learning-good-color;
+    opacity: 1;
+    top: 20%;
+  }
+
+  50% {
+    color: $learning-normal-color;
+    opacity: 0.8;
+    top: 40%;
+  }
+
+  100% {
+    color: $learning-fail-color;
+    opacity: 0.6;
+    top: 60%;
+  }
+}
+
+@keyframes moveBotFaster {
+  0% {
+    color: $learning-bad-color;
+    opacity: 0.5;
+    top: 60%;
+  }
+
+  100% {
+    color: $learning-bad-color;
+    opacity: 0;
+    top: 100%;
+  }
+}
+
+@keyframes moveBotFaster {
+  0% {
+    color: $learning-bad-color;
+    opacity: 0.5;
+    top: 60%;
+  }
+
+  100% {
+    color: $learning-bad-color;
+    opacity: 0.2;
+    top: 100%;
+  }
+}

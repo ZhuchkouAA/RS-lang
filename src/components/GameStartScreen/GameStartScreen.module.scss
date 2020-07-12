@@ -6,6 +6,7 @@
 
   &__wrapper {
     display: flex;
+    flex-direction: column;
     margin: 0 30px;
     padding-top: 20px;
   }
@@ -24,6 +25,7 @@
     flex-direction: column;
     flex-grow: 1;
     justify-content: center;
+    margin: 0 20px;
   }
 
   &__button {

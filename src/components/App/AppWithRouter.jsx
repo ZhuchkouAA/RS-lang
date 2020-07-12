@@ -34,6 +34,7 @@ const AppWithRoutes = ({ gameName, words }) => {
         <Route exact path={PATH.ENGLISH_PUZZLE} component={EnglishPuzzlePage} />
         <Route exact path={PATH.SAVANNA} component={SavannaPage} />
         <Route exact path={PATH.AUDIO_CALL} component={AudioCallPage} />
+        <Route exact path={PATH.OWN_GAME} component={OnwGamePage} />
         <Route exact path={PATH.STATISTIC} component={StatisticPage} />
         <Route exact path={PATH.SETTINGS} component={SettingsPage} />
         <Route exact path={PATH.PROMO} component={PromoPage} />
@@ -41,6 +42,7 @@ const AppWithRoutes = ({ gameName, words }) => {
         <Route exact path={PATH.GAME_START_SCREEN} component={gameStartScreenComponent} />
         {words.length !== 0 && <Route exact path={PATH.SPRINT} component={SprintPage} />}
         {words.length !== 0 && <Route exact path={PATH.OWN_GAME} component={OnwGamePage} />}
+        {words.length !== 0 && <Route exact path={PATH.AUDIO_CALL} component={AudioCallPage} />}
         <Redirect to={{ pathname: PATH.MAIN }} />
       </Switch>
     </>

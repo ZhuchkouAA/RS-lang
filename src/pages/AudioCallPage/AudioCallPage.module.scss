@@ -1,0 +1,181 @@
+.AudioCallPage {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 91vh;
+  justify-content: center;
+
+  transition: 0.3s;
+  width: 100%;
+
+  &--correct {
+    box-shadow: inset 0 0 4px 1px #37fb52;
+  }
+
+  &--incorrect {
+    box-shadow: inset 0 0 4px 1px #fb1731;
+  }
+}
+
+.AudioCallPage__header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  transition: 0.3s;
+
+  &-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    transition: 0.3s;
+  }
+
+  &-image {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+  }
+
+  &-translate {
+    font-family: 'Roboto', sans-serif;
+    font-size: 25px;
+    font-weight: 100;
+
+    margin-top: 10px;
+    user-select: none;
+  }
+
+  &-transcription {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 100;
+
+    margin-top: 5px;
+    user-select: none;
+  }
+}
+
+.AudioCallPage__examples {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 100px;
+
+  margin-top: 50px;
+  user-select: none;
+
+  &--active {
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
+
+  &-button {
+    font-family: 'Roboto', sans-serif;
+    font-size: 26px;
+    font-weight: 100;
+    margin: 0 10px;
+  }
+
+  &-button--right {
+    color: #0b9202;
+  }
+
+  &-button--skipped {
+    opacity: 0.5;
+  }
+
+  &-button--wrong {
+    opacity: 0.5;
+  }
+
+  &-button--wrong &-word {
+    text-decoration: line-through;
+  }
+
+  &-button--off &-word:hover {
+    cursor: default;
+    opacity: unset;
+  }
+
+  &-word {
+    transition: 0.3s;
+  }
+
+  &-word:hover {
+    cursor: pointer;
+    opacity: 0.3;
+    transition: 0.3s;
+  }
+
+  &-index {
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    margin-right: 8px;
+  }
+}
+
+.AudioCallPage__next {
+  border: 1px solid rgb(148, 20, 14);
+  border-radius: 4px;
+  color: rgb(148, 20, 14);
+  font-family: 'Roboto', sans-serif;
+  font-size: 19px;
+  font-weight: 100;
+
+  margin: 0 10px;
+
+  padding: 3px 10px;
+  transition: 0.3s;
+  user-select: none;
+
+  &:hover {
+    background-color: rgb(148, 20, 14);
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+}
+
+.AudioCallPage__result {
+  font-family: 'Roboto', sans-serif;
+  font-size: 25px;
+  font-weight: 100;
+
+  &-home {
+    border: 1px solid;
+    border-radius: 4px;
+    color: rgb(148, 20, 14);
+    font-size: 19px;
+
+    margin: 30px 0;
+
+    padding: 3px 10px;
+    transition: 0.3s;
+    user-select: none;
+  }
+
+  &-home:hover {
+    background-color: rgb(148, 20, 14);
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+}
+
+.Block--hide {
+  display: none;
+  opacity: 0;
+
+  transition: 0.3s;
+}
+
+.Block--visibility {
+  opacity: 0;
+
+  transition: 0.3s;
+}
