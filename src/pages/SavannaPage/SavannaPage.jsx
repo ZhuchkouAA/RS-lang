@@ -11,6 +11,7 @@ import wordHandler from '../../helpers/games-utils/wordHandler';
 import Button from '../../components/Button';
 import SavannaQuestion from '../../components/SavannaQuestion';
 import SavannaAnswers from '../../components/SavannaAnswers';
+import GamesStatisticsDialog from '../../components/GamesStatisticsDialog';
 import correctSound from '../../sounds/correct-answer.mp3';
 import incorrectSound from '../../sounds/incorrect-sound.mp3';
 
@@ -91,8 +92,9 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
     () => {
       setShowAnswers(true);
       if (answers.length === currentQuestion) {
+        question.originalWordObject.isRight = false;
         answerArr = answers;
-        answerArr.push('нет ответа');
+        answerArr.push(question.originalWordObject);
         updateWordStatistic(10, true);
         setLives(lives - 1);
         setAnswers(answerArr);
@@ -116,15 +118,17 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
   const answerBtnClick = (answer) => {
     setShowAnswers(false);
     if (answer !== question.isCorrectTranslation) {
+      question.originalWordObject.isRight = false;
       updateWordStatistic(10, true);
       playSound(incorrectAnswerSound);
       setLives(lives - 1);
     } else {
+      question.originalWordObject.isRight = true;
       playSound(correctAnswerSound);
       updateWordStatistic(-10, false);
     }
     answerArr = answers;
-    answerArr.push(answer);
+    answerArr.push(question.originalWordObject);
     setAnswers(answerArr);
     setSpeed(1000);
     setAnimation(false);
@@ -150,33 +154,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
 
   return (
     <div className={style.Savanna}>
-      {showResult && (
-        <div className={style.Savanna__results}>
-          <Grid container direction="column" justify="space-around" alignItems="center">
-            {answers.map((el, index) => {
-              const key = index;
-              if (el !== words[index].isCorrectTranslation) {
-                return (
-                  <span className={style.Savanna__answers_wrong} key={`${el}+${key}`}>
-                    {`${el} - ${words[index].word} - ошибка`}
-                  </span>
-                );
-              }
-              return (
-                <span className={style.Savanna__answers_right} key={`${el}+${key}`}>
-                  {`${el} - ${words[index].word} - правильно`}
-                </span>
-              );
-            })}
-          </Grid>
-          <NavLink className={style.NavBar__link} to={PATHS.GAME_START_SCREEN}>
-            <Grid container direction="column" justify="center" alignItems="center">
-              <Button handlerClick={gameStart} text="К выбору уровня" color="primary" />
-            </Grid>
-          </NavLink>
-        </div>
-      )}
-
+      {showResult && <GamesStatisticsDialog words={answers} isOpen={showResult} />}
       {isRunning && (
         <div className={style.Savanna__wrapper}>
           <span className={style.Savanna__lives}>
