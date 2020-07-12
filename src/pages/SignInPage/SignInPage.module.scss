@@ -1,12 +1,17 @@
+.Login {
+  align-items: center;
+  background: #ffffffb5;
+  border-radius: 8px;
+  display: flex;
+  height: 350px;
+  justify-content: center;
+  width: 375px;
+}
 
-.Form {
-  background: linear-gradient(230deg, #edeabb 0%, #edeabb 35%, #edeabb 100%);
-  box-shadow: 0 25px 25px 45px #edeabb;
-  margin: 0 auto;
-  opacity: 0.8;
-  width: 250px;
+.Login__form {
+  width: 300px;
 
-  &__switcher {
+  &-switcher {
     align-self: flex-start;
     color: #1976d2;
     cursor: pointer;
@@ -15,8 +20,8 @@
     text-decoration: underline;
   }
 
-  &__alert,
-  &__switcher {
+  &-alert,
+  &-switcher {
     font-family: 'Roboto', sans-serif;
   }
 

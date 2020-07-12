@@ -48,43 +48,49 @@ const SignInPage = ({
   return (
     <>
       <SuperBackground />
-      <form onSubmit={handlerSubmit} className={styles.Form}>
-        <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email / Логин"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={handlerOnChangeSetLogin}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Пароль"
-            type="password"
-            id="password"
-            onChange={handlerOnChangeSetPassword}
-          />
-          <Button
-            type="submit"
-            text={isSignIn ? `Войти` : `Зарегистрироваться`}
-            isDisable={isButtonDisabled}
-            color="primary"
-          />
-          <button type="button" className={styles.Form__switcher} onClick={handlerOnClickIsSignIn}>
-            {isSignIn ? `Регистрация` : `Войти`}
-          </button>
-          <div className={styles.Form__alert}>{message}</div>
-        </Grid>
-      </form>
+      <div className={styles.Login}>
+        <form onSubmit={handlerSubmit} className={styles.Login__form}>
+          <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email / Логин"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={handlerOnChangeSetLogin}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Пароль"
+              type="password"
+              id="password"
+              onChange={handlerOnChangeSetPassword}
+            />
+            <Button
+              type="submit"
+              text={isSignIn ? `Войти` : `Зарегистрироваться`}
+              isDisable={isButtonDisabled}
+              color="primary"
+            />
+            <button
+              type="button"
+              className={styles['Form-switcher']}
+              onClick={handlerOnClickIsSignIn}
+            >
+              {isSignIn ? `Регистрация` : `Войти`}
+            </button>
+            <div className={styles['Form-alert']}>{message}</div>
+          </Grid>
+        </form>
+      </div>
     </>
   );
 };

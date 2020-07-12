@@ -16,11 +16,11 @@ const App = ({ token, isLoading }) => {
   return (
     <div className={style.App__wrapper}>
       <BrowserRouter>
-        <Header />
+        {token && <Header />}
         {isLoading && <Loader />}
         <div className={style['App__wrapper-component']}>{PageRoutes}</div>
+        {token && <Footer />}
       </BrowserRouter>
-      <Footer />
     </div>
   );
 };

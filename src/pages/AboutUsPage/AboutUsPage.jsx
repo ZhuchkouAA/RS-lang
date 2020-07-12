@@ -9,7 +9,7 @@ import informationStudentArray from '../../constants/About-us-information.json';
 
 const AboutUsPage = () => {
   return (
-    <>
+    <div>
       <Typography variant="h5" component="h2" gutterBottom align="center">
         Над приложением работали
       </Typography>
@@ -28,7 +28,7 @@ const AboutUsPage = () => {
           )
         )}
       </Grid>
-    </>
+    </div>
   );
 };
 

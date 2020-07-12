@@ -14,6 +14,8 @@ import wordHandler from '../../helpers/games-utils/wordHandler';
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
+    alignSelf: 'normal',
+    width: 'inherit',
   },
 
   flexContainer: {

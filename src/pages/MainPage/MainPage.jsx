@@ -6,6 +6,7 @@ import AppSectionCard from '../../components/AppSectionCard';
 import UserProgressCard from '../../components/UserProgressCard';
 import PATH from '../../constants/path';
 import { GAMES, WORD_CARD } from '../../constants/section';
+import style from './MainPage.module.scss';
 
 const MainPage = ({ setGameName, serverSynchronization }) => {
   useEffect(() => {
@@ -23,22 +24,24 @@ const MainPage = ({ setGameName, serverSynchronization }) => {
   });
 
   return (
-    <Container maxWidth="sm">
-      <Grid container justify="space-around" mb={2}>
-        <Box mb={2}>
-          <AppSectionCard path={PATH.WORD_CARD} name={cardName} description={cardDescription} />
-        </Box>
-        <Box mb={2}>
-          <UserProgressCard />
-        </Box>
-      </Grid>
-      <Divider />
-      <Box m={2}>
-        <Grid container direction="row" justify="space-around" alignItems="center" spacing={2}>
-          {gameCards}
+    <div className={style.Main}>
+      <Container maxWidth="sm">
+        <Grid container justify="space-around" mb={2}>
+          <Box mb={2}>
+            <AppSectionCard path={PATH.WORD_CARD} name={cardName} description={cardDescription} />
+          </Box>
+          <Box mb={2}>
+            <UserProgressCard />
+          </Box>
         </Grid>
-      </Box>
-    </Container>
+        <Divider />
+        <Box m={2}>
+          <Grid container direction="row" justify="space-around" alignItems="center" spacing={2}>
+            {gameCards}
+          </Grid>
+        </Box>
+      </Container>
+    </div>
   );
 };
 
