@@ -16,9 +16,9 @@ import { DIFFICULTY_GAME_PENALTY } from '../../constants/variables-learning';
 import GamesStatisticsDialog from '../../components/GamesStatisticsDialog';
 
 const correctAnswerSound = new Audio(correctSound);
-correctAnswerSound.volume = 0.5;
+correctAnswerSound.volume = 0.2;
 const incorrectAnswerSound = new Audio(incorrectSound);
-incorrectAnswerSound.volume = 0.5;
+incorrectAnswerSound.volume = 0.2;
 
 const answers = [];
 const collection = [];
