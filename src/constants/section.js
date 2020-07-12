@@ -42,7 +42,7 @@ export const ALL_SECTIONS = [
     section: 'SAVANNA',
     name: 'Саванна',
     description: 'Играем и учим слова в игре',
-    path: '/savanna',
+    path: '/game-start-screen',
     category: 'game',
   },
   {
@@ -110,7 +110,7 @@ export const GAMES = [
     section: 'SAVANNA',
     name: 'Саванна',
     description: 'Играем и учим слова в игре',
-    path: '/savanna',
+    path: '/game-start-screen',
   },
   {
     section: 'AUDIO_CALL',

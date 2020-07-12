@@ -24,7 +24,6 @@ $learning-good-bg-color: #00ff2234;
 $learning-excellent-bg-color: #8c00ff3b;
 
 :export {
-  /* stylelint-disable property-no-unknown */
   learningBadBGColor: $learning-bad-bg-color;
   learningBadColor: $learning-bad-color;
   learningExcellentBGColor: $learning-excellent-bg-color;
@@ -35,6 +34,8 @@ $learning-excellent-bg-color: #8c00ff3b;
   learningGoodColor: $learning-good-color;
   learningNormalBGColor: $learning-normal-bg-color;
   learningNormalColor: $learning-normal-color;
+  /* stylelint-disable property-no-unknown */
+  white-color-transparent: $white-color-transparent;
   /* stylelint-enable */
 }
 
