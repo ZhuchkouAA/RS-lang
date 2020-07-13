@@ -30,3 +30,9 @@
     min-width: 440px;
   }
 }
+
+@media (max-width: 440px) {
+  .Settings-column {
+    min-width: 300px;
+  }
+}
