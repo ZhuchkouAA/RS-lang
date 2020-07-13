@@ -9,8 +9,13 @@ const PromoPage = () => {
   return (
     <Grid className={styles.PromoPage}>
       <Grid className={styles['promoPage__container-desriptions']}>
-        {PromoInformation.map(({ heading, paragraphs, lists }) => (
-          <Details heading={heading} paragraphs={paragraphs} lists={lists} />
+        {PromoInformation.map(({ heading, paragraphs, lists, id }) => (
+          <Details
+            heading={heading}
+            paragraphs={paragraphs || []}
+            lists={lists || []}
+            key={`Details_${id}`}
+          />
         ))}
       </Grid>
     </Grid>
