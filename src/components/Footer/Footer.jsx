@@ -9,7 +9,7 @@ import style from './Footer.module.scss';
 const Footer = () => {
   return (
     <footer className={style.Footer}>
-      <Grid className={style.Footer__container} container direction="row" justify="flex-start">
+      <Grid className={style.Footer__container} container direction="row" justify="flex-end">
         <ProgressBar />
         <a
           className={style['Footer__link-rs']}
