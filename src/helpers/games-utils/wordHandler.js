@@ -17,8 +17,6 @@ const wordHandler = (word, options) => {
       newWord.optional.isHard = value;
     }
 
-    if (newWord.optional.isHard === true) return newWord;
-
     if (key === WORD_HANDLER_KEYS.isDeleted) {
       newWord.optional.isDeleted = value;
     }

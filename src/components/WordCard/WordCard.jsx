@@ -91,6 +91,7 @@ const WordCard = ({
   const [cntLearnErrors, setLearnErrors] = useState(0);
   const [isAnswerShowed, setAnswerShowed] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [currentSeria, setCurrentSeria] = useState(1);
 
   const SoundIcon = isMute ? MusicOffIcon : MusicIcon;
 
@@ -225,7 +226,15 @@ const WordCard = ({
       const { ...optional } = { ...wordsQueue[0].optional };
       const updatedWord = { ...wordsQueue[0], optional };
 
-      onCheckEnteredWord(updatedWord, isFailsExist);
+      onCheckEnteredWord(updatedWord, isFailsExist, currentSeria);
+
+      if (isFailsExist) {
+        setCurrentSeria(1);
+      } else {
+        setCurrentSeria(currentSeria + 1);
+      }
+
+      if (isFailsExist) setCurrentSeria(0);
 
       wordsQueue[0] = wordHandler(wordsQueue[0], [
         { key: WORD_HANDLER_KEYS.isMethodPost, value: false },

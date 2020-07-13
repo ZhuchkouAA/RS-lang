@@ -19,8 +19,7 @@ const WordPage = ({
   cardsShowedAllTimeIncrease,
   cardsShowedStatisticIncrease,
   rightAnswersAllTimeIncrease,
-  longestTodaySeriesIncrease,
-  longestTodaySeriesReset,
+  trySetLongestTodaySeries,
   learnedWordsStatisticIncrease,
   newCardsShowedStatisticIncrease,
   rightAnswersStatisticIcrease,
@@ -54,7 +53,7 @@ const WordPage = ({
     finallySendWordAndProgress(word);
   };
 
-  const onCheckEnteredWord = async (word, isFailsExist) => {
+  const onCheckEnteredWord = async (word, isFailsExist, currentSeria) => {
     await cardsShowedAllTimeIncrease();
     await cardsShowedStatisticIncrease();
 
@@ -70,14 +69,10 @@ const WordPage = ({
       await reduceLeftRepeatWordsToday();
     }
 
-    if (isFailsExist) {
-      await longestTodaySeriesReset();
-    }
-
     if (!isFailsExist) {
       await rightAnswersAllTimeIncrease();
-      await longestTodaySeriesIncrease();
       await rightAnswersStatisticIcrease();
+      await trySetLongestTodaySeries(currentSeria);
     }
 
     const isWordStudying = word.optional.isStudying;
@@ -135,8 +130,7 @@ WordPage.propTypes = {
   cardsShowedAllTimeIncrease: PropTypes.func.isRequired,
   cardsShowedStatisticIncrease: PropTypes.func.isRequired,
   rightAnswersAllTimeIncrease: PropTypes.func.isRequired,
-  longestTodaySeriesIncrease: PropTypes.func.isRequired,
-  longestTodaySeriesReset: PropTypes.func.isRequired,
+  trySetLongestTodaySeries: PropTypes.func.isRequired,
   learnedWordsStatisticIncrease: PropTypes.func.isRequired,
   newCardsShowedStatisticIncrease: PropTypes.func.isRequired,
   rightAnswersStatisticIcrease: PropTypes.func.isRequired,
