@@ -1,4 +1,13 @@
-.promoPage__container-desriptions {
-  max-width: 600px;
-  margin: 20px;
+.PromoPage {
+  &__textContainer {
+    margin: 0 40px;
+    max-width: 600px;
+  }
+
+  &__videoContainer {
+    background-color: #f00;
+    height: 300px;
+    margin: 0 40px 0 auto;
+    width: 300px;
+  }
 }

@@ -1,19 +1,10 @@
 .Accordion {
-  padding-left: 10px;
-
-  &__list-tittle {
-    margin-left: 10px;
-  }
-
-  &__list {
-    margin-left: 40px;
-  }
-
   &__header {
     font-weight: bold;
   }
 
-  &__paragrap {
-    text-align: justify;
+  &__list {
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    padding-left: 40px;
   }
 }

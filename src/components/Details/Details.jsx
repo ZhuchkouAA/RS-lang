@@ -15,7 +15,10 @@ import styles from './Details.module.scss';
 
 const useStyles = makeStyles({
   root: {
-    fontWeight: '700',
+    fontWeight: 'bold',
+  },
+  root1: {
+    padding: '20px',
   },
 });
 
@@ -39,14 +42,15 @@ const Details = ({ heading, paragraphs, lists }) => {
         <Typography classes={{ root: classes.root }}>{heading}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Paper>
+        <Paper classes={{ root: classes.root1 }} elevation={0}>
           {paragraphs &&
-            paragraphs.map((paragrap, j) => {
-              const keyBody = `Details__${paragrap}-${j}`;
+            paragraphs.map((paragraph, j) => {
+              const keyBody = `Details__${paragraph}-${j}`;
 
               return (
-                <Typography className={styles.Accordion__paragrap} key={keyBody}>
-                  {paragrap}
+                <Typography key={keyBody}>
+                  &nbsp;
+                  {paragraph}
                 </Typography>
               );
             })}
@@ -56,7 +60,8 @@ const Details = ({ heading, paragraphs, lists }) => {
 
               return (
                 <div key={key}>
-                  <Typography className={styles['Accordion__list-tittle']}>
+                  <Typography>
+                    &nbsp;
                     {list.tittle}
                   </Typography>
                   <ul className={styles.Accordion__list}>
