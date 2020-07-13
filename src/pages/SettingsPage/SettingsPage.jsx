@@ -139,7 +139,7 @@ const SettingsPage = ({
     <form className={style.Settings}>
       <Container className={style.Settings__wrapper}>
         <Grid container direction="row" justify="space-around" alignItems="flex-start">
-          <div>
+          <div className={style['Settings-column']}>
             <Typography variant="h6" gutterBottom>
               Общие настройки приложения
             </Typography>
@@ -205,7 +205,7 @@ const SettingsPage = ({
               времени его следующего повторения.
             </Typography>
           </div>
-          <div>
+          <div className={style['Settings-column']}>
             <Typography variant="h6" gutterBottom>
               Подсказки
             </Typography>

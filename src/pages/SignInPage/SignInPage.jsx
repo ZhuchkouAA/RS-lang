@@ -82,12 +82,12 @@ const SignInPage = ({
             />
             <button
               type="button"
-              className={styles['Form-switcher']}
+              className={styles['Login__form-switcher']}
               onClick={handlerOnClickIsSignIn}
             >
               {isSignIn ? `Регистрация` : `Войти`}
             </button>
-            <div className={styles['Form-alert']}>{message}</div>
+            <div className={styles['Login__form-alert']}>{message}</div>
           </Grid>
         </form>
       </div>

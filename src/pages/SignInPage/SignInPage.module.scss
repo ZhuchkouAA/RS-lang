@@ -9,15 +9,30 @@
 }
 
 .Login__form {
+
+  user-select: none;
   width: 300px;
 
   &-switcher {
     align-self: flex-start;
-    color: #1976d2;
+    color: #2a2b2b;
     cursor: pointer;
     display: block;
-    margin-top: 15px;
-    text-decoration: underline;
+    font-size: 15px;
+    margin-top: 16px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  &-switcher:hover {
+    opacity: 0.5;
+    transition: 0.3s;
+  }
+
+  &-alert {
+    color: #b13434;
+    font-size: 18px;
+    margin-top: 30px;
   }
 
   &-alert,
