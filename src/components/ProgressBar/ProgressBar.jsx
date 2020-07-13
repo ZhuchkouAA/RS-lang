@@ -8,12 +8,12 @@ import { getRatingColors } from '../../helpers/repeat-logic-utils';
 import styles from './ProgressBar.module.scss';
 
 const ProgressBar = ({ progress, settings }) => {
-  const { cardsShowedStatistic } = progress;
-  const { wordsPerDay } = settings;
+  const { leftNewWordsToday } = progress;
+  const { newWordsPerDay } = settings;
 
-  const cntCardsShowedToday = cardsShowedStatistic[0];
+  const cntNewWordsShowedToday = Math.round(newWordsPerDay - leftNewWordsToday);
   const maxProgressValue = 100;
-  const currentLearningProgress = (maxProgressValue * cntCardsShowedToday) / wordsPerDay;
+  const currentLearningProgress = (maxProgressValue * cntNewWordsShowedToday) / newWordsPerDay;
   const progressValue =
     currentLearningProgress > maxProgressValue ? maxProgressValue : currentLearningProgress;
   const stateColors = getRatingColors(currentLearningProgress);
@@ -35,7 +35,7 @@ const ProgressBar = ({ progress, settings }) => {
   const classes = useStyles();
 
   return (
-    <Tooltip className={styles.ProgressBar} title="Изучено слов сегодня" enterDelay={1000}>
+    <Tooltip className={styles.ProgressBar} title="Изучено новых слов сегодня" enterDelay={500}>
       <div className={classes.root}>
         <LinearProgress
           variant="determinate"
@@ -43,7 +43,7 @@ const ProgressBar = ({ progress, settings }) => {
           classes={{ barColorPrimary: classes.passed, colorPrimary: classes.full }}
         />
         <div className={styles.ProgressBar__values}>
-          {`${cntCardsShowedToday} / ${wordsPerDay}`}
+          {`${cntNewWordsShowedToday} / ${newWordsPerDay}`}
         </div>
       </div>
     </Tooltip>
