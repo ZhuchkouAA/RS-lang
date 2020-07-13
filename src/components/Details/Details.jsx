@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import {
   Accordion,
@@ -6,21 +7,21 @@ import {
   AccordionSummary,
   Typography,
   makeStyles,
+  Paper,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import PropTypes from 'prop-types';
 import styles from './Details.module.scss';
 
 const useStyles = makeStyles({
   root: {
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
 });
 
 const Details = ({ heading, paragraphs, lists }) => {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -38,23 +39,37 @@ const Details = ({ heading, paragraphs, lists }) => {
         <Typography classes={{ root: classes.root }}>{heading}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography>
+        <Paper>
           {paragraphs &&
-            paragraphs.map((paragrap) => (
-              <Typography className={styles.Accordion__paragrap}>{paragrap}</Typography>
-            ))}
+            paragraphs.map((paragrap, j) => {
+              const keyBody = `Details__${paragrap}-${j}`;
+
+              return (
+                <Typography className={styles.Accordion__paragrap} key={keyBody}>
+                  {paragrap}
+                </Typography>
+              );
+            })}
           {lists &&
-            lists.map((list) => (
-              <div>
-                <Typography className={styles['Accordion__list-tittle']}>{list.tittle}</Typography>
-                <ul className={styles.Accordion__list}>
-                  {list.points.map((point) => (
-                    <li>{point}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-        </Typography>
+            lists.map((list, index) => {
+              const key = `Details__${list.tittle}-${index}`;
+
+              return (
+                <div key={key}>
+                  <Typography className={styles['Accordion__list-tittle']}>
+                    {list.tittle}
+                  </Typography>
+                  <ul className={styles.Accordion__list}>
+                    {list.points.map((point, i) => {
+                      const keyLi = `Details__${point}-${i}`;
+
+                      return <li key={keyLi}>{point}</li>;
+                    })}
+                  </ul>
+                </div>
+              );
+            })}
+        </Paper>
       </AccordionDetails>
     </Accordion>
   );
