@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import classNames from 'classnames';
 import CustomButton from '../../components/Button';
 import SymbolWindow from '../../components/SymbolWindow';
 import GamesStatisticsDialog from '../../components/GamesStatisticsDialog';
@@ -42,7 +43,6 @@ const OnwGamePage = ({ words, mode, finallySendWordAndProgress }) => {
     data.fill(false);
     return data;
   };
-
   const initialData = wordDataCreator(0);
 
   const maxNumberOfWordsInGame = 20;
@@ -231,7 +231,13 @@ const OnwGamePage = ({ words, mode, finallySendWordAndProgress }) => {
                 text="Слово"
               />
             </form>
-            <form onSubmit={handlerSubmitSymbol} className={styles.Card__symbol}>
+            <form
+              onSubmit={handlerSubmitSymbol}
+              className={classNames(
+                styles.Card__symbol,
+                rouletteData !== guessSymbolModeId && styles.Card__hide
+              )}
+            >
               <Box className={styles.Card__input}>
                 <TextField
                   inputRef={symbolRef}
@@ -257,7 +263,10 @@ const OnwGamePage = ({ words, mode, finallySendWordAndProgress }) => {
 
   return (
     <div className={styles.wrapper}>
-      {(currentWord.id > maxNumberOfWordsInGame && <GamesStatisticsDialog isOpen words={wordsResult} />) || fortune()}
+      {(currentWord.id > maxNumberOfWordsInGame && (
+        <GamesStatisticsDialog isOpen words={wordsResult} />
+      )) ||
+        fortune()}
     </div>
   );
 };
