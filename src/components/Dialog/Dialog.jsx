@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import {
   Grid,
@@ -12,15 +13,21 @@ import {
 } from '@material-ui/core';
 
 import { WORDS_END } from '../../constants/modal-messages';
+import PATH from '../../constants/path';
 
 import style from './Dialog.module.scss';
 
-const CustomizedDialogs = ({ isOpen, type, title, message, callBack }) => {
-  const [open, setOpen] = React.useState(isOpen);
+const CustomizedDialogs = ({ isOpen, type, title, message, callBack, isRedirectMain }) => {
+  const history = useHistory();
+  const [open, setOpen] = useState(isOpen);
 
   const handleClose = () => {
     setOpen(false);
     callBack();
+
+    if (isRedirectMain) {
+      history.push(PATH.MAIN);
+    }
   };
 
   const ModalWindowTitle = classNames({
@@ -55,10 +62,12 @@ const CustomizedDialogs = ({ isOpen, type, title, message, callBack }) => {
 CustomizedDialogs.defaultProps = {
   callBack: () => {},
   title: WORDS_END.tittle,
+  isRedirectMain: false,
 };
 
 CustomizedDialogs.propTypes = {
   isOpen: PropTypes.bool.isRequired,
+  isRedirectMain: PropTypes.bool,
   type: PropTypes.string.isRequired,
   title: PropTypes.string,
   message: PropTypes.string.isRequired,

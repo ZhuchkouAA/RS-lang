@@ -10,15 +10,18 @@ import style from './NavBar.module.scss';
 
 const useStyles = makeStyles({
   listItem: {
-    fontWeight: 100,
     fontSize: '18px',
+    fontWeight: 100,
   },
+
   divider: {
     margin: '0 15px',
   },
+
   root: {
     flex: '0 1 auto',
   },
+
   root2: {
     justifyContent: 'center',
   },

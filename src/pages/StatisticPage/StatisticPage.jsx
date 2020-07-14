@@ -123,7 +123,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         <Container maxWidth="sm">
           <Grid container direction="row" justify="space-between" alignItems="center">
             <Typography gutterBottom align="center" variant="h6">
-              Всего показано карточек
+              Всего показано слов
             </Typography>
             <Typography gutterBottom align="center" variant="h6">
               {`${cardsShowedAllTime}`}
@@ -195,7 +195,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         <Container maxWidth="sm">
           <Grid container direction="row" justify="space-between" alignItems="center">
             <Typography gutterBottom align="center" variant="h6">
-              Осталось изучить новых слов сегодня
+              Осталось пройти новых слов сегодня
             </Typography>
             <Typography gutterBottom align="center" variant="h6">
               {`${leftNewWordsToday} из ${newWordsPerDay}`}
@@ -217,7 +217,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         <Container maxWidth="sm">
           <Grid container direction="row" justify="space-between" alignItems="center">
             <Typography gutterBottom align="center" variant="h6">
-              Всего сегодня было показано карточек
+              Всего сегодня пройдено слов
             </Typography>
             <Typography gutterBottom align="center" variant="h6">
               {cardsShowedStatistic[0]}
@@ -242,7 +242,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         <Container maxWidth="sm">
           <Grid container direction="row" justify="space-between" alignItems="center">
             <Typography gutterBottom align="center" variant="h6">
-              Самая длинная серия
+              Самая длинная серия сегодня
             </Typography>
             <Typography gutterBottom align="center" variant="h6">
               {longestTodaySeries}
@@ -253,16 +253,16 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         <Container maxWidth="sm">
           <Grid container direction="row" justify="space-between" alignItems="center">
             <Typography gutterBottom align="center" variant="h6">
-              Новые слова прибудут в течение
+              Новые слова прибудут через (часы)
             </Typography>
             <Typography gutterBottom align="center" variant="h6">
-              {`${hoursToReceiptWords} (часов)`}
+              {hoursToReceiptWords}
             </Typography>
           </Grid>
         </Container>
 
         <ChartSplineArea
-          title="Процент отгаданных карточек за каждый из 15 последних дней"
+          title="Процент отгаданных слов за каждый из 15 последних дней"
           data={dataChartRightAnswersPercentStatistic}
           valueField="cards"
           argumentField="day"
@@ -281,7 +281,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         </Container>
         <Container maxWidth="sm">
           <ChartSplineArea
-            title="Показано карточек всего за каждый из 15 последних дней"
+            title="Показано слов всего за каждый из 15 последних дней"
             data={dataChartCardsShowedStatistic}
             valueField="cards"
             argumentField="day"
@@ -293,7 +293,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
       <Grid container direction="row" justify="center" alignItems="center">
         <Container maxWidth="sm">
           <ChartSplineArea
-            title="Отгадано карточек всего за каждый из 15 последних дней"
+            title="Отгадано слов всего за каждый из 15 последних дней"
             data={dataChartrightAnswersStatistic}
             valueField="cards"
             argumentField="day"
@@ -302,7 +302,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         </Container>
         <Container maxWidth="sm">
           <ChartSplineArea
-            title="Показано новых карточек за каждый из 15 последних дней"
+            title="Показано новых слов за каждый из 15 последних дней"
             data={dataChartNewCardsShowedStatistic}
             valueField="cards"
             argumentField="day"

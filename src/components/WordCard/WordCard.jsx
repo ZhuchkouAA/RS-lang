@@ -592,7 +592,7 @@ const WordCard = ({
           type="info"
           tittle={WORDS_END.tittle}
           message={HARD_WORDS_END.message}
-          callBack={redirectToMainPage}
+          isRedirectMain
         />
       )}
       {isModalOpen && !isDemoQueue && (

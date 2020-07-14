@@ -146,15 +146,19 @@ const SettingsPage = ({
               Общие настройки приложения
             </Typography>
             <Inputs
-              label="Максимально карточек в день (без учета сегодняшнего повтора)."
+              label="Всего слов в день"
               startValue={String(settings.wordsPerDay)}
               settingName="wordsPerDay"
               onChange={onSettingsChange}
               inputProps={inputPropsWords}
               required
             />
+            <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+              Не включая срочные повторы (повторы при ошибках изучения слов). Не может быть меньше
+              &quot;Новых слов в день&quot;.
+            </Typography>
             <Inputs
-              label="Новых слов в день (не может быть больше всех слов в день)."
+              label="Новых слов в день."
               startValue={String(settings.newWordsPerDay)}
               settingName="newWordsPerDay"
               onChange={onSettingsChange}
@@ -163,6 +167,10 @@ const SettingsPage = ({
               inputProps={inputPropsNewWords}
               required
             />
+            <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+              Новые слова идут после повторяемых слов. Большое лимит новых слов порождает больше
+              повторов в ближайшие дни. Не может быть больше &quot;Всего слов в день&quot;.
+            </Typography>
 
             <Typography variant="h6" gutterBottom>
               Элементы управления
