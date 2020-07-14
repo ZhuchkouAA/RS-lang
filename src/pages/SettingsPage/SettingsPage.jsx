@@ -141,7 +141,7 @@ const SettingsPage = ({
     <form className={style.Settings}>
       <Container className={style.Settings__wrapper}>
         <Grid container direction="row" justify="space-around" alignItems="flex-start">
-          <div>
+          <Grid item className={style['Settings-column']}>
             <Typography variant="h6" gutterBottom>
               Общие настройки приложения
             </Typography>
@@ -206,8 +206,8 @@ const SettingsPage = ({
               После отгадывания слова, можно оценить его сложность для более точного определения
               времени его следующего повторения.
             </Typography>
-          </div>
-          <div>
+          </Grid>
+          <Grid item className={style['Settings-column']}>
             <Typography variant="h6" gutterBottom>
               Подсказки
             </Typography>
@@ -288,7 +288,7 @@ const SettingsPage = ({
             <Typography className={style.Settings__hint} variant="body2" gutterBottom>
               При нажатии звучит предложение со значением слова.
             </Typography>
-          </div>
+          </Grid>
         </Grid>
       </Container>
       <Grid

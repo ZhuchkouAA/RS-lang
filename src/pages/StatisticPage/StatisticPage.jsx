@@ -118,7 +118,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
   if (isLoading) return <div />;
 
   return (
-    <>
+    <div className={styles.Statistic}>
       <Grid container direction="column" justify="center" alignItems="center">
         <Container maxWidth="sm">
           <Grid container direction="row" justify="space-between" alignItems="center">
@@ -310,7 +310,6 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
           />
         </Container>
       </Grid>
-
       <Grid container direction="row" justify="center" alignItems="center">
         <Container maxWidth="sm">
           <ChartSplineArea
@@ -331,7 +330,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
           />
         </Container>
       </Grid>
-    </>
+    </div>
   );
 };
 

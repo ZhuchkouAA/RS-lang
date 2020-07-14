@@ -5,7 +5,11 @@
   min-height: 100%;
 
   &-component {
+    align-items: center;
+    display: flex;
     flex: 1 0 auto;
+    justify-content: center;
+    min-height: 620px;
     position: relative;
     width: 100%;
   }

@@ -1,6 +1,11 @@
 .wrapper {
+  align-items: center;
   background: url('../../img/sprint-background.png');
-  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  height: 91vh;
+  justify-content: center;
+  width: inherit;
 }
 
 .Card {
@@ -58,7 +63,6 @@
   margin: 0 auto 10px;
   max-width: 40%;
   min-width: 250px;
-  padding-top: 10px;
 
   &__point-counter {
     border: 1px solid;

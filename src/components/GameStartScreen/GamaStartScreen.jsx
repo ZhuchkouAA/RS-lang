@@ -91,7 +91,7 @@ const GameStartScreen = ({
         <form>
           <FormControl component="fieldset">
             <FormLabel component="legend">Выберите набор слов:</FormLabel>
-            <RadioGroup aria-label="levels" name="levels">
+            <RadioGroup aria-label="levels" name="levels" style={{ 'align-items': 'flex-start' }}>
               {levels.map(({ label, value }) => {
                 return (
                   <FormControlLabel
@@ -108,15 +108,15 @@ const GameStartScreen = ({
             </RadioGroup>
             <Grid container direction="row" justify="space-around" alignItems="center">
               <NavLink
+                className={style['GameStartScreen-button']}
                 disabled={isActiveButton}
-                className={style.GameStartScreen__button}
                 to={!isActiveButton && currentGamePath}
               >
                 <Button disabled={isActiveButton} variant="outlined" color="primary">
                   Начать игру
                 </Button>
               </NavLink>
-              <NavLink className={style.GameStartScreen__button} to={PATHS.MAIN}>
+              <NavLink className={style['GameStartScreen-button']} to={PATHS.MAIN}>
                 <Button variant="outlined" color="secondary">
                   Выход
                 </Button>
