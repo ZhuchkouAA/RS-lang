@@ -60,7 +60,7 @@ const Details = ({ heading, paragraphs, lists }) => {
 
               return (
                 <div key={key}>
-                  <Typography>
+                  <Typography variant="overline">
                     &nbsp;
                     {list.tittle}
                   </Typography>

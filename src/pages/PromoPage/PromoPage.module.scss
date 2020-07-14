@@ -1,7 +1,11 @@
 .PromoPage {
+  &__wrapper {
+    max-width: 1200px;
+  }
+
   &__textContainer {
     margin: 0 40px;
-    max-width: 600px;
+    max-width: 1200px;
   }
 
   &__videoContainer {
@@ -9,5 +13,20 @@
     height: 300px;
     margin: 0 40px 0 auto;
     width: 300px;
+  }
+
+  &__game-header {
+    font-weight: 700;
+  }
+
+  &__disclaimer-header {
+    color: #ff0505;
+    font-weight: 700;
+  }
+
+  &__player-container {
+    height: 25%;
+    margin: 0 auto;
+    max-width: 600px;
   }
 }
