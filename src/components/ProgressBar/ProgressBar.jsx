@@ -51,7 +51,7 @@ const ProgressBar = ({ progress, settings }) => {
     <>
       <Tooltip
         className={styles['ProgressBar__new-words']}
-        title="Изучено новых слов сегодня"
+        title="Пройдено новых слов сегодня"
         enterDelay={500}
       >
         <div className={classes.root}>
@@ -70,7 +70,7 @@ const ProgressBar = ({ progress, settings }) => {
       </Tooltip>
       <Tooltip
         className={styles['ProgressBar__all-words']}
-        title="Пройдено слов всего"
+        title="Пройдено всего слов сегодня (все повторы плюс новые)"
         enterDelay={500}
       >
         <div className={classes.root}>
