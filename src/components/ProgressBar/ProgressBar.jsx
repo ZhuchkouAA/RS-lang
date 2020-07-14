@@ -8,10 +8,11 @@ import { getRatingColors } from '../../helpers/repeat-logic-utils';
 import styles from './ProgressBar.module.scss';
 
 const ProgressBar = ({ progress, settings }) => {
-  const { leftNewWordsToday, cardsShowedStatistic } = progress;
+  const { cardsShowedStatistic, newCardsShowedStatistic } = progress;
   const { newWordsPerDay, wordsPerDay } = settings;
   const maxProgressValue = 100;
-  const cntNewWordsShowedToday = Math.round(newWordsPerDay - leftNewWordsToday);
+
+  const cntNewWordsShowedToday = newCardsShowedStatistic[0];
   const newWordsProgress = (maxProgressValue * cntNewWordsShowedToday) / newWordsPerDay;
   const cntCardsShowedToday = cardsShowedStatistic[0];
   const allWordsProgress = (maxProgressValue * cntCardsShowedToday) / wordsPerDay;
@@ -40,7 +41,7 @@ const ProgressBar = ({ progress, settings }) => {
     },
 
     allFull: {
-      background: allWordsProgress.backgroundColor,
+      background: allWordsStateColors.backgroundColor,
     },
   });
 
