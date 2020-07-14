@@ -46,10 +46,18 @@ const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) =>
   const [open, setOpen] = useState(isOpen);
 
   const handleClose = () => {
-    setOpen(false);
+    if (isWordsRemain) {
+      return setOpen(false);
+    }
+
+    return history.push(PATH.MAIN);
   };
 
   const handleClickContinue = () => {
+    setOpen(false);
+  };
+
+  const handleClickToMain = () => {
     history.push(PATH.MAIN);
   };
 
@@ -113,14 +121,17 @@ const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) =>
 
       <DialogActions>
         <Grid>
+          <Button onClick={handleClickSettings} color="primary">
+            Настройки
+          </Button>
+          <Button onClick={handleClickToMain} color="primary">
+            На главную
+          </Button>
           {isWordsRemain && (
-            <Button onClick={handleClickSettings} color="primary">
-              Настройки
+            <Button onClick={handleClickContinue} color="primary">
+              Продолжить
             </Button>
           )}
-          <Button onClick={handleClickContinue} color="primary">
-            Продолжить
-          </Button>
         </Grid>
       </DialogActions>
     </Dialog>
