@@ -107,7 +107,11 @@ const GameStartScreen = ({
               })}
             </RadioGroup>
             <Grid container direction="row" justify="space-around" alignItems="center">
-              <NavLink className={style.GameStartScreen__button} to={currentGamePath}>
+              <NavLink
+                disabled={isActiveButton}
+                className={style.GameStartScreen__button}
+                to={!isActiveButton && currentGamePath}
+              >
                 <Button disabled={isActiveButton} variant="outlined" color="primary">
                   Начать игру
                 </Button>
