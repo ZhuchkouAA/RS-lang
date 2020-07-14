@@ -64,4 +64,9 @@
   &__button {
     margin-top: 10px;
   }
+
+  &__hide {
+    opacity: 0;
+    position: absolute;
+  }
 }
