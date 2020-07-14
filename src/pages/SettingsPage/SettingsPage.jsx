@@ -56,6 +56,8 @@ const SettingsPage = ({
       setSettings({ ...settings, [key]: value });
     }, 1000);
     return () => {
+      setInputPropsWords(styleBlack);
+      setInputPropsNewWords(styleBlack);
       clearInterval(timer);
     };
   };

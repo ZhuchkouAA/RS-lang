@@ -34,6 +34,9 @@ export const putProgress = () => async (dispatch) => {
       cardsShowedStatistic,
       newCardsShowedStatistic,
       rightAnswersStatistic,
+      sprintAllAnswersStatistic,
+      sprintRightAnswersStatistic,
+      sprintMaxScoreStatistic,
     },
   } = store.getState();
 
@@ -53,6 +56,9 @@ export const putProgress = () => async (dispatch) => {
       cardsShowedStatistic: cardsShowedStatistic.join('-'),
       newCardsShowedStatistic: newCardsShowedStatistic.join('-'),
       rightAnswersStatistic: rightAnswersStatistic.join('-'),
+      sprintAllAnswersStatistic: sprintAllAnswersStatistic.join('-'),
+      sprintRightAnswersStatistic: sprintRightAnswersStatistic.join('-'),
+      sprintMaxScoreStatistic: sprintMaxScoreStatistic.join('-'),
     },
   });
   const url = API_URLS.USER_STATISTICS(getCookie(USER_ID));
@@ -90,6 +96,9 @@ export const getProgress = () => async (dispatch) => {
       cardsShowedStatistic,
       newCardsShowedStatistic,
       rightAnswersStatistic,
+      sprintAllAnswersStatistic,
+      sprintRightAnswersStatistic,
+      sprintMaxScoreStatistic,
     } = progress;
     if (isDateOfReceiptOfWordsCome(dateOfReceiptOfWords)) {
       const newDateOfReceiptOfWords = getNewDateOfReceiptOfWords();
@@ -117,6 +126,9 @@ export const getProgress = () => async (dispatch) => {
           cardsShowedStatistic: newArray15FromString(cardsShowedStatistic),
           newCardsShowedStatistic: newArray15FromString(newCardsShowedStatistic),
           rightAnswersStatistic: newArray15FromString(rightAnswersStatistic),
+          sprintAllAnswersStatistic: newArray15FromString(sprintAllAnswersStatistic),
+          sprintRightAnswersStatistic: newArray15FromString(sprintRightAnswersStatistic),
+          sprintMaxScoreStatistic: newArray15FromString(sprintMaxScoreStatistic),
         })
       );
     } else {
@@ -142,6 +154,9 @@ export const getProgress = () => async (dispatch) => {
           cardsShowedStatistic: array15FromString(cardsShowedStatistic),
           newCardsShowedStatistic: array15FromString(newCardsShowedStatistic),
           rightAnswersStatistic: array15FromString(rightAnswersStatistic),
+          sprintAllAnswersStatistic: array15FromString(sprintAllAnswersStatistic),
+          sprintRightAnswersStatistic: array15FromString(sprintRightAnswersStatistic),
+          sprintMaxScoreStatistic: array15FromString(sprintMaxScoreStatistic),
         })
       );
     }

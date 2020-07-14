@@ -30,8 +30,13 @@ const useStyles = makeStyles({
 
 const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) => {
   const history = useHistory();
-  const { rightAnswersStatistic, cardsShowedStatistic, longestTodaySeries } = progress;
-  const { newWordsPerDay, wordsPerDay } = settings;
+  const {
+    rightAnswersStatistic,
+    cardsShowedStatistic,
+    longestTodaySeries,
+    newCardsShowedStatistic,
+  } = progress;
+  const { wordsPerDay } = settings;
 
   const rightAnswersToday = getCategoryPassedPercent(
     rightAnswersStatistic[0],
@@ -85,7 +90,9 @@ const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) =>
         </Typography>
         <Typography align="center" gutterBottom>
           {`Изучено новых слов: `}
-          <span className={styles['ShortStatisticsDialog--results']}>{newWordsPerDay}</span>
+          <span className={styles['ShortStatisticsDialog--results']}>
+            {newCardsShowedStatistic[0]}
+          </span>
           {`. `}
         </Typography>
         <Typography align="center" paragraph>

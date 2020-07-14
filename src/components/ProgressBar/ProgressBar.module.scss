@@ -2,7 +2,14 @@
 
 .ProgressBar {
   position: absolute;
-  top: 5px;
+
+  &__new-words {
+    top: 5px;
+  }
+
+  &__all-words {
+    top: 25px;
+  }
 
   &__values {
     color: $black-color;

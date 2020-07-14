@@ -25,6 +25,9 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
     cardsShowedStatistic,
     newCardsShowedStatistic,
     rightAnswersStatistic,
+    sprintAllAnswersStatistic,
+    sprintRightAnswersStatistic,
+    sprintMaxScoreStatistic,
   } = progress;
 
   const { wordsPerDay, newWordsPerDay } = settings;
@@ -38,6 +41,24 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
     const day = new Date(date).getDate();
     return day;
   };
+
+  const dataChartSprintMaxScoreStatistic = sprintMaxScoreStatistic
+    .map((el, ind) => {
+      return {
+        day: chartDayDateByInd(ind),
+        cards: el,
+      };
+    })
+    .reverse();
+
+  const dataChartSprintRightAnswertPercentStatistic = sprintRightAnswersStatistic
+    .map((el, ind) => {
+      return {
+        day: chartDayDateByInd(ind),
+        cards: Math.round((el / (sprintAllAnswersStatistic[ind] + DELTA)) * 100),
+      };
+    })
+    .reverse();
 
   const dataChartRightAnswersPercentStatistic = rightAnswersStatistic
     .map((el, ind) => {
@@ -283,6 +304,26 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
           <ChartSplineArea
             title="Показано новых карточек за каждый из 15 последних дней"
             data={dataChartNewCardsShowedStatistic}
+            valueField="cards"
+            argumentField="day"
+            name="name3"
+          />
+        </Container>
+      </Grid>
+      <Grid container direction="row" justify="center" alignItems="center">
+        <Container maxWidth="sm">
+          <ChartSplineArea
+            title="Максимально очков в игре Спринт за каждый из 15 последних дней"
+            data={dataChartSprintMaxScoreStatistic}
+            valueField="cards"
+            argumentField="day"
+            name="name2"
+          />
+        </Container>
+        <Container maxWidth="sm">
+          <ChartSplineArea
+            title="Процент правильных ответов в игре Спринт за каждый из 15 последних дней"
+            data={dataChartSprintRightAnswertPercentStatistic}
             valueField="cards"
             argumentField="day"
             name="name3"
