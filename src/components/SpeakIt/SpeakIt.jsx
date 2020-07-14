@@ -15,9 +15,7 @@ const playAudio = (url) => {
   audio.play();
 };
 const speechRec = getSpeechRecognition();
-const recoStart = () => {
-  speechRec.start();
-};
+
 const getWords = async (level = 0) => {
   const path = 'https://raw.githubusercontent.com/zhuchkouaa/rslang-data/master/';
   const res = await getQueueMiniGame10(level);
@@ -30,9 +28,12 @@ const getWords = async (level = 0) => {
     obj.transcription = element.optional.transcription;
     obj.defaultWord = element;
     obj.isGuested = false;
+    obj.isShow = false;
     return obj;
   });
 };
+
+let truthAnswers = [];
 
 const SpeakIt = () => {
   const [value, setValue] = useState(0);
@@ -40,6 +41,7 @@ const SpeakIt = () => {
   const [wordsImage, setWordImage] = useState('');
   const [isStartGame, setStartGame] = useState(false);
   const [wordsExample, setWordExample] = useState([]);
+  const [isShowStatistic, setShowStatistic] = useState(false);
 
   const handleWordExample = (lvl) => {
     getWords(lvl).then((val) => setWordExample(val));
@@ -64,6 +66,7 @@ const SpeakIt = () => {
     handleWordExample(newValue);
     handleWordsImage(defaultImage);
     handleInputText('');
+    setStartGame(false);
   };
 
   const handleStartGame = (start) => {
@@ -73,7 +76,24 @@ const SpeakIt = () => {
         const result = event.results[event.results.length - 1][0].transcript.toLowerCase();
         handleInputText(result);
       };
-      speechRec.onend = recoStart;
+      speechRec.onend = () => {
+        truthAnswers = wordsExample.filter((elem) => elem.isGuested);
+        speechRec.start();
+        if (truthAnswers.length > 0) {
+          truthAnswers = truthAnswers.map((elem) => {
+            const word = elem;
+            if (!word.isShow) {
+              handleWordsImage(elem.image);
+              word.isShow = !word.isShow;
+            }
+            return word;
+          });
+        }
+
+        if (truthAnswers.length === 10) {
+          setShowStatistic(true);
+        }
+      };
     }
 
     if (!start) {
@@ -168,10 +188,80 @@ const SpeakIt = () => {
               </Button>
             </Card>
             <Card className={styles.SpeakIt__button}>
-              <Button variant="contained">Статистика</Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  setShowStatistic(true);
+                }}
+              >
+                Статистика
+              </Button>
             </Card>
           </Grid>
         </Grid>
+      )}
+      {isShowStatistic && (
+        <Card className={styles.SpeakIt__statistic}>
+          <Card className={styles.SpeakIt__statistic__answers}>
+            <Card className={styles.SpeakIt__statistic__answers__item}>
+              <Typography variant="h6" align="center">
+                Знаю
+              </Typography>
+              {wordsExample.map((elem) => {
+                if (elem.isGuested) {
+                  return (
+                    <Card
+                      onClick={() => playAudio(elem.audio)}
+                      key={Math.random()}
+                      className={styles.SpeakIt__statistic__word}
+                    >
+                      <Typography>{elem.word}</Typography>
+                      <Typography>{elem.transcription}</Typography>
+                    </Card>
+                  );
+                }
+                return <div />;
+              })}
+            </Card>
+            <Card className={styles.SpeakIt__statistic__answers__item}>
+              <Typography variant="h6" align="center">
+                Нужно повторить
+              </Typography>
+              {wordsExample.map((elem) => {
+                if (!elem.isGuested) {
+                  return (
+                    <Card
+                      onClick={() => playAudio(elem.audio)}
+                      key={Math.random()}
+                      className={styles.SpeakIt__statistic__word}
+                    >
+                      <Typography>{elem.word}</Typography>
+                      <Typography>{elem.transcription}</Typography>
+                    </Card>
+                  );
+                }
+                return <div />;
+              })}
+            </Card>
+          </Card>
+
+          <Card className={styles.SpeakIt__statistic__control}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => {
+                setShowStatistic(false);
+                handleWordExample(value);
+                truthAnswers = [];
+              }}
+            >
+              Новая игра
+            </Button>
+            <Button variant="contained" color="primary" onClick={() => setShowStatistic(false)}>
+              Продолжить
+            </Button>
+          </Card>
+        </Card>
       )}
     </Card>
   );
