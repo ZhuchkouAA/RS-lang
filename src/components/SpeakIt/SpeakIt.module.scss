@@ -63,4 +63,25 @@
   &__button {
     margin-right: 10px;
   }
+
+  &__micro {
+    animation: pulsing 2s infinite;
+  }
+}
+
+@keyframes pulsing {
+  0% {
+    filter: drop-shadow(0 0 0 rgb(255, 5, 5));
+    transform: scale(0.9, 0.9);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 4px rgb(255, 5, 5));
+    transform: scale(1.1, 1.1);
+  }
+
+  0% {
+    filter: drop-shadow(0 0 0 rgb(255, 5, 5));
+    transform: scale(0.9, 0.9);
+  }
 }

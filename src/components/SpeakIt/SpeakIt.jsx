@@ -110,7 +110,7 @@ const SpeakIt = () => {
           </Tabs>
           <CardMedia image={wordsImage} className={styles.SpeakIt__image} />
           <Card className={styles.SpeakIt__word}>
-            {isStartGame && <Mic />}
+            {isStartGame && <Mic className={styles.SpeakIt__micro} />}
             <Typography>{inputText}</Typography>
           </Card>
           <Card className={styles.SpeakIt__containWords}>
