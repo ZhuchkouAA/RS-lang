@@ -1,13 +1,13 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
-import PATH from '../../constants/path';
+import { Grid } from '@material-ui/core';
+
+import background from '../../img/under-construction.png';
 
 const EnglishPuzzlePage = () => (
-  <>
-    <p>EnglishPuzzlePage</p>
-    <NavLink to={PATH.SIGN_IN}>SignInPage</NavLink>
-  </>
+  <Grid container justify="center" alignItems="center">
+    <img src={background} alt="Страница в разработке" />
+  </Grid>
 );
 
 export default EnglishPuzzlePage;
