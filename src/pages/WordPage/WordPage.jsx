@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import WORD_HANDLER_KEYS from '../../constants/keys';
-import PATH from '../../constants/path';
 import { WORDS_END } from '../../constants/modal-messages';
 
 import WordCard from '../../components/WordCard';
@@ -29,8 +27,6 @@ const WordPage = ({
   wordsQueue,
   resetPrevPage,
 }) => {
-  const history = useHistory();
-
   useEffect(() => {
     serverSynchronization();
   }, []);
@@ -88,10 +84,6 @@ const WordPage = ({
     finallySendWordAndProgress(word);
   };
 
-  const redirectToMainPage = () => {
-    history.push(PATH.MAIN);
-  };
-
   if (isLoading) {
     return <div />;
   }
@@ -103,7 +95,7 @@ const WordPage = ({
         type="info"
         tittle={WORDS_END.tittle}
         message={WORDS_END.message}
-        callBack={redirectToMainPage}
+        isRedirectMain
       />
     );
   }
