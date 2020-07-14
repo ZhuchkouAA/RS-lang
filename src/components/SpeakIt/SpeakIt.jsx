@@ -252,7 +252,6 @@ const SpeakIt = () => {
               })}
             </Card>
           </Card>
-
           {!isWin ? (
             <Card className={styles.SpeakIt__statistic__control}>
               <Button
