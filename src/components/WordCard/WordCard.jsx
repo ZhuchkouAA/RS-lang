@@ -225,13 +225,14 @@ const WordCard = ({
 
       const { ...optional } = { ...wordsQueue[0].optional };
       const updatedWord = { ...wordsQueue[0], optional };
+      const newLongestSeria = currentSeria + 1;
 
-      onCheckEnteredWord(updatedWord, isFailsExist, currentSeria);
+      onCheckEnteredWord(updatedWord, isFailsExist, newLongestSeria);
 
       if (isFailsExist) {
         setCurrentSeria(0);
       } else {
-        setCurrentSeria(currentSeria + 1);
+        setCurrentSeria(newLongestSeria);
       }
 
       wordsQueue[0] = wordHandler(wordsQueue[0], [
