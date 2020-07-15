@@ -153,10 +153,7 @@ export const calcUserIndicatorState = (settings, progress) => {
     cardsShowedStatistic[0]
   );
 
-  const longestTodaySeriesPercent = getCategoryPassedPercent(
-    longestTodaySeries,
-    cardsShowedStatistic[0]
-  );
+  const longestTodaySeriesPercent = getCategoryPassedPercent(longestTodaySeries, wordsPerDay);
 
   const differentCardsShowedAllTimePercent = getCategoryPassedPercent(
     differentCardsShowedAllTime,
