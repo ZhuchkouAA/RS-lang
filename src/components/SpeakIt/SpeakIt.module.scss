@@ -63,4 +63,82 @@
   &__button {
     margin-right: 10px;
   }
+
+  &__micro {
+    animation: pulsing 2s infinite;
+  }
+
+  &__statistic {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.473) !important;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100vh;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 10000;
+  }
+
+  &__statistic__answers {
+    display: flex;
+    justify-content: center;
+
+  }
+
+  &__statistic__answers__item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 5px;
+    width: 150px;
+  }
+
+  &__statistic__word {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  &__statistic__word:hover {
+    background-color: rgb(202, 202, 243);
+  }
+
+  &__statistic__control {
+    background-color: transparent !important;
+    margin-top: 20px;
+  }
+
+  &__statistic__column {
+    font-size: 25px;
+    font-weight: 700;
+  }
+
+  &__nav {
+    text-decoration: none;
+  }
+}
+
+@keyframes pulsing {
+  0% {
+    filter: drop-shadow(0 0 0 rgb(255, 5, 5));
+    transform: scale(0.9, 0.9);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 4px rgb(255, 5, 5));
+    transform: scale(1.1, 1.1);
+  }
+
+  0% {
+    filter: drop-shadow(0 0 0 rgb(255, 5, 5));
+    transform: scale(0.9, 0.9);
+  }
 }

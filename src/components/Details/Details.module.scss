@@ -1,0 +1,37 @@
+.Details {
+  &__header {
+    font-weight: bold;
+  }
+
+  &__paragraph {
+    text-indent: 20px;
+  }
+
+  &__list {
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    padding-left: 40px;
+  }
+
+  &__chartWords {
+    float: left;
+    margin: 7px 7px 7px 0;
+    object-fit: contain;
+    width: 400px;
+
+    @media (max-width: 500px) {
+      width: 300px;
+    }
+
+    @media (max-width: 400px) {
+      width: 230px;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .Accordion__chartWords {
+    height: 200px;
+    margin: 5px 5px 5px 0;
+    width: 250px;
+  }
+}

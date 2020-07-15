@@ -9,7 +9,7 @@ import {
   REWRITE_PROGRESS,
   CARDS_SHOW_ALL_TIME_INCREASE,
   RIGHT_ANSWERS_ALLTIME_INCREASE,
-  LONGEST_TODAY_SERIES_INCREASE,
+  TRY_SET_LONGEST_TODAY_SERIES,
   LONGEST_TODAY_SERIES_RESET,
   LEANED_WORDS_STATISTIC_INCREASE,
   CARDS_SHOWED_STATISTIC_INCREASE,
@@ -17,7 +17,38 @@ import {
   RIGHT_ANSWERS_STATISTIC_INCREASE,
   SET_LEFT_NEW_WORDS_TODAY,
   SET_LEFT_REPEAT_WORDS_TODAY,
+  INCREASE_SPRINT_ALL_ANSWERS_STATISTIC,
+  INCREASE_SPRINT_RIGHT_ANSWERS_STATISTIC,
+  TRY_SET_SPRINT_MAX_SCORE_STATISTIC,
+  INCREASE_SAVANNA_ALL_ANSWERS_STATISTIC,
+  INCREASE_SAVANNA_RIGHT_ANSWERS_STATISTIC,
+  INCREASE_SAVANNA_FULL_LIVE_STATISTIC,
 } from '../types/action-types';
+
+export const increaseSavannaAllAnswersStatistic = () => ({
+  type: INCREASE_SAVANNA_ALL_ANSWERS_STATISTIC,
+});
+
+export const increaseSavannaRightAnswersStatistic = () => ({
+  type: INCREASE_SAVANNA_RIGHT_ANSWERS_STATISTIC,
+});
+
+export const increaseSavannaFullLiveStatistic = () => ({
+  type: INCREASE_SAVANNA_FULL_LIVE_STATISTIC,
+});
+
+export const increaseSprintAllAnswersStatistic = () => ({
+  type: INCREASE_SPRINT_ALL_ANSWERS_STATISTIC,
+});
+
+export const increaseSprintRightAnswersStatistic = () => ({
+  type: INCREASE_SPRINT_RIGHT_ANSWERS_STATISTIC,
+});
+
+export const trySetSprintMaxScoreStatistic = (value) => ({
+  type: TRY_SET_SPRINT_MAX_SCORE_STATISTIC,
+  payload: value,
+});
 
 export const setLeftNewWordsToday = (value) => ({
   type: SET_LEFT_NEW_WORDS_TODAY,
@@ -35,8 +66,9 @@ export const rightAnswersAllTimeIncrease = () => ({
   type: RIGHT_ANSWERS_ALLTIME_INCREASE,
 });
 
-export const longestTodaySeriesIncrease = () => ({
-  type: LONGEST_TODAY_SERIES_INCREASE,
+export const trySetLongestTodaySeries = (value) => ({
+  type: TRY_SET_LONGEST_TODAY_SERIES,
+  payload: value,
 });
 
 export const longestTodaySeriesReset = () => ({

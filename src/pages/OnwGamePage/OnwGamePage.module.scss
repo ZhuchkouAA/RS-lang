@@ -2,8 +2,9 @@
   align-items: center;
   background: url('../../img/batthern.png');
   display: flex;
-  height: 90vh;
+  height: 91vh;
   justify-content: center;
+  width: inherit;
 }
 
 .Card {
@@ -63,5 +64,10 @@
 
   &__button {
     margin-top: 10px;
+  }
+
+  &__hide {
+    opacity: 0;
+    position: absolute;
   }
 }

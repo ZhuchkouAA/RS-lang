@@ -34,6 +34,12 @@ export const putProgress = () => async (dispatch) => {
       cardsShowedStatistic,
       newCardsShowedStatistic,
       rightAnswersStatistic,
+      sprintAllAnswersStatistic,
+      sprintRightAnswersStatistic,
+      sprintMaxScoreStatistic,
+      savannaAllAnswersStatistic,
+      savannaRightAnswersStatistic,
+      savannaFullLiveStatistic,
     },
   } = store.getState();
 
@@ -53,6 +59,12 @@ export const putProgress = () => async (dispatch) => {
       cardsShowedStatistic: cardsShowedStatistic.join('-'),
       newCardsShowedStatistic: newCardsShowedStatistic.join('-'),
       rightAnswersStatistic: rightAnswersStatistic.join('-'),
+      sprintAllAnswersStatistic: sprintAllAnswersStatistic.join('-'),
+      sprintRightAnswersStatistic: sprintRightAnswersStatistic.join('-'),
+      sprintMaxScoreStatistic: sprintMaxScoreStatistic.join('-'),
+      savannaAllAnswersStatistic: savannaAllAnswersStatistic.join('-'),
+      savannaRightAnswersStatistic: savannaRightAnswersStatistic.join('-'),
+      savannaFullLiveStatistic: savannaFullLiveStatistic.join('-'),
     },
   });
   const url = API_URLS.USER_STATISTICS(getCookie(USER_ID));
@@ -90,6 +102,12 @@ export const getProgress = () => async (dispatch) => {
       cardsShowedStatistic,
       newCardsShowedStatistic,
       rightAnswersStatistic,
+      sprintAllAnswersStatistic,
+      sprintRightAnswersStatistic,
+      sprintMaxScoreStatistic,
+      savannaAllAnswersStatistic,
+      savannaRightAnswersStatistic,
+      savannaFullLiveStatistic,
     } = progress;
     if (isDateOfReceiptOfWordsCome(dateOfReceiptOfWords)) {
       const newDateOfReceiptOfWords = getNewDateOfReceiptOfWords();
@@ -117,6 +135,12 @@ export const getProgress = () => async (dispatch) => {
           cardsShowedStatistic: newArray15FromString(cardsShowedStatistic),
           newCardsShowedStatistic: newArray15FromString(newCardsShowedStatistic),
           rightAnswersStatistic: newArray15FromString(rightAnswersStatistic),
+          sprintAllAnswersStatistic: newArray15FromString(sprintAllAnswersStatistic),
+          sprintRightAnswersStatistic: newArray15FromString(sprintRightAnswersStatistic),
+          sprintMaxScoreStatistic: newArray15FromString(sprintMaxScoreStatistic),
+          savannaAllAnswersStatistic: newArray15FromString(savannaAllAnswersStatistic),
+          savannaRightAnswersStatistic: newArray15FromString(savannaRightAnswersStatistic),
+          savannaFullLiveStatistic: newArray15FromString(savannaFullLiveStatistic),
         })
       );
     } else {
@@ -142,6 +166,12 @@ export const getProgress = () => async (dispatch) => {
           cardsShowedStatistic: array15FromString(cardsShowedStatistic),
           newCardsShowedStatistic: array15FromString(newCardsShowedStatistic),
           rightAnswersStatistic: array15FromString(rightAnswersStatistic),
+          sprintAllAnswersStatistic: array15FromString(sprintAllAnswersStatistic),
+          sprintRightAnswersStatistic: array15FromString(sprintRightAnswersStatistic),
+          sprintMaxScoreStatistic: array15FromString(sprintMaxScoreStatistic),
+          savannaAllAnswersStatistic: array15FromString(savannaAllAnswersStatistic),
+          savannaRightAnswersStatistic: array15FromString(savannaRightAnswersStatistic),
+          savannaFullLiveStatistic: array15FromString(savannaFullLiveStatistic),
         })
       );
     }

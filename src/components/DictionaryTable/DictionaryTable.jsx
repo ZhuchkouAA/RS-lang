@@ -81,14 +81,12 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
         ? new Date(optional.repeatDate).toLocaleDateString('ru')
         : '';
       const leftDaysHint = getHintForCountDaysBeforeNextWordRepeat(optional.repeatDate);
+      const cntRepeats = optional.countRepeatsWordAllTime || 0;
 
       return (
         <TableRow hover key={optional.word}>
           <TableCell>
             <IconMini srcUrl={audioUrl} />
-          </TableCell>
-          <TableCell>
-            <WordDifficultyIndicator difficulty={difficulty} />
           </TableCell>
           <TableCell>
             <TableButtonLink
@@ -97,6 +95,10 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
               onClick={handlerClickShowWordImage}
             />
           </TableCell>
+          <TableCell>
+            <WordDifficultyIndicator difficulty={difficulty} />
+          </TableCell>
+          <TableCell>{cntRepeats}</TableCell>
           {isTranscriptionShow && <TableCell>{optional.transcription}</TableCell>}
           <TableCell>{optional.wordTranslate}</TableCell>
 
@@ -150,7 +152,7 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
     );
   }
 
-  const columns = [' ', 'Уровень', 'Слово'];
+  const columns = [' ', 'Слово', 'Уровень', 'Количество повторений слова'];
 
   if (isTranscriptionShow) {
     columns.push('Транскрипция');

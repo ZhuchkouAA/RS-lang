@@ -33,6 +33,7 @@ const GameStartScreen = ({
   const { mode } = gameModeData;
   const currentGamePath = gamesDescription[gameName].path;
   const [isActiveButton, setIsActiveButton] = useState(true);
+  const rightNameOfGame = [];
 
   const levels = [
     { value: '0', label: 'Уровень 1' },
@@ -85,13 +86,22 @@ const GameStartScreen = ({
     return <div />;
   }
 
+  const actualGamePath = !isActiveButton ? currentGamePath : '';
+  if (gameName === 'Аудио_Вызов') {
+    rightNameOfGame.push('Аудио Вызов');
+  } else if (gameName === 'Скажи_это') {
+    rightNameOfGame.push('Скажи это!');
+  } else {
+    rightNameOfGame.push(gameName);
+  }
+
   return (
     <div className={style.GameStartScreen}>
       <div className={style.GameStartScreen__wrapper}>
         <form>
           <FormControl component="fieldset">
             <FormLabel component="legend">Выберите набор слов:</FormLabel>
-            <RadioGroup aria-label="levels" name="levels">
+            <RadioGroup aria-label="levels" name="levels" style={{ alignItems: 'flex-start' }}>
               {levels.map(({ label, value }) => {
                 return (
                   <FormControlLabel
@@ -107,12 +117,16 @@ const GameStartScreen = ({
               })}
             </RadioGroup>
             <Grid container direction="row" justify="space-around" alignItems="center">
-              <NavLink className={style.GameStartScreen__button} to={currentGamePath}>
+              <NavLink
+                className={style['GameStartScreen-button']}
+                disabled={isActiveButton}
+                to={actualGamePath}
+              >
                 <Button disabled={isActiveButton} variant="outlined" color="primary">
                   Начать игру
                 </Button>
               </NavLink>
-              <NavLink className={style.GameStartScreen__button} to={PATHS.MAIN}>
+              <NavLink className={style['GameStartScreen-button']} to={PATHS.MAIN}>
                 <Button variant="outlined" color="secondary">
                   Выход
                 </Button>
@@ -121,9 +135,7 @@ const GameStartScreen = ({
           </FormControl>
         </form>
         <div className={style.GameStartScreen__about}>
-          <span className={style.GameStartScreen__title}>
-            {gameName === 'Аудио_Вызов' ? 'Аудио Вызов' : gameName}
-          </span>
+          <span className={style.GameStartScreen__title}>{rightNameOfGame}</span>
           <span className={style.GameStartScreen__description}>
             {gamesDescription[gameName].description}
           </span>

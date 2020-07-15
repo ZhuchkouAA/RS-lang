@@ -91,6 +91,7 @@ const WordCard = ({
   const [cntLearnErrors, setLearnErrors] = useState(0);
   const [isAnswerShowed, setAnswerShowed] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [currentSeria, setCurrentSeria] = useState(0);
 
   const SoundIcon = isMute ? MusicOffIcon : MusicIcon;
 
@@ -213,7 +214,7 @@ const WordCard = ({
         setWordsQueue([...wordsQueue, wordsQueue[0]]);
       }
 
-      const isFailsExist = cntLearnErrors !== 0;
+      const isFailsExist = cntLearnErrors !== 0 || isAnswerShowed;
 
       const deltaDifficulty = newWordDifficulty - wordsQueue[0].difficulty;
       wordsQueue[0] = wordHandler(wordsQueue[0], [
@@ -224,8 +225,15 @@ const WordCard = ({
 
       const { ...optional } = { ...wordsQueue[0].optional };
       const updatedWord = { ...wordsQueue[0], optional };
+      const newLongestSeria = currentSeria + 1;
 
-      onCheckEnteredWord(updatedWord, isFailsExist);
+      onCheckEnteredWord(updatedWord, isFailsExist, newLongestSeria);
+
+      if (isFailsExist) {
+        setCurrentSeria(0);
+      } else {
+        setCurrentSeria(newLongestSeria);
+      }
 
       wordsQueue[0] = wordHandler(wordsQueue[0], [
         { key: WORD_HANDLER_KEYS.isMethodPost, value: false },
@@ -345,7 +353,7 @@ const WordCard = ({
 
     wordsQueue[0] = wordHandler(wordsQueue[0], [
       { key: WORD_HANDLER_KEYS.isHard, value: true },
-      { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 1 },
+      { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 0 },
     ]);
 
     const { ...optional } = { ...wordsQueue[0].optional };
@@ -568,7 +576,6 @@ const WordCard = ({
             </IconButton>
           </Tooltip>
         </Box>
-
         {isDemoQueue && (
           <Box position="absolute" className={styles['WordCard__translate-btn']} top="5px">
             <Tooltip title="Отменить повторение сложных слов" enterDelay={500}>
@@ -585,12 +592,10 @@ const WordCard = ({
           type="info"
           tittle={WORDS_END.tittle}
           message={HARD_WORDS_END.message}
-          callBack={redirectToMainPage}
+          isRedirectMain
         />
       )}
-      {isModalOpen && !isDemoQueue && (
-        <ShortStatisticsDialog isOpen={isModalOpen} isWordsRemain={wordsQueue.length > 0} />
-      )}
+      {isModalOpen && !isDemoQueue && <ShortStatisticsDialog isOpen={isModalOpen} />}
     </Card>
   );
 };

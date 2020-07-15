@@ -17,8 +17,6 @@ const wordHandler = (word, options) => {
       newWord.optional.isHard = value;
     }
 
-    if (newWord.optional.isHard === true) return newWord;
-
     if (key === WORD_HANDLER_KEYS.isDeleted) {
       newWord.optional.isDeleted = value;
     }
@@ -48,6 +46,10 @@ const wordHandler = (word, options) => {
     const interval = REPEAT_INTERVAL(newWord.difficulty);
 
     newWord.optional.repeatDate = Date.now() + interval;
+
+    if (newWord.optional.isHighPriority) {
+      newWord.optional.repeatDate = Date.now();
+    }
 
     if (key === WORD_HANDLER_KEYS.repeatDate) {
       newWord.optional.repeatDate = value;

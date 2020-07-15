@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import WORD_HANDLER_KEYS from '../../constants/keys';
-import PATH from '../../constants/path';
 import { WORDS_END } from '../../constants/modal-messages';
 
 import WordCard from '../../components/WordCard';
@@ -19,8 +17,7 @@ const WordPage = ({
   cardsShowedAllTimeIncrease,
   cardsShowedStatisticIncrease,
   rightAnswersAllTimeIncrease,
-  longestTodaySeriesIncrease,
-  longestTodaySeriesReset,
+  trySetLongestTodaySeries,
   learnedWordsStatisticIncrease,
   newCardsShowedStatisticIncrease,
   rightAnswersStatisticIcrease,
@@ -30,14 +27,12 @@ const WordPage = ({
   wordsQueue,
   resetPrevPage,
 }) => {
-  const history = useHistory();
-
   useEffect(() => {
     serverSynchronization();
   }, []);
 
   const onDeleteButton = async (word) => {
-    if (word.optional.isMethodPost) {
+    if (word.optional.countRepeatsWordAllTime === 0) {
       await differentCardPlusOne();
     } else {
       await cardsShowedAllTimeIncrease();
@@ -54,11 +49,11 @@ const WordPage = ({
     finallySendWordAndProgress(word);
   };
 
-  const onCheckEnteredWord = async (word, isFailsExist) => {
+  const onCheckEnteredWord = async (word, isFailsExist, currentSeria) => {
     await cardsShowedAllTimeIncrease();
     await cardsShowedStatisticIncrease();
 
-    const isWordNew = word.optional.isMethodPost;
+    const isWordNew = word.optional.countRepeatsWordAllTime === 1;
 
     if (isWordNew) {
       await differentCardPlusOne();
@@ -70,14 +65,10 @@ const WordPage = ({
       await reduceLeftRepeatWordsToday();
     }
 
-    if (isFailsExist) {
-      await longestTodaySeriesReset();
-    }
-
     if (!isFailsExist) {
       await rightAnswersAllTimeIncrease();
-      await longestTodaySeriesIncrease();
       await rightAnswersStatisticIcrease();
+      await trySetLongestTodaySeries(currentSeria);
     }
 
     const isWordStudying = word.optional.isStudying;
@@ -93,10 +84,6 @@ const WordPage = ({
     finallySendWordAndProgress(word);
   };
 
-  const redirectToMainPage = () => {
-    history.push(PATH.MAIN);
-  };
-
   if (isLoading) {
     return <div />;
   }
@@ -108,7 +95,7 @@ const WordPage = ({
         type="info"
         tittle={WORDS_END.tittle}
         message={WORDS_END.message}
-        callBack={redirectToMainPage}
+        isRedirectMain
       />
     );
   }
@@ -135,8 +122,7 @@ WordPage.propTypes = {
   cardsShowedAllTimeIncrease: PropTypes.func.isRequired,
   cardsShowedStatisticIncrease: PropTypes.func.isRequired,
   rightAnswersAllTimeIncrease: PropTypes.func.isRequired,
-  longestTodaySeriesIncrease: PropTypes.func.isRequired,
-  longestTodaySeriesReset: PropTypes.func.isRequired,
+  trySetLongestTodaySeries: PropTypes.func.isRequired,
   learnedWordsStatisticIncrease: PropTypes.func.isRequired,
   newCardsShowedStatisticIncrease: PropTypes.func.isRequired,
   rightAnswersStatisticIcrease: PropTypes.func.isRequired,

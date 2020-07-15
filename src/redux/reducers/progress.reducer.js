@@ -9,7 +9,7 @@ import {
   REWRITE_PROGRESS,
   CARDS_SHOW_ALL_TIME_INCREASE,
   RIGHT_ANSWERS_ALLTIME_INCREASE,
-  LONGEST_TODAY_SERIES_INCREASE,
+  TRY_SET_LONGEST_TODAY_SERIES,
   LONGEST_TODAY_SERIES_RESET,
   LEANED_WORDS_STATISTIC_INCREASE,
   CARDS_SHOWED_STATISTIC_INCREASE,
@@ -17,28 +17,59 @@ import {
   RIGHT_ANSWERS_STATISTIC_INCREASE,
   SET_LEFT_NEW_WORDS_TODAY,
   SET_LEFT_REPEAT_WORDS_TODAY,
+  INCREASE_SPRINT_ALL_ANSWERS_STATISTIC,
+  INCREASE_SPRINT_RIGHT_ANSWERS_STATISTIC,
+  TRY_SET_SPRINT_MAX_SCORE_STATISTIC,
+  INCREASE_SAVANNA_ALL_ANSWERS_STATISTIC,
+  INCREASE_SAVANNA_RIGHT_ANSWERS_STATISTIC,
+  INCREASE_SAVANNA_FULL_LIVE_STATISTIC,
 } from '../actions/types/action-types';
 
 import { BASE_EMPTY_ARRAY_15 } from '../../constants/app-settings';
 import { MSEC_PER_DAY } from '../../constants/common';
+import {
+  DEFAULT_COUNT_NEW_WORDS,
+  DEFAULT_COUNT_LEFT_REPEAT_WORDS,
+} from '../../constants/variables-learning';
 
 const initialProgressState = {
   differentCardsShowedAllTime: 0,
   cardsShowedAllTime: 0,
   rightAnswersAllTime: 0,
   dateOfReceiptOfWords: Date.now() + MSEC_PER_DAY,
-  leftNewWordsToday: 10,
+  leftNewWordsToday: DEFAULT_COUNT_NEW_WORDS,
   queueNewWords: [],
   queueRepeatWords: [],
-  leftRepeatWordsToday: 10,
+  leftRepeatWordsToday: DEFAULT_COUNT_LEFT_REPEAT_WORDS,
   longestTodaySeries: 0,
   learnedWordsStatistic: BASE_EMPTY_ARRAY_15,
   cardsShowedStatistic: BASE_EMPTY_ARRAY_15,
   newCardsShowedStatistic: BASE_EMPTY_ARRAY_15,
   rightAnswersStatistic: BASE_EMPTY_ARRAY_15,
+
+  sprintAllAnswersStatistic: BASE_EMPTY_ARRAY_15,
+  sprintRightAnswersStatistic: BASE_EMPTY_ARRAY_15,
+  sprintMaxScoreStatistic: BASE_EMPTY_ARRAY_15,
+
+  savannaAllAnswersStatistic: BASE_EMPTY_ARRAY_15,
+  savannaRightAnswersStatistic: BASE_EMPTY_ARRAY_15,
+  savannaFullLiveStatistic: BASE_EMPTY_ARRAY_15,
 };
 
 const progressReducer = (state = initialProgressState, { type, payload }) => {
+  const [
+    firstSavannaAllAnswersStatistic,
+    ...otherSavannaAllAnswersStatistic
+  ] = state.savannaAllAnswersStatistic;
+  const [
+    firstSavannaRightAnswersStatistic,
+    ...otherSavannaRightAnswersStatistic
+  ] = state.savannaRightAnswersStatistic;
+  const [
+    firstSavannaFullLiveStatistic,
+    ...otherSavannaFullLiveStatistic
+  ] = state.savannaFullLiveStatistic;
+
   const [firstlearnedWordsStatistic, ...otherlearnedWordsStatistic] = state.learnedWordsStatistic;
   const [firstCardShowedStatistic, ...otherCardsShowedStatistic] = state.cardsShowedStatistic;
   const [
@@ -46,7 +77,73 @@ const progressReducer = (state = initialProgressState, { type, payload }) => {
     ...otherNewCardsShowedStatistic
   ] = state.newCardsShowedStatistic;
   const [firstRightAnswersStatistic, ...otherRightAnswersStatistic] = state.rightAnswersStatistic;
+
+  const [
+    firstSprintAllAnswersStatistic,
+    ...otherSprintAllAnswersStatistic
+  ] = state.sprintAllAnswersStatistic;
+
+  const [
+    firstSprintRightAnswersStatistic,
+    ...otherSprintRightAnswersStatistic
+  ] = state.sprintRightAnswersStatistic;
+
+  const [
+    firstSprintMaxScoreStatistic,
+    ...otherSprintMaxScoreStatistic
+  ] = state.sprintMaxScoreStatistic;
+
   switch (type) {
+    case INCREASE_SAVANNA_ALL_ANSWERS_STATISTIC:
+      return {
+        ...state,
+        savannaAllAnswersStatistic: [
+          firstSavannaAllAnswersStatistic + 1,
+          ...otherSavannaAllAnswersStatistic,
+        ],
+      };
+    case INCREASE_SAVANNA_RIGHT_ANSWERS_STATISTIC:
+      return {
+        ...state,
+        savannaRightAnswersStatistic: [
+          firstSavannaRightAnswersStatistic + 1,
+          ...otherSavannaRightAnswersStatistic,
+        ],
+      };
+    case INCREASE_SAVANNA_FULL_LIVE_STATISTIC:
+      return {
+        ...state,
+        savannaFullLiveStatistic: [
+          firstSavannaFullLiveStatistic + 1,
+          ...otherSavannaFullLiveStatistic,
+        ],
+      };
+    case INCREASE_SPRINT_ALL_ANSWERS_STATISTIC:
+      return {
+        ...state,
+        sprintAllAnswersStatistic: [
+          firstSprintAllAnswersStatistic + 1,
+          ...otherSprintAllAnswersStatistic,
+        ],
+      };
+    case INCREASE_SPRINT_RIGHT_ANSWERS_STATISTIC:
+      return {
+        ...state,
+        sprintRightAnswersStatistic: [
+          firstSprintRightAnswersStatistic + 1,
+          ...otherSprintRightAnswersStatistic,
+        ],
+      };
+    case TRY_SET_SPRINT_MAX_SCORE_STATISTIC:
+      if (payload > firstSprintMaxScoreStatistic) {
+        return {
+          ...state,
+          sprintMaxScoreStatistic: [payload, ...otherSprintMaxScoreStatistic],
+        };
+      }
+      return {
+        ...state,
+      };
     case SET_LEFT_NEW_WORDS_TODAY:
       return {
         ...state,
@@ -67,10 +164,15 @@ const progressReducer = (state = initialProgressState, { type, payload }) => {
         ...state,
         rightAnswersAllTime: state.rightAnswersAllTime + 1,
       };
-    case LONGEST_TODAY_SERIES_INCREASE:
+    case TRY_SET_LONGEST_TODAY_SERIES:
+      if (payload > state.longestTodaySeries) {
+        return {
+          ...state,
+          longestTodaySeries: payload,
+        };
+      }
       return {
         ...state,
-        longestTodaySeries: state.longestTodaySeries + 1,
       };
     case LONGEST_TODAY_SERIES_RESET:
       return {

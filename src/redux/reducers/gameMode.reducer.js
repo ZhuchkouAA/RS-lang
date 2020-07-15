@@ -28,6 +28,9 @@ const gameModeReducer = (state = initialState, { type, payload }) => {
       if (payload === 'Аудио Вызов') {
         localStorage.setItem('gameModeObj', 'Аудио_Вызов');
         gameName = 'Аудио_Вызов';
+      } else if (payload === 'Скажи это!') {
+        localStorage.setItem('gameModeObj', 'Скажи_это');
+        gameName = 'Скажи_это';
       } else {
         localStorage.setItem('gameModeObj', payload);
       }

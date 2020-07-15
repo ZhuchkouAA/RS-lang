@@ -56,6 +56,8 @@ const SettingsPage = ({
       setSettings({ ...settings, [key]: value });
     }, 1000);
     return () => {
+      setInputPropsWords(styleBlack);
+      setInputPropsNewWords(styleBlack);
       clearInterval(timer);
     };
   };
@@ -139,20 +141,24 @@ const SettingsPage = ({
     <form className={style.Settings}>
       <Container className={style.Settings__wrapper}>
         <Grid container direction="row" justify="space-around" alignItems="flex-start">
-          <div>
+          <Grid item className={style['Settings-column']}>
             <Typography variant="h6" gutterBottom>
               Общие настройки приложения
             </Typography>
             <Inputs
-              label="Максимально карточек в день (без учета сегодняшнего повтора)."
+              label="Всего слов в день"
               startValue={String(settings.wordsPerDay)}
               settingName="wordsPerDay"
               onChange={onSettingsChange}
               inputProps={inputPropsWords}
               required
             />
+            <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+              Не включая срочные повторы (повторы при ошибках изучения слов). Не может быть меньше
+              &quot;Новых слов в день&quot;.
+            </Typography>
             <Inputs
-              label="Новых слов в день (не может быть больше всех слов в день)."
+              label="Новых слов в день."
               startValue={String(settings.newWordsPerDay)}
               settingName="newWordsPerDay"
               onChange={onSettingsChange}
@@ -161,6 +167,11 @@ const SettingsPage = ({
               inputProps={inputPropsNewWords}
               required
             />
+            <Typography className={style.Settings__hint} variant="body2" gutterBottom>
+              Новые слова идут после повторяемых слов. Большой лимит новых слов ведет к увеличению
+              числа слов на повтор в ближайшие дни. Не может быть больше &quot;Всего слов в
+              день&quot;.
+            </Typography>
 
             <Typography variant="h6" gutterBottom>
               Элементы управления
@@ -204,8 +215,8 @@ const SettingsPage = ({
               После отгадывания слова, можно оценить его сложность для более точного определения
               времени его следующего повторения.
             </Typography>
-          </div>
-          <div>
+          </Grid>
+          <Grid item className={style['Settings-column']}>
             <Typography variant="h6" gutterBottom>
               Подсказки
             </Typography>
@@ -286,7 +297,7 @@ const SettingsPage = ({
             <Typography className={style.Settings__hint} variant="body2" gutterBottom>
               При нажатии звучит предложение со значением слова.
             </Typography>
-          </div>
+          </Grid>
         </Grid>
       </Container>
       <Grid

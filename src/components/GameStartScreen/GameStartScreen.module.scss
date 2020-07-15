@@ -1,8 +1,14 @@
 .GameStartScreen {
   background-image: url('../../img/WhiteModernBackground.jpg');
   background-size: 100% 100%;
-  height: 70vh;
+  height: 100%;
+  position: absolute;
   width: 100%;
+
+  &-levels {
+
+    justify-content: center;
+  }
 
   &__wrapper {
     display: flex;
@@ -28,7 +34,8 @@
     margin: 0 20px;
   }
 
-  &__button {
+  &-button {
+    margin-right: 10px;
     text-decoration: none;
   }
 

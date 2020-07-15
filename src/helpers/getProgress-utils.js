@@ -45,8 +45,9 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
     const newWords = words.slice(firstWordNumber, firstWordNumber + leftNewWordsToday);
     wordsArray = [...wordsArray, ...newWords];
   } else {
-    const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 1, 100, leftNewWordsToday));
-    const newWords = await rawWords.json();
+    const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 1, 100, firstWordNumber));
+    const newWordsElongated = await rawWords.json();
+    const newWords = newWordsElongated.slice(0, leftNewWordsToday);
     wordsArray = [...wordsArray, ...newWords];
   }
 
@@ -60,6 +61,7 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
     const newWords = await rawWords.json();
     wordsArray = [...wordsArray, ...newWords];
   }
+
   // преобразуем в стандартный вид serverWord
   return wordsArray.map((el) => {
     const { id, ...other } = el;
@@ -120,6 +122,8 @@ const PERCENTS = 100;
 export const getCategoryPassedPercent = (currentValue, maxValue) => {
   if (maxValue === 0) return 0;
 
+  if (currentValue > maxValue) return PERCENTS;
+
   return Math.round((currentValue / maxValue) * PERCENTS);
 };
 
@@ -131,18 +135,17 @@ export const calcUserIndicatorState = (settings, progress) => {
     leftNewWordsToday,
     rightAnswersStatistic,
     cardsShowedStatistic,
-    leftRepeatWordsToday,
+    newCardsShowedStatistic,
   } = progress;
 
   const leftNewWordsTodayPercent = Math.round(
     PERCENTS - getCategoryPassedPercent(leftNewWordsToday, newWordsPerDay)
   );
 
-  const leftRepeatWordsTodayPercent =
-    wordsPerDay - newWordsPerDay > 0
-      ? Math.round(
-          PERCENTS - getCategoryPassedPercent(leftRepeatWordsToday, wordsPerDay - newWordsPerDay)
-        )
+  const countRepeatWords = cardsShowedStatistic[0] - newCardsShowedStatistic[0];
+  const repeatWordsTodayPercent =
+    countRepeatWords > 0
+      ? Math.round(getCategoryPassedPercent(countRepeatWords, wordsPerDay - newWordsPerDay))
       : 0;
 
   const rightAnswersStatisticPercent = getCategoryPassedPercent(
@@ -159,7 +162,7 @@ export const calcUserIndicatorState = (settings, progress) => {
 
   return {
     leftNewWordsTodayPercent,
-    leftRepeatWordsTodayPercent,
+    repeatWordsTodayPercent,
     rightAnswersStatisticPercent,
     longestTodaySeriesPercent,
     differentCardsShowedAllTimePercent,

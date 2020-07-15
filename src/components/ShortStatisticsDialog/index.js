@@ -2,6 +2,6 @@ import { connect } from 'react-redux';
 
 import ShortStatisticsDialog from './ShortStatisticsDialog';
 
-const mapStateToProps = ({ progress, settings }) => ({ progress, settings });
+const mapStateToProps = ({ progress }) => ({ progress });
 
 export default connect(mapStateToProps)(ShortStatisticsDialog);

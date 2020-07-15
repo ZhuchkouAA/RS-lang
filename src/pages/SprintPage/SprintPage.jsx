@@ -70,7 +70,15 @@ const sendingStatistics = (isPenalty, word, callback) => {
   callback(preparedWord);
 };
 
-const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
+const SprintPage = ({
+  words,
+  finallySendWordAndProgress,
+  mode,
+  increaseSprintAllAnswersStatistic,
+  increaseSprintRightAnswersStatistic,
+  trySetSprintMaxScoreStatistic,
+  putProgress,
+}) => {
   const [counter, setCounter] = useState(initialTimer);
   const [actualWord, setActualWord] = useState(0);
   const [pointsData, setPointsData] = useState(initialPointsData);
@@ -105,6 +113,8 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
     }, 300);
 
     if (isTrueButton === words[actualWord].isCorrectTranslation) {
+      increaseSprintAllAnswersStatistic();
+      increaseSprintRightAnswersStatistic();
       wordResultHandler(true);
       playSound(correctAnswerSound);
       setIsTrueAnswer(true);
@@ -116,6 +126,7 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
         sendingStatistics(false, words[actualWord], finallySendWordAndProgress);
       }
     } else {
+      increaseSprintAllAnswersStatistic();
       wordResultHandler(false);
       playSound(incorrectAnswerSound);
       setIsFalseAnswer(true);
@@ -279,6 +290,11 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
     </>
   );
 
+  if (counter <= 0) {
+    trySetSprintMaxScoreStatistic(pointsData.points);
+    putProgress();
+  }
+
   return (
     <div className={styles.wrapper}>
       {(counter <= 0 && (
@@ -292,6 +308,10 @@ const SprintPage = ({ words, finallySendWordAndProgress, mode }) => {
 SprintPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
+  putProgress: PropTypes.func.isRequired,
+  increaseSprintAllAnswersStatistic: PropTypes.func.isRequired,
+  increaseSprintRightAnswersStatistic: PropTypes.func.isRequired,
+  trySetSprintMaxScoreStatistic: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired,
 };
 

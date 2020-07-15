@@ -25,6 +25,12 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
     cardsShowedStatistic,
     newCardsShowedStatistic,
     rightAnswersStatistic,
+    sprintAllAnswersStatistic,
+    sprintRightAnswersStatistic,
+    sprintMaxScoreStatistic,
+    savannaAllAnswersStatistic,
+    savannaRightAnswersStatistic,
+    savannaFullLiveStatistic,
   } = progress;
 
   const { wordsPerDay, newWordsPerDay } = settings;
@@ -38,6 +44,42 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
     const day = new Date(date).getDate();
     return day;
   };
+
+  const dataChartSavannaRightAnswersPercentStatistic = savannaRightAnswersStatistic
+    .map((el, ind) => {
+      return {
+        day: chartDayDateByInd(ind),
+        cards: Math.round((el / (savannaAllAnswersStatistic[ind] + DELTA)) * 100),
+      };
+    })
+    .reverse();
+
+  const dataChartSavannaFullLivesStatistic = savannaFullLiveStatistic
+    .map((el, ind) => {
+      return {
+        day: chartDayDateByInd(ind),
+        cards: Math.round((el / (sprintAllAnswersStatistic[ind] + DELTA)) * 100),
+      };
+    })
+    .reverse();
+
+  const dataChartSprintMaxScoreStatistic = sprintMaxScoreStatistic
+    .map((el, ind) => {
+      return {
+        day: chartDayDateByInd(ind),
+        cards: el,
+      };
+    })
+    .reverse();
+
+  const dataChartSprintRightAnswertPercentStatistic = sprintRightAnswersStatistic
+    .map((el, ind) => {
+      return {
+        day: chartDayDateByInd(ind),
+        cards: Math.round((el / (sprintAllAnswersStatistic[ind] + DELTA)) * 100),
+      };
+    })
+    .reverse();
 
   const dataChartRightAnswersPercentStatistic = rightAnswersStatistic
     .map((el, ind) => {
@@ -97,12 +139,12 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
   if (isLoading) return <div />;
 
   return (
-    <>
+    <div className={styles.Statistic}>
       <Grid container direction="column" justify="center" alignItems="center">
         <Container maxWidth="sm">
           <Grid container direction="row" justify="space-between" alignItems="center">
             <Typography gutterBottom align="center" variant="h6">
-              Всего показано карточек
+              Всего показано слов
             </Typography>
             <Typography gutterBottom align="center" variant="h6">
               {`${cardsShowedAllTime}`}
@@ -174,7 +216,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         <Container maxWidth="sm">
           <Grid container direction="row" justify="space-between" alignItems="center">
             <Typography gutterBottom align="center" variant="h6">
-              Осталось изучить новых слов сегодня
+              Осталось пройти новых слов сегодня
             </Typography>
             <Typography gutterBottom align="center" variant="h6">
               {`${leftNewWordsToday} из ${newWordsPerDay}`}
@@ -196,7 +238,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         <Container maxWidth="sm">
           <Grid container direction="row" justify="space-between" alignItems="center">
             <Typography gutterBottom align="center" variant="h6">
-              Всего сегодня было показано карточек
+              Всего сегодня пройдено слов
             </Typography>
             <Typography gutterBottom align="center" variant="h6">
               {cardsShowedStatistic[0]}
@@ -221,7 +263,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         <Container maxWidth="sm">
           <Grid container direction="row" justify="space-between" alignItems="center">
             <Typography gutterBottom align="center" variant="h6">
-              Самая длинная серия
+              Самая длинная серия сегодня
             </Typography>
             <Typography gutterBottom align="center" variant="h6">
               {longestTodaySeries}
@@ -232,16 +274,16 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         <Container maxWidth="sm">
           <Grid container direction="row" justify="space-between" alignItems="center">
             <Typography gutterBottom align="center" variant="h6">
-              Новые слова прибудут в течение
+              Новые слова прибудут через (часы)
             </Typography>
             <Typography gutterBottom align="center" variant="h6">
-              {`${hoursToReceiptWords} (часов)`}
+              {hoursToReceiptWords}
             </Typography>
           </Grid>
         </Container>
 
         <ChartSplineArea
-          title="Процент отгаданных карточек за каждый из 15 последних дней"
+          title="Процент отгаданных слов за каждый из 15 последних дней"
           data={dataChartRightAnswersPercentStatistic}
           valueField="cards"
           argumentField="day"
@@ -260,7 +302,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         </Container>
         <Container maxWidth="sm">
           <ChartSplineArea
-            title="Показано карточек всего за каждый из 15 последних дней"
+            title="Показано слов всего за каждый из 15 последних дней"
             data={dataChartCardsShowedStatistic}
             valueField="cards"
             argumentField="day"
@@ -272,7 +314,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
       <Grid container direction="row" justify="center" alignItems="center">
         <Container maxWidth="sm">
           <ChartSplineArea
-            title="Отгадано карточек всего за каждый из 15 последних дней"
+            title="Отгадано слов всего за каждый из 15 последних дней"
             data={dataChartrightAnswersStatistic}
             valueField="cards"
             argumentField="day"
@@ -281,7 +323,7 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
         </Container>
         <Container maxWidth="sm">
           <ChartSplineArea
-            title="Показано новых карточек за каждый из 15 последних дней"
+            title="Показано новых слов за каждый из 15 последних дней"
             data={dataChartNewCardsShowedStatistic}
             valueField="cards"
             argumentField="day"
@@ -289,7 +331,48 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
           />
         </Container>
       </Grid>
-    </>
+      <Grid container direction="row" justify="center" alignItems="center">
+        <Container maxWidth="sm">
+          <ChartSplineArea
+            title="Максимально очков в игре Спринт за каждый из 15 последних дней"
+            data={dataChartSprintMaxScoreStatistic}
+            valueField="cards"
+            argumentField="day"
+            name="name2"
+          />
+        </Container>
+        <Container maxWidth="sm">
+          <ChartSplineArea
+            title="Процент правильных ответов в игре Спринт за каждый из 15 последних дней"
+            data={dataChartSprintRightAnswertPercentStatistic}
+            valueField="cards"
+            argumentField="day"
+            name="name3"
+          />
+        </Container>
+      </Grid>
+
+      <Grid container direction="row" justify="center" alignItems="center">
+        <Container maxWidth="sm">
+          <ChartSplineArea
+            title="Процент правильных ответов в игре Саванна за каждый из 15 последних дней"
+            data={dataChartSavannaRightAnswersPercentStatistic}
+            valueField="cards"
+            argumentField="day"
+            name="name2"
+          />
+        </Container>
+        <Container maxWidth="sm">
+          <ChartSplineArea
+            title="Количество прохождений игры Саванна без ошибок за каждый из 15 последних дней"
+            data={dataChartSavannaFullLivesStatistic}
+            valueField="cards"
+            argumentField="day"
+            name="name3"
+          />
+        </Container>
+      </Grid>
+    </div>
   );
 };
 
