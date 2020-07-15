@@ -28,6 +28,9 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
     sprintAllAnswersStatistic,
     sprintRightAnswersStatistic,
     sprintMaxScoreStatistic,
+    savannaAllAnswersStatistic,
+    savannaRightAnswersStatistic,
+    savannaFullLiveStatistic,
   } = progress;
 
   const { wordsPerDay, newWordsPerDay } = settings;
@@ -41,6 +44,24 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
     const day = new Date(date).getDate();
     return day;
   };
+
+  const dataChartSavannaRightAnswersPercentStatistic = savannaRightAnswersStatistic
+    .map((el, ind) => {
+      return {
+        day: chartDayDateByInd(ind),
+        cards: Math.round((el / (savannaAllAnswersStatistic[ind] + DELTA)) * 100),
+      };
+    })
+    .reverse();
+
+  const dataChartSavannaFullLivesStatistic = savannaFullLiveStatistic
+    .map((el, ind) => {
+      return {
+        day: chartDayDateByInd(ind),
+        cards: Math.round((el / (sprintAllAnswersStatistic[ind] + DELTA)) * 100),
+      };
+    })
+    .reverse();
 
   const dataChartSprintMaxScoreStatistic = sprintMaxScoreStatistic
     .map((el, ind) => {
@@ -324,6 +345,27 @@ const StatisticPage = ({ settings, progress, serverSynchronization, isLoading })
           <ChartSplineArea
             title="Процент правильных ответов в игре Спринт за каждый из 15 последних дней"
             data={dataChartSprintRightAnswertPercentStatistic}
+            valueField="cards"
+            argumentField="day"
+            name="name3"
+          />
+        </Container>
+      </Grid>
+
+      <Grid container direction="row" justify="center" alignItems="center">
+        <Container maxWidth="sm">
+          <ChartSplineArea
+            title="Процент правильных ответов в игре Саванна за каждый из 15 последних дней"
+            data={dataChartSavannaRightAnswersPercentStatistic}
+            valueField="cards"
+            argumentField="day"
+            name="name2"
+          />
+        </Container>
+        <Container maxWidth="sm">
+          <ChartSplineArea
+            title="Количество прохождений игры Саванна без ошибок за каждый из 15 последних дней"
+            data={dataChartSavannaFullLivesStatistic}
             valueField="cards"
             argumentField="day"
             name="name3"

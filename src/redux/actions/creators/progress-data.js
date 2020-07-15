@@ -20,7 +20,22 @@ import {
   INCREASE_SPRINT_ALL_ANSWERS_STATISTIC,
   INCREASE_SPRINT_RIGHT_ANSWERS_STATISTIC,
   TRY_SET_SPRINT_MAX_SCORE_STATISTIC,
+  INCREASE_SAVANNA_ALL_ANSWERS_STATISTIC,
+  INCREASE_SAVANNA_RIGHT_ANSWERS_STATISTIC,
+  INCREASE_SAVANNA_FULL_LIVE_STATISTIC,
 } from '../types/action-types';
+
+export const increaseSavannaAllAnswersStatistic = () => ({
+  type: INCREASE_SAVANNA_ALL_ANSWERS_STATISTIC,
+});
+
+export const increaseSavannaRightAnswersStatistic = () => ({
+  type: INCREASE_SAVANNA_RIGHT_ANSWERS_STATISTIC,
+});
+
+export const increaseSavannaFullLiveStatistic = () => ({
+  type: INCREASE_SAVANNA_FULL_LIVE_STATISTIC,
+});
 
 export const increaseSprintAllAnswersStatistic = () => ({
   type: INCREASE_SPRINT_ALL_ANSWERS_STATISTIC,

@@ -1,8 +1,12 @@
 import { APPLY_SETTINGS, RESET_SETTINGS } from '../actions/types/action-types';
+import {
+  DEFAULT_COUNT_NEW_WORDS,
+  DEFAULT_COUNT_ALL_WORDS,
+} from '../../constants/variables-learning';
 
 const initiaSettingState = {
-  wordsPerDay: 20,
-  newWordsPerDay: 10,
+  wordsPerDay: DEFAULT_COUNT_ALL_WORDS,
+  newWordsPerDay: DEFAULT_COUNT_NEW_WORDS,
   isAnswerBtnShow: true,
   isDelFromLearnBtnShow: true,
   isHardWordBtnShow: true,

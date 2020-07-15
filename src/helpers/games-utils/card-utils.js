@@ -8,7 +8,7 @@ import {
   onlyHard,
   dateFilter,
   onlyNotDeleted,
-  onlyStudying,
+  // onlyStudying,
 } from './filtersAndSorters';
 
 export const createQueueOrdinary = () => {
@@ -16,8 +16,8 @@ export const createQueueOrdinary = () => {
   const amountRepeatWords = getNewLeftRepeatWordsToday();
 
   const filteredWithHightPriority = highPriorityFirstSorter(queueRepeatWords);
-  const filteredWithOnlyStudying = onlyStudying(filteredWithHightPriority);
-  const filteredWithDateFilter = dateFilter(filteredWithOnlyStudying);
+  // const filteredWithOnlyStudying = onlyStudying(filteredWithHightPriority);
+  const filteredWithDateFilter = dateFilter(filteredWithHightPriority);
   const filteredWithOnlyNotDeleted = onlyNotDeleted(filteredWithDateFilter);
   const shuffledWorkingQueue = shuffle(filteredWithOnlyNotDeleted);
   const shortenedRepeatQueue = shuffledWorkingQueue.slice(0, amountRepeatWords);
