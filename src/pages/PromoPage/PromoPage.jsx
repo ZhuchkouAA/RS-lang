@@ -87,7 +87,7 @@ const PromoPage = () => {
 
       <Grid container className={styles.PromoPage} justify="center">
         <Grid item className={styles.PromoPage__textContainer}>
-          {PromoInformation.map(({ heading, paragraphs, lists }, index) => {
+          {PromoInformation.map(({ imgSrc = false, heading, paragraphs, lists }, index) => {
             const key = `Details__${heading}-${index}`;
             return (
               <Details
@@ -95,6 +95,7 @@ const PromoPage = () => {
                 paragraphs={paragraphs || []}
                 lists={lists || []}
                 key={key}
+                imgSrc={imgSrc}
               />
             );
           })}

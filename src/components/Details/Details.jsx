@@ -10,6 +10,7 @@ import {
   Paper,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Chart from '../../img/PromoPageScheduleWords.png';
 
 import styles from './Details.module.scss';
 
@@ -22,10 +23,9 @@ const useStyles = makeStyles({
   },
 });
 
-const Details = ({ heading, paragraphs, lists }) => {
+const Details = ({ imgSrc, heading, paragraphs, lists }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
-
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -43,6 +43,7 @@ const Details = ({ heading, paragraphs, lists }) => {
       </AccordionSummary>
       <AccordionDetails>
         <Paper classes={{ root: classes.root1 }} elevation={0}>
+          {imgSrc && <img className={styles.Accordion__chartWords} src={Chart} alt="chedule" />}
           {paragraphs &&
             paragraphs.map((paragraph, j) => {
               const keyBody = `Details__${paragraph}-${j}`;
@@ -81,6 +82,7 @@ const Details = ({ heading, paragraphs, lists }) => {
 };
 
 Details.propTypes = {
+  imgSrc: PropTypes.bool.isRequired,
   heading: PropTypes.string.isRequired,
   paragraphs: PropTypes.arrayOf(PropTypes.string).isRequired,
   lists: PropTypes.arrayOf(PropTypes.object).isRequired,
