@@ -68,7 +68,9 @@ export const getHintForCountDaysBeforeNextWordRepeat = (lastRepeatDate) => {
   const countDays = Math.round((lastRepeatDate - Date.now()) / (60 * 60 * 24 * 1000));
 
   if (countDays < 1) {
-    return 'Слово должно появиться в ближайшей пренировке';
+    const countHours = Math.round(countDays * 24);
+
+    return `Осталось часов до повторения: ${countHours}`;
   }
 
   return `Осталось дней до посторения: ${countDays}`;
