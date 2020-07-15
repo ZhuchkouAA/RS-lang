@@ -8,6 +8,8 @@ import getSpeechRecognition from './speech';
 import { getQueueMiniGame10 } from '../../helpers/games-utils/createQueueMiniGame';
 import Loader from '../Loader';
 import defaultImage from '../../img/speakIt.jpg';
+import winner from '../../sounds/winner.mp3';
+import correct from '../../sounds/correct.mp3';
 
 const playAudio = (url) => {
   const audio = new Audio();
@@ -42,6 +44,7 @@ const SpeakIt = () => {
   const [isStartGame, setStartGame] = useState(false);
   const [wordsExample, setWordExample] = useState([]);
   const [isShowStatistic, setShowStatistic] = useState(false);
+  const [isWin, setWin] = useState(false);
 
   const handleWordExample = (lvl) => {
     getWords(lvl).then((val) => setWordExample(val));
@@ -84,6 +87,7 @@ const SpeakIt = () => {
             const word = elem;
             if (!word.isShow) {
               handleWordsImage(elem.image);
+              playAudio(correct);
               word.isShow = !word.isShow;
             }
             return word;
@@ -91,7 +95,11 @@ const SpeakIt = () => {
         }
 
         if (truthAnswers.length === 10) {
+          handleStartGame(false);
           setShowStatistic(true);
+          setWin(true);
+          playAudio(winner);
+          setStartGame(false);
         }
       };
     }
@@ -245,22 +253,55 @@ const SpeakIt = () => {
             </Card>
           </Card>
 
-          <Card className={styles.SpeakIt__statistic__control}>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => {
-                setShowStatistic(false);
-                handleWordExample(value);
-                truthAnswers = [];
-              }}
-            >
-              Новая игра
-            </Button>
-            <Button variant="contained" color="primary" onClick={() => setShowStatistic(false)}>
-              Продолжить
-            </Button>
-          </Card>
+          {!isWin ? (
+            <Card className={styles.SpeakIt__statistic__control}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  setShowStatistic(false);
+                  handleWordExample(value);
+                  truthAnswers = [];
+                  handleWordsImage(defaultImage);
+                  handleStartGame(false);
+                  setStartGame(false);
+                }}
+              >
+                Другие слова
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  setShowStatistic(false);
+                  if (truthAnswers === 10) {
+                    truthAnswers = [];
+                  }
+                }}
+              >
+                Продолжить
+              </Button>
+            </Card>
+          ) : (
+            <Card className={styles.SpeakIt__statistic__control}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  setShowStatistic(false);
+                  handleWordExample(value);
+                  truthAnswers = [];
+                  handleWordsImage(defaultImage);
+                  handleStartGame(false);
+                  setWin(false);
+                  setStartGame(false);
+                  setInputText('');
+                }}
+              >
+                Вернуться
+              </Button>
+            </Card>
+          )}
         </Card>
       )}
     </Card>
