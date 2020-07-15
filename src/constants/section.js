@@ -116,7 +116,7 @@ export const GAMES = [
     section: 'SPEAK_IT',
     name: 'Скажи это!',
     description: 'Учимся произносить слова',
-    path: '/speak-it',
+    path: '/game-start-screen',
   },
   {
     section: 'OWN_GAME',
