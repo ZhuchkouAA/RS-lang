@@ -32,7 +32,6 @@ const GameStartScreen = ({
   const { gameName } = gameModeData;
   const { mode } = gameModeData;
   const currentGamePath = gamesDescription[gameName].path;
-  console.log(currentGamePath);
   const [isActiveButton, setIsActiveButton] = useState(true);
   const rightNameOfGame = [];
 
