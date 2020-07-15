@@ -122,6 +122,8 @@ const PERCENTS = 100;
 export const getCategoryPassedPercent = (currentValue, maxValue) => {
   if (maxValue === 0) return 0;
 
+  if (currentValue > maxValue) return PERCENTS;
+
   return Math.round((currentValue / maxValue) * PERCENTS);
 };
 
@@ -133,18 +135,17 @@ export const calcUserIndicatorState = (settings, progress) => {
     leftNewWordsToday,
     rightAnswersStatistic,
     cardsShowedStatistic,
-    leftRepeatWordsToday,
+    newCardsShowedStatistic,
   } = progress;
 
   const leftNewWordsTodayPercent = Math.round(
     PERCENTS - getCategoryPassedPercent(leftNewWordsToday, newWordsPerDay)
   );
 
-  const leftRepeatWordsTodayPercent =
-    wordsPerDay - newWordsPerDay > 0
-      ? Math.round(
-          PERCENTS - getCategoryPassedPercent(leftRepeatWordsToday, wordsPerDay - newWordsPerDay)
-        )
+  const countRepeatWords = cardsShowedStatistic[0] - newCardsShowedStatistic[0];
+  const repeatWordsTodayPercent =
+    countRepeatWords > 0
+      ? Math.round(getCategoryPassedPercent(countRepeatWords, wordsPerDay - newWordsPerDay))
       : 0;
 
   const rightAnswersStatisticPercent = getCategoryPassedPercent(
@@ -152,7 +153,10 @@ export const calcUserIndicatorState = (settings, progress) => {
     cardsShowedStatistic[0]
   );
 
-  const longestTodaySeriesPercent = getCategoryPassedPercent(longestTodaySeries, wordsPerDay);
+  const longestTodaySeriesPercent = getCategoryPassedPercent(
+    longestTodaySeries,
+    cardsShowedStatistic[0]
+  );
 
   const differentCardsShowedAllTimePercent = getCategoryPassedPercent(
     differentCardsShowedAllTime,
@@ -161,7 +165,7 @@ export const calcUserIndicatorState = (settings, progress) => {
 
   return {
     leftNewWordsTodayPercent,
-    leftRepeatWordsTodayPercent,
+    repeatWordsTodayPercent,
     rightAnswersStatisticPercent,
     longestTodaySeriesPercent,
     differentCardsShowedAllTimePercent,

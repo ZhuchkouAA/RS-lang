@@ -1,16 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Box,
-  Button,
-  Tooltip,
-  Typography,
-  CircularProgress,
-  makeStyles,
-  Grid,
-} from '@material-ui/core';
+import { Box, Button, Tooltip, Typography, CircularProgress, makeStyles } from '@material-ui/core';
 
 import { getRatingColors } from '../../helpers/repeat-logic-utils';
+
+import styles from './UserStateIndicator.module.scss';
 
 const UserStateIndicator = ({ header, hint, rating, value, unit, reverse }) => {
   const PERCENTS = 100;
@@ -37,62 +31,47 @@ const UserStateIndicator = ({ header, hint, rating, value, unit, reverse }) => {
 
   const Circular = () => {
     return (
-      <Grid container direction="row">
-        <Box position="relative" display="inline-flex">
+      <Box position="relative" display="inline-flex">
+        <CircularProgress
+          classes={{ root: classes.passedColor }}
+          size="60px"
+          variant="static"
+          value={checkedRating}
+        />
+        <Box
+          top={0}
+          left={0}
+          bottom={0}
+          right={0}
+          zIndex={-2}
+          position="absolute"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
           <CircularProgress
-            classes={{ root: classes.passedColor }}
+            classes={{ root: classes.backgroundColor }}
             size="60px"
             variant="static"
-            value={checkedRating}
+            value={PERCENTS}
           />
-          <Box
-            top={0}
-            left={0}
-            bottom={0}
-            right={0}
-            zIndex={-2}
-            position="absolute"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <CircularProgress
-              classes={{ root: classes.backgroundColor }}
-              size="60px"
-              variant="static"
-              value={PERCENTS}
-            />
-          </Box>
-          <Box
-            top={0}
-            left={0}
-            bottom={0}
-            right={0}
-            position="absolute"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Typography variant="h6" component="div">
-              {ratingText}
-            </Typography>
-          </Box>
-          <Box
-            top={-75}
-            left={0}
-            bottom={0}
-            right={0}
-            position="absolute"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Typography variant="caption" component="span">
-              {header}
-            </Typography>
-          </Box>
         </Box>
-      </Grid>
+        <Box
+          top={0}
+          left={0}
+          bottom={0}
+          right={0}
+          position="absolute"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography variant="h6" component="div">
+            {ratingText}
+          </Typography>
+          <span className={styles.UserStateIndicator__header}>{header}</span>
+        </Box>
+      </Box>
     );
   };
 
