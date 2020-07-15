@@ -15,8 +15,12 @@ export default {
     discription: 'Угадай слово, пока оно падает, как высохшие листья с деревьев в саванне',
     path: '/savanna',
   },
+  Скажи_это: {
+    discription: 'Проверь своё произношение',
+    path: '/speak-it',
+  },
   default: {
     description: 'default',
     path: '/main',
-  },  
+  },
 };
