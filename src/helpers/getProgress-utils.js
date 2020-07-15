@@ -45,8 +45,9 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
     const newWords = words.slice(firstWordNumber, firstWordNumber + leftNewWordsToday);
     wordsArray = [...wordsArray, ...newWords];
   } else {
-    const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 1, 100, leftNewWordsToday));
-    const newWords = await rawWords.json();
+    const rawWords = await fetch(API_URLS.GET_WORDS(groupOfFirstWord, 1, 100, firstWordNumber));
+    const newWordsElongated = await rawWords.json();
+    const newWords = newWordsElongated.slice(0, leftNewWordsToday);
     wordsArray = [...wordsArray, ...newWords];
   }
 
@@ -60,6 +61,7 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
     const newWords = await rawWords.json();
     wordsArray = [...wordsArray, ...newWords];
   }
+  console.log(wordsArray);
   // преобразуем в стандартный вид serverWord
   return wordsArray.map((el) => {
     const { id, ...other } = el;
