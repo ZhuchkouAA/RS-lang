@@ -23,7 +23,7 @@ incorrectAnswerSound.volume = 0.2;
 const answers = [];
 const collection = [];
 
-const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgress }) => {
+const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgress, mode }) => {
   const [index, setIndex] = useState(0);
   const [isAudioPlaying, setAudioPlaying] = useState(false);
   const [isNewWord, setIsNewWord] = useState(true);
@@ -109,7 +109,9 @@ const AudioCallPage = ({ wordsForGame, wordsForRandom, finallySendWordAndProgres
         ])
       );
     }
-    finallySendWordAndProgress(preparedWord[0]);
+    if (mode === 'learned words') {
+      finallySendWordAndProgress(preparedWord[0]);
+    }
   };
 
   const newWordPrepare = () => {
@@ -304,6 +306,7 @@ AudioCallPage.propTypes = {
   wordsForGame: PropTypes.arrayOf(PropTypes.object).isRequired,
   wordsForRandom: PropTypes.arrayOf(PropTypes.object).isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
+  mode: PropTypes.string.isRequired,
 };
 
 export default AudioCallPage;

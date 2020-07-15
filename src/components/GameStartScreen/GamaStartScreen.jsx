@@ -95,6 +95,8 @@ const GameStartScreen = ({
     rightNameOfGame.push(gameName);
   }
 
+  const actualGamePath = !isActiveButton ? currentGamePath : '';
+
   return (
     <div className={style.GameStartScreen}>
       <div className={style.GameStartScreen__wrapper}>
@@ -120,7 +122,7 @@ const GameStartScreen = ({
               <NavLink
                 className={style['GameStartScreen-button']}
                 disabled={isActiveButton}
-                to={!isActiveButton && currentGamePath}
+                to={actualGamePath}
               >
                 <Button disabled={isActiveButton} variant="outlined" color="primary">
                   Начать игру

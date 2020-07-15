@@ -168,8 +168,9 @@ const SettingsPage = ({
               required
             />
             <Typography className={style.Settings__hint} variant="body2" gutterBottom>
-              Новые слова идут после повторяемых слов. Большое лимит новых слов порождает больше
-              повторов в ближайшие дни. Не может быть больше &quot;Всего слов в день&quot;.
+              Новые слова идут после повторяемых слов. Большой лимит новых слов ведет к увеличению
+              числа слов на повтор в ближайшие дни. Не может быть больше &quot;Всего слов в
+              день&quot;.
             </Typography>
 
             <Typography variant="h6" gutterBottom>
