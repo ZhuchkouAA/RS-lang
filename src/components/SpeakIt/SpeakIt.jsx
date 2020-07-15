@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Card, CardMedia, Button, Typography, Tab, Tabs } from '@material-ui/core';
-import { LooksOne, LooksTwo, Looks3, Looks4, Looks5, Looks6, Mic } from '@material-ui/icons';
+import { Grid, Card, CardMedia, Button, Typography } from '@material-ui/core';
+import { Mic } from '@material-ui/icons';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
+import PATHS from '../../constants/path';
 import styles from './SpeakIt.module.scss';
 import getSpeechRecognition from './speech';
-import { getQueueMiniGame10 } from '../../helpers/games-utils/createQueueMiniGame';
 import Loader from '../Loader';
 import defaultImage from '../../img/speakIt.jpg';
 import winner from '../../sounds/winner.mp3';
@@ -18,40 +20,15 @@ const playAudio = (url) => {
 };
 const speechRec = getSpeechRecognition();
 
-const getWords = async (level = 0) => {
-  const path = 'https://raw.githubusercontent.com/zhuchkouaa/rslang-data/master/';
-  const res = await getQueueMiniGame10(level);
-  return res.map((element) => {
-    const obj = {};
-    obj.audio = path + element.optional.audio;
-    obj.image = path + element.optional.image;
-    obj.word = element.optional.word;
-    obj.wordTranslate = element.optional.wordTranslate;
-    obj.transcription = element.optional.transcription;
-    obj.defaultWord = element;
-    obj.isGuested = false;
-    obj.isShow = false;
-    return obj;
-  });
-};
-
 let truthAnswers = [];
 
-const SpeakIt = () => {
-  const [value, setValue] = useState(0);
+const SpeakIt = ({ wordsForGame }) => {
   const [inputText, setInputText] = useState('');
   const [wordsImage, setWordImage] = useState('');
   const [isStartGame, setStartGame] = useState(false);
-  const [wordsExample, setWordExample] = useState([]);
+  const [wordsExample, setWordExample] = useState(wordsForGame);
   const [isShowStatistic, setShowStatistic] = useState(false);
   const [isWin, setWin] = useState(false);
-
-  const handleWordExample = (lvl) => {
-    getWords(lvl).then((val) => setWordExample(val));
-  };
-  useEffect(() => {
-    handleWordExample();
-  }, []);
 
   const handleWordsImage = (url) => {
     setWordImage(url);
@@ -62,14 +39,6 @@ const SpeakIt = () => {
   }, []);
   const handleInputText = (newValue) => {
     setInputText(newValue);
-  };
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-    handleWordExample(newValue);
-    handleWordsImage(defaultImage);
-    handleInputText('');
-    setStartGame(false);
   };
 
   const handleStartGame = (start) => {
@@ -128,14 +97,6 @@ const SpeakIt = () => {
         <Loader />
       ) : (
         <Grid item className={styles.SpeakIt__wrapper}>
-          <Tabs variant="scrollable" value={value} onChange={handleChange} aria-label="levels">
-            <Tab icon={<LooksOne />} aria-label="one" />
-            <Tab icon={<LooksTwo />} aria-label="two" />
-            <Tab icon={<Looks3 />} aria-label="three" />
-            <Tab icon={<Looks4 />} aria-label="four" />
-            <Tab icon={<Looks5 />} aria-label="five" />
-            <Tab icon={<Looks6 />} aria-label="six" />
-          </Tabs>
           <CardMedia image={wordsImage} className={styles.SpeakIt__image} />
           <Card className={styles.SpeakIt__word}>
             {isStartGame && <Mic className={styles.SpeakIt__micro} />}
@@ -255,20 +216,11 @@ const SpeakIt = () => {
 
           {!isWin ? (
             <Card className={styles.SpeakIt__statistic__control}>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {
-                  setShowStatistic(false);
-                  handleWordExample(value);
-                  truthAnswers = [];
-                  handleWordsImage(defaultImage);
-                  handleStartGame(false);
-                  setStartGame(false);
-                }}
-              >
-                Другие слова
-              </Button>
+              <NavLink to={PATHS.GAME_START_SCREEN} className={styles.SpeakIt__nav}>
+                <Button variant="contained" color="secondary">
+                  Новая игра
+                </Button>
+              </NavLink>
               <Button
                 variant="contained"
                 color="primary"
@@ -284,28 +236,21 @@ const SpeakIt = () => {
             </Card>
           ) : (
             <Card className={styles.SpeakIt__statistic__control}>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {
-                  setShowStatistic(false);
-                  handleWordExample(value);
-                  truthAnswers = [];
-                  handleWordsImage(defaultImage);
-                  handleStartGame(false);
-                  setWin(false);
-                  setStartGame(false);
-                  setInputText('');
-                }}
-              >
-                Вернуться
-              </Button>
+              <NavLink to={PATHS.GAME_START_SCREEN} className={styles.SpeakIt__nav}>
+                <Button variant="contained" color="secondary">
+                  Новая игра
+                </Button>
+              </NavLink>
             </Card>
           )}
         </Card>
       )}
     </Card>
   );
+};
+
+SpeakIt.propTypes = {
+  wordsForGame: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default SpeakIt;

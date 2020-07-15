@@ -120,6 +120,10 @@
     font-size: 25px;
     font-weight: 700;
   }
+
+  &__nav {
+    text-decoration: none;
+  }
 }
 
 @keyframes pulsing {

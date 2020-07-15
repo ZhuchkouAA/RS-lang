@@ -32,7 +32,9 @@ const GameStartScreen = ({
   const { gameName } = gameModeData;
   const { mode } = gameModeData;
   const currentGamePath = gamesDescription[gameName].path;
+  console.log(currentGamePath);
   const [isActiveButton, setIsActiveButton] = useState(true);
+  const rightNameOfGame = [];
 
   const levels = [
     { value: '0', label: 'Уровень 1' },
@@ -85,6 +87,14 @@ const GameStartScreen = ({
     return <div />;
   }
 
+  if (gameName === 'Аудио_Вызов') {
+    rightNameOfGame.push('Аудио Вызов');
+  } else if (gameName === 'Скажи_это') {
+    rightNameOfGame.push('Скажи это!');
+  } else {
+    rightNameOfGame.push(gameName);
+  }
+
   const actualGamePath = !isActiveButton ? currentGamePath : '';
 
   return (
@@ -127,9 +137,7 @@ const GameStartScreen = ({
           </FormControl>
         </form>
         <div className={style.GameStartScreen__about}>
-          <span className={style.GameStartScreen__title}>
-            {gameName === 'Аудио_Вызов' ? 'Аудио Вызов' : gameName}
-          </span>
+          <span className={style.GameStartScreen__title}>{rightNameOfGame}</span>
           <span className={style.GameStartScreen__description}>
             {gamesDescription[gameName].description}
           </span>
