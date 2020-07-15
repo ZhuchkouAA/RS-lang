@@ -89,16 +89,16 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
             <IconMini srcUrl={audioUrl} />
           </TableCell>
           <TableCell>
-            <WordDifficultyIndicator difficulty={difficulty} />
-          </TableCell>
-          <TableCell>{cntRepeats}</TableCell>
-          <TableCell>
             <TableButtonLink
               word={optional.word}
               imageSrc={optional.image}
               onClick={handlerClickShowWordImage}
             />
           </TableCell>
+          <TableCell>
+            <WordDifficultyIndicator difficulty={difficulty} />
+          </TableCell>
+          <TableCell>{cntRepeats}</TableCell>
           {isTranscriptionShow && <TableCell>{optional.transcription}</TableCell>}
           <TableCell>{optional.wordTranslate}</TableCell>
 
@@ -152,7 +152,7 @@ const DictionaryTable = ({ words, type, updateWordServerState, settings }) => {
     );
   }
 
-  const columns = [' ', 'Уровень', 'Количество повторений слова', 'Слово'];
+  const columns = [' ', 'Слово', 'Уровень', 'Количество повторений слова'];
 
   if (isTranscriptionShow) {
     columns.push('Транскрипция');

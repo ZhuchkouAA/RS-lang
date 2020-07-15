@@ -85,13 +85,15 @@ const GameStartScreen = ({
     return <div />;
   }
 
+  const actualGamePath = !isActiveButton ? currentGamePath : '';
+
   return (
     <div className={style.GameStartScreen}>
       <div className={style.GameStartScreen__wrapper}>
         <form>
           <FormControl component="fieldset">
             <FormLabel component="legend">Выберите набор слов:</FormLabel>
-            <RadioGroup aria-label="levels" name="levels" style={{ 'align-items': 'flex-start' }}>
+            <RadioGroup aria-label="levels" name="levels" style={{ alignItems: 'flex-start' }}>
               {levels.map(({ label, value }) => {
                 return (
                   <FormControlLabel
@@ -110,7 +112,7 @@ const GameStartScreen = ({
               <NavLink
                 className={style['GameStartScreen-button']}
                 disabled={isActiveButton}
-                to={!isActiveButton && currentGamePath}
+                to={actualGamePath}
               >
                 <Button disabled={isActiveButton} variant="outlined" color="primary">
                   Начать игру

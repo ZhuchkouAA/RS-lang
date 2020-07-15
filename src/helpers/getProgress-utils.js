@@ -61,7 +61,7 @@ export const getNewQueueNewWords = async (differentCardsShowedAllTime, leftNewWo
     const newWords = await rawWords.json();
     wordsArray = [...wordsArray, ...newWords];
   }
-  console.log(wordsArray);
+
   // преобразуем в стандартный вид serverWord
   return wordsArray.map((el) => {
     const { id, ...other } = el;

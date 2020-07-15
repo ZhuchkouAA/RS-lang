@@ -1,10 +1,11 @@
 import React from 'react';
-import { Grid, Typography, Box } from '@material-ui/core';
+import { Grid, Typography, Box, Button } from '@material-ui/core';
 
 import PromoInformation from '../../constants/Promo-information.json';
 import URLS from '../../constants/APIUrls';
 import Details from '../../components/Details';
 
+import gitImg from '../../img/git.png';
 import styles from './PromoPage.module.scss';
 
 const PromoPage = () => {
@@ -18,7 +19,7 @@ const PromoPage = () => {
           title="RS Lang - Promo!"
           width="100%"
           height="360"
-          src={URLS.PROMO}
+          src={URLS.PROM_VIDEO}
           allowFullScreen
         />
       </Box>
@@ -77,7 +78,7 @@ const PromoPage = () => {
       <Typography variant="body1" align="center" gutterBottom>
         <span className={styles['PromoPage__game-header']}>Пазл (в разработке!).</span>
         Собери там хоть что-нибудь. Это какая-то головоломка. Буквы в слова, слова в предложения,
-        предложения в буквы, слова в картинки. В общем разбирайся, там интересно.
+        предложения в буквы, слова в картинки. В общем стоит подождать, будет интересно.
       </Typography>
 
       <Typography variant="h6" align="center" gutterBottom>
@@ -99,6 +100,20 @@ const PromoPage = () => {
           })}
         </Grid>
       </Grid>
+      <Typography align="center" gutterBottom>
+        А тут можно посмотреть на магию:
+        <Button className={styles['PromoPage__wrapper-icon-link']} size="small" color="primary">
+          <a href={URLS.REPOSITORY} target="_blank" rel="noopener noreferrer">
+            <img
+              className={styles['PromoPage__img-git']}
+              width="40"
+              height="40"
+              src={gitImg}
+              alt="git"
+            />
+          </a>
+        </Button>
+      </Typography>
     </Box>
   );
 };
