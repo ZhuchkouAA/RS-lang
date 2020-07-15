@@ -28,33 +28,37 @@ const useStyles = makeStyles({
   },
 });
 
-const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) => {
+const ShortStatisticsDialog = ({ progress, isOpen }) => {
   const history = useHistory();
+  const [open] = useState(isOpen);
   const {
     rightAnswersStatistic,
     cardsShowedStatistic,
     longestTodaySeries,
     newCardsShowedStatistic,
   } = progress;
-  const { wordsPerDay } = settings;
 
-  const rightAnswersToday = getCategoryPassedPercent(
+  const rightAnswersTodayPercent = getCategoryPassedPercent(
     rightAnswersStatistic[0],
     cardsShowedStatistic[0]
   );
+  const longestSeriaPersent = getCategoryPassedPercent(longestTodaySeries, cardsShowedStatistic[0]);
+  const answerRatingColor = getRatingColorStyleName(rightAnswersTodayPercent);
+  const seriesRatingColor = getRatingColorStyleName(longestSeriaPersent);
 
-  const [open, setOpen] = useState(isOpen);
+  const answerClasses = classNames(
+    styles['ShortStatisticsDialog--results'],
+    styles[answerRatingColor]
+  );
+  const longestSeriesClasses = classNames(
+    styles['ShortStatisticsDialog--results'],
+    styles[seriesRatingColor]
+  );
+
+  const classes = useStyles();
 
   const handleClose = () => {
-    if (isWordsRemain) {
-      return setOpen(false);
-    }
-
-    return history.push(PATH.MAIN);
-  };
-
-  const handleClickContinue = () => {
-    setOpen(false);
+    history.push(PATH.MAIN);
   };
 
   const handleClickToMain = () => {
@@ -65,58 +69,42 @@ const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) =>
     history.push(PATH.SETTINGS);
   };
 
-  const answerRatingColor = getRatingColorStyleName(rightAnswersToday);
-  const seriesRatingColor = getRatingColorStyleName(longestTodaySeries / wordsPerDay);
-
-  const answerClasses = classNames(
-    styles['ShortStatisticsDialog--results'],
-    styles[answerRatingColor]
-  );
-
-  const longestSeriesClasses = classNames(
-    styles['ShortStatisticsDialog--results'],
-    styles[seriesRatingColor]
-  );
-
-  const classes = useStyles();
-
   return (
     <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
       <DialogTitle id="form-dialog-title" align="center">
-        Серия слов на сегодня завершена!
+        Запланированные на сегодня слова пройдены!
       </DialogTitle>
       <DialogContent dividers>
         <Typography align="center" gutterBottom>
-          {`Карточек изучено сегодня: `}
-          <span className={styles['ShortStatisticsDialog--results']}>{wordsPerDay}</span>
+          {`Слов пройдено сегодня: `}
+          <span className={styles['ShortStatisticsDialog--results']}>
+            {cardsShowedStatistic[0]}
+          </span>
           {`. `}
         </Typography>
         <Typography align="center" gutterBottom>
-          {`Правильные ответы: `}
-          <span className={answerClasses}>{`${rightAnswersToday}%`}</span>
-          {`. `}
-        </Typography>
-        <Typography align="center" gutterBottom>
-          {`Изучено новых слов: `}
+          {`Пройдено новых слов: `}
           <span className={styles['ShortStatisticsDialog--results']}>
             {newCardsShowedStatistic[0]}
           </span>
           {`. `}
         </Typography>
+        <Typography align="center" gutterBottom>
+          {`Правильные ответы: `}
+          <span className={answerClasses}>{`${rightAnswersTodayPercent}%`}</span>
+          {`. `}
+        </Typography>
+
         <Typography align="center" paragraph>
           {`Серия правильных ответов подряд: `}
           <span className={longestSeriesClasses}>{longestTodaySeries}</span>
           {`. `}
         </Typography>
-
-        {isWordsRemain && <Divider />}
-        {isWordsRemain && (
-          <DialogContentText classes={classes}>
-            Запланированные на сегодня слова закончились, но еще остались слова срочного повторения.
-            Если слов оказалось мало, всегда можно увеличить лимит в настройках. Или продолжить
-            изучение в играх.
-          </DialogContentText>
-        )}
+        <Divider />
+        <DialogContentText classes={classes}>
+          На сегодня слова закончились (запланированные повторы и новые слова). Если слов оказалось
+          мало, всегда можно увеличить лимит в настройках. Или продолжить изучение в играх.
+        </DialogContentText>
       </DialogContent>
 
       <DialogActions>
@@ -127,11 +115,6 @@ const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) =>
           <Button onClick={handleClickToMain} color="primary">
             На главную
           </Button>
-          {isWordsRemain && (
-            <Button onClick={handleClickContinue} color="primary">
-              Продолжить
-            </Button>
-          )}
         </Grid>
       </DialogActions>
     </Dialog>
@@ -140,9 +123,7 @@ const ShortStatisticsDialog = ({ progress, settings, isOpen, isWordsRemain }) =>
 
 ShortStatisticsDialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  isWordsRemain: PropTypes.bool.isRequired,
   progress: PropTypes.objectOf(PropTypes.any).isRequired,
-  settings: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default ShortStatisticsDialog;
