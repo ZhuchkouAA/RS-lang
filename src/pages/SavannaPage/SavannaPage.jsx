@@ -14,6 +14,10 @@ import SavannaAnswers from '../../components/SavannaAnswers';
 import GamesStatisticsDialog from '../../components/GamesStatisticsDialog';
 import correctSound from '../../sounds/correct-answer.mp3';
 import incorrectSound from '../../sounds/incorrect-sound.mp3';
+import {
+  DIFFICULTY_GAME_PENALTY,
+  DIFFICULTY_GAME_REWARD,
+} from '../../constants/variables-learning';
 
 import style from './SavannaPage.module.scss';
 
@@ -39,8 +43,15 @@ function useInterval(callback, delay) {
     return undefined;
   }, [delay]);
 }
-
-const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
+const SavannaPage = ({
+  words,
+  finallySendWordAndProgress,
+  mode,
+  increaseSavannaAllAnswersStatistic,
+  increaseSavannaRightAnswersStatistic,
+  increaseSavannaFullLiveStatistic,
+  putProgress,
+}) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [lives, setLives] = useState(LIVES.length);
@@ -51,6 +62,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
   const [showAnswers, setShowAnswers] = useState(true);
 
   const question = words[currentQuestion];
+  const userSideAnswers = isRunning && question.translation.sort(() => Math.random() - 0.5);
   let answerArr = [];
   const correctAnswerSound = new Audio(correctSound);
   correctAnswerSound.volume = 0.5;
@@ -61,6 +73,9 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
     if ((currentQuestion + 1) % ROUND === 0) {
       setIsRunning(false);
       setShowResult(true);
+      if (lives === 5) {
+        increaseSavannaFullLiveStatistic();
+      }
     }
     if (lives < 1) {
       setIsRunning(false);
@@ -93,17 +108,19 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
   useInterval(
     () => {
       setShowAnswers(true);
+      endGame();
       if (answers.length === currentQuestion) {
         question.originalWordObject.isRight = false;
         answerArr = answers;
         answerArr.push(question.originalWordObject);
-        updateWordStatistic(10, true);
+        increaseSavannaAllAnswersStatistic();
+        putProgress();
+        updateWordStatistic(DIFFICULTY_GAME_PENALTY, true);
         setLives(lives - 1);
         setAnswers(answerArr);
       }
       setAnimation(true);
       setSpeed(GAME_SPEED);
-      endGame();
       setCurrentQuestion(nextQuestion);
     },
     isRunning ? speed : null
@@ -119,15 +136,18 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
 
   const answerBtnClick = (answer) => {
     setShowAnswers(false);
+    increaseSavannaAllAnswersStatistic();
+    putProgress();
     if (answer !== question.isCorrectTranslation) {
       question.originalWordObject.isRight = false;
-      updateWordStatistic(10, true);
+      updateWordStatistic(DIFFICULTY_GAME_PENALTY, true);
       playSound(incorrectAnswerSound);
       setLives(lives - 1);
     } else {
       question.originalWordObject.isRight = true;
       playSound(correctAnswerSound);
-      updateWordStatistic(-10, false);
+      increaseSavannaRightAnswersStatistic();
+      updateWordStatistic(DIFFICULTY_GAME_REWARD, false);
     }
     answerArr = answers;
     answerArr.push(question.originalWordObject);
@@ -136,6 +156,26 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
     setAnimation(false);
     endGame();
   };
+
+  const handlerKeyPress = (e) => {
+    if (!showResult) {
+      if (!isRunning && e.key === 'Enter') {
+        return gameStart();
+      }
+
+      if (e.keyCode >= 49 && e.keyCode <= 53) {
+        return answerBtnClick(userSideAnswers[e.key - 1]);
+      }
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    window.addEventListener('keyup', handlerKeyPress);
+    return () => {
+      window.removeEventListener('keyup', handlerKeyPress);
+    };
+  }, [currentQuestion]);
 
   if (words.length < 1) {
     return (
@@ -170,7 +210,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
           </span>
           <SavannaQuestion word={question.word} animation={animation} />
           {showAnswers && (
-            <SavannaAnswers answers={question.wordTranslate} handlerClick={answerBtnClick} />
+            <SavannaAnswers answers={userSideAnswers} handlerClick={answerBtnClick} />
           )}
         </div>
       )}
@@ -188,6 +228,10 @@ SavannaPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired,
+  increaseSavannaAllAnswersStatistic: PropTypes.func.isRequired,
+  increaseSavannaRightAnswersStatistic: PropTypes.func.isRequired,
+  increaseSavannaFullLiveStatistic: PropTypes.func.isRequired,
+  putProgress: PropTypes.func.isRequired,
 };
 
 export default SavannaPage;

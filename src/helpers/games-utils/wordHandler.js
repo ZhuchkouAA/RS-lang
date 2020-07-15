@@ -47,6 +47,10 @@ const wordHandler = (word, options) => {
 
     newWord.optional.repeatDate = Date.now() + interval;
 
+    if (newWord.optional.isHighPriority) {
+      newWord.optional.repeatDate = Date.now();
+    }
+
     if (key === WORD_HANDLER_KEYS.repeatDate) {
       newWord.optional.repeatDate = value;
     }
