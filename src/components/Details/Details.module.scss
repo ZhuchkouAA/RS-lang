@@ -7,4 +7,12 @@
     font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     padding-left: 40px;
   }
+
+  &__chartWords {
+    float: left;
+    height: 250px;
+    margin: 7px 7px 7px 0;
+    object-fit: contain;
+    width: 400px;
+  }
 }
