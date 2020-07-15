@@ -40,7 +40,7 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-const SavannaPage = ({ words, finallySendWordAndProgress }) => {
+const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [lives, setLives] = useState(LIVES.length);
@@ -80,12 +80,14 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
   };
 
   const updateWordStatistic = (newDifficulty, newHighPrioryti) => {
-    const options = [
-      { key: WORD_HANDLER_KEYS.difficulty, value: newDifficulty },
-      { key: WORD_HANDLER_KEYS.isHighPriority, value: newHighPrioryti },
-    ];
-    const preparedWord = wordHandler(question.originalWordObject, options);
-    finallySendWordAndProgress(preparedWord);
+    if (mode === 'learned words') {
+      const options = [
+        { key: WORD_HANDLER_KEYS.difficulty, value: newDifficulty },
+        { key: WORD_HANDLER_KEYS.isHighPriority, value: newHighPrioryti },
+      ];
+      const preparedWord = wordHandler(question.originalWordObject, options);
+      finallySendWordAndProgress(preparedWord);
+    }
   };
 
   useInterval(
@@ -185,6 +187,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress }) => {
 SavannaPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
+  mode: PropTypes.string.isRequired,
 };
 
 export default SavannaPage;
