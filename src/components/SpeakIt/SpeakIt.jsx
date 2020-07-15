@@ -3,7 +3,9 @@ import { Grid, Card, CardMedia, Button, Typography } from '@material-ui/core';
 import { Mic } from '@material-ui/icons';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
+import PATHS from '../../constants/path';
 import styles from './SpeakIt.module.scss';
 import getSpeechRecognition from './speech';
 import Loader from '../Loader';
@@ -213,20 +215,11 @@ const SpeakIt = ({ wordsForGame }) => {
           </Card>
           {!isWin ? (
             <Card className={styles.SpeakIt__statistic__control}>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {
-                  setShowStatistic(false);
-                  handleWordExample(value);
-                  truthAnswers = [];
-                  handleWordsImage(defaultImage);
-                  handleStartGame(false);
-                  setStartGame(false);
-                }}
-              >
-                Другие слова
-              </Button>
+              <NavLink className={styles.SpeakIt__nav} to={PATHS.GAME_START_SCREEN}>
+                <Button variant="contained" color="secondary">
+                  Новая игра
+                </Button>
+              </NavLink>
               <Button
                 variant="contained"
                 color="primary"
@@ -242,22 +235,11 @@ const SpeakIt = ({ wordsForGame }) => {
             </Card>
           ) : (
             <Card className={styles.SpeakIt__statistic__control}>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {
-                  setShowStatistic(false);
-                  handleWordExample(value);
-                  truthAnswers = [];
-                  handleWordsImage(defaultImage);
-                  handleStartGame(false);
-                  setWin(false);
-                  setStartGame(false);
-                  setInputText('');
-                }}
-              >
-                Вернуться
-              </Button>
+              <NavLink className={styles.SpeakIt__nav} to={PATHS.GAME_START_SCREEN}>
+                <Button variant="contained" color="secondary">
+                  Новая игра
+                </Button>
+              </NavLink>
             </Card>
           )}
         </Card>
