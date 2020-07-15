@@ -53,7 +53,7 @@ const WordPage = ({
     await cardsShowedAllTimeIncrease();
     await cardsShowedStatisticIncrease();
 
-    const isWordNew = word.optional.isMethodPost;
+    const isWordNew = word.optional.countRepeatsWordAllTime === 1;
 
     if (isWordNew) {
       await differentCardPlusOne();

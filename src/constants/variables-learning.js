@@ -41,3 +41,9 @@ export const DEFAULT_WORD = {
     audioExample: 'files/01_1201_example.mp3',
   },
 };
+
+export const DEFAULT_COUNT_NEW_WORDS = 10;
+export const DEFAULT_COUNT_ALL_WORDS = 50;
+export const DEFAULT_COUNT_LEFT_REPEAT_WORDS = Math.round(
+  DEFAULT_COUNT_ALL_WORDS - DEFAULT_COUNT_NEW_WORDS
+);

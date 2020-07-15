@@ -1,12 +1,15 @@
 .PromoPage {
   &__wrapper {
-    margin-bottom: 200px;
+    margin: 0 20px 20px;
     max-width: 1200px;
   }
 
   &__textContainer {
     margin: 0 40px;
-    max-width: 1200px;
+  }
+
+  &__accordion {
+    margin: 0 auto 20px;
   }
 
   &__videoContainer {
@@ -29,6 +32,11 @@
     height: 25%;
     margin: 0 auto;
     max-width: 600px;
+
+    @media (max-width: 500px) {
+      height: 15%;
+      max-width: 300px;
+    }
   }
 
   &__wrapper-icon-link {

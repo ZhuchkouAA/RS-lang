@@ -24,9 +24,9 @@ const PromoPage = () => {
         />
       </Box>
       <Typography variant="body1" align="center" gutterBottom>
-        RS-lang – уникальный сервис для изучения английского языка для русскоговорящих
-        пользователей. Нас уже 8, но скоро нас станет легион. Бойся нас, ведь мы скоро как
-        заговорим!
+        <span className={styles['PromoPage__game-header']}>RS-lang</span>
+        &nbsp;– уникальный сервис для изучения английского языка для русскоговорящих пользователей.
+        Нас уже 8, но скоро нас станет легион. Бойся нас, ведь мы скоро как заговорим!
       </Typography>
       <Typography variant="body1" align="center" gutterBottom>
         Бесконечно можно смотреть на огонь, воду и экран регистрации нашего приложения. Если вы
@@ -51,36 +51,39 @@ const PromoPage = () => {
         Мы сказали игры? Да! Их есть у нас в достатке:
       </Typography>
       <Typography variant="body1" align="center" gutterBottom>
-        <span className={styles['PromoPage__game-header']}>Спринт.</span>
+        <span className={styles['PromoPage__game-header']}>{`Спринт. `}</span>
         Кликай по кнопкам так быстро, как не бегает Усейн Болт. Пиу-пиу. Но помни, ты должен выбрать
         верный вариант. Собирай очки и хвастайся перед друзьями результатами. Время пошло!
       </Typography>
       <Typography variant="body1" align="center" gutterBottom>
-        <span className={styles['PromoPage__game-header']}>Саванна.</span>
+        <span className={styles['PromoPage__game-header']}>{`Саванна. `}</span>
         Слова падают, как листья. Выбери верный перевод, пока не поздно. Количество жизней
         ограничено, потому за тобой придет gray wolf. Учи английский, мы предупреждали
       </Typography>
       <Typography variant="body1" align="center" gutterBottom>
-        <span className={styles['PromoPage__game-header']}>Аудиовызов.</span>
+        <span className={styles['PromoPage__game-header']}>{`Аудиовызов. `}</span>
         Слушай, что тебе говорят. Не услышал? Попробуй еще раз, и еще раз.. Мы не устанем повторять,
         мы не твоя девушка.
       </Typography>
       <Typography variant="body1" align="center" gutterBottom>
-        <span className={styles['PromoPage__game-header']}>Фортуна.</span>
+        <span className={styles['PromoPage__game-header']}>{`Фортуна. `}</span>
         Хо-хо-хо. Надейся, что тебе повезет понять, как играть в эту игру. И повезет в игре. Хотя
         постойте-ка. Может ты и так все знаешь?
       </Typography>
       <Typography variant="body1" align="center" gutterBottom>
-        <span className={styles['PromoPage__game-header']}>Скажи это!</span>
+        <span className={styles['PromoPage__game-header']}>{`Скажи это! `}</span>
         Нет слов, одни эмоции. Зато ты будешь знать что делать, когда Сэмюэл Л. Джексон придет за
         тобой. Английский! Ты говоришь на АНГЛИЙСКОМ?!
       </Typography>
       <Typography variant="body1" align="center" gutterBottom>
-        <span className={styles['PromoPage__game-header']}>Пазл (в разработке!).</span>
+        <span className={styles['PromoPage__game-header']}>{`Пазл (в разработке!). `}</span>
         Собери там хоть что-нибудь. Это какая-то головоломка. Буквы в слова, слова в предложения,
         предложения в буквы, слова в картинки. В общем стоит подождать, будет интересно.
       </Typography>
-
+      <Typography variant="h6" align="center" gutterBottom>
+        Самое главное в работе приложении: все хорошее непонятное - так и задумано! А плохое - это
+        происки конкурентов...
+      </Typography>
       <Typography variant="h6" align="center" gutterBottom>
         Ниже можно найти подробные описания и инструкции к различным частям приложения.
       </Typography>

@@ -43,14 +43,13 @@ const Details = ({ imgSrc, heading, paragraphs, lists }) => {
       </AccordionSummary>
       <AccordionDetails>
         <Paper classes={{ root: classes.root1 }} elevation={0}>
-          {imgSrc && <img className={styles.Accordion__chartWords} src={Chart} alt="chedule" />}
+          {imgSrc && <img className={styles.Details__chartWords} src={Chart} alt="chart" />}
           {paragraphs &&
             paragraphs.map((paragraph, j) => {
               const keyBody = `Details__${paragraph}-${j}`;
 
               return (
-                <Typography key={keyBody}>
-                  &nbsp;
+                <Typography className={styles.Details__paragraph} key={keyBody}>
                   {paragraph}
                 </Typography>
               );
@@ -65,7 +64,7 @@ const Details = ({ imgSrc, heading, paragraphs, lists }) => {
                     &nbsp;
                     {list.tittle}
                   </Typography>
-                  <ul className={styles.Accordion__list}>
+                  <ul className={styles.Details__list}>
                     {list.points.map((point, i) => {
                       const keyLi = `Details__${point}-${i}`;
 
