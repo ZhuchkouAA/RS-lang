@@ -32,7 +32,7 @@ const WordPage = ({
   }, []);
 
   const onDeleteButton = async (word) => {
-    if (word.optional.isMethodPost) {
+    if (word.optional.countRepeatsWordAllTime === 0) {
       await differentCardPlusOne();
     } else {
       await cardsShowedAllTimeIncrease();
