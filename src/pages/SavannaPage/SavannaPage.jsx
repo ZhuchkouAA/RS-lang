@@ -39,7 +39,6 @@ function useInterval(callback, delay) {
     return undefined;
   }, [delay]);
 }
-
 const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
@@ -51,6 +50,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
   const [showAnswers, setShowAnswers] = useState(true);
 
   const question = words[currentQuestion];
+  const userSideAnswers = isRunning && question.wordTranslate.sort(() => Math.random() - 0.5);
   let answerArr = [];
   const correctAnswerSound = new Audio(correctSound);
   correctAnswerSound.volume = 0.5;
@@ -137,6 +137,29 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
     endGame();
   };
 
+  const handlerKeyPress = (e) => {
+    if (!isRunning && e.key === 'Enter') {
+      return gameStart();
+    }
+
+    if (!isRunning) {
+      return null;
+    }
+
+    if (e.keyCode >= 49 && e.keyCode <= 53) {
+      return answerBtnClick(userSideAnswers[e.key - 1]);
+    }
+
+    return null;
+  };
+
+  useEffect(() => {
+    window.addEventListener('keyup', handlerKeyPress);
+    return () => {
+      window.removeEventListener('keyup', handlerKeyPress);
+    };
+  }, [currentQuestion]);
+
   if (words.length < 1) {
     return (
       <div className={style.Savanna}>
@@ -170,7 +193,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
           </span>
           <SavannaQuestion word={question.word} animation={animation} />
           {showAnswers && (
-            <SavannaAnswers answers={question.wordTranslate} handlerClick={answerBtnClick} />
+            <SavannaAnswers answers={userSideAnswers} handlerClick={answerBtnClick} />
           )}
         </div>
       )}
