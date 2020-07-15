@@ -353,7 +353,7 @@ const WordCard = ({
 
     wordsQueue[0] = wordHandler(wordsQueue[0], [
       { key: WORD_HANDLER_KEYS.isHard, value: true },
-      { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 1 },
+      { key: WORD_HANDLER_KEYS.countRepeatsWordAllTime, value: 0 },
     ]);
 
     const { ...optional } = { ...wordsQueue[0].optional };
