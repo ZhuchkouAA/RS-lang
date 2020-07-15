@@ -20,6 +20,9 @@ import {
   INCREASE_SPRINT_ALL_ANSWERS_STATISTIC,
   INCREASE_SPRINT_RIGHT_ANSWERS_STATISTIC,
   TRY_SET_SPRINT_MAX_SCORE_STATISTIC,
+  INCREASE_SAVANNA_ALL_ANSWERS_STATISTIC,
+  INCREASE_SAVANNA_RIGHT_ANSWERS_STATISTIC,
+  INCREASE_SAVANNA_FULL_LIVE_STATISTIC,
 } from '../actions/types/action-types';
 
 import { BASE_EMPTY_ARRAY_15 } from '../../constants/app-settings';
@@ -47,9 +50,26 @@ const initialProgressState = {
   sprintAllAnswersStatistic: BASE_EMPTY_ARRAY_15,
   sprintRightAnswersStatistic: BASE_EMPTY_ARRAY_15,
   sprintMaxScoreStatistic: BASE_EMPTY_ARRAY_15,
+
+  savannaAllAnswersStatistic: BASE_EMPTY_ARRAY_15,
+  savannaRightAnswersStatistic: BASE_EMPTY_ARRAY_15,
+  savannaFullLiveStatistic: BASE_EMPTY_ARRAY_15,
 };
 
 const progressReducer = (state = initialProgressState, { type, payload }) => {
+  const [
+    firstSavannaAllAnswersStatistic,
+    ...otherSavannaAllAnswersStatistic
+  ] = state.savannaAllAnswersStatistic;
+  const [
+    firstSavannaRightAnswersStatistic,
+    ...otherSavannaRightAnswersStatistic
+  ] = state.savannaRightAnswersStatistic;
+  const [
+    firstSavannaFullLiveStatistic,
+    ...otherSavannaFullLiveStatistic
+  ] = state.savannaFullLiveStatistic;
+
   const [firstlearnedWordsStatistic, ...otherlearnedWordsStatistic] = state.learnedWordsStatistic;
   const [firstCardShowedStatistic, ...otherCardsShowedStatistic] = state.cardsShowedStatistic;
   const [
@@ -74,6 +94,30 @@ const progressReducer = (state = initialProgressState, { type, payload }) => {
   ] = state.sprintMaxScoreStatistic;
 
   switch (type) {
+    case INCREASE_SAVANNA_ALL_ANSWERS_STATISTIC:
+      return {
+        ...state,
+        savannaAllAnswersStatistic: [
+          firstSavannaAllAnswersStatistic + 1,
+          ...otherSavannaAllAnswersStatistic,
+        ],
+      };
+    case INCREASE_SAVANNA_RIGHT_ANSWERS_STATISTIC:
+      return {
+        ...state,
+        savannaRightAnswersStatistic: [
+          firstSavannaRightAnswersStatistic + 1,
+          ...otherSavannaRightAnswersStatistic,
+        ],
+      };
+    case INCREASE_SAVANNA_FULL_LIVE_STATISTIC:
+      return {
+        ...state,
+        savannaFullLiveStatistic: [
+          firstSavannaFullLiveStatistic + 1,
+          ...otherSavannaFullLiveStatistic,
+        ],
+      };
     case INCREASE_SPRINT_ALL_ANSWERS_STATISTIC:
       return {
         ...state,

@@ -39,7 +39,15 @@ function useInterval(callback, delay) {
     return undefined;
   }, [delay]);
 }
-const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
+const SavannaPage = ({
+  words,
+  finallySendWordAndProgress,
+  mode,
+  increaseSavannaAllAnswersStatistic,
+  increaseSavannaRightAnswersStatistic,
+  increaseSavannaFullLiveStatistic,
+  putProgress,
+}) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [lives, setLives] = useState(LIVES.length);
@@ -61,6 +69,9 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
     if ((currentQuestion + 1) % ROUND === 0) {
       setIsRunning(false);
       setShowResult(true);
+      if (lives === 5) {
+        increaseSavannaFullLiveStatistic();
+      }
     }
     if (lives < 1) {
       setIsRunning(false);
@@ -93,17 +104,19 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
   useInterval(
     () => {
       setShowAnswers(true);
+      endGame();
       if (answers.length === currentQuestion) {
         question.originalWordObject.isRight = false;
         answerArr = answers;
         answerArr.push(question.originalWordObject);
+        increaseSavannaAllAnswersStatistic();
+        putProgress();
         updateWordStatistic(10, true);
         setLives(lives - 1);
         setAnswers(answerArr);
       }
       setAnimation(true);
       setSpeed(GAME_SPEED);
-      endGame();
       setCurrentQuestion(nextQuestion);
     },
     isRunning ? speed : null
@@ -119,6 +132,8 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
 
   const answerBtnClick = (answer) => {
     setShowAnswers(false);
+    increaseSavannaAllAnswersStatistic();
+    putProgress();
     if (answer !== question.isCorrectTranslation) {
       question.originalWordObject.isRight = false;
       updateWordStatistic(10, true);
@@ -127,6 +142,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
     } else {
       question.originalWordObject.isRight = true;
       playSound(correctAnswerSound);
+      increaseSavannaRightAnswersStatistic();
       updateWordStatistic(-10, false);
     }
     answerArr = answers;
@@ -208,6 +224,10 @@ SavannaPage.propTypes = {
   words: PropTypes.arrayOf(PropTypes.object).isRequired,
   finallySendWordAndProgress: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired,
+  increaseSavannaAllAnswersStatistic: PropTypes.func.isRequired,
+  increaseSavannaRightAnswersStatistic: PropTypes.func.isRequired,
+  increaseSavannaFullLiveStatistic: PropTypes.func.isRequired,
+  putProgress: PropTypes.func.isRequired,
 };
 
 export default SavannaPage;
