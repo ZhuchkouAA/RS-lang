@@ -24,16 +24,20 @@ import {
 
 import { BASE_EMPTY_ARRAY_15 } from '../../constants/app-settings';
 import { MSEC_PER_DAY } from '../../constants/common';
+import {
+  DEFAULT_COUNT_NEW_WORDS,
+  DEFAULT_COUNT_LEFT_REPEAT_WORDS,
+} from '../../constants/variables-learning';
 
 const initialProgressState = {
   differentCardsShowedAllTime: 0,
   cardsShowedAllTime: 0,
   rightAnswersAllTime: 0,
   dateOfReceiptOfWords: Date.now() + MSEC_PER_DAY,
-  leftNewWordsToday: 10,
+  leftNewWordsToday: DEFAULT_COUNT_NEW_WORDS,
   queueNewWords: [],
   queueRepeatWords: [],
-  leftRepeatWordsToday: 10,
+  leftRepeatWordsToday: DEFAULT_COUNT_LEFT_REPEAT_WORDS,
   longestTodaySeries: 0,
   learnedWordsStatistic: BASE_EMPTY_ARRAY_15,
   cardsShowedStatistic: BASE_EMPTY_ARRAY_15,
