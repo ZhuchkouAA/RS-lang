@@ -16,7 +16,8 @@ const API_URLS = {
   USER_SETTINGS: (id) => `https://afternoon-falls-25894.herokuapp.com/users/${id}/settings`,
   SIGN_IN: 'https://afternoon-falls-25894.herokuapp.com/signin',
   ASSETS: 'https://raw.githubusercontent.com/zhuchkouaa/rslang-data/master/',
-  PROMO: 'https://www.youtube.com/embed/2ODZXRrEn28',
+  PROM_VIDEO: 'https://www.youtube.com/embed/2ODZXRrEn28',
+  REPOSITORY: 'https://github.com/ZhuchkouAA/RS-lang',
 };
 
 export default API_URLS;
