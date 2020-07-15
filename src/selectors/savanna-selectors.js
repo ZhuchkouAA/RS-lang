@@ -16,17 +16,20 @@ const getRandomInt = (min, max) => {
 
 const savannaWordsQueue = createSelector(getRandomWords, getWords, (randowWords, newWords) => {
   const slicedNewWords = newWords.slice(0, wordCounter);
+
   return slicedNewWords.map((newWord) => {
+    const a = getRandomInt(0, 250);
+    const b = getRandomInt(1, 10);
     const word = {
       originalWordObject: newWord,
       word: newWord.optional.word,
-      wordTranslate: [
+      translation: [
         newWord.optional.wordTranslate,
-        randowWords[getRandomInt(0, 300)].wordTranslate,
-        randowWords[getRandomInt(0, 300)].wordTranslate,
-        randowWords[getRandomInt(0, 300)].wordTranslate,
+        randowWords[a].wordTranslate,
+        randowWords[a + b].wordTranslate,
+        randowWords[a + b * 2].wordTranslate,
       ],
-      id: newWord.optional.wordId,
+      id: newWord.wordId,
       isCorrectTranslation: newWord.optional.wordTranslate,
     };
     return word;

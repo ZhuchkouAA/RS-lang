@@ -50,7 +50,7 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
   const [showAnswers, setShowAnswers] = useState(true);
 
   const question = words[currentQuestion];
-  const userSideAnswers = isRunning && question.wordTranslate.sort(() => Math.random() - 0.5);
+  const userSideAnswers = isRunning && question.translation.sort(() => Math.random() - 0.5);
   let answerArr = [];
   const correctAnswerSound = new Audio(correctSound);
   correctAnswerSound.volume = 0.5;
@@ -138,18 +138,15 @@ const SavannaPage = ({ words, finallySendWordAndProgress, mode }) => {
   };
 
   const handlerKeyPress = (e) => {
-    if (!isRunning && e.key === 'Enter') {
-      return gameStart();
-    }
+    if (!showResult) {
+      if (!isRunning && e.key === 'Enter') {
+        return gameStart();
+      }
 
-    if (!isRunning) {
-      return null;
+      if (e.keyCode >= 49 && e.keyCode <= 53) {
+        return answerBtnClick(userSideAnswers[e.key - 1]);
+      }
     }
-
-    if (e.keyCode >= 49 && e.keyCode <= 53) {
-      return answerBtnClick(userSideAnswers[e.key - 1]);
-    }
-
     return null;
   };
 
