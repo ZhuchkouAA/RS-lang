@@ -6,6 +6,7 @@ import savannaWordsQueue from '../../selectors/savanna-selectors';
 
 const mapStateToProps = (state) => ({
   words: savannaWordsQueue(state),
+  mode: state.gameModeData.mode,
 });
 
 const actionCreators = {

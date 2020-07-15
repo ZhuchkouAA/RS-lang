@@ -7,6 +7,7 @@ import audioCallWordsQueue from '../../selectors/audioCall-selectors';
 const mapStateToProps = (state) => ({
   wordsForRandom: audioCallWordsQueue(state).wordsForRandom,
   wordsForGame: audioCallWordsQueue(state).wordsForGame,
+  mode: state.gameModeData.mode,
 });
 
 const actionCreators = { finallySendWordAndProgress };
