@@ -14,6 +14,10 @@ import SavannaAnswers from '../../components/SavannaAnswers';
 import GamesStatisticsDialog from '../../components/GamesStatisticsDialog';
 import correctSound from '../../sounds/correct-answer.mp3';
 import incorrectSound from '../../sounds/incorrect-sound.mp3';
+import {
+  DIFFICULTY_GAME_PENALTY,
+  DIFFICULTY_GAME_REWARD,
+} from '../../constants/variables-learning';
 
 import style from './SavannaPage.module.scss';
 
@@ -111,7 +115,7 @@ const SavannaPage = ({
         answerArr.push(question.originalWordObject);
         increaseSavannaAllAnswersStatistic();
         putProgress();
-        updateWordStatistic(10, true);
+        updateWordStatistic(DIFFICULTY_GAME_PENALTY, true);
         setLives(lives - 1);
         setAnswers(answerArr);
       }
@@ -136,14 +140,14 @@ const SavannaPage = ({
     putProgress();
     if (answer !== question.isCorrectTranslation) {
       question.originalWordObject.isRight = false;
-      updateWordStatistic(10, true);
+      updateWordStatistic(DIFFICULTY_GAME_PENALTY, true);
       playSound(incorrectAnswerSound);
       setLives(lives - 1);
     } else {
       question.originalWordObject.isRight = true;
       playSound(correctAnswerSound);
       increaseSavannaRightAnswersStatistic();
-      updateWordStatistic(-10, false);
+      updateWordStatistic(DIFFICULTY_GAME_REWARD, false);
     }
     answerArr = answers;
     answerArr.push(question.originalWordObject);
