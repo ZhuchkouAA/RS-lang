@@ -576,7 +576,6 @@ const WordCard = ({
             </IconButton>
           </Tooltip>
         </Box>
-
         {isDemoQueue && (
           <Box position="absolute" className={styles['WordCard__translate-btn']} top="5px">
             <Tooltip title="Отменить повторение сложных слов" enterDelay={500}>
@@ -596,9 +595,7 @@ const WordCard = ({
           isRedirectMain
         />
       )}
-      {isModalOpen && !isDemoQueue && (
-        <ShortStatisticsDialog isOpen={isModalOpen} isWordsRemain={wordsQueue.length > 0} />
-      )}
+      {isModalOpen && !isDemoQueue && <ShortStatisticsDialog isOpen={isModalOpen} />}
     </Card>
   );
 };

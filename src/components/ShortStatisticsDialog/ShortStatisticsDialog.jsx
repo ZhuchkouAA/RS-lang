@@ -28,9 +28,9 @@ const useStyles = makeStyles({
   },
 });
 
-const ShortStatisticsDialog = ({ progress, isOpen, isWordsRemain }) => {
+const ShortStatisticsDialog = ({ progress, isOpen }) => {
   const history = useHistory();
-  const [open, setOpen] = useState(isOpen);
+  const [open] = useState(isOpen);
   const {
     rightAnswersStatistic,
     cardsShowedStatistic,
@@ -58,15 +58,7 @@ const ShortStatisticsDialog = ({ progress, isOpen, isWordsRemain }) => {
   const classes = useStyles();
 
   const handleClose = () => {
-    if (isWordsRemain) {
-      return setOpen(false);
-    }
-
-    return history.push(PATH.MAIN);
-  };
-
-  const handleClickContinue = () => {
-    setOpen(false);
+    history.push(PATH.MAIN);
   };
 
   const handleClickToMain = () => {
@@ -108,15 +100,11 @@ const ShortStatisticsDialog = ({ progress, isOpen, isWordsRemain }) => {
           <span className={longestSeriesClasses}>{longestTodaySeries}</span>
           {`. `}
         </Typography>
-
-        {isWordsRemain && <Divider />}
-        {isWordsRemain && (
-          <DialogContentText classes={classes}>
-            Запланированные на сегодня слова закончились, но еще остались слова срочного повторения.
-            Если слов оказалось мало, всегда можно увеличить лимит в настройках. Или продолжить
-            изучение в играх.
-          </DialogContentText>
-        )}
+        <Divider />
+        <DialogContentText classes={classes}>
+          На сегодня слова закончились (запланированные повторы и новые слова). Если слов оказалось
+          мало, всегда можно увеличить лимит в настройках. Или продолжить изучение в играх.
+        </DialogContentText>
       </DialogContent>
 
       <DialogActions>
@@ -127,11 +115,6 @@ const ShortStatisticsDialog = ({ progress, isOpen, isWordsRemain }) => {
           <Button onClick={handleClickToMain} color="primary">
             На главную
           </Button>
-          {isWordsRemain && (
-            <Button onClick={handleClickContinue} color="primary">
-              Продолжить
-            </Button>
-          )}
         </Grid>
       </DialogActions>
     </Dialog>
@@ -140,7 +123,6 @@ const ShortStatisticsDialog = ({ progress, isOpen, isWordsRemain }) => {
 
 ShortStatisticsDialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  isWordsRemain: PropTypes.bool.isRequired,
   progress: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
